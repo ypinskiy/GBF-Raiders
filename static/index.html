@@ -1,0 +1,58 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>GBF Raiders</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js"></script>
+	<style>
+		body {
+			font-family: 'Open Sans', sans-serif;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="semantic/dist/semantic.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+	<div class="ui raised very padded container segment fluid">
+		<div id="header">
+			<button id="enable-notif" class="ui button right labeled icon">Enable Desktop Notifications<i class="right announcement icon"></i></button>
+			<button id="enable-sound" class="ui button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
+			<button id="clear-list" class="negative ui button right labeled icon">Clear Current Raid List<i class="right hide icon"></i></button>
+			<div class="ui search">
+				<div class="ui icon input">
+					<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
+					<i class="search icon"></i>
+				</div>
+				<div class="results"></div>
+			</div>
+			<div class="ui secondary inverted blue segment">
+				<div id="selected-raids-label">Selected Raids:</div>
+				<div id="selected-raids" class="ui segment"></div>
+			</div>
+		</div>
+		<table class="ui blue celled padded table">
+			<thead>
+				<tr>
+					<th class="center aligned eight wide">Raid Name</th>
+					<th class="center aligned single line two wide">Raid ID</th>
+					<th class="center aligned single line three wide">Time Tweeted</th>
+					<th class="center aligned single line three wide">Copy</th>
+				</tr>
+			</thead>
+			<tbody id="table-body">
+			</tbody>
+		</table>
+	</div>
+	<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1">
+		<p>Your browser does not support iframes.</p>
+	</iframe>
+	<script src="index.js"></script>
+</body>
+
+</html>

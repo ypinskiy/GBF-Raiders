@@ -1,0 +1,26 @@
+body {
+	padding: 25px;
+}
+
+#header {
+	width: 100%;
+	margin-bottom: 25px;
+}
+
+#header > .search {
+	width: 100%;
+	margin-bottom: 25px;
+}
+
+#header > .button {
+	margin-bottom: 10px;
+}
+
+#header > .segment > #selected-raids-label {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+#viramate-api {
+	display: none;
+}

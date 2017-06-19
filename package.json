@@ -1,0 +1,21 @@
+{
+  "name": "gbf-raider",
+  "version": "1.0.0",
+  "description": "Find Raids In GBF",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "gene@pinskiy.us",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "semantic-ui": "^2.2.10",
+    "socket.io": "^2.0.1",
+    "st": "^1.2.0",
+    "twitter": "^1.7.0",
+    "gulp": "^3.9.1"
+  }
+}

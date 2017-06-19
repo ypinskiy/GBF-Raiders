@@ -1,0 +1,4 @@
+node_modules/
+static/semantic/src
+static/semantic/tasks
+static/semantic/gulpfile.js
