@@ -1,6 +1,10 @@
 var socket = io.connect( '/' );
 var raids = [];
-var clipboard = new Clipboard( '.copy-btn' );
+var clipboard = new Clipboard( '.copy-div', {
+	text: function ( trigger ) {
+		return trigger.dataset.clipboard;
+	}
+} );
 var tableBody = document.getElementById( "table-body" );
 var header = document.getElementById( "header" );
 var selectedRaids = document.getElementById( "selected-raids" );
@@ -12,6 +16,7 @@ var soundNotif = new Audio( '/assets/UI_Animate_Clean_Beeps_Appear_stereo.wav' )
 var playSoundNotif = false;
 var sendDesktopNotif = false;
 var raidConfigs = [];
+var selectedRaidsArray = [];
 var xmlHttp = new XMLHttpRequest();
 xmlHttp.onreadystatechange = function () {
 	if ( xmlHttp.readyState == 4 && xmlHttp.status == 200 && xmlHttp.responseText != undefined ) {
@@ -33,19 +38,23 @@ xmlHttp.onreadystatechange = function () {
 							selectedRaids.innerHTML = "";
 						}
 						var selectedLabel = document.createElement( "div" );
-						selectedLabel.classList.add( "ui", "big", "label", "image" );
+						selectedLabel.classList.add( "ui", "big", "label", "image", "selected-raids-label" );
 						selectedLabel.id = result.room;
 						selectedLabel.innerHTML = '<img src="' + result.image + '">' + result.english + '<i class="delete icon"></i>';
 						selectedLabel.addEventListener( "click", function ( event ) {
 							socket.emit( 'unsubscribe', {
 								room: result.room
 							} );
+							selectedRaidsArray.splice( selectedRaidsArray.indexOf( result ), 1 );
+							localStorage.setItem( "selectedRaids", JSON.stringify(selectedRaidsArray) );
 							selectedLabel.remove();
 						}, false );
 						selectedRaids.appendChild( selectedLabel );
 						socket.emit( 'subscribe', {
 							room: result.room
 						} );
+						selectedRaidsArray.push( result );
+						localStorage.setItem( "selectedRaids", JSON.stringify(selectedRaidsArray) );
 					}
 					setTimeout( function () {
 						document.getElementById( "searcher" ).value = "";
@@ -64,6 +73,8 @@ socket.on( 'tweet', function ( data ) {
 		raids.push( data );
 		var newLine = document.createElement( "tr" );
 		newLine.id = data.id;
+		newLine.classList.add( "copy-div" );
+		newLine.dataset.clipboard = data.id;
 		tableBody.insertBefore( newLine, tableBody.firstChild );
 		if ( playSoundNotif ) {
 			soundNotif.play();
@@ -78,9 +89,8 @@ socket.on( 'tweet', function ( data ) {
 						} );
 						notification.onclick = function ( event ) {
 							event.preventDefault();
-							var label = document.getElementById( data.id + '-label' );
-							window.getSelection().selectAllChildren( label );
-							document.execCommand( 'copy' );
+							var raid = document.getElementById( data.id );
+							raid.click();
 							notification.close();
 						}
 						break;
@@ -106,7 +116,14 @@ setInterval( function () {
 					raidDIV.innerHTML = '<td><div class="ui items"><div class="item"><div class="image"><img src="' + raidConfigs[ x ].image + '"></div><div class="content"><div class="header">' + raidConfigs[ x ].english + '</div><div class="meta"><span>' + raidConfigs[ x ].japanese + '</span></div></div></div></td>';
 				}
 			}
-			raidDIV.innerHTML += '<td id="' + raids[ i ].id + '-label" class="center aligned">' + raids[ i ].id + '</td><td class="center aligned">' + moment().diff( raids[ i ].time, "seconds" ) + ' secs ago</td><td><div class="center aligned"><button class="ui primary button right labeled icon toggle copy-btn" data-clipboard-text="' + raids[ i ].id + '" id="' + raids[ i ].id + '-btn">Copy ID<i class="right clone icon"></i></button></div></td>';
+			raidDIV.innerHTML += '<td id="' + raids[ i ].id + '-label" class="center aligned">' + raids[ i ].id + '</td><td class="center aligned">' + moment().diff( raids[ i ].time, "seconds" ) + ' secs ago</td><td><div class="center aligned"><button class="ui primary button right labeled icon toggle join-raid-btn" id="' + raids[ i ].id + '-btn">Join Raid<i class="right sign in icon"></i></button></div></td>';
+			document.getElementById( raids[ i ].id + "-btn" ).addEventListener( "click", function ( event ) {
+				viramateIframe.contentWindow.postMessage( {
+					type: "tryJoinRaid",
+					id: ( Math.floor( Math.random() * 900000 ) + 100000 ),
+					raidCode: event.target.id.substr( 0, 8 )
+				}, "*" );
+			} );
 		}
 	}
 }, 1000 );
@@ -152,18 +169,46 @@ clearListButton.addEventListener( "click", function ( event ) {
 	}
 } );
 
-window.addEventListener( "message", onMessage, false );
+window.onload = function () {
+	window.addEventListener( "message", onMessage, false );
 
-function onMessage( evt ) {
-	if ( evt.data.type !== "result" ) {
-		return;
-	} else {
-		console.log( evt );
+	function onMessage( evt ) {
+		if ( evt.data.type !== "result" ) {
+			return;
+		} else {
+			console.log( evt );
+		}
 	}
-}
-
-viramateIframe.contentWindow.postMessage( {
-	type: "tryJoinRaid",
-	id: 33,
-	raidCode: "FE6B8CIA"
-}, "*" );
+	$( '.message .close' )
+		.on( 'click', function () {
+			$( this )
+				.closest( '.message' )
+				.transition( 'fade' );
+		} );
+	if ( localStorage.getItem( "selectedRaids" ) ) {
+		selectedRaidsArray = JSON.parse(localStorage.getItem( "selectedRaids" ));
+		for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+			if ( document.getElementById( selectedRaidsArray[ i ].room ) == null ) {
+				if ( selectedRaids.innerHTML == "No Raids Selected. Please Search For A Raid In The Search Bar Above." ) {
+					selectedRaids.innerHTML = "";
+				}
+				var selectedLabel = document.createElement( "div" );
+				selectedLabel.classList.add( "ui", "big", "label", "image", "selected-raids-label" );
+				selectedLabel.id = selectedRaidsArray[ i ].room;
+				selectedLabel.innerHTML = '<img src="' + selectedRaidsArray[ i ].image + '">' + selectedRaidsArray[ i ].english + '<i class="delete icon"></i>';
+				selectedLabel.addEventListener( "click", function ( event ) {
+					socket.emit( 'unsubscribe', {
+						room: selectedLabel.id
+					} );
+					selectedRaidsArray.splice( selectedRaidsArray.indexOf( selectedRaidsArray[ i ] ), 1 );
+					localStorage.setItem( "selectedRaids", selectedRaidsArray );
+					selectedLabel.remove();
+				}, false );
+				selectedRaids.appendChild( selectedLabel );
+				socket.emit( 'subscribe', {
+					room: selectedRaidsArray[ i ].room
+				} );
+			}
+		}
+	}
+};

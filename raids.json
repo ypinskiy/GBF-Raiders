@@ -405,5 +405,11 @@
 		"japanese": "Lv120 アヌビス",
 		"room": "lvl120anubis",
 		"image": "/assets/BattleRaid_Anubis_Impossible.png"
+	},
+	{
+		"english": "Lvl 100 Baal",
+		"japanese": "Lv100 バアル",
+		"room": "lvl100baal",
+		"image": "/assets/BattleRaid_Baal_Extreme.jpg"
 	}
 ]

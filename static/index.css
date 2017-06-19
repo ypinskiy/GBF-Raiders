@@ -7,17 +7,16 @@ body {
 	margin-bottom: 25px;
 }
 
-#header > .search {
+#header>.search {
 	width: 100%;
 	margin-bottom: 25px;
 }
 
-#header > .button {
+#header>.button {
 	margin-bottom: 10px;
 }
 
-#header > .segment > #selected-raids-label {
-	width: 100%;
+#header>.segment>.segment>.selected-raids-label {
 	margin-bottom: 5px;
 }
 
