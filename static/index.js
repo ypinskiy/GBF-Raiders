@@ -215,6 +215,8 @@ window.onload = function () {
 
 	LoadSavedSettings();
 	SetupControls();
+	localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+	SetupTable();
 	LoadSavedRaids();
 
 	setInterval( function () {
