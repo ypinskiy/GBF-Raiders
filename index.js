@@ -37,10 +37,19 @@ client.stream( 'statuses/filter', {
 		} else {
 			testId = testId.substr( 0, 8 );
 		}
+		var testMsg = "No Twitter Message.";
+		if ( event.text.substr( 0, 10 ) !== "参加者募集！参戦ID" && event.text.substr( 0, 10 ) !== "I need bac" ) {
+			if ( event.text.indexOf( '参戦ID' ) !== -1 ) {
+				testMsg = event.text.substring( 0, event.text.indexOf( '参戦ID' ) - 7 );
+			} else if ( event.text.indexOf( 'Battle ID' ) !== -1 ) {
+				testMsg = event.text.substring( 0, event.text.indexOf( 'Battle ID' ) - 15 );
+			}
+		}
 		io.to( room ).emit( 'tweet', {
 			id: testId,
 			time: event.created_at,
-			room: room
+			room: room,
+			message: testMsg
 		} );
 	} );
 

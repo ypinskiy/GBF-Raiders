@@ -7,58 +7,134 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js"></script>
-	<style>
-		body {
-			font-family: 'Open Sans', sans-serif;
-		}
-	</style>
 	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({
+			google_ad_client: "ca-pub-8500130779059436",
+			enable_page_level_ads: true
+		});
+	</script>
 </head>
 
 <body>
-	<div class="ui raised very padded container segment fluid">
+	<div id="container" class="ui raised very padded container segment fluid">
 		<div id="header">
-			<button id="enable-notif" class="ui button right labeled icon">Enable Desktop Notifications<i class="right announcement icon"></i></button>
-			<button id="enable-sound" class="ui button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
+			<div class="ui top attached tabular menu">
+				<div class="active item" data-tab="notif-settings-tab">Notification Settings</div>
+				<div class="item" data-tab="layout-settings-tab">Layout Settings</div>
+			</div>
+			<div class="ui bottom attached active tab segment" data-tab="notif-settings-tab">
+				<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right announcement icon"></i></button>
+				<span id="desktop-notif-size-control" class="input-control-disabled">
+					<span class="input-title">Desktop Notification Size</span>
+				<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
+					<input id="desktop-notif-size-input" type="hidden" name="formatting" value="large">
+					<i class="dropdown icon"></i>
+					<div class="default text">Notif Size</div>
+					<div class="menu">
+						<div class="item" data-value="small">Small</div>
+						<div class="item" data-value="large">Large</div>
+					</div>
+				</div>
+				</span>
+				<button id="enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
+				<span id="sound-choice-control" class="input-control-disabled">
+					<span class="input-title">Sound Notification Choice</span>
+				<div id="sound-choice-dropdown" class="ui compact selection disabled dropdown">
+					<input id="sound-choice-input" type="hidden" name="formatting" value="beeps">
+					<i class="dropdown icon"></i>
+					<div class="default text">Sound Choice</div>
+					<div class="menu">
+						<div class="item" data-value="beeps">Beeps Appear</div>
+						<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>
+						<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
+						<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
+					</div>
+				</div>
+				</span>
+				<span id="sound-volume-control" class="slider-control-disabled">
+					<span class="slider-title">Sound Notification Volume</span>
+				<input id="sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled>
+				</span>
+			</div>
+			<div class="ui bottom attached tab segment" data-tab="layout-settings-tab">
+				<div class="ui buttons layout-switcher">
+					<button id="horiz-layout-btn" class="ui disabled primary button">Horizontal</button>
+					<div class="or"></div>
+					<button id="vertical-layout-btn" class="ui disabled button">Vertical</button>
+				</div>
+				<span class="input-control">
+					<span class="input-title">Info Level</span>
+				<div id="info-level" class="ui compact selection dropdown">
+					<input id="info-level-input" type="hidden" name="formatting" value="normal">
+					<i class="dropdown icon"></i>
+					<div class="default text">Info Level</div>
+					<div class="menu">
+						<div class="item" data-value="compact">Compact</div>
+						<div class="item" data-value="normal">Normal&nbsp;</div>
+						<div class="item" data-value="full">Full&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					</div>
+				</div>
+				</span>
+				<span class="input-control">
+					<span class="input-title">Remove raids after</span>
+				<div class="ui input input-text">
+					<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
+				</div>
+				<span class="input-footer">seconds</span>
+				</span>
+				<span class="input-control">
+					<span class="input-title">Start removing raids after</span>
+				<div class="ui input input-text">
+					<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
+				</div>
+				<span class="input-footer">results</span>
+				</span>
+			</div>
 			<button id="clear-list" class="negative ui button right labeled icon">Clear Current Raid List<i class="right hide icon"></i></button>
-			<div class="ui search">
+			<span class="ui search">
 				<div class="ui icon input">
 					<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
 					<i class="search icon"></i>
 				</div>
 				<div class="results"></div>
-			</div>
-			<div class="ui secondary inverted blue segment">
-				<div id="selected-raids-label">Selected Raids:</div>
-				<div id="selected-raids" class="ui segment"></div>
-			</div>
+			</span>
 		</div>
 		<div class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				New Update!
+				Update v1.1!
 			</div>
-			<p>Click on any part of the raid's row to copy the ID. If you use Viramate, have the game open, and enabled the Web API in the General settings of Viramate, the "Join Raid" button will open the raid automatically in GBF and take you to the summon select page. You will have to switch back to the GBF tab yourself, however.</p>
+			<p>A whole bunch of new settings! In <span class="ui label">Notification Settings</span>, you can turn on/off desktop notifications, choose how big they are, turn on/off sound notifications, choose what sound is played and their volume. Expect a lot more
+				GBF characters to appear in that list of sounds! If you want to see the message that the raid poster has added, that is availible in the "Full" info level option. In <span class="ui label">Layout Settings</span>, you can choose the amount of info
+				is shown in each row, when a raid listing expires, and how many raids to show at once.
+				<div class="ui divider"></div>
+				Note: the button for switching between the current horizontal layout and a more vertical layout like <a href="http://gbf-raidfinder.aikats.us/">aikats</a> is disabled for now and will be availible in the next update.</p>
 		</div>
-		<table class="ui blue celled padded table">
-			<thead>
-				<tr>
-					<th class="center aligned eight wide">Raid Name</th>
-					<th class="center aligned single line two wide">Raid ID</th>
-					<th class="center aligned single line three wide">Time Tweeted</th>
-					<th class="center aligned single line three wide">Join Raid</th>
-				</tr>
-			</thead>
-			<tbody id="table-body">
-			</tbody>
-		</table>
 	</div>
 	<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1">
 		<p>Your browser does not support iframes.</p>
 	</iframe>
+	<script>
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-48921108-3', 'auto');
+		ga('send', 'pageview');
+	</script>
 	<script src="index.js"></script>
 </body>
 
