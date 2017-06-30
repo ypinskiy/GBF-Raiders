@@ -521,9 +521,10 @@ function SetupTable() {
 		var raidTable = document.createElement( "table" );
 		raidTable.id = "raid-table";
 		raidTable.classList.add( "ui", "blue", "celled", "selectable", "table" );
-		if ( document.getElementById( "selected-raids" ) === null ) {
+		if ( document.getElementById( "selected-raids-label" ) === null ) {
 			var selectedRaidsDiv = document.createElement( "div" );
 			selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
+			selectedRaidsDiv.id = "selected-raids-label";
 			selectedRaidsDiv.innerHTML = '<div id="selected-raids">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 			document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 		}
