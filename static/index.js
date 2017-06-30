@@ -64,15 +64,6 @@ socket.on( 'tweet', function ( data ) {
 	}
 } );
 
-setInterval( function () {
-	if ( selectedRaidsArray.length === 0 ) {
-		document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
-	}
-	for ( var i = raids.length - 1; i >= 0; i-- ) {
-		UpdateRaidRow( raids[ i ], i );
-	}
-}, 500 );
-
 function FindRaidConfig( room ) {
 	var result = null;
 	for ( var i = 0; i < raidConfigs.length; i++ ) {
@@ -225,6 +216,15 @@ window.onload = function () {
 	LoadSavedSettings();
 	SetupControls();
 	LoadSavedRaids();
+
+	setInterval( function () {
+		if ( selectedRaidsArray.length === 0 ) {
+			document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
+		}
+		for ( var i = raids.length - 1; i >= 0; i-- ) {
+			UpdateRaidRow( raids[ i ], i );
+		}
+	}, 500 );
 };
 
 function LoadSavedRaids() {
