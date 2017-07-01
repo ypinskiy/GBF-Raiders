@@ -15,6 +15,10 @@ let client = new twitter( {
 	access_token_secret: process.env.access_token_secret
 } );
 
+function TimedLogger( data ) {
+	console.log( new Date().toString() + " - " + data + '\n' );
+}
+
 let raidConfigs = require( './raids.json' );
 
 let keywords = "";
@@ -30,31 +34,45 @@ client.stream( 'statuses/filter', {
 	track: keywords
 }, function ( stream ) {
 	stream.on( 'data', function ( event ) {
+		TimedLogger( "Tweet found." );
 		let room = searchTextForRaids( event.text );
-		var testId = event.text.substr( event.text.indexOf( 'ID' ) + 3, 9 );
-		if ( testId.charAt( 0 ) == " " ) {
-			testId = testId.substr( 1, 8 );
+		var message = "No Twitter Message.";
+		var language = "JP";
+		var raidID = event.text.substr( event.text.indexOf( 'ID' ) + 3, 9 );
+
+		if ( raidID.charAt( 0 ) == " " ) {
+			raidID = raidID.substr( 1, 8 );
 		} else {
-			testId = testId.substr( 0, 8 );
+			raidID = raidID.substr( 0, 8 );
 		}
-		var testMsg = "No Twitter Message.";
+
 		if ( event.text.substr( 0, 10 ) !== "参加者募集！参戦ID" && event.text.substr( 0, 10 ) !== "I need bac" ) {
 			if ( event.text.indexOf( '参戦ID' ) !== -1 ) {
-				testMsg = event.text.substring( 0, event.text.indexOf( '参戦ID' ) - 7 );
+				message = event.text.substring( 0, event.text.indexOf( '参戦ID' ) - 7 );
+				language = "JP";
 			} else if ( event.text.indexOf( 'Battle ID' ) !== -1 ) {
-				testMsg = event.text.substring( 0, event.text.indexOf( 'Battle ID' ) - 15 );
+				message = event.text.substring( 0, event.text.indexOf( 'Battle ID' ) - 15 );
+				language = "EN";
 			}
 		}
-		io.to( room ).emit( 'tweet', {
-			id: testId,
+		TimedLogger( "Raid Info: " + {
+			id: raidID,
 			time: event.created_at,
 			room: room,
-			message: testMsg
+			message: message,
+			language: language
+		} );
+		io.to( room ).emit( 'tweet', {
+			id: raidID,
+			time: event.created_at,
+			room: room,
+			message: message,
+			language: language
 		} );
 	} );
 
 	stream.on( 'error', function ( error ) {
-		console.log( error );
+		TimedLogger( error );
 	} );
 } );
 
@@ -93,23 +111,26 @@ app.use( st( {
 	gzip: true,
 	cache: {
 		content: {
-			max: 1024 * 1024, //1024 * 1024 * 64, // how much memory to use on caching contents (bytes * kilo * mega)
-			maxAge: 1000 * 60 * 60 * 12 //1000 * 60 * 60 * 24 * 3, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
+			max: 1024 * 1024 * 64, // how much memory to use on caching contents (bytes * kilo * mega)
+			maxAge: 1000 * 60 * 60 * 24 * 3, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
 		}
 	},
 	passthrough: false
 } ) );
 
 io.sockets.on( 'connection', function ( socket ) {
+	TimedLogger( "New connection established." );
 	socket.on( 'subscribe',
 		function ( data ) {
+			TimedLogger( "Room subscribed: " + data.room );
 			socket.join( data.room );
 		} );
 
 	socket.on( 'unsubscribe',
 		function ( data ) {
+			TimedLogger( "Room unsubscribed: " + data.room );
 			socket.leave( data.room );
 		} );
 
 } );
-console.log( "Starting GBF Raiders on port " + port + "." );
+TimedLogger( "Starting GBF Raiders on port " + port + "." );

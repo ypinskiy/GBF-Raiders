@@ -8,6 +8,30 @@ body {
 	margin-bottom: 25px;
 }
 
+#connection-status {
+	display: inline-block;
+	margin-bottom: -14px;
+	margin-top: -14px;
+	margin-right: 5px;
+}
+
+.dbox-donation-button {
+	background: #2185d0 url(https://d1iczxrky3cnb2.cloudfront.net/white_logo.png) no-repeat 12px center;
+	color: #fff;
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-weight: 700;
+	display: inline-block;
+	font-size: 1rem;
+	padding: 8px 13px 8px 46px;
+	-webkit-border-radius: 4px;
+	margin-right: 5px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	box-shadow: 0 1px 0 0 #175d91;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+}
+
 .bigger {
 	padding: 17px !important;
 }
@@ -24,12 +48,17 @@ body {
 	margin-right: 10px !important;
 }
 
-.button {
-	margin-bottom: 10px !important;
+.menu>.segment>.button {
+	margin-bottom: 5px !important;
 }
 
 .name-header {
 	font-size: 1.28571429em;
+	font-weight: 700;
+}
+
+.tip-title {
+	font-size: 1rem;
 	font-weight: 700;
 }
 

@@ -11,13 +11,6 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-		(adsbygoogle = window.adsbygoogle || []).push({
-			google_ad_client: "ca-pub-5220636560072421",
-			enable_page_level_ads: true
-		});
-	</script>
 </head>
 
 <body>
@@ -95,25 +88,46 @@
 				<span class="input-footer">results</span>
 				</span>
 			</div>
-			<button id="clear-list" class="negative ui button right labeled icon">Clear Current Raid List<i class="right hide icon"></i></button>
-			<span class="ui search">
+			<div class="ui segment misc-controls">
+				<a class="dbox-donation-button" href="https://donorbox.org/keep-gbfraiders-running">Donate</a>
+				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
+				<div class="ui special wide popup">
+					<div class="header">Notable Features</div>
+					<ul>
+						<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, and have enabled the Web API setting in Viramate, the Join button will send you right to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
+						<li><span class="tip-title">Click to Copy:</span> Click on any part of a raid's  row besides the Join button to copy the raid's ID for easy copying.</li>
+						<li><span class="tip-title">Desktop Notifications:</span> Click on a desktop notification to copy it's id or to join the raid if you have the Viramate integration setup.</li>
+					</ul>
+					<br>
+					<div class="header">Support</div>
+					<ul>
+						<li>If you want to browse the code of this site or are looking to host your own copy, head on over to <a href="https://github.com/ypinskiy/GBF-Raiders">the GitHub page</a> for the site.</li>
+						<li>If you have any questions about the site, are experiencing issues, or want to suggest new features, <a href="https://www.reddit.com/user/galaxymover/">send me a PM on Reddit.</a></li>
+						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
+					</ul>
+				</div>
+				<table id="connection-status" class="ui definition compact collapsing green table">
+					<tbody>
+						<td class="collapsing">Connection Status:</td>
+						<td id="connection-status-value" class="collapsing">UP</td>
+					</tbody>
+				</table>
+				<button id="clear-list" class="negative ui button right labeled icon">Clear Current Raid List<i class="right hide icon"></i></button>
+				<span class="ui search">
 				<div class="ui icon input">
 					<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
 					<i class="search icon"></i>
 				</div>
 				<div class="results"></div>
 			</span>
+			</div>
 		</div>
 		<div class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				Update v1.1!
+				Update v1.2!
 			</div>
-			<p>A whole bunch of new settings! In <span class="ui label">Notification Settings</span>, you can turn on/off desktop notifications, choose how big they are, turn on/off sound notifications, choose what sound is played and their volume. Expect a lot more
-				GBF characters to appear in that list of sounds! If you want to see the message that the raid poster has added, that is availible in the "Full" info level option. In <span class="ui label">Layout Settings</span>, you can choose the amount of info
-				is shown in each row, when a raid listing expires, and how many raids to show at once.
-				<div class="ui divider"></div>
-				Note: the button for switching between the current horizontal layout and a more vertical layout like <a href="http://gbf-raidfinder.aikats.us/">aikats</a> is disabled for now and will be availible in the next update.</p>
+			<p>I added a help button that displays some useful info for beginners when you hover over the button. I also added a connection status display to help determine if the server is actually down or there is a problem on the user's side. In case you want to help pay for a new, better server for GBFRaiders, there is a donate button now. I only need $5 a month total for a base DigitalOcean server, although $20 a month would be a really good server :)</p>
 		</div>
 	</div>
 	<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1">
