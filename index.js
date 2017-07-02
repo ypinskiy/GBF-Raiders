@@ -3,9 +3,11 @@ let twitter = require( 'twitter' );
 let st = require( 'st' );
 let app = express();
 let bodyParser = require( 'body-parser' );
+let compression = require( 'compression' );
+let morgan = require( 'morgan' );
 let server = require( 'http' ).createServer( app );
 let io = require( 'socket.io' ).listen( server );
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 80;
 server.listen( port );
 
 let client = new twitter( {
@@ -16,7 +18,7 @@ let client = new twitter( {
 } );
 
 function TimedLogger( data ) {
-	console.log( new Date().toString() + " - " + data + '\n' );
+	console.log( new Date().toString() + " - " + data );
 }
 
 let raidConfigs = require( './raids.json' );
@@ -55,25 +57,42 @@ client.stream( 'statuses/filter', {
 				language = "EN";
 			}
 		}
-		TimedLogger( "Raid Info: " + {
+
+		var raidInfo = {
 			id: raidID,
 			time: event.created_at,
 			room: room,
 			message: message,
-			language: language
-		} );
-		io.to( room ).emit( 'tweet', {
-			id: raidID,
-			time: event.created_at,
-			room: room,
-			message: message,
-			language: language
-		} );
+			language: language,
+			status: "unclicked"
+		};
+
+		TimedLogger( "Raid Info: " );
+		console.dir( raidInfo );
+		io.to( room ).emit( 'tweet', raidInfo );
 	} );
 
 	stream.on( 'error', function ( error ) {
 		TimedLogger( error );
+		io.sockets.sockets.forEach( function ( s ) {
+			s.disconnect( true );
+		} );
 	} );
+} );
+
+io.sockets.on( 'connection', function ( socket ) {
+	TimedLogger( "New connection established." );
+	socket.on( 'subscribe',
+		function ( data ) {
+			TimedLogger( "Room subscribed: " + data.room );
+			socket.join( data.room );
+		} );
+
+	socket.on( 'unsubscribe',
+		function ( data ) {
+			TimedLogger( "Room unsubscribed: " + data.room );
+			socket.leave( data.room );
+		} );
 } );
 
 function searchTextForRaids( text ) {
@@ -88,6 +107,8 @@ function searchTextForRaids( text ) {
 }
 
 app.set( 'json spaces', 0 );
+app.use( compression() );
+app.use( morgan( 'combined' ) );
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( {
 	extended: true
@@ -118,19 +139,4 @@ app.use( st( {
 	passthrough: false
 } ) );
 
-io.sockets.on( 'connection', function ( socket ) {
-	TimedLogger( "New connection established." );
-	socket.on( 'subscribe',
-		function ( data ) {
-			TimedLogger( "Room subscribed: " + data.room );
-			socket.join( data.room );
-		} );
-
-	socket.on( 'unsubscribe',
-		function ( data ) {
-			TimedLogger( "Room unsubscribed: " + data.room );
-			socket.leave( data.room );
-		} );
-
-} );
 TimedLogger( "Starting GBF Raiders on port " + port + "." );

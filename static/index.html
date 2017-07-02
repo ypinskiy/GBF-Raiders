@@ -11,6 +11,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.css">
+	<script src="sweetalert/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -94,7 +96,7 @@
 				<div class="ui special wide popup">
 					<div class="header">Notable Features</div>
 					<ul>
-						<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, and have enabled the Web API setting in Viramate, the Join button will send you right to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
+						<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, have enabled the Web API setting in Viramate, and have reloaded the GBF page, the Join button will send you right to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
 						<li><span class="tip-title">Click to Copy:</span> Click on any part of a raid's  row besides the Join button to copy the raid's ID for easy copying.</li>
 						<li><span class="tip-title">Desktop Notifications:</span> Click on a desktop notification to copy it's id or to join the raid if you have the Viramate integration setup.</li>
 					</ul>
@@ -106,10 +108,10 @@
 						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
 					</ul>
 				</div>
-				<table id="connection-status" class="ui definition compact collapsing green table">
+				<table id="connection-status" class="ui definition compact collapsing red table">
 					<tbody>
 						<td class="collapsing">Connection Status:</td>
-						<td id="connection-status-value" class="collapsing">UP</td>
+						<td id="connection-status-value" class="collapsing">DOWN</td>
 					</tbody>
 				</table>
 				<button id="clear-list" class="negative ui button right labeled icon">Clear Current Raid List<i class="right hide icon"></i></button>
@@ -125,9 +127,9 @@
 		<div class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				Update v1.2!
+				Update v1.3!
 			</div>
-			<p>I added a help button that displays some useful info for beginners when you hover over the button. I also added a connection status display to help determine if the server is actually down or there is a problem on the user's side. In case you want to help pay for a new, better server for GBFRaiders, there is a donate button now. I only need $5 a month total for a base DigitalOcean server, although $20 a month would be a really good server :)</p>
+			<p>WOW! Thanks for every one who donated! I just hosted GBFRaiders on a brand spanking new server that won't go down if there is too many people going to it! (Hopefully...) This update finally has the vertical layout like aikats that people asked for, along with individual notification settings for each raid in that mode. I also added alerts for when you try to join a raid when: you have not enough BP to join, the raid is full, the raid is over, and when you are already in the raid. The desktop notification title now changes from the English name to the Japanese name depending on the language that the original tweet was in. Just for fun, I made the join button change colors based on the raid status: blue for unclicked, grey for clicked, red for an error, green for success.</p>
 		</div>
 	</div>
 	<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1">

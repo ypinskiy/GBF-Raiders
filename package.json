@@ -11,11 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "compression": "^1.6.2",
     "express": "^4.15.3",
+    "gulp": "^3.9.1",
+    "morgan": "^1.8.2",
     "semantic-ui": "^2.2.10",
     "socket.io": "^2.0.1",
     "st": "^1.2.0",
-    "twitter": "^1.7.0",
-    "gulp": "^3.9.1"
+    "twitter": "^1.7.0"
   }
 }
