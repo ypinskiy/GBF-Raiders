@@ -18,12 +18,12 @@
 <body>
 	<div id="container" class="ui raised very padded container segment fluid">
 		<div id="header">
-			<div class="ui top attached tabular menu">
+			<div id="settings-menu" class="ui top attached tabular menu">
 				<div class="active item" data-tab="notif-settings-tab">Notification Settings</div>
 				<div class="item" data-tab="layout-settings-tab">Layout Settings</div>
 			</div>
 			<div class="ui bottom attached active tab segment" data-tab="notif-settings-tab">
-				<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right announcement icon"></i></button>
+				<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>
 				<span id="desktop-notif-size-control" class="input-control-disabled">
 					<span class="input-title">Desktop Notification Size</span>
 				<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
@@ -58,10 +58,22 @@
 			</div>
 			<div class="ui bottom attached tab segment" data-tab="layout-settings-tab">
 				<div class="ui buttons layout-switcher">
-					<button id="horiz-layout-btn" class="ui disabled primary button">Horizontal</button>
+					<button id="horiz-layout-btn" class="ui bigger primary button">Horizontal</button>
 					<div class="or"></div>
-					<button id="vertical-layout-btn" class="ui disabled button">Vertical</button>
+					<button id="vertical-layout-btn" class="ui bigger button">Vertical</button>
 				</div>
+				<span id="vertical-stacking-control" class="input-control-disabled">
+					<span class="input-title">Vertical Layout</span>
+				<div id="vertical-stacking-dropdown" class="ui disabled compact selection dropdown">
+					<input id="vertical-stacking-input" type="hidden" name="formatting" value="row">
+					<i class="dropdown icon"></i>
+					<div class="default text">Vertical Layout</div>
+					<div class="menu">
+						<div class="item" data-value="stacking">Stacking</div>
+						<div class="item" data-value="row">Single Row</div>
+					</div>
+				</div>
+				</span>
 				<span class="input-control">
 					<span class="input-title">Info Level</span>
 				<div id="info-level" class="ui compact selection dropdown">
@@ -89,18 +101,25 @@
 				</div>
 				<span class="input-footer">results</span>
 				</span>
+				<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
 			</div>
 			<div class="ui segment misc-controls">
 				<a class="dbox-donation-button" href="https://donorbox.org/keep-gbfraiders-running">Donate</a>
 				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
 				<div class="ui special wide popup">
-					<div class="header">Notable Features</div>
+					<div class="header">Help With Notable Features</div>
 					<ul>
-						<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, have enabled the Web API setting in Viramate, and have reloaded the GBF page, the Join button will send you right to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
-						<li><span class="tip-title">Click to Copy:</span> Click on any part of a raid's  row besides the Join button to copy the raid's ID for easy copying.</li>
+						<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, have enabled the Web API setting in Viramate, and have reloaded the GBF page, the Join button will send you right
+							to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
+						<li><span class="tip-title">Click to Copy:</span> Click on any part of a raid's row besides the Join button to copy the raid's ID for easy copying.</li>
 						<li><span class="tip-title">Desktop Notifications:</span> Click on a desktop notification to copy it's id or to join the raid if you have the Viramate integration setup.</li>
 					</ul>
-					<br>
+					<div class="header">Vertical Layout Options</div>
+					<ul>
+						<li><span class="tip-title">Single Row:</span>The "Single Row" option will just keep adding new selected raids to a single row which means that you will have to scroll horizontally after a certain number.</li>
+						<li><span class="tip-title">Stacking:</span>The "Stacking" option will keep everything on the same page by putting new selected raids below the first couple like a grid. PLEASE NOTE: The "Stacking" option does not work in Chrome because Chrome has a
+							bug that they haven't fixed yet. I will update the feature when they do fix it.</li>
+					</ul>
 					<div class="header">Support</div>
 					<ul>
 						<li>If you want to browse the code of this site or are looking to host your own copy, head on over to <a href="https://github.com/ypinskiy/GBF-Raiders">the GitHub page</a> for the site.</li>
@@ -127,14 +146,25 @@
 		<div class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				Update v1.3!
+				News - 7/04/2017
 			</div>
-			<p>WOW! Thanks for every one who donated! I just hosted GBFRaiders on a brand spanking new server that won't go down if there is too many people going to it! (Hopefully...) This update finally has the vertical layout like aikats that people asked for, along with individual notification settings for each raid in that mode. I also added alerts for when you try to join a raid when: you have not enough BP to join, the raid is full, the raid is over, and when you are already in the raid. The desktop notification title now changes from the English name to the Japanese name depending on the language that the original tweet was in. Just for fun, I made the join button change colors based on the raid status: blue for unclicked, grey for clicked, red for an error, green for success.</p>
+			<p>WOW! Thanks for every one who donated! During the weekend, I hosted GBFRaiders on a brand spanking new server that won't go down if there is too many people going to it! (Hopefully...)</p>
+			<p>This update finally has the vertical layout like aikats that people asked for, along with individual notification settings for each raid in that mode. The global settings will override any individual settings whenever they are changed. For example:
+				if you set the sound volume to max in an individual raid's settings, but then change the global volume settings to 50%, the individual setting will need to be changed again. So basically, set the global settings first, then the individual. Also, the
+				individual settings are not saved yet when you refresh the page, they will need to be set again.</p>
+			<p>To explain the Vertical layout option next to the layout switcher: if you are in the vertical mode, "Single Row" option will just keep adding new selected raids to a single row which means that you will have to scroll horizontally after a certain number.
+				The "Stacking" option will keep everything on the same page by putting new selected raids below the first couple like a grid. PLEASE NOTE: The stacking option does not work in Chrome because Chrome has a bug that they haven't fixed yet. I will update
+				the feature when they do fix it.</p>
+			<p>I also added alerts for when you try to join a raid when: you have not enough BP to join, the raid is full, the raid is over, and when you are already in the raid. The desktop notification title now changes from the English name to the Japanese name
+				depending on the language that the original tweet was in. Just for fun, I made the join button change colors based on the raid status: blue for unclicked, grey for clicked, red for an error, green for success.
+				<div class="ui divider"></div> Oh yeah, there is a
+				<div class="ui label">Night Mode</div> button now in the layout settings.</p>
 		</div>
 	</div>
-	<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1">
-		<p>Your browser does not support iframes.</p>
-	</iframe>
+	<script type="text/javascript">
+		if (!navigator.userAgent.toLowerCase().match('edge') && !navigator.userAgent.toLowerCase().match('firefox') && document.getElementById('container'))
+			document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
+	</script>
 	<script>
 		(function(i, s, o, g, r, a, m) {
 			i['GoogleAnalyticsObject'] = r;

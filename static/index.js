@@ -2,11 +2,12 @@ var socket = io.connect( '/' );
 var raids = [];
 var raidConfigs = [];
 var selectedRaidsArray = [];
+var individualSettings = [];
 
-var beepsSoundNotif = new Audio( '/assets/Beeps_Appear.wav' );
-var lilyRingRingSoundNotif = new Audio( '/assets/Lily_Event_RingRing.mp3' );
-var andiraOniichanSoundNotif = new Audio( '/assets/Andira_Oniichan.mp3' );
-var titanfallDroppingNowSoundNotif = new Audio( '/assets/Titanfall_DroppingNow.mp3' );
+var beepsSoundNotif = new Audio( '/assets/sounds/Beeps_Appear.wav' );
+var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3' );
+var andiraOniichanSoundNotif = new Audio( '/assets/sounds/Andira_Oniichan.mp3' );
+var titanfallDroppingNowSoundNotif = new Audio( '/assets/sounds/Titanfall_DroppingNow.mp3' );
 
 var settings = {
 	notification: {
@@ -18,9 +19,11 @@ var settings = {
 	},
 	layout: {
 		orientation: "horizontal",
+		verticalStacking: "row",
 		infoLevel: "normal",
 		raidTimeout: 120,
-		raidMaxResults: 30
+		raidMaxResults: 30,
+		nightMode: false
 	}
 };
 
@@ -28,12 +31,8 @@ socket.on( 'tweet', function ( data ) {
 	if ( document.getElementById( data.id ) === null ) {
 		raids.push( data );
 		CreateRaidRow( data );
-		if ( settings.notification.soundNotifOn ) {
-			PlaySoundNotif();
-		}
-		if ( settings.notification.desktopNotifOn ) {
-			SendDesktopNotif( data );
-		}
+		PlaySoundNotif();
+		SendDesktopNotif( data );
 	}
 } );
 
@@ -220,25 +219,149 @@ function CreateHorizontalFullRaidRow( data ) {
 }
 
 function CreateVerticalCompactRaidRow( data ) {
-
+	var raidConfig = FindRaidConfig( data.room );
+	var newLine = document.createElement( "tr" );
+	newLine.id = data.id;
+	newLine.classList.add( "copy-div" );
+	newLine.dataset.clipboard = data.id;
+	var idTD = document.createElement( "td" );
+	idTD.id = data.id + '-label';
+	idTD.classList.add( "center", "aligned" );
+	idTD.innerHTML = data.id;
+	var joinTD = document.createElement( "td" );
+	joinTD.classList.add( "center", "aligned" );
+	var joinButton = document.createElement( "button" );
+	if ( data.status === "unclicked" ) {
+		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "error" ) {
+		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "clicked" ) {
+		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "success" ) {
+		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	}
+	joinButton.id = data.id + '-btn';
+	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
+	joinTD.appendChild( joinButton );
+	newLine.appendChild( idTD );
+	newLine.appendChild( joinTD );
+	joinButton.addEventListener( "click", function ( event ) {
+		SendJoinCommand( event.target.id.substr( 0, 8 ) );
+		joinButton.classList.remove( "primary" );
+		joinButton.classList.add( "secondary" );
+		data.status = "clicked";
+	} );
+	document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
 }
 
 function CreateVerticalNormalRaidRow( data ) {
-
+	var raidConfig = FindRaidConfig( data.room );
+	var newLine = document.createElement( "tr" );
+	newLine.id = data.id;
+	newLine.classList.add( "copy-div" );
+	newLine.dataset.clipboard = data.id;
+	var idTD = document.createElement( "td" );
+	idTD.id = data.id + '-label';
+	idTD.classList.add( "center", "aligned" );
+	idTD.innerHTML = data.id;
+	var timeTD = document.createElement( "td" );
+	timeTD.id = data.id + '-time';
+	timeTD.classList.add( "center", "aligned" );
+	timeTD.innerHTML = "0 secs ago";
+	var joinTD = document.createElement( "td" );
+	joinTD.classList.add( "center", "aligned" );
+	var joinButton = document.createElement( "button" );
+	if ( data.status === "unclicked" ) {
+		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "error" ) {
+		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "clicked" ) {
+		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "success" ) {
+		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	}
+	joinButton.id = data.id + '-btn';
+	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
+	joinTD.appendChild( joinButton );
+	newLine.appendChild( idTD );
+	newLine.appendChild( timeTD );
+	newLine.appendChild( joinTD );
+	joinButton.addEventListener( "click", function ( event ) {
+		SendJoinCommand( event.target.id.substr( 0, 8 ) );
+		joinButton.classList.remove( "primary" );
+		joinButton.classList.add( "secondary" );
+		data.status = "clicked";
+	} );
+	document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
 }
 
 function CreateVerticalFullRaidRow( data ) {
-
+	var raidConfig = FindRaidConfig( data.room );
+	var newLine = document.createElement( "tr" );
+	newLine.id = data.id;
+	newLine.classList.add( "copy-div" );
+	newLine.dataset.clipboard = data.id;
+	var idTD = document.createElement( "td" );
+	idTD.id = data.id + '-label';
+	idTD.classList.add( "center", "aligned" );
+	idTD.innerHTML = data.id;
+	var messageTD = document.createElement( "td" );
+	messageTD.classList.add( "center", "aligned" );
+	messageTD.innerHTML = data.message;
+	var timeTD = document.createElement( "td" );
+	timeTD.id = data.id + '-time';
+	timeTD.classList.add( "center", "aligned" );
+	timeTD.innerHTML = "0 secs ago";
+	var joinTD = document.createElement( "td" );
+	joinTD.classList.add( "center", "aligned" );
+	var joinButton = document.createElement( "button" );
+	if ( data.status === "unclicked" ) {
+		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "error" ) {
+		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "clicked" ) {
+		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	} else if ( data.status === "success" ) {
+		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
+	}
+	joinButton.id = data.id + '-btn';
+	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
+	joinTD.appendChild( joinButton );
+	newLine.appendChild( idTD );
+	newLine.appendChild( messageTD );
+	newLine.appendChild( timeTD );
+	newLine.appendChild( joinTD );
+	joinButton.addEventListener( "click", function ( event ) {
+		SendJoinCommand( event.target.id.substr( 0, 8 ) );
+		joinButton.classList.remove( "primary" );
+		joinButton.classList.add( "secondary" );
+		data.status = "clicked";
+	} );
+	document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
 }
 
-function UpdateRaidRow( data, index ) {
-	var raidDIV = document.getElementById( data.id );
-	if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout || index > settings.layout.raidMaxResults ) {
-		document.getElementById( "table-body" ).removeChild( raidDIV );
-		raids.splice( index, 1 );
+function UpdateRaidRow( data ) {
+	if ( raids.length > settings.layout.raidMaxResults ) {
+		var raidDIV = document.getElementById( raids[ 0 ].id );
+		if ( settings.layout.orientation === "horizontal" ) {
+			document.getElementById( "table-body" ).removeChild( raidDIV );
+		} else {
+			document.getElementById( raids[ 0 ].room + "-table-body" ).removeChild( raidDIV );
+		}
+		raids.splice( 0, 1 );
 	} else {
-		if ( settings.layout.infoLevel === "normal" || settings.layout.infoLevel === "full" ) {
-			document.getElementById( data.id + '-time' ).innerHTML = moment().diff( data.time, "seconds" ) + ' secs ago';
+		var raidDIV = document.getElementById( data.id );
+		if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout ) {
+			if ( settings.layout.orientation === "horizontal" ) {
+				document.getElementById( "table-body" ).removeChild( raidDIV );
+			} else {
+				document.getElementById( data.room + "-table-body" ).removeChild( raidDIV );
+			}
+			raids.splice( raids.indexOf( data ), 1 );
+		} else {
+			if ( settings.layout.infoLevel === "normal" || settings.layout.infoLevel === "full" ) {
+				document.getElementById( data.id + '-time' ).innerHTML = moment().diff( data.time, "seconds" ) + ' secs ago';
+			}
 		}
 	}
 }
@@ -263,7 +386,271 @@ function AddSelectedRaid( raid ) {
 			} );
 			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
 		}
+	} else {
+		if ( document.getElementById( raid.room + "-card" ) === null ) {
+			selectedRaidsArray.push( raid );
+			individualSettings.push( {
+				room: raid.room,
+				settings: Object.assign( {}, settings.notification )
+			} );
+			if ( settings.layout.infoLevel === "compact" ) {
+				AddSelectedVerticalCompactRaid( raid );
+			} else if ( settings.layout.infoLevel === "normal" ) {
+				AddSelectedVerticalNormalRaid( raid );
+			} else {
+				AddSelectedVerticalFullRaid( raid );
+			}
+			socket.emit( 'subscribe', {
+				room: raid.room
+			} );
+			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+		}
 	}
+}
+
+function AddSelectedVerticalCompactRaid( raid ) {
+	var raidDiv = document.createElement( "div" );
+	raidDiv.id = raid.room + "-card";
+	raidDiv.classList.add( "ui", "card" );
+	var raidImage = document.createElement( "div" );
+	raidImage.classList.add( "image" );
+	raidImage.innerHTML += '<img src="' + raid.image + '">';
+	raidDiv.appendChild( raidImage );
+	var raidContent = document.createElement( "div" );
+	raidContent.classList.add( "content" );
+	var raidEnglish = document.createElement( "div" );
+	raidEnglish.classList.add( "header" );
+	raidEnglish.innerHTML = raid.english;
+	raidContent.appendChild( raidEnglish );
+	var raidJapanese = document.createElement( "div" );
+	raidJapanese.classList.add( "meta" );
+	raidJapanese.innerHTML = raid.japanese;
+	raidContent.appendChild( raidJapanese );
+	var raidSettings = document.createElement( "div" );
+	raidSettings.classList.add( "description" );
+	var removeButton = document.createElement( "button" );
+	removeButton.classList.add( "ui", "tiny", "negative", "button", "right", "labeled", "icon" );
+	removeButton.id = raid.room + '-remover';
+	removeButton.innerHTML = 'Remove Raid<i class="right remove icon"></i>';
+	var settingsButton = document.createElement( "button" );
+	settingsButton.classList.add( "ui", "tiny", "primary", "button", "right", "labeled", "icon" );
+	settingsButton.id = raid.room + '-settings';
+	settingsButton.innerHTML = 'Settings<i class="right settings icon"></i>';
+	raidSettings.appendChild( settingsButton );
+	raidSettings.appendChild( removeButton );
+	raidContent.appendChild( raidSettings );
+	raidDiv.appendChild( raidContent );
+	var raidTableContainer = document.createElement( "div" );
+	raidTableContainer.classList.add( "extra", "content" );
+	var raidTable = document.createElement( "table" );
+	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
+	raidTable.id = raid.room + "-table";
+	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Join Raid</th></tr></thead>';
+	var raidTableBody = document.createElement( "tbody" );
+	raidTableBody.id = raid.room + "-table-body";
+	raidTable.appendChild( raidTableBody );
+	raidTableContainer.appendChild( raidTable );
+	raidDiv.appendChild( raidTableContainer );
+	document.getElementById( "raid-container" ).appendChild( raidDiv );
+	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
+		RemoveSelectedRaid( raid );
+	}, false );
+	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
+		SetupSettingsModal( raid );
+	}, false );
+}
+
+function AddSelectedVerticalNormalRaid( raid ) {
+	var raidDiv = document.createElement( "div" );
+	raidDiv.id = raid.room + "-card";
+	raidDiv.classList.add( "ui", "card" );
+	var raidImage = document.createElement( "div" );
+	raidImage.classList.add( "image" );
+	raidImage.innerHTML += '<img src="' + raid.image + '">';
+	raidDiv.appendChild( raidImage );
+	var raidContent = document.createElement( "div" );
+	raidContent.classList.add( "content" );
+	var raidEnglish = document.createElement( "div" );
+	raidEnglish.classList.add( "header" );
+	raidEnglish.innerHTML = raid.english;
+	raidContent.appendChild( raidEnglish );
+	var raidJapanese = document.createElement( "div" );
+	raidJapanese.classList.add( "meta" );
+	raidJapanese.innerHTML = raid.japanese;
+	raidContent.appendChild( raidJapanese );
+	var raidSettings = document.createElement( "div" );
+	raidSettings.classList.add( "description" );
+	var removeButton = document.createElement( "button" );
+	removeButton.classList.add( "ui", "tiny", "negative", "button", "right", "labeled", "icon" );
+	removeButton.id = raid.room + '-remover';
+	removeButton.innerHTML = 'Remove Raid<i class="right remove icon"></i>';
+	var settingsButton = document.createElement( "button" );
+	settingsButton.classList.add( "ui", "tiny", "primary", "button", "right", "labeled", "icon" );
+	settingsButton.id = raid.room + '-settings';
+	settingsButton.innerHTML = 'Settings<i class="right settings icon"></i>';
+	raidSettings.appendChild( settingsButton );
+	raidSettings.appendChild( removeButton );
+	raidContent.appendChild( raidSettings );
+	raidDiv.appendChild( raidContent );
+	var raidTableContainer = document.createElement( "div" );
+	raidTableContainer.classList.add( "extra", "content" );
+	var raidTable = document.createElement( "table" );
+	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
+	raidTable.id = raid.room + "-table";
+	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
+	var raidTableBody = document.createElement( "tbody" );
+	raidTableBody.id = raid.room + "-table-body";
+	raidTable.appendChild( raidTableBody );
+	raidTableContainer.appendChild( raidTable );
+	raidDiv.appendChild( raidTableContainer );
+	document.getElementById( "raid-container" ).appendChild( raidDiv );
+	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
+		RemoveSelectedRaid( raid );
+	}, false );
+	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
+		SetupSettingsModal( raid );
+	}, false );
+}
+
+function AddSelectedVerticalFullRaid( raid ) {
+	var raidDiv = document.createElement( "div" );
+	raidDiv.id = raid.room + "-card";
+	raidDiv.classList.add( "ui", "ultra", "card" );
+	var raidImage = document.createElement( "div" );
+	raidImage.classList.add( "image" );
+	raidImage.innerHTML += '<img src="' + raid.image + '">';
+	raidDiv.appendChild( raidImage );
+	var raidContent = document.createElement( "div" );
+	raidContent.classList.add( "content" );
+	var raidEnglish = document.createElement( "div" );
+	raidEnglish.classList.add( "header" );
+	raidEnglish.innerHTML = raid.english;
+	raidContent.appendChild( raidEnglish );
+	var raidJapanese = document.createElement( "div" );
+	raidJapanese.classList.add( "meta" );
+	raidJapanese.innerHTML = raid.japanese;
+	raidContent.appendChild( raidJapanese );
+	var raidSettings = document.createElement( "div" );
+	raidSettings.classList.add( "description" );
+	var removeButton = document.createElement( "button" );
+	removeButton.classList.add( "ui", "tiny", "negative", "button", "right", "labeled", "icon" );
+	removeButton.id = raid.room + '-remover';
+	removeButton.innerHTML = 'Remove Raid<i class="right remove icon"></i>';
+	var settingsButton = document.createElement( "button" );
+	settingsButton.classList.add( "ui", "tiny", "primary", "button", "right", "labeled", "icon" );
+	settingsButton.id = raid.room + '-settings';
+	settingsButton.innerHTML = 'Settings<i class="right settings icon"></i>';
+	raidSettings.appendChild( settingsButton );
+	raidSettings.appendChild( removeButton );
+	raidContent.appendChild( raidSettings );
+	raidDiv.appendChild( raidContent );
+	var raidTableContainer = document.createElement( "div" );
+	raidTableContainer.classList.add( "extra", "content" );
+	var raidTable = document.createElement( "table" );
+	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
+	raidTable.id = raid.room + "-table";
+	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
+	var raidTableBody = document.createElement( "tbody" );
+	raidTableBody.id = raid.room + "-table-body";
+	raidTable.appendChild( raidTableBody );
+	raidTableContainer.appendChild( raidTable );
+	raidDiv.appendChild( raidTableContainer );
+	document.getElementById( "raid-container" ).appendChild( raidDiv );
+	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
+		RemoveSelectedRaid( raid );
+	}, false );
+	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
+		SetupSettingsModal( raid );
+	}, false );
+}
+
+function SetupSettingsModal( raid ) {
+	document.getElementById( "settings-modal" ).dataset.room = raid.room;
+	document.getElementById( "settings-modal-header" ).innerHTML = raid.english;
+	document.getElementById( "settings-modal-image" ).src = raid.image;
+	for ( var i = 0; i < individualSettings.length; i++ ) {
+		if ( raid.room === individualSettings[ i ].room ) {
+			if ( individualSettings[ i ].settings.desktopNotifOn ) {
+				document.getElementById( "modal-enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
+				document.getElementById( "modal-enable-notif" ).classList.add( "negative" );
+				document.getElementById( "modal-desktop-notif-size-control" ).classList.remove( "input-control-disabled" );
+				document.getElementById( "modal-desktop-notif-size-control" ).classList.add( "input-control" );
+				document.getElementById( "modal-desktop-notif-size-dropdown" ).classList.remove( "disabled" );
+			} else {
+				document.getElementById( "modal-enable-notif" ).innerHTML = 'Enable Desktop Notifications<i class="right check circle icon"></i>';
+				document.getElementById( "modal-enable-notif" ).classList.remove( "negative" );
+				document.getElementById( "modal-desktop-notif-size-control" ).classList.add( "input-control-disabled" );
+				document.getElementById( "modal-desktop-notif-size-control" ).classList.remove( "input-control" );
+				document.getElementById( "modal-desktop-notif-size-dropdown" ).classList.add( "disabled" );
+			}
+			if ( individualSettings[ i ].settings.soundNotifOn ) {
+				document.getElementById( "modal-enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>';
+				document.getElementById( "modal-enable-sound" ).classList.add( "negative" );
+				document.getElementById( "modal-sound-volume-control" ).classList.remove( "slider-control-disabled" );
+				document.getElementById( "modal-sound-volume-control" ).classList.add( "slider-control" );
+				document.getElementById( "modal-sound-volume-slider" ).disabled = false;
+				document.getElementById( "modal-sound-choice-control" ).classList.remove( "input-control-disabled" );
+				document.getElementById( "modal-sound-choice-control" ).classList.add( "input-control" );
+				document.getElementById( "modal-sound-choice-dropdown" ).classList.remove( "disabled" );
+			} else {
+				document.getElementById( "modal-enable-sound" ).innerHTML = 'Enable Sound Notifications<i class="right alarm outline icon"></i>';
+				document.getElementById( "modal-enable-sound" ).classList.remove( "negative" );
+				document.getElementById( "modal-sound-volume-control" ).classList.add( "slider-control-disabled" );
+				document.getElementById( "modal-sound-volume-control" ).classList.remove( "slider-control" );
+				document.getElementById( "modal-sound-volume-slider" ).disabled = true;
+				document.getElementById( "modal-sound-choice-control" ).classList.add( "input-control-disabled" );
+				document.getElementById( "modal-sound-choice-control" ).classList.remove( "input-control" );
+				document.getElementById( "modal-sound-choice-dropdown" ).classList.add( "disabled" );
+			}
+			$( "#modal-desktop-notif-size-dropdown" ).dropdown( 'set selected', individualSettings[ i ].settings.desktopNotifSize );
+			$( "#modal-sound-choice-dropdown" ).dropdown( 'set selected', individualSettings[ i ].settings.soundNotifChoice );
+			document.getElementById( "modal-sound-volume-slider" ).value = individualSettings[ i ].settings.soundNotifVolume;
+			break;
+		}
+	}
+	$( '.ui.modal' )
+		.modal( 'setting', 'closable', false )
+		.modal( 'show' );
+}
+
+function SaveIndividualSettings() {
+	for ( var i = 0; i < individualSettings.length; i++ ) {
+		if ( document.getElementById( "settings-modal" ).dataset.room === individualSettings[ i ].room ) {
+			if ( document.getElementById( "modal-enable-sound" ).innerHTML === 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>' ) {
+				individualSettings[ i ].settings.soundNotifOn = true;
+			} else {
+				individualSettings[ i ].settings.soundNotifOn = false;
+			}
+			if ( document.getElementById( "modal-enable-notif" ).innerHTML === 'Disable Desktop Notifications<i class="right remove circle icon"></i>' ) {
+				individualSettings[ i ].settings.desktopNotifOn = true;
+			} else {
+				individualSettings[ i ].settings.desktopNotifOn = false;
+			}
+			individualSettings[ i ].settings.desktopNotifSize = document.getElementById( "modal-desktop-notif-size-input" ).value;
+			individualSettings[ i ].settings.soundNotifChoice = document.getElementById( "modal-sound-choice-input" ).value;
+			individualSettings[ i ].settings.soundNotifVolume = document.getElementById( "modal-sound-volume-slider" ).value;
+			break;
+		}
+	}
+}
+
+function CreateSettingsModalFrame() {
+	var result = '<div id="settings-modal" class="ui modal">';
+	result += '<div id="settings-modal-header" class="header">Lvl ??? Raid Boss</div>';
+	result += '<div class="image content">';
+	result += '<img id="settings-modal-image" class="ui medium rounded image" src="http://via.placeholder.com/250x250">';
+	result += '<div id="settings-modal-desc" class="description">';
+	result += '<button id="modal-enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>';
+	result += '<span id="modal-desktop-notif-size-control" class="input-control-disabled"><span class="input-title">Desktop Notification Size</span><div id="modal-desktop-notif-size-dropdown" class="ui disabled compact selection dropdown"><input id="modal-desktop-notif-size-input" type="hidden" name="formatting" value="large"><i class="dropdown icon"></i><div class="default text">Notif Size</div><div class="menu"><div class="item" data-value="small">Small</div><div class="item" data-value="large">Large</div></div></div></span>';
+	result += '<button id="modal-enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>';
+	result += '<span id="modal-sound-choice-control" class="input-control-disabled"><span class="input-title">Sound Notification Choice</span><div id="modal-sound-choice-dropdown" class="ui compact selection disabled dropdown"><input id="modal-sound-choice-input" type="hidden" name="formatting" value="beeps"><i class="dropdown icon"></i><div class="default text">Sound Choice</div><div class="menu"><div class="item" data-value="beeps">Beeps Appear</div><div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div><div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div><div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div></div></div></span>';
+	result += '<span id="modal-sound-volume-control" class="slider-control-disabled"><span class="slider-title">Sound Notification Volume</span><input id="modal-sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled></span>';
+	result += '</div></div>';
+	result += '<div id="settings-modal-actions" class="actions">';
+	result += '<div id="settings-modal-save-btn" class="ui large positive button">Save</div>';
+	result += '<div id="settings-modal-cancel-btn" class="ui large negative button">Cancel</div>';
+	result += '</div></div>';
+	return result;
 }
 
 function RemoveSelectedRaid( raid ) {
@@ -274,12 +661,33 @@ function RemoveSelectedRaid( raid ) {
 		selectedRaidsArray.splice( selectedRaidsArray.indexOf( raid ), 1 );
 		localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
 		document.getElementById( raid.room ).remove();
+	} else {
+		socket.emit( 'unsubscribe', {
+			room: raid.room
+		} );
+		selectedRaidsArray.splice( selectedRaidsArray.indexOf( raid ), 1 );
+		for ( var i = 0; i < individualSettings.length; i++ ) {
+			if ( raid.room === individualSettings[ i ].room ) {
+				individualSettings.splice( i, 1 );
+				break;
+			}
+		}
+		localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+		document.getElementById( raid.room + "-card" ).remove();
+		for ( var i = raids.length - 1; i >= 0; i-- ) {
+			if ( raid.room === raids[ i ].room ) {
+				raids.splice( i, 1 );
+			}
+		}
 	}
 }
 
 function SetupTable() {
 	if ( document.getElementById( "raid-table" ) !== null ) {
 		document.getElementById( "raid-table" ).remove();
+	}
+	if ( document.getElementById( "raid-container" ) !== null ) {
+		document.getElementById( "raid-container" ).remove();
 	}
 	if ( settings.layout.orientation === "horizontal" ) {
 		if ( settings.layout.infoLevel === "normal" ) {
@@ -290,27 +698,20 @@ function SetupTable() {
 			CreateHorizontalFullRaidTable();
 		}
 	} else {
-		if ( settings.layout.infoLevel === "normal" ) {
-			CreateVerticalNormalRaidTable();
-		} else if ( settings.layout.infoLevel === "compact" ) {
-			CreateVerticalCompactRaidTable();
-		} else {
-			CreateVerticalFullRaidTable();
-		}
+		CreateVerticalRaidContainer();
 	}
 }
 
 function CreateHorizontalCompactRaidTable() {
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table" );
+	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
-	raidTable.classList.add( "compact" );
 	raidTable.innerHTML = '<thead><tr><th class="center aligned nine wide">Raid Name</th><th class="center aligned single line three wide">Raid ID</th><th class="center aligned single line four wide">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
@@ -354,16 +755,60 @@ function CreateHorizontalFullRaidTable() {
 	document.getElementById( "container" ).appendChild( raidTable );
 }
 
-function CreateVerticalCompactRaidTable() {
-
-}
-
-function CreateVerticalNormalRaidTable() {
-
-}
-
-function CreateVerticalFullRaidTable() {
-
+function CreateVerticalRaidContainer() {
+	if ( document.getElementById( "selected-raids-label" ) !== null ) {
+		document.getElementById( "selected-raids-label" ).parentElement.remove();
+	}
+	var raidContainer = document.createElement( "div" );
+	raidContainer.id = "raid-container";
+	if ( settings.layout.verticalStacking === "row" ) {
+		raidContainer.classList.add( "rowed" );
+	} else {
+		raidContainer.classList.add( "stacking" );
+	}
+	raidContainer.innerHTML = CreateSettingsModalFrame();
+	document.getElementById( "container" ).appendChild( raidContainer );
+	document.getElementById( "modal-enable-notif" ).addEventListener( "click", function ( event ) {
+		if ( document.getElementById( "modal-enable-notif" ).innerHTML === 'Disable Desktop Notifications<i class="right remove circle icon"></i>' ) {
+			document.getElementById( "modal-enable-notif" ).innerHTML = 'Enable Desktop Notifications<i class="right check circle icon"></i>';
+			document.getElementById( "modal-enable-notif" ).classList.remove( "negative" );
+			document.getElementById( "modal-desktop-notif-size-control" ).classList.add( "input-control-disabled" );
+			document.getElementById( "modal-desktop-notif-size-control" ).classList.remove( "input-control" );
+			document.getElementById( "modal-desktop-notif-size-dropdown" ).classList.add( "disabled" );
+		} else {
+			document.getElementById( "modal-enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
+			document.getElementById( "modal-enable-notif" ).classList.add( "negative" );
+			document.getElementById( "modal-desktop-notif-size-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "modal-desktop-notif-size-control" ).classList.add( "input-control" );
+			document.getElementById( "modal-desktop-notif-size-dropdown" ).classList.remove( "disabled" );
+		}
+	} );
+	document.getElementById( "modal-enable-sound" ).addEventListener( "click", function ( event ) {
+		if ( document.getElementById( "modal-enable-sound" ).innerHTML === 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>' ) {
+			document.getElementById( "modal-enable-sound" ).innerHTML = 'Enable Sound Notifications<i class="right alarm outline icon"></i>';
+			document.getElementById( "modal-enable-sound" ).classList.remove( "negative" );
+			document.getElementById( "modal-sound-volume-control" ).classList.add( "slider-control-disabled" );
+			document.getElementById( "modal-sound-volume-control" ).classList.remove( "slider-control" );
+			document.getElementById( "modal-sound-volume-slider" ).disabled = true;
+			document.getElementById( "modal-sound-choice-control" ).classList.add( "input-control-disabled" );
+			document.getElementById( "modal-sound-choice-control" ).classList.remove( "input-control" );
+			document.getElementById( "modal-sound-choice-dropdown" ).classList.add( "disabled" );
+		} else {
+			document.getElementById( "modal-enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>';
+			document.getElementById( "modal-enable-sound" ).classList.add( "negative" );
+			document.getElementById( "modal-sound-volume-control" ).classList.remove( "slider-control-disabled" );
+			document.getElementById( "modal-sound-volume-control" ).classList.add( "slider-control" );
+			document.getElementById( "modal-sound-volume-slider" ).disabled = false;
+			document.getElementById( "modal-sound-choice-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "modal-sound-choice-control" ).classList.add( "input-control" );
+			document.getElementById( "modal-sound-choice-dropdown" ).classList.remove( "disabled" );
+		}
+	} );
+	$( "#modal-desktop-notif-size-dropdown" ).dropdown();
+	$( "#modal-sound-choice-dropdown" ).dropdown();
+	document.getElementById( "settings-modal-save-btn" ).addEventListener( "click", function ( event ) {
+		SaveIndividualSettings();
+	} );
 }
 
 function CheckConnectionStatus() {
@@ -389,9 +834,9 @@ function LoadSavedRaids() {
 
 function LoadSavedSettings() {
 	if ( localStorage.getItem( "savedSettings" ) ) {
-		settings = JSON.parse( localStorage.getItem( "savedSettings" ) );
+		Object.assign( settings, JSON.parse( localStorage.getItem( "savedSettings" ) ) );
 		if ( settings.notification.desktopNotifOn ) {
-			document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right announcement icon"></i>';
+			document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
 			document.getElementById( "enable-notif" ).classList.add( "negative" );
 			document.getElementById( "desktop-notif-size-control" ).classList.remove( "input-control-disabled" );
 			document.getElementById( "desktop-notif-size-control" ).classList.add( "input-control" );
@@ -399,7 +844,7 @@ function LoadSavedSettings() {
 		}
 		document.getElementById( "desktop-notif-size-input" ).value = settings.notification.desktopNotifSize;
 		if ( settings.notification.soundNotifOn ) {
-			document.getElementById( "enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm outline icon"></i>';
+			document.getElementById( "enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>';
 			document.getElementById( "enable-sound" ).classList.add( "negative" );
 			document.getElementById( "sound-volume-control" ).classList.remove( "slider-control-disabled" );
 			document.getElementById( "sound-volume-control" ).classList.add( "slider-control" );
@@ -413,10 +858,19 @@ function LoadSavedSettings() {
 		if ( settings.layout.orientation === "vertical" ) {
 			document.getElementById( "vertical-layout-btn" ).classList.add( "primary" );
 			document.getElementById( "horiz-layout-btn" ).classList.remove( "primary" );
+			document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "vertical-stacking-control" ).classList.add( "input-control" );
+			document.getElementById( "vertical-stacking-dropdown" ).classList.remove( "disabled" );
 		}
+		document.getElementById( "vertical-stacking-input" ).value = settings.layout.verticalStacking;
 		document.getElementById( "info-level-input" ).value = settings.layout.infoLevel;
 		document.getElementById( "raid-timeout" ).value = settings.layout.raidTimeout;
 		document.getElementById( "raid-max-results" ).value = settings.layout.raidMaxResults;
+		if ( settings.layout.nightMode ) {
+			document.body.classList.add( "darken" );
+			document.getElementById( "enable-night" ).classList.add( "negative" );
+			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
+		}
 		SetupTable();
 	}
 }
@@ -435,6 +889,11 @@ function SetupControls() {
 	$( "#desktop-notif-size-dropdown" ).dropdown( {
 		onChange: function ( value, text, $selectedItem ) {
 			settings.notification.desktopNotifSize = value;
+			if ( settings.layout.orientation === "vertical" ) {
+				for ( var i = 0; i < individualSettings.length; i++ ) {
+					individualSettings[ i ].settings.desktopNotifSize = value;
+				}
+			}
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		}
 	} );
@@ -445,6 +904,11 @@ function SetupControls() {
 
 	document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
 		settings.notification.soundNotifVolume = event.target.value;
+		if ( settings.layout.orientation === "vertical" ) {
+			for ( var i = 0; i < individualSettings.length; i++ ) {
+				individualSettings[ i ].settings.soundNotifVolume = event.target.value;
+			}
+		}
 		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 	} );
 
@@ -454,6 +918,16 @@ function SetupControls() {
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			document.getElementById( "horiz-layout-btn" ).classList.add( "primary" );
 			document.getElementById( "vertical-layout-btn" ).classList.remove( "primary" );
+			document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control" );
+			document.getElementById( "vertical-stacking-control" ).classList.add( "input-control-disabled" );
+			document.getElementById( "vertical-stacking-dropdown" ).classList.add( "disabled" );
+			SetupTable();
+			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+				AddSelectedRaid( selectedRaidsArray[ i ] );
+			}
+			for ( var i = 0; i < raids.length; i++ ) {
+				CreateRaidRow( raids[ i ] );
+			}
 		}
 	} );
 
@@ -463,6 +937,30 @@ function SetupControls() {
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			document.getElementById( "vertical-layout-btn" ).classList.add( "primary" );
 			document.getElementById( "horiz-layout-btn" ).classList.remove( "primary" );
+			document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "vertical-stacking-control" ).classList.add( "input-control" );
+			document.getElementById( "vertical-stacking-dropdown" ).classList.remove( "disabled" );
+			SetupTable();
+			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+				AddSelectedRaid( selectedRaidsArray[ i ] );
+			}
+			for ( var i = 0; i < raids.length; i++ ) {
+				CreateRaidRow( raids[ i ] );
+			}
+		}
+	} );
+
+	$( "#vertical-stacking-dropdown" ).dropdown( {
+		onChange: function ( value, text, $selectedItem ) {
+			settings.layout.verticalStacking = value;
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			SetupTable();
+			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+				AddSelectedRaid( selectedRaidsArray[ i ] );
+			}
+			for ( var i = 0; i < raids.length; i++ ) {
+				CreateRaidRow( raids[ i ] );
+			}
 		}
 	} );
 
@@ -471,6 +969,9 @@ function SetupControls() {
 			settings.layout.infoLevel = value;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			SetupTable();
+			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+				AddSelectedRaid( selectedRaidsArray[ i ] );
+			}
 			for ( var i = 0; i < raids.length; i++ ) {
 				CreateRaidRow( raids[ i ] );
 			}
@@ -480,13 +981,18 @@ function SetupControls() {
 	$( "#sound-choice-dropdown" ).dropdown( {
 		onChange: function ( value, text, $selectedItem ) {
 			settings.notification.soundNotifChoice = value;
+			if ( settings.layout.orientation === "vertical" ) {
+				for ( var i = 0; i < individualSettings.length; i++ ) {
+					individualSettings[ i ].settings.soundNotifChoice = value;
+				}
+			}
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			PlaySoundNotif();
 		}
 	} );
 
 	document.getElementById( "raid-timeout" ).addEventListener( "input", function ( event ) {
-		if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 999 ) {
+		if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 300 ) {
 			document.getElementById( "raid-timeout" ).parentElement.classList.add( "error" );
 		} else {
 			document.getElementById( "raid-timeout" ).parentElement.classList.remove( "error" );
@@ -496,13 +1002,28 @@ function SetupControls() {
 	} );
 
 	document.getElementById( "raid-max-results" ).addEventListener( "input", function ( event ) {
-		if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 999 ) {
+		if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 50 ) {
 			document.getElementById( "raid-max-results" ).parentElement.classList.add( "error" );
 		} else {
 			document.getElementById( "raid-max-results" ).parentElement.classList.remove( "error" );
 			settings.layout.raidMaxResults = event.target.value;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		}
+	} );
+
+	document.getElementById( "enable-night" ).addEventListener( "click", function ( event ) {
+		if ( settings.layout.nightMode === false ) {
+			settings.layout.nightMode = true;
+			document.body.classList.add( "darken" );
+			document.getElementById( "enable-night" ).classList.add( "negative" );
+			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
+		} else {
+			settings.layout.nightMode = false;
+			document.body.classList.remove( "darken" );
+			document.getElementById( "enable-night" ).classList.remove( "negative" );
+			document.getElementById( "enable-night" ).innerHTML = 'Enable Night Mode<i class="right moon icon"></i>';
+		}
+		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 	} );
 
 	document.getElementById( "clear-list" ).addEventListener( "click", function ( event ) {
@@ -564,7 +1085,6 @@ window.onload = function () {
 	window.addEventListener( "message", onMessage, false );
 
 	function onMessage( evt ) {
-		console.dir( evt );
 		if ( evt.data.type !== "result" ) {
 			return;
 		} else {
@@ -575,7 +1095,7 @@ window.onload = function () {
 				swal( {
 					title: "No more BP!",
 					text: "Please refill your BP or try again later.",
-					imageUrl: "assets/waitup-sticker.png",
+					imageUrl: "assets/stickers/waitup-sticker.png",
 					imageSize: '150x150'
 				} );
 			} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
@@ -585,7 +1105,7 @@ window.onload = function () {
 				swal( {
 					title: "Raid has ended!",
 					text: "Please try a different raid.",
-					imageUrl: "assets/fail-sticker.png",
+					imageUrl: "assets/stickers/fail-sticker.png",
 					imageSize: '150x150'
 				} );
 			} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
@@ -595,17 +1115,17 @@ window.onload = function () {
 				swal( {
 					title: "Raid is full!",
 					text: "Please try a different raid.",
-					imageUrl: "assets/sorry-sticker.png",
+					imageUrl: "assets/stickers/sorry-sticker.png",
 					imageSize: '150x150'
 				} );
 			} else if ( evt.data.result === "already in this raid" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "You are already in this raid!",
 					text: "Please try a different raid.",
-					imageUrl: "assets/whoops-sticker.png",
+					imageUrl: "assets/stickers/whoops-sticker.png",
 					imageSize: '150x150'
 				} );
 			} else if ( evt.data.result === "ok" ) {
@@ -628,13 +1148,13 @@ window.onload = function () {
 			document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
 		}
 		for ( var i = raids.length - 1; i >= 0; i-- ) {
-			UpdateRaidRow( raids[ i ], i );
+			UpdateRaidRow( raids[ i ] );
 		}
 	}, 500 );
 };
 
 function PlaySoundNotif() {
-	if ( settings.notification.soundNotifOn ) {
+	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		if ( settings.notification.soundNotifChoice === "beeps" ) {
 			beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 			beepsSoundNotif.play();
@@ -648,11 +1168,31 @@ function PlaySoundNotif() {
 			titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 			titanfallDroppingNowSoundNotif.play();
 		}
+	} else if ( settings.layout.orientation === "vertical" ) {
+		for ( var i = 0; i < individualSettings.length; i++ ) {
+			if ( data.room === individualSettings[ i ].room ) {
+				if ( individualSettings[ i ].settings.soundNotifOn ) {
+					if ( individualSettings[ i ].settings.soundNotifChoice === "beeps" ) {
+						beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+						beepsSoundNotif.play();
+					} else if ( individualSettings[ i ].settings.soundNotifChoice === "lily-event-ringring" ) {
+						lilyRingRingSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+						lilyRingRingSoundNotif.play();
+					} else if ( individualSettings[ i ].settings.soundNotifChoice === "andira-oniichan" ) {
+						andiraOniichanSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+						andiraOniichanSoundNotif.play();
+					} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
+						titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+						titanfallDroppingNowSoundNotif.play();
+					}
+				}
+			}
+		}
 	}
 }
 
 function SendDesktopNotif( data ) {
-	if ( settings.notification.desktopNotifOn ) {
+	if ( settings.layout.orientation === "horizontal" && settings.notification.desktopNotifOn ) {
 		var raidConfig = FindRaidConfig( data.room );
 		if ( Notification.permission === "granted" ) {
 			var notification = null;
@@ -677,14 +1217,48 @@ function SendDesktopNotif( data ) {
 				event.preventDefault();
 				var raid = document.getElementById( data.id );
 				raid.click();
-				document.getElementById( "viramate-api" ).contentWindow.postMessage( {
-					type: "tryJoinRaid",
-					id: ( Math.floor( Math.random() * 900000 ) + 100000 ),
-					raidCode: data.id
-				}, "*" );
+				SendJoinCommand( data.id )
 				document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 				document.getElementById( data.id + '-btn' ).classList.add( "negative" );
 				notification.close();
+			}
+		}
+	} else if ( settings.layout.orientation === "vertical" ) {
+		for ( var i = 0; i < individualSettings.length; i++ ) {
+			if ( data.room === individualSettings[ i ].room ) {
+				if ( individualSettings[ i ].settings.desktopNotifOn ) {
+					var raidConfig = FindRaidConfig( data.room );
+					if ( Notification.permission === "granted" ) {
+						var notification = null;
+						var title = "";
+						if ( data.language === "EN" ) {
+							title = raidConfig.english;
+						} else {
+							title = raidConfig.japanese;
+						}
+						if ( individualSettings[ i ].settings.desktopNotifSize === "small" ) {
+							notification = new Notification( title, {
+								body: "ID: " + data.id,
+								icon: raidConfig.image
+							} );
+						} else {
+							notification = new Notification( title, {
+								body: "ID: " + data.id,
+								image: raidConfig.image
+							} );
+						}
+						notification.onclick = function ( event ) {
+							event.preventDefault();
+							var raid = document.getElementById( data.id );
+							raid.click();
+							SendJoinCommand( data.id )
+							document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
+							document.getElementById( data.id + '-btn' ).classList.add( "negative" );
+							notification.close();
+						}
+					}
+				}
+				break;
 			}
 		}
 	}
@@ -698,11 +1272,16 @@ function ToggleDesktopNotifications( clicked ) {
 					if ( clicked ) {
 						var notification = new Notification( "Thank you for enabling notifications!", {
 							body: "Click on notifications to copy the ID!",
-							icon: "/assets/heregoes-sticker.png"
+							icon: "/assets/stickers/heregoes-sticker.png"
 						} );
 					}
 					settings.notification.desktopNotifOn = true;
-					document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right announcement icon"></i>';
+					if ( settings.layout.orientation === "vertical" ) {
+						for ( var i = 0; i < individualSettings.length; i++ ) {
+							individualSettings[ i ].settings.desktopNotifOn = true;
+						}
+					}
+					document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
 					document.getElementById( "enable-notif" ).classList.add( "negative" );
 					document.getElementById( "desktop-notif-size-control" ).classList.remove( "input-control-disabled" );
 					document.getElementById( "desktop-notif-size-control" ).classList.add( "input-control" );
@@ -713,7 +1292,12 @@ function ToggleDesktopNotifications( clicked ) {
 		}
 	} else {
 		settings.notification.desktopNotifOn = false;
-		document.getElementById( "enable-notif" ).innerHTML = 'Enable Desktop Notifications<i class="right announcement icon"></i>';
+		if ( settings.layout.orientation === "vertical" ) {
+			for ( var i = 0; i < individualSettings.length; i++ ) {
+				individualSettings[ i ].settings.desktopNotifOn = false;
+			}
+		}
+		document.getElementById( "enable-notif" ).innerHTML = 'Enable Desktop Notifications<i class="right check circle icon"></i>';
 		document.getElementById( "enable-notif" ).classList.remove( "negative" );
 		document.getElementById( "desktop-notif-size-control" ).classList.remove( "input-control" );
 		document.getElementById( "desktop-notif-size-control" ).classList.add( "input-control-disabled" );
@@ -725,7 +1309,12 @@ function ToggleDesktopNotifications( clicked ) {
 function ToggleSoundNotifications( clicked ) {
 	if ( settings.notification.soundNotifOn === false ) {
 		settings.notification.soundNotifOn = true;
-		document.getElementById( "enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm outline icon"></i>';
+		if ( settings.layout.orientation === "vertical" ) {
+			for ( var i = 0; i < individualSettings.length; i++ ) {
+				individualSettings[ i ].settings.soundNotifOn = true;
+			}
+		}
+		document.getElementById( "enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>';
 		document.getElementById( "enable-sound" ).classList.add( "negative" );
 		document.getElementById( "sound-volume-control" ).classList.remove( "slider-control-disabled" );
 		document.getElementById( "sound-volume-control" ).classList.add( "slider-control" );
@@ -739,6 +1328,11 @@ function ToggleSoundNotifications( clicked ) {
 		}
 	} else {
 		settings.notification.soundNotifOn = false;
+		if ( settings.layout.orientation === "vertical" ) {
+			for ( var i = 0; i < individualSettings.length; i++ ) {
+				individualSettings[ i ].settings.soundNotifOn = false;
+			}
+		}
 		document.getElementById( "enable-sound" ).innerHTML = 'Enable Sound Notifications<i class="right alarm outline icon"></i>';
 		document.getElementById( "enable-sound" ).classList.remove( "negative" );
 		document.getElementById( "sound-volume-control" ).classList.remove( "slider-control" );

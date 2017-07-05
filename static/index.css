@@ -8,6 +8,157 @@ body {
 	margin-bottom: 25px;
 }
 
+.ultra {
+	width: 390px !important;
+}
+
+.message>p {
+	text-indent: 25px;
+}
+
+.modal>.header {
+	text-align: center;
+}
+
+#modal-enable-sound {
+	margin-bottom: 10px;
+}
+
+.image.content>img {
+	object-fit: cover;
+}
+
+.rowed {
+	overflow-x: scroll !important;
+	overflow-y: scroll !important;
+	width: auto !important;
+	height: calc(75%);
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: nowrap;
+}
+
+.rowed>.card {
+	display: inline-block !important;
+	flex-shrink: 0 !important;
+	margin-top: 0px !important;
+	margin-left: 5px !important;
+}
+
+.rowed>.card:not(:last-child) {
+	margin-right: 10px !important;
+}
+
+.rowed>.card~.card {
+	margin-left: 0px !important;
+}
+
+.stacking {
+	-moz-column-count: 5;
+	-moz-column-gap: 10px;
+	-webkit-column-count: 5;
+	-webkit-column-gap: 10px;
+	column-count: 5;
+	column-gap: 10px;
+	width: 100%;
+}
+
+.stacking>.card {
+	width: 90% !important;
+	display: inline-block !important;
+	margin-top: 0px !important;
+	-webkit-column-break-inside: avoid !important;
+	page-break-inside: avoid !important;
+	break-inside: avoid-column !important;
+}
+
+.card>.content {
+	text-align: center !important;
+}
+
+.card {
+	flex-shrink: 0 !important;
+}
+
+.smaller {
+	font-size: 0.85em !important;
+}
+
+.smaller>tbody>tr>td>button {
+	font-size: 0.85em !important;
+}
+
+
+/*body*/
+
+.darken {
+	background-color: black !important;
+}
+
+
+/*container*/
+
+.darken>div {
+	background-color: black !important;
+}
+
+
+/*cards*/
+
+.darken>div>#raid-container>.card {
+	background-color: lightgrey !important;
+}
+
+
+/*menu item*/
+
+.darken>div>div>.menu>.item {
+	background-color: black !important;
+	color: white !important;
+}
+
+
+/*menu item hover*/
+
+.darken>div>div>.menu>.item:hover {
+	color: lightgrey !important;
+}
+
+
+/*menu item*/
+
+.darken>div>div>.segment {
+	background-color: black !important;
+}
+
+
+/*settings modal*/
+
+.darken .modal>div {
+	background-color: lightgrey !important;
+}
+
+
+/*settings modal controls*/
+
+.darken .modal>div>div>span {
+	border: 1px solid black;
+}
+
+
+/*settings modal image*/
+
+.darken .modal>div>img {
+	border: 1px solid black;
+}
+
+
+/*settings modal controls*/
+
+.darken .modal>div>div>button {
+	border: 1px solid black;
+}
+
 #connection-status {
 	display: inline-block;
 	margin-bottom: -14px;
@@ -69,10 +220,6 @@ body {
 
 .time-filler {
 	padding: 25px;
-}
-
-.ui.grid>.column+.divider, .ui.grid>.row>.column+.divider {
-	left: 50%;
 }
 
 .slider-control {

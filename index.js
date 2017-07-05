@@ -133,7 +133,7 @@ app.use( st( {
 	cache: {
 		content: {
 			max: 1024 * 1024 * 64, // how much memory to use on caching contents (bytes * kilo * mega)
-			maxAge: 1000 * 60 * 60 * 24 * 3, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
+			maxAge: 1000 * 60 * 60 * 24 * 1, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
 		}
 	},
 	passthrough: false

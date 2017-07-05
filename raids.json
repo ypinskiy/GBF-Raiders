@@ -1,415 +1,415 @@
-[ {
-		"japanese": "Lv100 プロトバハムート",
-		"english": "Lvl 100 Proto Bahamut",
-		"room": "lvl100protobahamut",
-		"image": "/assets/Wings_of_Terror_Nightmare.jpg"
-	},
-	{
-		"japanese": "Lv150 プロトバハムート",
-		"english": "Lvl 150 Proto Bahamut",
-		"room": "lvl150protobahamut",
-		"image": "/assets/Proto_Bahamut_Impossible.jpg"
-	},
-	{
-		"japanese": "Lv100 ミカエル",
-		"english": "Lvl 100 Michael",
-		"room": "lvl100michael",
-		"image": "/assets/BattleRaid_Michael_Raid.jpg"
-	},
-	{
-		"japanese": "Lv100 ガブリエル",
-		"english": "Lvl 100 Gabriel",
-		"room": "lvl100gabriel",
-		"image": "/assets/BattleRaid_Gabriel_Raid.jpg"
-	},
-	{
-		"japanese": "Lv100 ウリエル",
-		"english": "Lvl 100 Uriel",
-		"room": "lvl100uriel",
-		"image": "/assets/BattleRaid_Uriel_Raid.jpg"
-	},
-	{
-		"japanese": "Lv100 ラファエル",
-		"english": "Lvl 100 Raphael",
-		"room": "lvl100raphael",
-		"image": "/assets/BattleRaid_Raphael_Raid.jpg"
-	},
-	{
-		"english": "Lvl 100 Macula Marius",
-		"japanese": "Lv100 マキュラ・マリウス",
-		"room": "lvl100maculamarius",
-		"image": "/assets/BattleRaid_Macula_Marius.png"
-	},
-	{
-		"english": "Lvl 120 Macula Marius",
-		"japanese": "Lv120 マキュラ・マリウス",
-		"room": "lvl120maculamarius",
-		"image": "/assets/BattleRaid_Macula_Marius_Impossible.png"
-	},
-	{
-		"japanese": "Lv100 フラム＝グラス",
-		"english": "Lvl 100 Twin Elements",
-		"room": "lvl100twinelements",
-		"image": "/assets/BattleRaid_Twin_Elements.png"
-	},
-	{
-		"japanese": "Lv120 フラム＝グラス",
-		"english": "Lvl 120 Twin Elements",
-		"room": "lvl120twinelements",
-		"image": "/assets/BattleRaid_Twin_Elements_Impossible.png"
-	},
-	{
-		"english": "Lvl 100 Medusa",
-		"japanese": "Lv100 メドゥーサ",
-		"room": "lvl100medusa",
-		"image": "/assets/BattleRaid_Medusa.png"
-	},
-	{
-		"english": "Lvl 120 Medusa",
-		"japanese": "Lv120 メドゥーサ",
-		"room": "lvl120medusa",
-		"image": "/assets/BattleRaid_Medusa_Impossible.png"
-	},
-	{
-		"english": "Lvl 100 Nezha",
-		"japanese": "Lv100 ナタク",
-		"room": "lvl100nezha",
-		"image": "/assets/BattleRaid_Nezha.png"
-	},
-	{
-		"english": "Lvl 120 Nezha",
-		"japanese": "Lv120 ナタク",
-		"room": "lvl120nezha",
-		"image": "/assets/BattleRaid_Nezha_Impossible.png"
-	},
-	{
-		"english": "Lvl 100 Apollo",
-		"japanese": "Lv100 アポロン",
-		"room": "lvl100apollo",
-		"image": "/assets/BattleRaid_Apollo.png"
-	},
-	{
-		"english": "Lvl 120 Apollo",
-		"japanese": "Lv120 アポロン",
-		"room": "lvl120apollo",
-		"image": "/assets/BattleRaid_Apollo_Impossible.png"
-	},
-	{
-		"english": "Lvl 100 Dark Angel Olivia",
-		"japanese": "Lv100 Dエンジェル・オリヴィエ",
-		"room": "lvl100dao",
-		"image": "/assets/BattleRaid_Dark_Angel_Olivia.png"
-	},
-	{
-		"english": "Lvl 120 Dark Angel Olivia",
-		"japanese": "Lv120 Dエンジェル・オリヴィエ",
-		"room": "lvl120dao",
-		"image": "/assets/BattleRaid_Dark_Angel_Olivia_Impossible.png"
-	},
-	{
-		"english": "Lvl 100 Athena",
-		"japanese": "Lv100 アテナ",
-		"room": "lvl100athena",
-		"image": "/assets/BattleRaid_Athena_(Showdown).jpg"
-	},
-	{
-		"english": "Lvl 100 Odin",
-		"japanese": "Lv100 オーディン",
-		"room": "lvl100odin",
-		"image": "/assets/BattleRaid_Odin_(Showdown).jpg"
-	},
-	{
-		"english": "Lvl 75 Celeste Omega",
-		"japanese": "Lv75 セレスト・マグナ",
-		"room": "lvl75celesteomega",
-		"image": "/assets/BattleRaid_Celeste_Omega_Extreme.jpg"
-	},
-	{
-		"english": "Lvl 75 Luminiera Omega",
-		"japanese": "Lv75 シュヴァリエ・マグナ",
-		"room": "lvl75luminieraomega",
-		"image": "/assets/BattleRaid_Luminiera_Omega_Extreme.jpg"
-	},
-	{
-		"english": "Lvl 60 Yggdrasil Omega",
-		"japanese": "Lv60 ユグドラシル・マグナ",
-		"room": "lvl60yggdrasilomega",
-		"image": "/assets/BattleRaid_Yggdrasil_Omega_Extreme.jpg"
-	},
-	{
-		"english": "Lvl 60 Leviathan Omega",
-		"japanese": "Lv60 リヴァイアサン・マグナ",
-		"room": "lvl60leviathanomega",
-		"image": "/assets/BattleRaid_Leviathan_Omega_Extreme.jpg"
-	},
-	{
-		"english": "Lvl 70 Colossus Omega",
-		"japanese": "Lv70 コロッサス・マグナ",
-		"room": "lvl70colossusomega",
-		"image": "/assets/BattleRaid_Colossus_Omega_(Showdown).jpg"
-	},
-	{
-		"english": "Lvl 50 Tiamat Omega",
-		"japanese": "Lv50 ティアマト・マグナ",
-		"room": "lvl50tiamatomega",
-		"image": "/assets/BattleRaid_Tiamat_Omega_(Showdown).jpg"
-	},
-	{
-		"english": "Lvl 100 Grand Order",
-		"japanese": "Lv100 ジ・オーダー・グランデ",
-		"room": "lvl100grandorder",
-		"image": "/assets/BattleRaid_The_Peacemaker's_Wings_Nightmare.jpg"
-	},
-	{
-		"english": "Lvl 100 Xeno Ifrit",
-		"japanese": "Lv100 ゼノ・イフリート",
-		"room": "lvl100xenoifrit",
-		"image": "/assets/Xeno_Ifrit_Raid.jpg"
-	},
-	{
-		"english": "Lvl 100 Grani",
-		"japanese": "Lv100 グラニ",
-		"room": "lvl100grani",
-		"image": "/assets/BattleRaid_Grani.png"
-	},
-	{
-		"english": "Lvl 100 Garuda",
-		"japanese": "Lv100 ガルーダ",
-		"room": "lvl100garuda",
-		"image": "/assets/BattleRaid_Garuda.png"
-	},
-	{
-		"english": "Lvl 100 Lich",
-		"japanese": "Lv100 リッチ",
-		"room": "lvl100lich",
-		"image": "/assets/BattleRaid_Lich.png"
-	},
-	{
-		"english": "Lvl 100 Huanglong",
-		"japanese": "Lv100 黄龍",
-		"room": "lvl100huanglong",
-		"image": "/assets/Huanglong_Nightmare.jpg"
-	},
-	{
-		"english": "Lvl 100 Qilin",
-		"japanese": "Lv100 黒麒麟",
-		"room": "lvl100qilin",
-		"image": "/assets/Qilin_Nightmare.jpg"
-	},
-	{
-		"english": "Lvl 100 Xeno Vohu Manah",
-		"japanese": "Lv100 ゼノ・ウォフマナフ",
-		"room": "lvl100xenovohumanah",
-		"image": "/assets/Xeno_Vohu_Manah_Raid.jpg"
-	},
-	{
-		"english": "Lvl 20 Griffin",
-		"japanese": "Lv20 グリフォン",
-		"room": "lvl20griffin",
-		"image": "/assets/BattleRaid_Griffin_(Normal).jpg"
-	},
-	{
-		"english": "Lvl 30 Griffin",
-		"japanese": "Lv30 グリフォン",
-		"room": "lvl30griffin",
-		"image": "/assets/BattleRaid_Griffin_(Hard).jpg"
-	},
-	{
-		"english": "Lvl 20 Zarchnal Flame",
-		"japanese": "Lv20 ザリチュナルフレイム",
-		"room": "lvl20zarchnal",
-		"image": "/assets/BattleRaid_Zarchnal_Flame_Normal.jpg"
-	},
-	{
-		"english": "Lvl 30 Zarchnal Flame",
-		"japanese": "Lv30 ザリチュナルフレイム",
-		"room": "lvl30zarchnal",
-		"image": "/assets/BattleRaid_Zarchnal_Flame_Hard.jpg"
-	},
-	{
-		"english": "Lvl 20 Imperial Guard",
-		"japanese": "Lv20 インペリアルガード",
-		"room": "lvl20imperial",
-		"image": "/assets/BattleRaid_Imperial_Guard_Normal.jpg"
-	},
-	{
-		"english": "Lvl 30 Imperial Guard",
-		"japanese": "Lv30 インペリアルガード",
-		"room": "lvl30imperial",
-		"image": "/assets/BattleRaid_Imperial_Guard_Hard.jpg"
-	},
-	{
-		"english": "Lvl 30 Will-o'-Wisp",
-		"japanese": "Lv30 ウィル･オ･ウィスプ",
-		"room": "lvl30will",
-		"image": "/assets/BattleRaid_Will-o'-Wisp_Hard.jpg"
-	},
-	{
-		"english": "Lvl 30 Ancient Dragon",
-		"japanese": "Lv30 エンシェントドラゴン",
-		"room": "lvl30ancientdragon",
-		"image": "/assets/BattleRaid_Ancient_Dragon_Hard.jpg"
-	},
-	{
-		"english": "Lvl 30 Evil Eye",
-		"japanese": "Lv30 イービルアイ",
-		"room": "lvl30evileye",
-		"image": "/assets/BattleRaid_Evil_Eye_(Hard).jpg"
-	},
-	{
-		"english": "Lvl 30 Tiamat",
-		"japanese": "Lv30 ティアマト",
-		"room": "lvl30tiamat",
-		"image": "/assets/BattleRaid_Tiamat_Normal.jpg"
-	},
-	{
-		"english": "Lvl 50 Tiamat",
-		"japanese": "Lv50 ティアマト",
-		"room": "lvl50tiamat",
-		"image": "/assets/BattleRaid_Tiamat_Hard.jpg"
-	},
-	{
-		"english": "Lvl 100 Tiamat Omega Ayr",
-		"japanese": "Lv100 ティアマト・マグナ＝エア",
-		"room": "lvl100tiamatimpossible",
-		"image": "/assets/BattleRaid_Tiamat_Impossible.jpg"
-	},
-	{
-		"english": "Lvl 30 Colossus",
-		"japanese": "Lv30 コロッサス",
-		"room": "lvl30colossus",
-		"image": "/assets/BattleRaid_Colossus_Normal.jpg"
-	},
-	{
-		"english": "Lvl 50 Colossus",
-		"japanese": "Lv50 コロッサス",
-		"room": "lvl50colossus",
-		"image": "/assets/BattleRaid_Colossus_Hard.jpg"
-	},
-	{
-		"english": "Lvl 100 Colossus Omega",
-		"japanese": "Lv100 コロッサス・マグナ",
-		"room": "lvl100colossusimpossible",
-		"image": "/assets/BattleRaid_Colossus_Impossible.jpg"
-	},
-	{
-		"english": "Lvl 30 Leviathan",
-		"japanese": "Lv30 リヴァイアサン",
-		"room": "lvl30leviathan",
-		"image": "/assets/BattleRaid_Leviathan_Normal.jpg"
-	},
-	{
-		"english": "Lvl 50 Leviathan",
-		"japanese": "Lv50 リヴァイアサン",
-		"room": "lvl50leviathan",
-		"image": "/assets/BattleRaid_Leviathan_Hard.jpg"
-	},
-	{
-		"english": "Lvl 100 Leviathan Omega",
-		"japanese": "Lv100 リヴァイアサン・マグナ",
-		"room": "lvl100leviathanimpossible",
-		"image": "/assets/BattleRaid_Leviathan_Impossible.jpg"
-	},
-	{
-		"english": "Lvl 30 Yggdrasil",
-		"japanese": "Lv30 ユグドラシル",
-		"room": "lvl30yggdrasil",
-		"image": "/assets/BattleRaid_Yggdrasil_Normal.jpg"
-	},
-	{
-		"english": "Lvl 50 Yggdrasil",
-		"japanese": "Lv50 ユグドラシル",
-		"room": "lvl50yggdrasil",
-		"image": "/assets/BattleRaid_Yggdrasil_Hard.jpg"
-	},
-	{
-		"english": "Lvl 100 Yggdrasil Omega",
-		"japanese": "Lv100 ユグドラシル・マグナ",
-		"room": "lvl100yggdrasilimpossible",
-		"image": "/assets/BattleRaid_Yggdrasil_Impossible.jpg"
-	},
-	{
-		"english": "Lvl 30 Adversa",
-		"japanese": "Lv30 アドウェルサ",
-		"room": "lvl30adversa",
-		"image": "/assets/BattleRaid_Luminiera_Normal.jpg"
-	},
-	{
-		"english": "Lvl 50 Adversa",
-		"japanese": "Lv50 アドウェルサ",
-		"room": "lvl50adversa",
-		"image": "/assets/BattleRaid_Luminiera_Hard.jpg"
-	},
-	{
-		"english": "Lvl 100 Luminiera Omega",
-		"japanese": "Lv100 シュヴァリエ・マグナ",
-		"room": "lvl100luminieraimpossible",
-		"image": "/assets/BattleRaid_Luminiera_Impossible.jpg"
-	},
-	{
-		"english": "Lvl 30 Celeste",
-		"japanese": "Lv30 セレスト",
-		"room": "lvl30celeste",
-		"image": "/assets/BattleRaid_Celeste_Normal.jpg"
-	},
-	{
-		"english": "Lvl 50 Celeste",
-		"japanese": "Lv50 セレスト",
-		"room": "lvl50celeste",
-		"image": "/assets/BattleRaid_Celeste_Hard.jpg"
-	},
-	{
-		"english": "Lvl 100 Celeste Omega",
-		"japanese": "Lv100 セレスト・マグナ",
-		"room": "lvl100celesteimpossible",
-		"image": "/assets/BattleRaid_Celeste_Impossible.jpg"
-	},
-	{
-		"english": "Lvl 110 Rose Queen",
-		"japanese": "Lv110 ローズクイーン",
-		"room": "lvl110rosequeen",
-		"image": "/assets/BattleRaid_Rose_Queen_Impossible.png"
-	},
-	{
-		"english": "Lvl 120 Prometheus",
-		"japanese": "Lv120 プロメテウス",
-		"room": "lvl120prometheus",
-		"image": "/assets/BattleRaid_Prometheus_Impossible.png"
-	},
-	{
-		"english": "Lvl 120 Ca Ong",
-		"japanese": "Lv120 カー・オン",
-		"room": "lvl120caong",
-		"image": "/assets/BattleRaid_Ca_Ong_Impossible.png"
-	},
-	{
-		"english": "Lvl 120 Gilgamesh",
-		"japanese": "Lv120 ギルガメッシュ",
-		"room": "lvl120gilgamesh",
-		"image": "/assets/BattleRaid_Gilgamesh_Impossible.png"
-	},
-	{
-		"english": "Lvl 120 Morrigna",
-		"japanese": "Lv120 バイヴカハ",
-		"room": "lvl120morrigna",
-		"image": "/assets/BattleRaid_Morrigna_Impossible.png"
-	},
-	{
-		"english": "Lvl 120 Hector",
-		"japanese": "Lv120 ヘクトル",
-		"room": "lvl120hector",
-		"image": "/assets/BattleRaid_Hector_Impossible.png"
-	},
-	{
-		"english": "Lvl 120 Anubis",
-		"japanese": "Lv120 アヌビス",
-		"room": "lvl120anubis",
-		"image": "/assets/BattleRaid_Anubis_Impossible.png"
-	},
-	{
-		"english": "Lvl 100 Baal",
-		"japanese": "Lv100 バアル",
-		"room": "lvl100baal",
-		"image": "/assets/BattleRaid_Baal_Extreme.jpg"
-	}
-]
+[
+{
+	"japanese": "Lv100 プロトバハムート",
+	"english": "Lvl 100 Proto Bahamut",
+	"room": "lvl100protobahamut",
+	"image": "/assets/raids/Wings_of_Terror_Nightmare.jpg"
+},
+{
+	"japanese": "Lv150 プロトバハムート",
+	"english": "Lvl 150 Proto Bahamut",
+	"room": "lvl150protobahamut",
+	"image": "/assets/raids/Proto_Bahamut_Impossible.jpg"
+},
+{
+	"japanese": "Lv100 ミカエル",
+	"english": "Lvl 100 Michael",
+	"room": "lvl100michael",
+	"image": "/assets/raids/BattleRaid_Michael_Raid.jpg"
+},
+{
+	"japanese": "Lv100 ガブリエル",
+	"english": "Lvl 100 Gabriel",
+	"room": "lvl100gabriel",
+	"image": "/assets/raids/BattleRaid_Gabriel_Raid.jpg"
+},
+{
+	"japanese": "Lv100 ウリエル",
+	"english": "Lvl 100 Uriel",
+	"room": "lvl100uriel",
+	"image": "/assets/raids/BattleRaid_Uriel_Raid.jpg"
+},
+{
+	"japanese": "Lv100 ラファエル",
+	"english": "Lvl 100 Raphael",
+	"room": "lvl100raphael",
+	"image": "/assets/raids/BattleRaid_Raphael_Raid.jpg"
+},
+{
+	"english": "Lvl 100 Macula Marius",
+	"japanese": "Lv100 マキュラ・マリウス",
+	"room": "lvl100maculamarius",
+	"image": "/assets/raids/BattleRaid_Macula_Marius.png"
+},
+{
+	"english": "Lvl 120 Macula Marius",
+	"japanese": "Lv120 マキュラ・マリウス",
+	"room": "lvl120maculamarius",
+	"image": "/assets/raids/BattleRaid_Macula_Marius_Impossible.png"
+},
+{
+	"japanese": "Lv100 フラム＝グラス",
+	"english": "Lvl 100 Twin Elements",
+	"room": "lvl100twinelements",
+	"image": "/assets/raids/BattleRaid_Twin_Elements.png"
+},
+{
+	"japanese": "Lv120 フラム＝グラス",
+	"english": "Lvl 120 Twin Elements",
+	"room": "lvl120twinelements",
+	"image": "/assets/raids/BattleRaid_Twin_Elements_Impossible.png"
+},
+{
+	"english": "Lvl 100 Medusa",
+	"japanese": "Lv100 メドゥーサ",
+	"room": "lvl100medusa",
+	"image": "/assets/raids/BattleRaid_Medusa.png"
+},
+{
+	"english": "Lvl 120 Medusa",
+	"japanese": "Lv120 メドゥーサ",
+	"room": "lvl120medusa",
+	"image": "/assets/raids/BattleRaid_Medusa_Impossible.png"
+},
+{
+	"english": "Lvl 100 Nezha",
+	"japanese": "Lv100 ナタク",
+	"room": "lvl100nezha",
+	"image": "/assets/raids/BattleRaid_Nezha.png"
+},
+{
+	"english": "Lvl 120 Nezha",
+	"japanese": "Lv120 ナタク",
+	"room": "lvl120nezha",
+	"image": "/assets/raids/BattleRaid_Nezha_Impossible.png"
+},
+{
+	"english": "Lvl 100 Apollo",
+	"japanese": "Lv100 アポロン",
+	"room": "lvl100apollo",
+	"image": "/assets/raids/BattleRaid_Apollo.png"
+},
+{
+	"english": "Lvl 120 Apollo",
+	"japanese": "Lv120 アポロン",
+	"room": "lvl120apollo",
+	"image": "/assets/raids/BattleRaid_Apollo_Impossible.png"
+},
+{
+	"english": "Lvl 100 Dark Angel Olivia",
+	"japanese": "Lv100 Dエンジェル・オリヴィエ",
+	"room": "lvl100dao",
+	"image": "/assets/raids/BattleRaid_Dark_Angel_Olivia.png"
+},
+{
+	"english": "Lvl 120 Dark Angel Olivia",
+	"japanese": "Lv120 Dエンジェル・オリヴィエ",
+	"room": "lvl120dao",
+	"image": "/assets/raids/BattleRaid_Dark_Angel_Olivia_Impossible.png"
+},
+{
+	"english": "Lvl 100 Athena",
+	"japanese": "Lv100 アテナ",
+	"room": "lvl100athena",
+	"image": "/assets/raids/BattleRaid_Athena_(Showdown).jpg"
+},
+{
+	"english": "Lvl 100 Odin",
+	"japanese": "Lv100 オーディン",
+	"room": "lvl100odin",
+	"image": "/assets/raids/BattleRaid_Odin_(Showdown).jpg"
+},
+{
+	"english": "Lvl 75 Celeste Omega",
+	"japanese": "Lv75 セレスト・マグナ",
+	"room": "lvl75celesteomega",
+	"image": "/assets/raids/BattleRaid_Celeste_Omega_Extreme.jpg"
+},
+{
+	"english": "Lvl 75 Luminiera Omega",
+	"japanese": "Lv75 シュヴァリエ・マグナ",
+	"room": "lvl75luminieraomega",
+	"image": "/assets/raids/BattleRaid_Luminiera_Omega_Extreme.jpg"
+},
+{
+	"english": "Lvl 60 Yggdrasil Omega",
+	"japanese": "Lv60 ユグドラシル・マグナ",
+	"room": "lvl60yggdrasilomega",
+	"image": "/assets/raids/BattleRaid_Yggdrasil_Omega_Extreme.jpg"
+},
+{
+	"english": "Lvl 60 Leviathan Omega",
+	"japanese": "Lv60 リヴァイアサン・マグナ",
+	"room": "lvl60leviathanomega",
+	"image": "/assets/raids/BattleRaid_Leviathan_Omega_Extreme.jpg"
+},
+{
+	"english": "Lvl 70 Colossus Omega",
+	"japanese": "Lv70 コロッサス・マグナ",
+	"room": "lvl70colossusomega",
+	"image": "/assets/raids/BattleRaid_Colossus_Omega_(Showdown).jpg"
+},
+{
+	"english": "Lvl 50 Tiamat Omega",
+	"japanese": "Lv50 ティアマト・マグナ",
+	"room": "lvl50tiamatomega",
+	"image": "/assets/raids/BattleRaid_Tiamat_Omega_(Showdown).jpg"
+},
+{
+	"english": "Lvl 100 Grand Order",
+	"japanese": "Lv100 ジ・オーダー・グランデ",
+	"room": "lvl100grandorder",
+	"image": "/assets/raids/BattleRaid_The_Peacemaker's_Wings_Nightmare.jpg"
+},
+{
+	"english": "Lvl 100 Xeno Ifrit",
+	"japanese": "Lv100 ゼノ・イフリート",
+	"room": "lvl100xenoifrit",
+	"image": "/assets/raids/Xeno_Ifrit_Raid.jpg"
+},
+{
+	"english": "Lvl 100 Grani",
+	"japanese": "Lv100 グラニ",
+	"room": "lvl100grani",
+	"image": "/assets/raids/BattleRaid_Grani.png"
+},
+{
+	"english": "Lvl 100 Garuda",
+	"japanese": "Lv100 ガルーダ",
+	"room": "lvl100garuda",
+	"image": "/assets/raids/BattleRaid_Garuda.png"
+},
+{
+	"english": "Lvl 100 Lich",
+	"japanese": "Lv100 リッチ",
+	"room": "lvl100lich",
+	"image": "/assets/raids/BattleRaid_Lich.png"
+},
+{
+	"english": "Lvl 100 Huanglong",
+	"japanese": "Lv100 黄龍",
+	"room": "lvl100huanglong",
+	"image": "/assets/raids/Huanglong_Nightmare.jpg"
+},
+{
+	"english": "Lvl 100 Qilin",
+	"japanese": "Lv100 黒麒麟",
+	"room": "lvl100qilin",
+	"image": "/assets/raids/Qilin_Nightmare.jpg"
+},
+{
+	"english": "Lvl 100 Xeno Vohu Manah",
+	"japanese": "Lv100 ゼノ・ウォフマナフ",
+	"room": "lvl100xenovohumanah",
+	"image": "/assets/raids/Xeno_Vohu_Manah_Raid.jpg"
+},
+{
+	"english": "Lvl 20 Griffin",
+	"japanese": "Lv20 グリフォン",
+	"room": "lvl20griffin",
+	"image": "/assets/raids/BattleRaid_Griffin_(Normal).jpg"
+},
+{
+	"english": "Lvl 30 Griffin",
+	"japanese": "Lv30 グリフォン",
+	"room": "lvl30griffin",
+	"image": "/assets/raids/BattleRaid_Griffin_(Hard).jpg"
+},
+{
+	"english": "Lvl 20 Zarchnal Flame",
+	"japanese": "Lv20 ザリチュナルフレイム",
+	"room": "lvl20zarchnal",
+	"image": "/assets/raids/BattleRaid_Zarchnal_Flame_Normal.jpg"
+},
+{
+	"english": "Lvl 30 Zarchnal Flame",
+	"japanese": "Lv30 ザリチュナルフレイム",
+	"room": "lvl30zarchnal",
+	"image": "/assets/raids/BattleRaid_Zarchnal_Flame_Hard.jpg"
+},
+{
+	"english": "Lvl 20 Imperial Guard",
+	"japanese": "Lv20 インペリアルガード",
+	"room": "lvl20imperial",
+	"image": "/assets/raids/BattleRaid_Imperial_Guard_Normal.jpg"
+},
+{
+	"english": "Lvl 30 Imperial Guard",
+	"japanese": "Lv30 インペリアルガード",
+	"room": "lvl30imperial",
+	"image": "/assets/raids/BattleRaid_Imperial_Guard_Hard.jpg"
+},
+{
+	"english": "Lvl 30 Will-o'-Wisp",
+	"japanese": "Lv30 ウィル･オ･ウィスプ",
+	"room": "lvl30will",
+	"image": "/assets/raids/BattleRaid_Will-o'-Wisp_Hard.jpg"
+},
+{
+	"english": "Lvl 30 Ancient Dragon",
+	"japanese": "Lv30 エンシェントドラゴン",
+	"room": "lvl30ancientdragon",
+	"image": "/assets/raids/BattleRaid_Ancient_Dragon_Hard.jpg"
+},
+{
+	"english": "Lvl 30 Evil Eye",
+	"japanese": "Lv30 イービルアイ",
+	"room": "lvl30evileye",
+	"image": "/assets/raids/BattleRaid_Evil_Eye_(Hard).jpg"
+},
+{
+	"english": "Lvl 30 Tiamat",
+	"japanese": "Lv30 ティアマト",
+	"room": "lvl30tiamat",
+	"image": "/assets/raids/BattleRaid_Tiamat_Normal.jpg"
+},
+{
+	"english": "Lvl 50 Tiamat",
+	"japanese": "Lv50 ティアマト",
+	"room": "lvl50tiamat",
+	"image": "/assets/raids/BattleRaid_Tiamat_Hard.jpg"
+},
+{
+	"english": "Lvl 100 Tiamat Omega Ayr",
+	"japanese": "Lv100 ティアマト・マグナ＝エア",
+	"room": "lvl100tiamatimpossible",
+	"image": "/assets/raids/BattleRaid_Tiamat_Impossible.jpg"
+},
+{
+	"english": "Lvl 30 Colossus",
+	"japanese": "Lv30 コロッサス",
+	"room": "lvl30colossus",
+	"image": "/assets/raids/BattleRaid_Colossus_Normal.jpg"
+},
+{
+	"english": "Lvl 50 Colossus",
+	"japanese": "Lv50 コロッサス",
+	"room": "lvl50colossus",
+	"image": "/assets/raids/BattleRaid_Colossus_Hard.jpg"
+},
+{
+	"english": "Lvl 100 Colossus Omega",
+	"japanese": "Lv100 コロッサス・マグナ",
+	"room": "lvl100colossusimpossible",
+	"image": "/assets/raids/BattleRaid_Colossus_Impossible.jpg"
+},
+{
+	"english": "Lvl 30 Leviathan",
+	"japanese": "Lv30 リヴァイアサン",
+	"room": "lvl30leviathan",
+	"image": "/assets/raids/BattleRaid_Leviathan_Normal.jpg"
+},
+{
+	"english": "Lvl 50 Leviathan",
+	"japanese": "Lv50 リヴァイアサン",
+	"room": "lvl50leviathan",
+	"image": "/assets/raids/BattleRaid_Leviathan_Hard.jpg"
+},
+{
+	"english": "Lvl 100 Leviathan Omega",
+	"japanese": "Lv100 リヴァイアサン・マグナ",
+	"room": "lvl100leviathanimpossible",
+	"image": "/assets/raids/BattleRaid_Leviathan_Impossible.jpg"
+},
+{
+	"english": "Lvl 30 Yggdrasil",
+	"japanese": "Lv30 ユグドラシル",
+	"room": "lvl30yggdrasil",
+	"image": "/assets/raids/BattleRaid_Yggdrasil_Normal.jpg"
+},
+{
+	"english": "Lvl 50 Yggdrasil",
+	"japanese": "Lv50 ユグドラシル",
+	"room": "lvl50yggdrasil",
+	"image": "/assets/raids/BattleRaid_Yggdrasil_Hard.jpg"
+},
+{
+	"english": "Lvl 100 Yggdrasil Omega",
+	"japanese": "Lv100 ユグドラシル・マグナ",
+	"room": "lvl100yggdrasilimpossible",
+	"image": "/assets/raids/BattleRaid_Yggdrasil_Impossible.jpg"
+},
+{
+	"english": "Lvl 30 Adversa",
+	"japanese": "Lv30 アドウェルサ",
+	"room": "lvl30adversa",
+	"image": "/assets/raids/BattleRaid_Luminiera_Normal.jpg"
+},
+{
+	"english": "Lvl 50 Adversa",
+	"japanese": "Lv50 アドウェルサ",
+	"room": "lvl50adversa",
+	"image": "/assets/raids/BattleRaid_Luminiera_Hard.jpg"
+},
+{
+	"english": "Lvl 100 Luminiera Omega",
+	"japanese": "Lv100 シュヴァリエ・マグナ",
+	"room": "lvl100luminieraimpossible",
+	"image": "/assets/raids/BattleRaid_Luminiera_Impossible.jpg"
+},
+{
+	"english": "Lvl 30 Celeste",
+	"japanese": "Lv30 セレスト",
+	"room": "lvl30celeste",
+	"image": "/assets/raids/BattleRaid_Celeste_Normal.jpg"
+},
+{
+	"english": "Lvl 50 Celeste",
+	"japanese": "Lv50 セレスト",
+	"room": "lvl50celeste",
+	"image": "/assets/raids/BattleRaid_Celeste_Hard.jpg"
+},
+{
+	"english": "Lvl 100 Celeste Omega",
+	"japanese": "Lv100 セレスト・マグナ",
+	"room": "lvl100celesteimpossible",
+	"image": "/assets/raids/BattleRaid_Celeste_Impossible.jpg"
+},
+{
+	"english": "Lvl 110 Rose Queen",
+	"japanese": "Lv110 ローズクイーン",
+	"room": "lvl110rosequeen",
+	"image": "/assets/raids/BattleRaid_Rose_Queen_Impossible.png"
+},
+{
+	"english": "Lvl 120 Prometheus",
+	"japanese": "Lv120 プロメテウス",
+	"room": "lvl120prometheus",
+	"image": "/assets/raids/BattleRaid_Prometheus_Impossible.png"
+},
+{
+	"english": "Lvl 120 Ca Ong",
+	"japanese": "Lv120 カー・オン",
+	"room": "lvl120caong",
+	"image": "/assets/raids/BattleRaid_Ca_Ong_Impossible.png"
+},
+{
+	"english": "Lvl 120 Gilgamesh",
+	"japanese": "Lv120 ギルガメッシュ",
+	"room": "lvl120gilgamesh",
+	"image": "/assets/raids/BattleRaid_Gilgamesh_Impossible.png"
+},
+{
+	"english": "Lvl 120 Morrigna",
+	"japanese": "Lv120 バイヴカハ",
+	"room": "lvl120morrigna",
+	"image": "/assets/raids/BattleRaid_Morrigna_Impossible.png"
+},
+{
+	"english": "Lvl 120 Hector",
+	"japanese": "Lv120 ヘクトル",
+	"room": "lvl120hector",
+	"image": "/assets/raids/BattleRaid_Hector_Impossible.png"
+},
+{
+	"english": "Lvl 120 Anubis",
+	"japanese": "Lv120 アヌビス",
+	"room": "lvl120anubis",
+	"image": "/assets/raids/BattleRaid_Anubis_Impossible.png"
+},
+{
+	"english": "Lvl 100 Baal",
+	"japanese": "Lv100 バアル",
+	"room": "lvl100baal",
+	"image": "/assets/raids/BattleRaid_Baal_Extreme.jpg"
+}]

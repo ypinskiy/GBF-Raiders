@@ -1,0 +1,34 @@
+{
+	"name": "GBFRaiders",
+	"description": "A Raid Finder For Grand Blue Fantasy ",
+	"repository": "https://github.com/ypinskiy/GBF-Raiders",
+	"logo": "https://raw.githubusercontent.com/ypinskiy/GBF-Raiders/master/static/assets/comeforth-sticker.png",
+	"keywords": ["gbf", "granblue", "grand blue fantasy", "raid finder", "twitter", "gbfraiders"],
+	"env":
+	{
+		"consumer_key":
+		{
+			"description": "Twitter consumer key (API Key)"
+		},
+		"consumer_secret":
+		{
+			"description": "Twitter consumer secret (API Secret)"
+		},
+		"access_token_key":
+		{
+			"description": "Twitter access token"
+		},
+		"access_token_secret":
+		{
+			"description": "Twitter access token secret"
+		}
+	},
+	"buildpacks": [
+	{
+		"url": "https://github.com/heroku/heroku-buildpack-nodejs"
+	}],
+	"scripts":
+	{
+		"postdeploy": "npm install"
+	}
+}
