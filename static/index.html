@@ -10,9 +10,25 @@
 	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="index.css">
 	<link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.css">
-	<script src="sweetalert/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="darken.css">
+	<link rel="stylesheet" type="text/css" href="sliders.css">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script>
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+		ga('create', 'UA-48921108-3', 'auto');
+		ga('send', 'pageview');
+	</script>
 </head>
 
 <body>
@@ -127,7 +143,7 @@
 						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
 					</ul>
 				</div>
-				<table id="connection-status" class="ui definition compact collapsing red table">
+				<table id="connection-status" class="ui definition unstackable  compact collapsing red table">
 					<tbody>
 						<td class="collapsing">Connection Status:</td>
 						<td id="connection-status-value" class="collapsing">DOWN</td>
@@ -146,42 +162,19 @@
 		<div class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 7/04/2017
+				News - 7/05/2017
 			</div>
-			<p>WOW! Thanks for every one who donated! During the weekend, I hosted GBFRaiders on a brand spanking new server that won't go down if there is too many people going to it! (Hopefully...)</p>
-			<p>This update finally has the vertical layout like aikats that people asked for, along with individual notification settings for each raid in that mode. The global settings will override any individual settings whenever they are changed. For example:
-				if you set the sound volume to max in an individual raid's settings, but then change the global volume settings to 50%, the individual setting will need to be changed again. So basically, set the global settings first, then the individual. Also, the
-				individual settings are not saved yet when you refresh the page, they will need to be set again.</p>
-			<p>To explain the Vertical layout option next to the layout switcher: if you are in the vertical mode, "Single Row" option will just keep adding new selected raids to a single row which means that you will have to scroll horizontally after a certain number.
-				The "Stacking" option will keep everything on the same page by putting new selected raids below the first couple like a grid. PLEASE NOTE: The stacking option does not work in Chrome because Chrome has a bug that they haven't fixed yet. I will update
-				the feature when they do fix it.</p>
-			<p>I also added alerts for when you try to join a raid when: you have not enough BP to join, the raid is full, the raid is over, and when you are already in the raid. The desktop notification title now changes from the English name to the Japanese name
-				depending on the language that the original tweet was in. Just for fun, I made the join button change colors based on the raid status: blue for unclicked, grey for clicked, red for an error, green for success.
-				<div class="ui divider"></div> Oh yeah, there is a
-				<div class="ui label">Night Mode</div> button now in the layout settings.</p>
+			<p>Hello everyone! I made a small patch fixing the vertical settings not sending notifications issue. I also made some changes to dark mode, please give me your opinions on it in the Reddit post. I also made some adjustments so that things fit on the screen better when you make the window really thin/small. Raids should now re-subscribe themselves after the server goes down then back up.</p>
 		</div>
 	</div>
 	<script type="text/javascript">
 		if (!navigator.userAgent.toLowerCase().match('edge') && !navigator.userAgent.toLowerCase().match('firefox') && document.getElementById('container'))
 			document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
 	</script>
-	<script>
-		(function(i, s, o, g, r, a, m) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function() {
-				(i[r].q = i[r].q || []).push(arguments)
-			}, i[r].l = 1 * new Date();
-			a = s.createElement(o),
-				m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m)
-		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-		ga('create', 'UA-48921108-3', 'auto');
-		ga('send', 'pageview');
-	</script>
-	<script src="index.js"></script>
+	<script src="sweetalert/sweetalert.min.js"></script>
+	<script src="raids.js"></script>
+	<script src="settings.js"></script>
+	<script src="main.js"></script>
 </body>
 
 </html>

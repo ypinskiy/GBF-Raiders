@@ -1,0 +1,131 @@
+.darken {
+	background-color: #2a465c !important;
+}
+
+.darken>div {
+	background-color: #031019 !important;
+}
+
+.darken #raid-container>.card {
+	background-color: #2a465c !important;
+}
+
+.darken .menu>.item {
+	background-color: #2a465c !important;
+	color: white !important;
+}
+
+.darken .menu>.item:hover {
+	color: lightgrey !important;
+}
+
+.darken>div>div>.segment {
+	background-color: #2a465c !important;
+}
+
+.darken #header>div.ui.secondary.inverted.blue.segment {
+	background-color: #316d92 !important;
+}
+
+.darken #header>div.ui.secondary.inverted.blue.segment>.segment {
+	background-color: #2a465c !important;
+}
+
+.darken #raid-table th {
+	background-color: #2a465c !important;
+	color: white !important;
+	border: 1px solid black;
+}
+
+.darken #raid-table td {
+	background-color: #2a465c !important;
+	color: white !important;
+	border: 1px solid black;
+}
+
+.darken #raid-table td>.items>.item>.content>.header {
+	color: white !important;
+}
+
+.darken #raid-table td>.items>.item>.content>.meta {
+	color: white !important;
+}
+
+.darken #raid-container table th {
+	background-color: #2a465c !important;
+	color: white !important;
+	border: 1px solid black;
+}
+
+.darken #raid-container table td {
+	background-color: #2a465c !important;
+	color: white !important;
+	border: 1px solid black;
+}
+
+.darken #raid-container table td>.items>.item>.content>.header {
+	color: white !important;
+}
+
+.darken #raid-container table td>.items>.item>.content>.meta {
+	color: white !important;
+}
+
+.darken :not(.layout-switcher):not(td)>.button:not(.negative) {
+	background-color: #031019 !important;
+	color: white !important;
+}
+
+.darken .layout-switcher>button {
+	background-color: #316d92 !important;
+	color: white !important;
+}
+
+.darken .layout-switcher>button.primary {
+	background-color: #031019 !important;
+	color: white !important;
+}
+
+.darken .input-control {
+	background-color: #031019 !important;
+}
+
+.darken .input-control-disabled {
+	background-color: #000000 !important;
+}
+
+.darken .input-title {
+	color: white !important;
+}
+
+.darken .input-footer {
+	color: white !important;
+}
+
+.darken .slider-control {
+	background-color: #031019 !important;
+}
+
+.darken .slider-control-disabled {
+	background-color: #000000 !important;
+}
+
+.darken>div>div>.segment>span>.slider-title {
+	color: white !important;
+}
+
+.darken .modal>div {
+	background-color: #2a465c !important;
+}
+
+.darken .modal>div>div>span {
+	border: 1px solid black;
+}
+
+.darken .modal>div>img {
+	border: 1px solid black;
+}
+
+.darken .modal>div>div>button {
+	border: 1px solid black;
+}
