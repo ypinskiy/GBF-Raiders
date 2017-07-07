@@ -1,203 +1,3 @@
-function AddSelectedRaid( room ) {
-	if ( settings.layout.orientation === "horizontal" ) {
-		if ( document.getElementById( room ) === null ) {
-			if ( document.getElementById( "selected-raids" ).innerHTML === "No raids selected. Please search for a raid in the search bar above." ) {
-				document.getElementById( "selected-raids" ).innerHTML = "";
-			}
-			selectedRaidsArray.push( room );
-			var raid = FindRaidConfig( room );
-			var selectedLabel = document.createElement( "div" );
-			selectedLabel.classList.add( "ui", "big", "label", "image", "selected-raids-label" );
-			selectedLabel.id = room;
-			selectedLabel.innerHTML = '<img src="' + raid.image + '">' + raid.english + '<i class="delete icon"></i>';
-			document.getElementById( "selected-raids" ).appendChild( selectedLabel );
-			selectedLabel.addEventListener( "click", function ( event ) {
-				RemoveSelectedRaid( room );
-			}, false );
-			socket.emit( 'subscribe', {
-				room: room
-			} );
-			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
-		}
-	} else {
-		if ( document.getElementById( room + "-card" ) === null ) {
-			selectedRaidsArray.push( room );
-			individualSettings.push( {
-				room: room,
-				settings: Object.assign( {}, settings.notification )
-			} );
-			var raid = FindRaidConfig( room );
-			if ( settings.layout.infoLevel === "compact" ) {
-				AddSelectedVerticalCompactRaid( raid );
-			} else if ( settings.layout.infoLevel === "normal" ) {
-				AddSelectedVerticalNormalRaid( raid );
-			} else {
-				AddSelectedVerticalFullRaid( raid );
-			}
-			socket.emit( 'subscribe', {
-				room: room
-			} );
-			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
-		}
-	}
-}
-
-function AddSelectedVerticalCompactRaid( raid ) {
-	var raidDiv = document.createElement( "div" );
-	raidDiv.id = raid.room + "-card";
-	raidDiv.classList.add( "ui", "card" );
-	var raidImage = document.createElement( "div" );
-	raidImage.classList.add( "image" );
-	raidImage.innerHTML += '<img src="' + raid.image + '">';
-	raidDiv.appendChild( raidImage );
-	var raidContent = document.createElement( "div" );
-	raidContent.classList.add( "content" );
-	var raidEnglish = document.createElement( "div" );
-	raidEnglish.classList.add( "header" );
-	raidEnglish.innerHTML = raid.english;
-	raidContent.appendChild( raidEnglish );
-	var raidJapanese = document.createElement( "div" );
-	raidJapanese.classList.add( "meta" );
-	raidJapanese.innerHTML = raid.japanese;
-	raidContent.appendChild( raidJapanese );
-	var raidSettings = document.createElement( "div" );
-	raidSettings.classList.add( "description" );
-	var removeButton = document.createElement( "button" );
-	removeButton.classList.add( "ui", "tiny", "negative", "button", "right", "labeled", "icon" );
-	removeButton.id = raid.room + '-remover';
-	removeButton.innerHTML = 'Remove Raid<i class="right remove icon"></i>';
-	var settingsButton = document.createElement( "button" );
-	settingsButton.classList.add( "ui", "tiny", "primary", "button", "right", "labeled", "icon" );
-	settingsButton.id = raid.room + '-settings';
-	settingsButton.innerHTML = 'Settings<i class="right settings icon"></i>';
-	raidSettings.appendChild( settingsButton );
-	raidSettings.appendChild( removeButton );
-	raidContent.appendChild( raidSettings );
-	raidDiv.appendChild( raidContent );
-	var raidTableContainer = document.createElement( "div" );
-	raidTableContainer.classList.add( "extra", "content" );
-	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
-	raidTable.id = raid.room + "-table";
-	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Join Raid</th></tr></thead>';
-	var raidTableBody = document.createElement( "tbody" );
-	raidTableBody.id = raid.room + "-table-body";
-	raidTable.appendChild( raidTableBody );
-	raidTableContainer.appendChild( raidTable );
-	raidDiv.appendChild( raidTableContainer );
-	document.getElementById( "raid-container" ).appendChild( raidDiv );
-	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
-		RemoveSelectedRaid( raid.room );
-	}, false );
-	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
-		SetupSettingsModal( raid );
-	}, false );
-}
-
-function AddSelectedVerticalNormalRaid( raid ) {
-	var raidDiv = document.createElement( "div" );
-	raidDiv.id = raid.room + "-card";
-	raidDiv.classList.add( "ui", "card" );
-	var raidImage = document.createElement( "div" );
-	raidImage.classList.add( "image" );
-	raidImage.innerHTML += '<img src="' + raid.image + '">';
-	raidDiv.appendChild( raidImage );
-	var raidContent = document.createElement( "div" );
-	raidContent.classList.add( "content" );
-	var raidEnglish = document.createElement( "div" );
-	raidEnglish.classList.add( "header" );
-	raidEnglish.innerHTML = raid.english;
-	raidContent.appendChild( raidEnglish );
-	var raidJapanese = document.createElement( "div" );
-	raidJapanese.classList.add( "meta" );
-	raidJapanese.innerHTML = raid.japanese;
-	raidContent.appendChild( raidJapanese );
-	var raidSettings = document.createElement( "div" );
-	raidSettings.classList.add( "description" );
-	var removeButton = document.createElement( "button" );
-	removeButton.classList.add( "ui", "tiny", "negative", "button", "right", "labeled", "icon" );
-	removeButton.id = raid.room + '-remover';
-	removeButton.innerHTML = 'Remove Raid<i class="right remove icon"></i>';
-	var settingsButton = document.createElement( "button" );
-	settingsButton.classList.add( "ui", "tiny", "primary", "button", "right", "labeled", "icon" );
-	settingsButton.id = raid.room + '-settings';
-	settingsButton.innerHTML = 'Settings<i class="right settings icon"></i>';
-	raidSettings.appendChild( settingsButton );
-	raidSettings.appendChild( removeButton );
-	raidContent.appendChild( raidSettings );
-	raidDiv.appendChild( raidContent );
-	var raidTableContainer = document.createElement( "div" );
-	raidTableContainer.classList.add( "extra", "content" );
-	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
-	raidTable.id = raid.room + "-table";
-	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
-	var raidTableBody = document.createElement( "tbody" );
-	raidTableBody.id = raid.room + "-table-body";
-	raidTable.appendChild( raidTableBody );
-	raidTableContainer.appendChild( raidTable );
-	raidDiv.appendChild( raidTableContainer );
-	document.getElementById( "raid-container" ).appendChild( raidDiv );
-	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
-		RemoveSelectedRaid( raid.room );
-	}, false );
-	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
-		SetupSettingsModal( raid );
-	}, false );
-}
-
-function AddSelectedVerticalFullRaid( raid ) {
-	var raidDiv = document.createElement( "div" );
-	raidDiv.id = raid.room + "-card";
-	raidDiv.classList.add( "ui", "ultra", "card" );
-	var raidImage = document.createElement( "div" );
-	raidImage.classList.add( "image" );
-	raidImage.innerHTML += '<img src="' + raid.image + '">';
-	raidDiv.appendChild( raidImage );
-	var raidContent = document.createElement( "div" );
-	raidContent.classList.add( "content" );
-	var raidEnglish = document.createElement( "div" );
-	raidEnglish.classList.add( "header" );
-	raidEnglish.innerHTML = raid.english;
-	raidContent.appendChild( raidEnglish );
-	var raidJapanese = document.createElement( "div" );
-	raidJapanese.classList.add( "meta" );
-	raidJapanese.innerHTML = raid.japanese;
-	raidContent.appendChild( raidJapanese );
-	var raidSettings = document.createElement( "div" );
-	raidSettings.classList.add( "description" );
-	var removeButton = document.createElement( "button" );
-	removeButton.classList.add( "ui", "tiny", "negative", "button", "right", "labeled", "icon" );
-	removeButton.id = raid.room + '-remover';
-	removeButton.innerHTML = 'Remove Raid<i class="right remove icon"></i>';
-	var settingsButton = document.createElement( "button" );
-	settingsButton.classList.add( "ui", "tiny", "primary", "button", "right", "labeled", "icon" );
-	settingsButton.id = raid.room + '-settings';
-	settingsButton.innerHTML = 'Settings<i class="right settings icon"></i>';
-	raidSettings.appendChild( settingsButton );
-	raidSettings.appendChild( removeButton );
-	raidContent.appendChild( raidSettings );
-	raidDiv.appendChild( raidContent );
-	var raidTableContainer = document.createElement( "div" );
-	raidTableContainer.classList.add( "extra", "content" );
-	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
-	raidTable.id = raid.room + "-table";
-	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
-	var raidTableBody = document.createElement( "tbody" );
-	raidTableBody.id = raid.room + "-table-body";
-	raidTable.appendChild( raidTableBody );
-	raidTableContainer.appendChild( raidTable );
-	raidDiv.appendChild( raidTableContainer );
-	document.getElementById( "raid-container" ).appendChild( raidDiv );
-	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
-		RemoveSelectedRaid( raid.room );
-	}, false );
-	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
-		SetupSettingsModal( raid );
-	}, false );
-}
-
 function SetupSettingsModal( raid ) {
 	document.getElementById( "settings-modal" ).dataset.room = raid.room;
 	document.getElementById( "settings-modal-header" ).innerHTML = raid.english;
@@ -287,40 +87,14 @@ function CreateSettingsModalFrame() {
 	return result;
 }
 
-function RemoveSelectedRaid( room ) {
-	if ( settings.layout.orientation === "horizontal" ) {
-		socket.emit( 'unsubscribe', {
-			room: room
-		} );
-		selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
-		localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
-		document.getElementById( room ).remove();
-	} else {
-		socket.emit( 'unsubscribe', {
-			room: room
-		} );
-		selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
-		for ( var i = 0; i < individualSettings.length; i++ ) {
-			if ( room === individualSettings[ i ].room ) {
-				individualSettings.splice( i, 1 );
-				break;
-			}
-		}
-		localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
-		document.getElementById( room + "-card" ).remove();
-		for ( var i = raids.length - 1; i >= 0; i-- ) {
-			if ( room === raids[ i ].room ) {
-				raids.splice( i, 1 );
-			}
-		}
-	}
-}
-
 function LoadSavedSettings() {
 	if ( localStorage.getItem( "savedSettings" ) ) {
 		var tempSettings = JSON.parse( localStorage.getItem( "savedSettings" ) );
 		if ( tempSettings.version === settings.version ) {
 			Object.assign( settings, tempSettings );
+			if ( !settings.newsSeen ) {
+				document.getElementById( "news-message" ).classList.remove( "hidden" );
+			}
 			if ( settings.notification.desktopNotifOn ) {
 				document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
 				document.getElementById( "enable-notif" ).classList.add( "negative" );
@@ -527,6 +301,8 @@ function SetupControls() {
 		$( this )
 			.closest( '.message' )
 			.transition( 'fade' );
+		settings.newsSeen = true;
+		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 	} );
 
 	$( '.help' )

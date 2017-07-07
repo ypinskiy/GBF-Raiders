@@ -3,36 +3,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GBF Raiders</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-	<script src="semantic/dist/semantic.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.css">
+	<link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.min.css">
 	<link rel="stylesheet" type="text/css" href="darken.css">
 	<link rel="stylesheet" type="text/css" href="sliders.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
-	<script>
-		(function(i, s, o, g, r, a, m) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function() {
-				(i[r].q = i[r].q || []).push(arguments)
-			}, i[r].l = 1 * new Date();
-			a = s.createElement(o),
-				m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m)
-		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-		ga('create', 'UA-48921108-3', 'auto');
-		ga('send', 'pageview');
-	</script>
 </head>
 
 <body>
-	<div id="container" class="ui raised very padded container segment fluid">
+	<div id="container" class="ui container segment fluid">
 		<div id="header">
 			<div id="settings-menu" class="ui top attached tabular menu">
 				<div class="active item" data-tab="notif-settings-tab">Notification Settings</div>
@@ -120,7 +101,7 @@
 				<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
 			</div>
 			<div class="ui segment misc-controls">
-				<a class="dbox-donation-button" href="https://donorbox.org/keep-gbfraiders-running">Donate</a>
+				<button id="donate-btn" class="ui right primary labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Donate</a><i class="right dollar icon"></i></button>
 				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
 				<div class="ui special wide popup">
 					<div class="header">Help With Notable Features</div>
@@ -159,22 +140,36 @@
 			</span>
 			</div>
 		</div>
-		<div class="ui message">
+		<div id="news-message" class="ui hidden message">
 			<i class="close icon"></i>
 			<div class="header">
 				News - 7/05/2017
 			</div>
-			<p>Hello everyone! I made a small patch fixing the vertical settings not sending notifications issue. I also made some changes to dark mode, please give me your opinions on it in the Reddit post. I also made some adjustments so that things fit on the screen better when you make the window really thin/small. Raids should now re-subscribe themselves after the server goes down then back up.</p>
+			<p>Lots of very tiny changes this time around. Things should fit better on smaller screens & windows. The site should load faster for people. The vertical columns in the Single Row layout are now draggable, so that you can move the important raids to the left or where ever you want really. This news message itself has some changes; it now remembers that you closed it and won't open again when you reload the page. Some minor dark mode changes too.</p>
 		</div>
 	</div>
 	<script type="text/javascript">
 		if (!navigator.userAgent.toLowerCase().match('edge') && !navigator.userAgent.toLowerCase().match('firefox') && document.getElementById('container'))
 			document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
 	</script>
+	<script src="utils/jquery-3.2.1.min.js"></script>
+	<script src="semantic/dist/semantic.min.js"></script>
+	<script src="utils/socket.io.slim.js"></script>
+	<script src="utils/moment.min.js"></script>
+	<script src="utils/clipboard.min.js"></script>
 	<script src="sweetalert/sweetalert.min.js"></script>
+	<script src="draggable/CSSPlugin.min.js"></script>
+	<script src="draggable/Draggable.min.js"></script>
+	<script src="draggable/EasePack.min.js"></script>
+	<script src="draggable/TweenLite.min.js"></script>
 	<script src="raids.js"></script>
 	<script src="settings.js"></script>
 	<script src="main.js"></script>
+	<script src="https://cdn.jsdelivr.net/ga-lite/latest/ga-lite.min.js" async></script>
+	<script>
+		var galite = galite || {};
+		galite.UA = 'UA-48921108-3';
+	</script>
 </body>
 
 </html>

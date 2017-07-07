@@ -2,6 +2,7 @@ let express = require( 'express' );
 let twitter = require( 'twitter' );
 let st = require( 'st' );
 let app = express();
+var helmet = require( 'helmet' );
 let bodyParser = require( 'body-parser' );
 let compression = require( 'compression' );
 let morgan = require( 'morgan' );
@@ -23,6 +24,34 @@ function TimedLogger( data ) {
 
 let raidConfigs = require( './raids.json' );
 
+app.set( 'json spaces', 0 );
+app.use( helmet() );
+app.use( morgan( 'combined' ) );
+app.use( compression() );
+app.use( bodyParser.json() );
+app.use( bodyParser.urlencoded( {
+	extended: true
+} ) );
+
+app.get( '/getraids', function ( req, res ) {
+	res.header('Cache-Control', 'public, max-age=432000000');
+	res.send( raidConfigs );
+} );
+
+app.use( st( {
+	path: __dirname + '/static',
+	url: '/',
+	index: '/index.html',
+	gzip: true,
+	cache: {
+		content: {
+			max: 1024 * 1024 * 64, // how much memory to use on caching contents (bytes * kilo * mega)
+			maxAge: 1000 * 60 * 60 * 24 * 5, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
+		}
+	},
+	passthrough: false
+} ) );
+
 let keywords = "";
 
 for ( let i = 0; i < raidConfigs.length; i++ ) {
@@ -32,9 +61,21 @@ for ( let i = 0; i < raidConfigs.length; i++ ) {
 	}
 }
 
+function searchTextForRaids( text ) {
+	let result = "";
+	for ( let i = 0; i < raidConfigs.length; i++ ) {
+		if ( text.indexOf( raidConfigs[ i ].english ) != -1 || text.indexOf( raidConfigs[ i ].japanese ) != -1 ) {
+			result = raidConfigs[ i ].room;
+			break;
+		}
+	}
+	return result;
+}
+
 client.stream( 'statuses/filter', {
 	track: keywords
 }, function ( stream ) {
+	TimedLogger( "Twitter Stream started." );
 	stream.on( 'data', function ( event ) {
 		TimedLogger( "Tweet found." );
 		let room = searchTextForRaids( event.text );
@@ -73,10 +114,19 @@ client.stream( 'statuses/filter', {
 	} );
 
 	stream.on( 'error', function ( error ) {
-		TimedLogger( error );
+		TimedLogger( "Twitter Stream error:" );
+		console.dir( error );
 		io.sockets.sockets.forEach( function ( s ) {
 			s.disconnect( true );
 		} );
+	} );
+	stream.on( 'disconnect', function ( disconnect ) {
+		TimedLogger( "Twitter Stream disconnect:" );
+		console.dir( disconnect );
+	} );
+	stream.on( 'warning', function ( warning ) {
+		TimedLogger( "Twitter Stream warning:" );
+		console.dir( warning );
 	} );
 } );
 
@@ -94,49 +144,5 @@ io.sockets.on( 'connection', function ( socket ) {
 			socket.leave( data.room );
 		} );
 } );
-
-function searchTextForRaids( text ) {
-	let result = "";
-	for ( let i = 0; i < raidConfigs.length; i++ ) {
-		if ( text.indexOf( raidConfigs[ i ].english ) != -1 || text.indexOf( raidConfigs[ i ].japanese ) != -1 ) {
-			result = raidConfigs[ i ].room;
-			break;
-		}
-	}
-	return result;
-}
-
-app.set( 'json spaces', 0 );
-app.use( compression() );
-app.use( morgan( 'combined' ) );
-app.use( bodyParser.json() );
-app.use( bodyParser.urlencoded( {
-	extended: true
-} ) );
-
-app.use( function ( req, res, next ) {
-	res.header( 'Access-Control-Allow-Origin', '*' );
-	res.header( 'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE' );
-	res.header( 'Access-Control-Allow-Headers', 'Content-Type' );
-	next();
-} );
-
-app.get( '/getraids', function ( req, res ) {
-	res.send( raidConfigs );
-} );
-
-app.use( st( {
-	path: __dirname + '/static',
-	url: '/',
-	index: '/index.html',
-	gzip: true,
-	cache: {
-		content: {
-			max: 1024 * 1024 * 64, // how much memory to use on caching contents (bytes * kilo * mega)
-			maxAge: 1000 * 60 * 60 * 24 * 1, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
-		}
-	},
-	passthrough: false
-} ) );
 
 TimedLogger( "Starting GBF Raiders on port " + port + "." );
