@@ -13,93 +13,95 @@
 </head>
 
 <body>
-	<div id="container" class="ui container segment fluid">
+	<div class="ui top sidebar">
+		<div id="settings-menu" class="ui top attached tabular menu">
+			<div class="active item" data-tab="notif-settings-tab">Notification Settings</div>
+			<div class="item" data-tab="layout-settings-tab">Layout Settings</div>
+		</div>
+		<div class="ui bottom attached active tab segment" data-tab="notif-settings-tab">
+			<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>
+			<span id="desktop-notif-size-control" class="input-control-disabled">
+				<span class="input-title">Desktop Notification Size</span>
+			<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
+				<input id="desktop-notif-size-input" type="hidden" name="formatting" value="large">
+				<i class="dropdown icon"></i>
+				<div class="default text">Notif Size</div>
+				<div class="menu">
+					<div class="item" data-value="small">Small</div>
+					<div class="item" data-value="large">Large</div>
+				</div>
+			</div>
+			</span>
+			<button id="enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
+			<span id="sound-choice-control" class="input-control-disabled">
+				<span class="input-title">Sound Notification Choice</span>
+			<div id="sound-choice-dropdown" class="ui compact selection disabled dropdown">
+				<input id="sound-choice-input" type="hidden" name="formatting" value="beeps">
+				<i class="dropdown icon"></i>
+				<div class="default text">Sound Choice</div>
+				<div class="menu">
+					<div class="item" data-value="beeps">Beeps Appear</div>
+					<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>
+					<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
+					<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
+				</div>
+			</div>
+			</span>
+			<span id="sound-volume-control" class="slider-control-disabled">
+				<span class="slider-title">Sound Notification Volume</span>
+			<input id="sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled>
+			</span>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="layout-settings-tab">
+			<div class="ui buttons layout-switcher">
+				<button id="horiz-layout-btn" class="ui bigger primary button">Horizontal</button>
+				<div class="or"></div>
+				<button id="vertical-layout-btn" class="ui bigger button">Vertical</button>
+			</div>
+			<span id="vertical-stacking-control" class="input-control-disabled">
+				<span class="input-title">Vertical Layout</span>
+			<div id="vertical-stacking-dropdown" class="ui disabled compact selection dropdown">
+				<input id="vertical-stacking-input" type="hidden" name="formatting" value="row">
+				<i class="dropdown icon"></i>
+				<div class="default text">Vertical Layout</div>
+				<div class="menu">
+					<div class="item" data-value="stacking">Stacking</div>
+					<div class="item" data-value="row">Single Row</div>
+				</div>
+			</div>
+			</span>
+			<span class="input-control">
+				<span class="input-title">Info Level</span>
+			<div id="info-level" class="ui compact selection dropdown">
+				<input id="info-level-input" type="hidden" name="formatting" value="normal">
+				<i class="dropdown icon"></i>
+				<div class="default text">Info Level</div>
+				<div class="menu">
+					<div class="item" data-value="compact">Compact</div>
+					<div class="item" data-value="normal">Normal&nbsp;</div>
+					<div class="item" data-value="full">Full&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				</div>
+			</div>
+			</span>
+			<span class="input-control">
+				<span class="input-title">Remove raids after</span>
+			<div class="ui input input-text">
+				<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
+			</div>
+			<span class="input-footer">seconds</span>
+			</span>
+			<span class="input-control">
+				<span class="input-title">Start removing raids after</span>
+			<div class="ui input input-text">
+				<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
+			</div>
+			<span class="input-footer">results</span>
+			</span>
+			<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
+		</div>
+	</div>
+	<div id="container" class="ui pusher container segment fluid">
 		<div id="header">
-			<div id="settings-menu" class="ui top attached tabular menu">
-				<div class="active item" data-tab="notif-settings-tab">Notification Settings</div>
-				<div class="item" data-tab="layout-settings-tab">Layout Settings</div>
-			</div>
-			<div class="ui bottom attached active tab segment" data-tab="notif-settings-tab">
-				<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>
-				<span id="desktop-notif-size-control" class="input-control-disabled">
-					<span class="input-title">Desktop Notification Size</span>
-				<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
-					<input id="desktop-notif-size-input" type="hidden" name="formatting" value="large">
-					<i class="dropdown icon"></i>
-					<div class="default text">Notif Size</div>
-					<div class="menu">
-						<div class="item" data-value="small">Small</div>
-						<div class="item" data-value="large">Large</div>
-					</div>
-				</div>
-				</span>
-				<button id="enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
-				<span id="sound-choice-control" class="input-control-disabled">
-					<span class="input-title">Sound Notification Choice</span>
-				<div id="sound-choice-dropdown" class="ui compact selection disabled dropdown">
-					<input id="sound-choice-input" type="hidden" name="formatting" value="beeps">
-					<i class="dropdown icon"></i>
-					<div class="default text">Sound Choice</div>
-					<div class="menu">
-						<div class="item" data-value="beeps">Beeps Appear</div>
-						<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>
-						<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
-						<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
-					</div>
-				</div>
-				</span>
-				<span id="sound-volume-control" class="slider-control-disabled">
-					<span class="slider-title">Sound Notification Volume</span>
-				<input id="sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled>
-				</span>
-			</div>
-			<div class="ui bottom attached tab segment" data-tab="layout-settings-tab">
-				<div class="ui buttons layout-switcher">
-					<button id="horiz-layout-btn" class="ui bigger primary button">Horizontal</button>
-					<div class="or"></div>
-					<button id="vertical-layout-btn" class="ui bigger button">Vertical</button>
-				</div>
-				<span id="vertical-stacking-control" class="input-control-disabled">
-					<span class="input-title">Vertical Layout</span>
-				<div id="vertical-stacking-dropdown" class="ui disabled compact selection dropdown">
-					<input id="vertical-stacking-input" type="hidden" name="formatting" value="row">
-					<i class="dropdown icon"></i>
-					<div class="default text">Vertical Layout</div>
-					<div class="menu">
-						<div class="item" data-value="stacking">Stacking</div>
-						<div class="item" data-value="row">Single Row</div>
-					</div>
-				</div>
-				</span>
-				<span class="input-control">
-					<span class="input-title">Info Level</span>
-				<div id="info-level" class="ui compact selection dropdown">
-					<input id="info-level-input" type="hidden" name="formatting" value="normal">
-					<i class="dropdown icon"></i>
-					<div class="default text">Info Level</div>
-					<div class="menu">
-						<div class="item" data-value="compact">Compact</div>
-						<div class="item" data-value="normal">Normal&nbsp;</div>
-						<div class="item" data-value="full">Full&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</div>
-				</div>
-				</span>
-				<span class="input-control">
-					<span class="input-title">Remove raids after</span>
-				<div class="ui input input-text">
-					<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
-				</div>
-				<span class="input-footer">seconds</span>
-				</span>
-				<span class="input-control">
-					<span class="input-title">Start removing raids after</span>
-				<div class="ui input input-text">
-					<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
-				</div>
-				<span class="input-footer">results</span>
-				</span>
-				<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
-			</div>
 			<div class="ui segment misc-controls">
 				<button id="donate-btn" class="ui right primary labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Donate</a><i class="right dollar icon"></i></button>
 				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
@@ -126,11 +128,12 @@
 				</div>
 				<table id="connection-status" class="ui definition unstackable  compact collapsing red table">
 					<tbody>
-						<td class="collapsing">Connection Status:</td>
+						<td class="collapsing">Connection:</td>
 						<td id="connection-status-value" class="collapsing">DOWN</td>
 					</tbody>
 				</table>
-				<button id="clear-list" class="negative ui button right labeled icon">Clear Current Raid List<i class="right hide icon"></i></button>
+				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
+				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
 				<span class="ui search">
 				<div class="ui icon input">
 					<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
@@ -145,7 +148,9 @@
 			<div class="header">
 				News - 7/05/2017
 			</div>
-			<p>Lots of very tiny changes this time around. Things should fit better on smaller screens & windows. The site should load faster for people. The vertical columns in the Single Row layout are now draggable, so that you can move the important raids to the left or where ever you want really. This news message itself has some changes; it now remembers that you closed it and won't open again when you reload the page. Some minor dark mode changes too. The Small desktop notification option now shows the person who tweeted it as well as the Twitter message. All notifications now automatically close after 5 seconds to prevent cluttering up the screen.</p>
+			<p>Lots of very tiny changes this time around. Things should fit better on smaller screens & windows. The site should load faster for people. The vertical columns in the Single Row layout are now draggable, so that you can move the important raids to
+				the left or where ever you want really. This news message itself has some changes; it now remembers that you closed it and won't open again when you reload the page. Some minor dark mode changes too. The Small desktop notification option now shows
+				the person who tweeted it as well as the Twitter message. All notifications now automatically close after 5 seconds to prevent cluttering up the screen.</p>
 		</div>
 	</div>
 	<script type="text/javascript">

@@ -2,8 +2,20 @@
 	background-color: #2a465c !important;
 }
 
-.darken>div {
+.darken>div:not(.sweet-overlay) {
 	background-color: #031019 !important;
+}
+
+.darken .sweet-alert {
+	background-color: #2a465c !important;
+}
+
+.darken .sweet-alert>h2 {
+	color: white !important;
+}
+
+.darken .sweet-alert>p {
+	color: white !important;
 }
 
 .darken #raid-container>.card {
@@ -28,7 +40,15 @@
 	color: lightgrey !important;
 }
 
-.darken>div>div>.segment {
+.darken .sidebar {
+	border-bottom: 3px solid black !important;
+}
+
+.darken .sidebar>.segment {
+	background-color: #2a465c !important;
+}
+
+.darken #header>div.ui.segment:not(.inverted) {
 	background-color: #2a465c !important;
 }
 
@@ -64,11 +84,11 @@
 	border: 1px solid black;
 }
 
-.darken  .header {
+.darken .header {
 	color: white !important;
 }
 
-.darken  .meta {
+.darken .meta {
 	color: white !important;
 }
 

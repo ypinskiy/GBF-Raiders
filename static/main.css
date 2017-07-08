@@ -2,8 +2,15 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+.ui.top.sidebar {
+	padding: 10px;
+	background-color: white;
+}
+
 .container {
 	margin-bottom: 0px !important;
+	margin-top: -1px !important;
+	min-height: 100% !important;
 }
 
 #header {
@@ -130,10 +137,20 @@ td.larger>img {
 	margin-right: 5px;
 }
 
-@media (max-width: 625px) {
+@media (max-width: 650px) {
 	#connection-status {
 		margin-bottom: 10px;
 		margin-top: 10px;
+	}
+	.selected-raids-label {
+		font-size: 0.85em !important;
+	}
+	body > .ui.container.segment.fluid {
+		margin-left: 0px !important;
+		margin-right: 0px !important;
+	}
+	#raid-table .item > .content {
+		text-align: center !important;
 	}
 }
 
@@ -166,7 +183,7 @@ td.larger>img {
 	margin-bottom: 10px !important;
 }
 
-#header>.tab.segment>.button {
+.ui.tab.segment>.button {
 	margin-bottom: 10px !important;
 }
 

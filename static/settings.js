@@ -290,6 +290,11 @@ function SetupControls() {
 		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 	} );
 
+	document.getElementById( "open-settings" ).addEventListener( 'click', function ( event ) {
+		$( '.ui.sidebar' )
+			.sidebar( 'toggle' );
+	} );
+
 	document.getElementById( "clear-list" ).addEventListener( "click", function ( event ) {
 		raids = [];
 		for ( var i = document.getElementById( "table-body" ).childNodes.length - 1; i >= 0; i-- ) {
