@@ -23,11 +23,13 @@ Setting up the environment variables is necessary for using the Twitter API.
 
 ![Twitter App Key Create Page](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/twitter-app-key-create.png)
 ![Twitter App Access Create Page](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/twitter-app-access-token-create.png)
+
 3. The Keys and Access Tokens tab already contains two of the four keys you need: the Consumer Key and the Consumer Secret. To create the other two, click on the "Create my access token" button. Now, the page will refresh and the other two keys will appear: the Access Token and the Access Token Secret.
 4. These 4 keys will need to be setup in your environment. See below on how to do so in Heroku.
 
 # Using The Environment Variables in Heroku
 ![Twitter App Access Create Page](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/heroku-show-config.png)
+
 1. Go to your app's settings page. There will be a "Reveal Config Vars" button.
 2. Enter all 4 keys and their corresponding values: `consumer_key`, `consumer_secret`, `access_token_key`, `access_token_secret`.
 3. Restart your dynos.
@@ -35,23 +37,30 @@ Setting up the environment variables is necessary for using the Twitter API.
 
 # Adding New Raids
 ![Raid Structure](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/raid-structure.png)
+
 1. Add the raid to the `raids.json` file in the root of the project.
 
 ![Raid Image Folder](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/raids-folder.png)
+
 2. Add the raid cover image to the *static/assets/raids folder*. You can get this image from the [GBF wiki](https://gbf.wiki/).
 
 # Adding New Sound Notifications
 ![Sounds Folder](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/sounds-folder.png)
+
 1. Add the sound file to the *static/assets/sounds* folder.
 
 ![Sounds Loading](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/sound-load-example.png)
+
 2. Load the sound file in the top of `main.js`.
 
 ![Sounds Playing](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/sound-play-example.png)
+
 3. Add playing the sound file in the `PlaySoundNotif` function in `main.js`.
 
 ![Sound Option In HTML](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/sound-option-html.png)
+
 4. Add the option in the sound choice control in `index.html`.
 
 ![Sound Option In JS](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/sound-option-js.png)
+
 5. Add the option in the `CreateSettingsModalFrame` function in `settings.js`.
