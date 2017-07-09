@@ -46,18 +46,18 @@ socket.on( 'tweet', function ( data ) {
 } );
 
 function CheckConnectionStatus() {
-	if ( settings.debugLevel > 0 ) {
+	if ( settings.debugLevel > 1 ) {
 		console.log( "Checking connection status..." );
 	}
 	if ( socket.connected ) {
-		if ( settings.debugLevel > 0 ) {
+		if ( settings.debugLevel > 1 ) {
 			console.log( "Connection Status: UP" );
 		}
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
 		if ( wasDown ) {
-			if ( settings.debugLevel > 0 ) {
+			if ( settings.debugLevel > 1 ) {
 				console.log( "Recovering from connection down..." );
 			}
 			if ( localStorage.getItem( "selectedRaids" ) ) {
@@ -71,7 +71,7 @@ function CheckConnectionStatus() {
 		}
 		wasDown = false;
 	} else {
-		if ( settings.debugLevel > 0 ) {
+		if ( settings.debugLevel > 1 ) {
 			console.log( "Connection Status: DOWN" );
 		}
 		document.getElementById( "connection-status" ).classList.remove( "green" );

@@ -7,7 +7,8 @@ function FindRaidConfig( room ) {
 		if ( raidConfigs[ i ].room === room ) {
 			result = raidConfigs[ i ];
 			if ( settings.debugLevel > 0 ) {
-				console.log( "Found raid config: " + raidConfigs[ i ] );
+				console.log( "Found raid config:");
+				console.dir(raidConfigs[ i ]);
 			}
 			break;
 		}
@@ -363,7 +364,7 @@ function CreateVerticalFullRaidRow( data ) {
 }
 
 function UpdateRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
+	if ( settings.debugLevel > 1 ) {
 		console.log( "Updating raid row for data: " );
 		console.dir( data );
 	}
