@@ -37,7 +37,7 @@ Setting up the environment variables is necessary for using the Twitter API.
 ![Raid Structure](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/raid-structure.png)
 1. Add the raid to the `raids.json` file in the root of the project.
 
-![Raid Image Folder](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/raid-folder.png)
+![Raid Image Folder](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/raids-folder.png)
 2. Add the raid cover image to the *static/assets/raids folder*. You can get this image from the [GBF wiki](https://gbf.wiki/).
 
 # Adding New Sound Notifications
