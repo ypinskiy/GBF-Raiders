@@ -1,9 +1,16 @@
 function SetupSettingsModal( raid ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Setting up settings modal for raid: " + raid.room );
+	}
 	document.getElementById( "settings-modal" ).dataset.room = raid.room;
 	document.getElementById( "settings-modal-header" ).innerHTML = raid.english;
 	document.getElementById( "settings-modal-image" ).src = raid.image;
 	for ( var i = 0; i < individualSettings.length; i++ ) {
 		if ( raid.room === individualSettings[ i ].room ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Settings for selected raid:" );
+				console.dir( individualSettings[ i ] );
+			}
 			if ( individualSettings[ i ].settings.desktopNotifOn ) {
 				document.getElementById( "modal-enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
 				document.getElementById( "modal-enable-notif" ).classList.add( "negative" );
@@ -42,14 +49,19 @@ function SetupSettingsModal( raid ) {
 			break;
 		}
 	}
-	$( '.ui.modal' )
-		.modal( 'setting', 'closable', false )
-		.modal( 'show' );
+	try {
+		$( '.ui.modal' ).modal( 'setting', 'closable', false ).modal( 'show' );
+	} catch ( error ) {
+		console.log( "Error showing individual settings modal: " + error );
+	}
 }
 
 function SaveIndividualSettings() {
 	for ( var i = 0; i < individualSettings.length; i++ ) {
 		if ( document.getElementById( "settings-modal" ).dataset.room === individualSettings[ i ].room ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Saving individual settings for raid: " + individualSettings[ i ].room );
+			}
 			if ( document.getElementById( "modal-enable-sound" ).innerHTML === 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>' ) {
 				individualSettings[ i ].settings.soundNotifOn = true;
 			} else {
@@ -63,12 +75,19 @@ function SaveIndividualSettings() {
 			individualSettings[ i ].settings.desktopNotifSize = document.getElementById( "modal-desktop-notif-size-input" ).value;
 			individualSettings[ i ].settings.soundNotifChoice = document.getElementById( "modal-sound-choice-input" ).value;
 			individualSettings[ i ].settings.soundNotifVolume = document.getElementById( "modal-sound-volume-slider" ).value;
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Saved individual settings for raid: " + individualSettings[ i ].room );
+				console.dir( individualSettings[ i ] );
+			}
 			break;
 		}
 	}
 }
 
 function CreateSettingsModalFrame() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Settings Modal..." );
+	}
 	var result = '<div id="settings-modal" class="ui modal">';
 	result += '<div id="settings-modal-header" class="header">Lvl ??? Raid Boss</div>';
 	result += '<div class="image content">';
@@ -88,10 +107,27 @@ function CreateSettingsModalFrame() {
 }
 
 function LoadSavedSettings() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Loading settings from localstorage..." );
+	}
 	if ( localStorage.getItem( "savedSettings" ) ) {
-		var tempSettings = JSON.parse( localStorage.getItem( "savedSettings" ) );
+		if ( settings.debugLevel > 0 ) {
+			console.log( "Found settings in localstorage." );
+		}
+		try {
+			var tempSettings = JSON.parse( localStorage.getItem( "savedSettings" ) );
+		} catch ( error ) {
+			console.log( "Error parsing settings from localstorage: " + error );
+		}
 		if ( tempSettings.version === settings.version ) {
-			Object.assign( settings, tempSettings );
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Loaded version matches current version." );
+			}
+			try {
+				Object.assign( settings, tempSettings );
+			} catch ( error ) {
+				console.log( "Error assigning saved settings to current settings: " + error );
+			}
 			if ( !settings.newsSeen ) {
 				document.getElementById( "news-message" ).classList.remove( "hidden" );
 			}
@@ -133,6 +169,9 @@ function LoadSavedSettings() {
 			}
 			SetupTable();
 		} else {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Loaded version doesn't match current version. Clearing localstorage..." );
+			}
 			localStorage.clear();
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		}
@@ -140,221 +179,261 @@ function LoadSavedSettings() {
 }
 
 function SetupControls() {
-	var clipboard = new Clipboard( '.copy-div', {
-		text: function ( trigger ) {
-			return trigger.dataset.clipboard;
-		}
-	} );
+	try {
+		var clipboard = new Clipboard( '.copy-div', {
+			text: function ( trigger ) {
+				if ( settings.debugLevel > 0 ) {
+					console.log( "Copying to clipboard: " + trigger.dataset.clipboard );
+				}
+				return trigger.dataset.clipboard;
+			}
+		} );
 
-	document.getElementById( "enable-notif" ).addEventListener( "click", function ( event ) {
-		ToggleDesktopNotifications( true );
-	} );
+		document.getElementById( "enable-notif" ).addEventListener( "click", function ( event ) {
+			ToggleDesktopNotifications( true );
+		} );
 
-	$( "#desktop-notif-size-dropdown" ).dropdown( {
-		onChange: function ( value, text, $selectedItem ) {
-			settings.notification.desktopNotifSize = value;
+		$( "#desktop-notif-size-dropdown" ).dropdown( {
+			onChange: function ( value, text, $selectedItem ) {
+				settings.notification.desktopNotifSize = value;
+				if ( settings.layout.orientation === "vertical" ) {
+					for ( var i = 0; i < individualSettings.length; i++ ) {
+						individualSettings[ i ].settings.desktopNotifSize = value;
+					}
+				}
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			}
+		} );
+
+		document.getElementById( "enable-sound" ).addEventListener( "click", function ( event ) {
+			ToggleSoundNotifications( true )
+		} );
+
+		document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
+			settings.notification.soundNotifVolume = event.target.value;
 			if ( settings.layout.orientation === "vertical" ) {
 				for ( var i = 0; i < individualSettings.length; i++ ) {
-					individualSettings[ i ].settings.desktopNotifSize = value;
+					individualSettings[ i ].settings.soundNotifVolume = event.target.value;
 				}
 			}
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-		}
-	} );
+		} );
 
-	document.getElementById( "enable-sound" ).addEventListener( "click", function ( event ) {
-		ToggleSoundNotifications( true )
-	} );
-
-	document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
-		settings.notification.soundNotifVolume = event.target.value;
-		if ( settings.layout.orientation === "vertical" ) {
-			for ( var i = 0; i < individualSettings.length; i++ ) {
-				individualSettings[ i ].settings.soundNotifVolume = event.target.value;
-			}
-		}
-		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-	} );
-
-	document.getElementById( "horiz-layout-btn" ).addEventListener( "click", function ( event ) {
-		if ( settings.layout.orientation === "vertical" ) {
-			settings.layout.orientation = "horizontal";
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			document.getElementById( "horiz-layout-btn" ).classList.add( "primary" );
-			document.getElementById( "vertical-layout-btn" ).classList.remove( "primary" );
-			document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control" );
-			document.getElementById( "vertical-stacking-control" ).classList.add( "input-control-disabled" );
-			document.getElementById( "vertical-stacking-dropdown" ).classList.add( "disabled" );
-			SetupTable();
-			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
-				AddSelectedRaid( selectedRaidsArray[ i ] );
-			}
-			for ( var i = 0; i < raids.length; i++ ) {
-				CreateRaidRow( raids[ i ] );
-			}
-		}
-	} );
-
-	document.getElementById( "vertical-layout-btn" ).addEventListener( "click", function ( event ) {
-		if ( settings.layout.orientation === "horizontal" ) {
-			settings.layout.orientation = "vertical";
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			document.getElementById( "vertical-layout-btn" ).classList.add( "primary" );
-			document.getElementById( "horiz-layout-btn" ).classList.remove( "primary" );
-			document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control-disabled" );
-			document.getElementById( "vertical-stacking-control" ).classList.add( "input-control" );
-			document.getElementById( "vertical-stacking-dropdown" ).classList.remove( "disabled" );
-			SetupTable();
-			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
-				AddSelectedRaid( selectedRaidsArray[ i ] );
-			}
-			for ( var i = 0; i < raids.length; i++ ) {
-				CreateRaidRow( raids[ i ] );
-			}
-		}
-	} );
-
-	$( "#vertical-stacking-dropdown" ).dropdown( {
-		onChange: function ( value, text, $selectedItem ) {
-			settings.layout.verticalStacking = value;
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			SetupTable();
-			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
-				AddSelectedRaid( selectedRaidsArray[ i ] );
-			}
-			for ( var i = 0; i < raids.length; i++ ) {
-				CreateRaidRow( raids[ i ] );
-			}
-		}
-	} );
-
-	$( "#info-level" ).dropdown( {
-		onChange: function ( value, text, $selectedItem ) {
-			settings.layout.infoLevel = value;
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			SetupTable();
-			for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
-				AddSelectedRaid( selectedRaidsArray[ i ] );
-			}
-			for ( var i = 0; i < raids.length; i++ ) {
-				CreateRaidRow( raids[ i ] );
-			}
-		}
-	} );
-
-	$( "#sound-choice-dropdown" ).dropdown( {
-		onChange: function ( value, text, $selectedItem ) {
-			settings.notification.soundNotifChoice = value;
+		document.getElementById( "horiz-layout-btn" ).addEventListener( "click", function ( event ) {
 			if ( settings.layout.orientation === "vertical" ) {
-				for ( var i = 0; i < individualSettings.length; i++ ) {
-					individualSettings[ i ].settings.soundNotifChoice = value;
+				settings.layout.orientation = "horizontal";
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+				document.getElementById( "horiz-layout-btn" ).classList.add( "primary" );
+				document.getElementById( "vertical-layout-btn" ).classList.remove( "primary" );
+				document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control" );
+				document.getElementById( "vertical-stacking-control" ).classList.add( "input-control-disabled" );
+				document.getElementById( "vertical-stacking-dropdown" ).classList.add( "disabled" );
+				SetupTable();
+				for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+					AddSelectedRaid( selectedRaidsArray[ i ] );
+				}
+				for ( var i = 0; i < raids.length; i++ ) {
+					CreateRaidRow( raids[ i ] );
 				}
 			}
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			PlaySoundNotif();
-		}
-	} );
-
-	document.getElementById( "raid-timeout" ).addEventListener( "input", function ( event ) {
-		if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 300 ) {
-			document.getElementById( "raid-timeout" ).parentElement.classList.add( "error" );
-		} else {
-			document.getElementById( "raid-timeout" ).parentElement.classList.remove( "error" );
-			settings.layout.raidTimeout = event.target.value;
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-		}
-	} );
-
-	document.getElementById( "raid-max-results" ).addEventListener( "input", function ( event ) {
-		if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 50 ) {
-			document.getElementById( "raid-max-results" ).parentElement.classList.add( "error" );
-		} else {
-			document.getElementById( "raid-max-results" ).parentElement.classList.remove( "error" );
-			settings.layout.raidMaxResults = event.target.value;
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-		}
-	} );
-
-	document.getElementById( "enable-night" ).addEventListener( "click", function ( event ) {
-		if ( settings.layout.nightMode === false ) {
-			settings.layout.nightMode = true;
-			document.body.classList.add( "darken" );
-			document.getElementById( "enable-night" ).classList.add( "negative" );
-			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
-		} else {
-			settings.layout.nightMode = false;
-			document.body.classList.remove( "darken" );
-			document.getElementById( "enable-night" ).classList.remove( "negative" );
-			document.getElementById( "enable-night" ).innerHTML = 'Enable Night Mode<i class="right moon icon"></i>';
-		}
-		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-	} );
-
-	document.getElementById( "open-settings" ).addEventListener( 'click', function ( event ) {
-		$( '.ui.sidebar' )
-			.sidebar( 'toggle' );
-	} );
-
-	document.getElementById( "clear-list" ).addEventListener( "click", function ( event ) {
-		raids = [];
-		for ( var i = document.getElementById( "table-body" ).childNodes.length - 1; i >= 0; i-- ) {
-			document.getElementById( "table-body" ).removeChild( document.getElementById( "table-body" ).childNodes[ i ] );
-		}
-	} );
-
-	$( '.message .close' ).on( 'click', function () {
-		$( this )
-			.closest( '.message' )
-			.transition( 'fade' );
-		settings.newsSeen = true;
-		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-	} );
-
-	$( '.help' )
-		.popup( {
-			inline: true,
-			position: "bottom left",
-			perserve: true,
-			setFluidWidth: false,
-			lastResort: "bottom left",
-			hoverable: true,
-			jitter: 50
 		} );
 
-	$( '.ui.search' )
-		.search( {
-			source: raidConfigs,
-			searchFields: [
-				'english',
-				'japanese'
-			],
-			searchFullText: true,
-			fields: {
-				title: 'english',
-			},
-			maxResults: 10,
-			onSelect: function ( result, response ) {
-				AddSelectedRaid( result.room );
-				setTimeout( function () {
-					document.getElementById( "searcher" ).value = "";
-				}, 50 );
-			},
-			showNoResults: true
+		document.getElementById( "vertical-layout-btn" ).addEventListener( "click", function ( event ) {
+			if ( settings.layout.orientation === "horizontal" ) {
+				settings.layout.orientation = "vertical";
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+				document.getElementById( "vertical-layout-btn" ).classList.add( "primary" );
+				document.getElementById( "horiz-layout-btn" ).classList.remove( "primary" );
+				document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control-disabled" );
+				document.getElementById( "vertical-stacking-control" ).classList.add( "input-control" );
+				document.getElementById( "vertical-stacking-dropdown" ).classList.remove( "disabled" );
+				SetupTable();
+				for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+					AddSelectedRaid( selectedRaidsArray[ i ] );
+				}
+				for ( var i = 0; i < raids.length; i++ ) {
+					CreateRaidRow( raids[ i ] );
+				}
+			}
 		} );
 
-	$( '.tabular.menu .item' ).tab();
+		$( "#vertical-stacking-dropdown" ).dropdown( {
+			onChange: function ( value, text, $selectedItem ) {
+				settings.layout.verticalStacking = value;
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+				SetupTable();
+				for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+					AddSelectedRaid( selectedRaidsArray[ i ] );
+				}
+				for ( var i = 0; i < raids.length; i++ ) {
+					CreateRaidRow( raids[ i ] );
+				}
+			}
+		} );
+
+		$( "#info-level" ).dropdown( {
+			onChange: function ( value, text, $selectedItem ) {
+				settings.layout.infoLevel = value;
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+				SetupTable();
+				for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+					AddSelectedRaid( selectedRaidsArray[ i ] );
+				}
+				for ( var i = 0; i < raids.length; i++ ) {
+					CreateRaidRow( raids[ i ] );
+				}
+			}
+		} );
+
+		$( "#sound-choice-dropdown" ).dropdown( {
+			onChange: function ( value, text, $selectedItem ) {
+				settings.notification.soundNotifChoice = value;
+				if ( settings.layout.orientation === "vertical" ) {
+					for ( var i = 0; i < individualSettings.length; i++ ) {
+						individualSettings[ i ].settings.soundNotifChoice = value;
+					}
+				}
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+				PlaySoundNotif();
+			}
+		} );
+
+		document.getElementById( "raid-timeout" ).addEventListener( "input", function ( event ) {
+			if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 300 ) {
+				document.getElementById( "raid-timeout" ).parentElement.classList.add( "error" );
+			} else {
+				document.getElementById( "raid-timeout" ).parentElement.classList.remove( "error" );
+				settings.layout.raidTimeout = event.target.value;
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			}
+		} );
+
+		document.getElementById( "raid-max-results" ).addEventListener( "input", function ( event ) {
+			if ( event.target.value.match( /[a-z]/i ) || parseInt( event.target.value, 10 ) < 1 || parseInt( event.target.value, 10 ) > 50 ) {
+				document.getElementById( "raid-max-results" ).parentElement.classList.add( "error" );
+			} else {
+				document.getElementById( "raid-max-results" ).parentElement.classList.remove( "error" );
+				settings.layout.raidMaxResults = event.target.value;
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			}
+		} );
+
+		document.getElementById( "enable-night" ).addEventListener( "click", function ( event ) {
+			if ( settings.layout.nightMode === false ) {
+				settings.layout.nightMode = true;
+				document.body.classList.add( "darken" );
+				document.getElementById( "enable-night" ).classList.add( "negative" );
+				document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
+			} else {
+				settings.layout.nightMode = false;
+				document.body.classList.remove( "darken" );
+				document.getElementById( "enable-night" ).classList.remove( "negative" );
+				document.getElementById( "enable-night" ).innerHTML = 'Enable Night Mode<i class="right moon icon"></i>';
+			}
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		} );
+
+		document.getElementById( "open-settings" ).addEventListener( 'click', function ( event ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Opening settings bar..." );
+			}
+			try {
+				$( '.ui.sidebar' ).sidebar( 'toggle' );
+			} catch ( error ) {
+				console.log( "Error opening settings bar: " + error );
+			}
+		} );
+
+		document.getElementById( "clear-list" ).addEventListener( "click", function ( event ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Clearing all raids from tables..." );
+			}
+			raids = [];
+			try {
+				if ( settings.layout.orientation === "horizontal" ) {
+					while ( document.getElementById( "table-body" ).firstChild ) {
+						document.getElementById( "table-body" ).firstChild.remove();
+					}
+				} else {
+					for ( var i = 0; i < selectedRaidsArray.length; i++ ) {
+						while ( document.getElementById( selectedRaidsArray[ i ] + "-table-body" ).firstChild ) {
+							document.getElementById( selectedRaidsArray[ i ] + "-table-body" ).firstChild.remove();
+						}
+					}
+				}
+			} catch ( error ) {
+				console.log( "Error clearing raids from tables: " + error );
+			}
+		} );
+
+		$( '.message .close' ).on( 'click', function () {
+			$( this ).closest( '.message' ).transition( 'fade' );
+			settings.newsSeen = true;
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		} );
+
+		$( '.help' )
+			.popup( {
+				inline: true,
+				position: "bottom left",
+				perserve: true,
+				setFluidWidth: false,
+				lastResort: "bottom left",
+				hoverable: true,
+				jitter: 50
+			} );
+
+		$( '.ui.search' )
+			.search( {
+				source: raidConfigs,
+				searchFields: [
+					'english',
+					'japanese'
+				],
+				searchFullText: true,
+				fields: {
+					title: 'english',
+				},
+				maxResults: 10,
+				onSelect: function ( result, response ) {
+					if ( settings.debugLevel > 0 ) {
+						console.log( "Adding selected raid..." );
+					}
+					try {
+						AddSelectedRaid( result.room );
+					} catch ( error ) {
+						console.log( "Error adding raid to selected raids: " + error );
+					}
+					setTimeout( function () {
+						document.getElementById( "searcher" ).value = "";
+					}, 50 );
+				},
+				showNoResults: true
+			} );
+
+		$( '.tabular.menu .item' ).tab();
+	} catch ( error ) {
+		console.log( "Error setting up controls: " + error );
+	}
 }
 
 function ToggleDesktopNotifications( clicked ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Toggling desktop notifications..." );
+	}
 	if ( settings.notification.desktopNotifOn === false ) {
 		if ( Notification.permission !== "denied" ) {
 			Notification.requestPermission( function ( permission ) {
 				if ( permission === "granted" ) {
 					if ( clicked ) {
-						var notification = new Notification( "Thank you for enabling notifications!", {
-							body: "Click on notifications to copy the ID!",
-							icon: "/assets/stickers/heregoes-sticker.png"
-						} );
+						try {
+							var notification = new Notification( "Thank you for enabling notifications!", {
+								body: "Click on notifications to copy the ID!",
+								icon: "/assets/stickers/heregoes-sticker.png"
+							} );
+						} catch ( error ) {
+							console.log( "Error sending initial desktop notif: " + error );
+						}
 					}
 					settings.notification.desktopNotifOn = true;
 					if ( settings.layout.orientation === "vertical" ) {
@@ -388,6 +467,9 @@ function ToggleDesktopNotifications( clicked ) {
 }
 
 function ToggleSoundNotifications( clicked ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Toggling sound notifications..." );
+	}
 	if ( settings.notification.soundNotifOn === false ) {
 		settings.notification.soundNotifOn = true;
 		if ( settings.layout.orientation === "vertical" ) {

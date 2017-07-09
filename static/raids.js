@@ -1,8 +1,14 @@
 function FindRaidConfig( room ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Trying to find raid config for room: " + room );
+	}
 	var result = null;
 	for ( var i = 0; i < raidConfigs.length; i++ ) {
 		if ( raidConfigs[ i ].room === room ) {
 			result = raidConfigs[ i ];
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Found raid config: " + raidConfigs[ i ] );
+			}
 			break;
 		}
 	}
@@ -10,10 +16,16 @@ function FindRaidConfig( room ) {
 }
 
 function FindRaid( id ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Trying to find raid for id: " + id );
+	}
 	var result = null;
 	for ( var i = 0; i < raids.length; i++ ) {
 		if ( raids[ i ].id === id ) {
 			result = raids[ i ];
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Found raid: " + raids[ i ] );
+			}
 			break;
 		}
 	}
@@ -41,6 +53,10 @@ function CreateRaidRow( data ) {
 }
 
 function CreateHorizontalCompactRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Horizontal Compact Raid Row for data: " );
+		console.dir( data );
+	}
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -66,20 +82,28 @@ function CreateHorizontalCompactRaidRow( data ) {
 	}
 	joinButton.id = data.id + '-btn';
 	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
-	joinTD.appendChild( joinButton );
-	newLine.appendChild( imageTD );
-	newLine.appendChild( idTD );
-	newLine.appendChild( joinTD );
-	joinButton.addEventListener( "click", function ( event ) {
-		SendJoinCommand( event.target.id.substr( 0, 8 ) );
-		joinButton.classList.remove( "primary" );
-		joinButton.classList.add( "secondary" );
-		data.status = "clicked";
-	} );
-	document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+	try {
+		joinTD.appendChild( joinButton );
+		newLine.appendChild( imageTD );
+		newLine.appendChild( idTD );
+		newLine.appendChild( joinTD );
+		joinButton.addEventListener( "click", function ( event ) {
+			SendJoinCommand( event.target.id.substr( 0, 8 ) );
+			joinButton.classList.remove( "primary" );
+			joinButton.classList.add( "secondary" );
+			data.status = "clicked";
+		} );
+		document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+	} catch ( error ) {
+		console.log( "Error appending Horizontal Compact Raid Row: " + error );
+	}
 }
 
 function CreateHorizontalNormalRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Horizontal Normal Raid Row for data: " );
+		console.dir( data );
+	}
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -109,21 +133,29 @@ function CreateHorizontalNormalRaidRow( data ) {
 	}
 	joinButton.id = data.id + '-btn';
 	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
-	joinTD.appendChild( joinButton );
-	newLine.appendChild( imageTD );
-	newLine.appendChild( idTD );
-	newLine.appendChild( timeTD );
-	newLine.appendChild( joinTD );
-	joinButton.addEventListener( "click", function ( event ) {
-		SendJoinCommand( event.target.id.substr( 0, 8 ) );
-		joinButton.classList.remove( "primary" );
-		joinButton.classList.add( "secondary" );
-		data.status = "clicked";
-	} );
-	document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+	try {
+		joinTD.appendChild( joinButton );
+		newLine.appendChild( imageTD );
+		newLine.appendChild( idTD );
+		newLine.appendChild( timeTD );
+		newLine.appendChild( joinTD );
+		joinButton.addEventListener( "click", function ( event ) {
+			SendJoinCommand( event.target.id.substr( 0, 8 ) );
+			joinButton.classList.remove( "primary" );
+			joinButton.classList.add( "secondary" );
+			data.status = "clicked";
+		} );
+		document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+	} catch ( error ) {
+		console.log( "Error appending Horizontal Normal Raid Row: " + error );
+	}
 }
 
 function CreateHorizontalFullRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Horizontal Full Raid Row for data: " );
+		console.dir( data );
+	}
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -167,20 +199,28 @@ function CreateHorizontalFullRaidRow( data ) {
 	}
 	joinButton.id = data.id + '-btn';
 	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
-	joinTD.appendChild( joinButton );
-	newLine.appendChild( imageTD );
-	newLine.appendChild( contentTD );
-	newLine.appendChild( joinTD );
-	joinButton.addEventListener( "click", function ( event ) {
-		SendJoinCommand( event.target.id.substr( 0, 8 ) );
-		joinButton.classList.remove( "primary" );
-		joinButton.classList.add( "secondary" );
-		data.status = "clicked";
-	} );
-	document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+	try {
+		joinTD.appendChild( joinButton );
+		newLine.appendChild( imageTD );
+		newLine.appendChild( contentTD );
+		newLine.appendChild( joinTD );
+		joinButton.addEventListener( "click", function ( event ) {
+			SendJoinCommand( event.target.id.substr( 0, 8 ) );
+			joinButton.classList.remove( "primary" );
+			joinButton.classList.add( "secondary" );
+			data.status = "clicked";
+		} );
+		document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+	} catch ( error ) {
+		console.log( "Error appending Horizontal Full Raid Row: " + error );
+	}
 }
 
 function CreateVerticalCompactRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Vertical Compact Raid Row for data: " );
+		console.dir( data );
+	}
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -204,19 +244,27 @@ function CreateVerticalCompactRaidRow( data ) {
 	}
 	joinButton.id = data.id + '-btn';
 	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
-	joinTD.appendChild( joinButton );
-	newLine.appendChild( idTD );
-	newLine.appendChild( joinTD );
-	joinButton.addEventListener( "click", function ( event ) {
-		SendJoinCommand( event.target.id.substr( 0, 8 ) );
-		joinButton.classList.remove( "primary" );
-		joinButton.classList.add( "secondary" );
-		data.status = "clicked";
-	} );
-	document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+	try {
+		joinTD.appendChild( joinButton );
+		newLine.appendChild( idTD );
+		newLine.appendChild( joinTD );
+		joinButton.addEventListener( "click", function ( event ) {
+			SendJoinCommand( event.target.id.substr( 0, 8 ) );
+			joinButton.classList.remove( "primary" );
+			joinButton.classList.add( "secondary" );
+			data.status = "clicked";
+		} );
+		document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+	} catch ( error ) {
+		console.log( "Error appending Vertical Compact Raid Row: " + error );
+	}
 }
 
 function CreateVerticalNormalRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Vertical Normal Raid Row for data: " );
+		console.dir( data );
+	}
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -244,20 +292,28 @@ function CreateVerticalNormalRaidRow( data ) {
 	}
 	joinButton.id = data.id + '-btn';
 	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
-	joinTD.appendChild( joinButton );
-	newLine.appendChild( idTD );
-	newLine.appendChild( timeTD );
-	newLine.appendChild( joinTD );
-	joinButton.addEventListener( "click", function ( event ) {
-		SendJoinCommand( event.target.id.substr( 0, 8 ) );
-		joinButton.classList.remove( "primary" );
-		joinButton.classList.add( "secondary" );
-		data.status = "clicked";
-	} );
-	document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+	try {
+		joinTD.appendChild( joinButton );
+		newLine.appendChild( idTD );
+		newLine.appendChild( timeTD );
+		newLine.appendChild( joinTD );
+		joinButton.addEventListener( "click", function ( event ) {
+			SendJoinCommand( event.target.id.substr( 0, 8 ) );
+			joinButton.classList.remove( "primary" );
+			joinButton.classList.add( "secondary" );
+			data.status = "clicked";
+		} );
+		document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+	} catch ( error ) {
+		console.log( "Error appending Vertical Normal Raid Row: " + error );
+	}
 }
 
 function CreateVerticalFullRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Vertical Normal Raid Row for data: " );
+		console.dir( data );
+	}
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -288,38 +344,60 @@ function CreateVerticalFullRaidRow( data ) {
 	}
 	joinButton.id = data.id + '-btn';
 	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
-	joinTD.appendChild( joinButton );
-	newLine.appendChild( idTD );
-	newLine.appendChild( messageTD );
-	newLine.appendChild( timeTD );
-	newLine.appendChild( joinTD );
-	joinButton.addEventListener( "click", function ( event ) {
-		SendJoinCommand( event.target.id.substr( 0, 8 ) );
-		joinButton.classList.remove( "primary" );
-		joinButton.classList.add( "secondary" );
-		data.status = "clicked";
-	} );
-	document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+	try {
+		joinTD.appendChild( joinButton );
+		newLine.appendChild( idTD );
+		newLine.appendChild( messageTD );
+		newLine.appendChild( timeTD );
+		newLine.appendChild( joinTD );
+		joinButton.addEventListener( "click", function ( event ) {
+			SendJoinCommand( event.target.id.substr( 0, 8 ) );
+			joinButton.classList.remove( "primary" );
+			joinButton.classList.add( "secondary" );
+			data.status = "clicked";
+		} );
+		document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+	} catch ( error ) {
+		console.log( "Error appending Vertical Full Raid Row: " + error );
+	}
 }
 
 function UpdateRaidRow( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Updating raid row for data: " );
+		console.dir( data );
+	}
 	if ( raids.length > settings.layout.raidMaxResults ) {
-		var raidDIV = document.getElementById( raids[ 0 ].id );
-		if ( settings.layout.orientation === "horizontal" ) {
-			document.getElementById( "table-body" ).removeChild( raidDIV );
-		} else {
-			document.getElementById( raids[ 0 ].room + "-table-body" ).removeChild( raidDIV );
+		if ( settings.debugLevel > 0 ) {
+			console.log( 'Too many raids (' + raids.length + ') for raidMaxResults: ' + settings.layout.raidMaxResults );
 		}
-		raids.splice( 0, 1 );
-	} else {
-		var raidDIV = document.getElementById( data.id );
-		if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout ) {
+		try {
+			var raidDIV = document.getElementById( raids[ 0 ].id );
 			if ( settings.layout.orientation === "horizontal" ) {
 				document.getElementById( "table-body" ).removeChild( raidDIV );
 			} else {
-				document.getElementById( data.room + "-table-body" ).removeChild( raidDIV );
+				document.getElementById( raids[ 0 ].room + "-table-body" ).removeChild( raidDIV );
 			}
-			raids.splice( raids.indexOf( data ), 1 );
+			raids.splice( 0, 1 );
+		} catch ( error ) {
+			console.log( "Error removing raid row that was over max results: " + error );
+		}
+	} else {
+		var raidDIV = document.getElementById( data.id );
+		if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( 'Raid too old(' + moment().diff( data.time, "seconds" ) + ') for selected timeout: ' + settings.layout.raidTimeout );
+			}
+			try {
+				if ( settings.layout.orientation === "horizontal" ) {
+					document.getElementById( "table-body" ).removeChild( raidDIV );
+				} else {
+					document.getElementById( data.room + "-table-body" ).removeChild( raidDIV );
+				}
+				raids.splice( raids.indexOf( data ), 1 );
+			} catch ( error ) {
+				console.log( "Error removing raid row that too old: " + error );
+			}
 		} else {
 			if ( settings.layout.infoLevel === "normal" || settings.layout.infoLevel === "full" ) {
 				document.getElementById( data.id + '-time' ).innerHTML = moment().diff( data.time, "seconds" ) + ' secs ago';
@@ -349,6 +427,9 @@ function SetupTable() {
 }
 
 function CreateHorizontalCompactRaidTable() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Horizontal Compact raid table..." );
+	}
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact" );
@@ -361,11 +442,18 @@ function CreateHorizontalCompactRaidTable() {
 	raidTable.innerHTML = '<thead><tr><th class="center aligned nine wide">Raid Name</th><th class="center aligned single line three wide">Raid ID</th><th class="center aligned single line four wide">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
-	raidTable.appendChild( raidTableBody );
-	document.getElementById( "container" ).appendChild( raidTable );
+	try {
+		raidTable.appendChild( raidTableBody );
+		document.getElementById( "container" ).appendChild( raidTable );
+	} catch ( error ) {
+		console.log( "Error appending Horizontal Compact raid table: " + error );
+	}
 }
 
 function CreateHorizontalNormalRaidTable() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Horizontal Normal raid table..." );
+	}
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table" );
@@ -379,11 +467,18 @@ function CreateHorizontalNormalRaidTable() {
 	raidTable.innerHTML = '<thead><tr><th class="center aligned eight wide">Raid Name</th><th class="center aligned single line two wide">Raid ID</th><th class="center aligned single line three wide">Time Tweeted</th><th class="center aligned single line three wide">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
-	raidTable.appendChild( raidTableBody );
-	document.getElementById( "container" ).appendChild( raidTable );
+	try {
+		raidTable.appendChild( raidTableBody );
+		document.getElementById( "container" ).appendChild( raidTable );
+	} catch ( error ) {
+		console.log( "Error appending Horizontal Normal raid table: " + error );
+	}
 }
 
 function CreateHorizontalFullRaidTable() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Horizontal Full raid table..." );
+	}
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table" );
@@ -397,11 +492,18 @@ function CreateHorizontalFullRaidTable() {
 	raidTable.innerHTML = '<thead><tr><th class="center aligned four wide">Raid Image</th><th class="center aligned nine wide">Raid Content</th><th class="center aligned single line four wide">Join Info</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
-	raidTable.appendChild( raidTableBody );
-	document.getElementById( "container" ).appendChild( raidTable );
+	try {
+		raidTable.appendChild( raidTableBody );
+		document.getElementById( "container" ).appendChild( raidTable );
+	} catch ( error ) {
+		console.log( "Error appending Horizontal Full raid table: " + error );
+	}
 }
 
 function CreateVerticalRaidContainer() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Creating Vertical raid container..." );
+	}
 	if ( document.getElementById( "selected-raids-label" ) !== null ) {
 		document.getElementById( "selected-raids-label" ).parentElement.remove();
 	}
@@ -412,8 +514,12 @@ function CreateVerticalRaidContainer() {
 	} else {
 		raidContainer.classList.add( "stacking" );
 	}
-	raidContainer.innerHTML = CreateSettingsModalFrame();
-	document.getElementById( "container" ).appendChild( raidContainer );
+	try {
+		raidContainer.innerHTML = CreateSettingsModalFrame();
+		document.getElementById( "container" ).appendChild( raidContainer );
+	} catch ( error ) {
+		console.log( "Error appending Vertical raid container: " + error );
+	}
 	document.getElementById( "modal-enable-notif" ).addEventListener( "click", function ( event ) {
 		if ( document.getElementById( "modal-enable-notif" ).innerHTML === 'Disable Desktop Notifications<i class="right remove circle icon"></i>' ) {
 			document.getElementById( "modal-enable-notif" ).innerHTML = 'Enable Desktop Notifications<i class="right check circle icon"></i>';
@@ -458,59 +564,94 @@ function CreateVerticalRaidContainer() {
 }
 
 function LoadSavedRaids() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Loading saved raids..." );
+	}
 	if ( localStorage.getItem( "selectedRaids" ) ) {
-		var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
-		for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
-			AddSelectedRaid( tempSelectedRaids[ i ] );
+		if ( settings.debugLevel > 0 ) {
+			console.log( "Found saved raids." );
+		}
+		try {
+			var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
+		} catch ( error ) {
+			console.log( "Error parsing saved raids: " + error );
+		}
+		try {
+			for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
+				AddSelectedRaid( tempSelectedRaids[ i ] );
+			}
+		} catch ( error ) {
+			console.log( "Error adding saved raids: " + error );
 		}
 	}
 }
 
 function AddSelectedRaid( room ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Adding selected raid: " + room );
+	}
 	if ( settings.layout.orientation === "horizontal" ) {
 		if ( document.getElementById( room ) === null ) {
 			if ( document.getElementById( "selected-raids" ).innerHTML === "No raids selected. Please search for a raid in the search bar above." ) {
 				document.getElementById( "selected-raids" ).innerHTML = "";
 			}
-			selectedRaidsArray.push( room );
-			var raid = FindRaidConfig( room );
-			var selectedLabel = document.createElement( "div" );
-			selectedLabel.classList.add( "ui", "big", "label", "image", "selected-raids-label" );
-			selectedLabel.id = room;
-			selectedLabel.innerHTML = '<img src="' + raid.image + '">' + raid.english + '<i class="delete icon"></i>';
-			document.getElementById( "selected-raids" ).appendChild( selectedLabel );
-			selectedLabel.addEventListener( "click", function ( event ) {
-				RemoveSelectedRaid( room );
-			}, false );
-			socket.emit( 'subscribe', {
-				room: room
-			} );
-			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Adding selected raid to Horizontal selected raids segment..." );
+			}
+			try {
+				selectedRaidsArray.push( room );
+				var raid = FindRaidConfig( room );
+				var selectedLabel = document.createElement( "div" );
+				selectedLabel.classList.add( "ui", "big", "label", "image", "selected-raids-label" );
+				selectedLabel.id = room;
+				selectedLabel.innerHTML = '<img src="' + raid.image + '">' + raid.english + '<i class="delete icon"></i>';
+				document.getElementById( "selected-raids" ).appendChild( selectedLabel );
+				selectedLabel.addEventListener( "click", function ( event ) {
+					RemoveSelectedRaid( room );
+				}, false );
+				socket.emit( 'subscribe', {
+					room: room
+				} );
+				localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+			} catch ( error ) {
+				console.log( "Error adding selected raid to Horizontal selected raids segment: " + error );
+			}
 		}
 	} else {
 		if ( document.getElementById( room + "-card" ) === null ) {
-			selectedRaidsArray.push( room );
-			individualSettings.push( {
-				room: room,
-				settings: Object.assign( {}, settings.notification )
-			} );
-			var raid = FindRaidConfig( room );
-			if ( settings.layout.infoLevel === "compact" ) {
-				AddSelectedVerticalCompactRaid( raid );
-			} else if ( settings.layout.infoLevel === "normal" ) {
-				AddSelectedVerticalNormalRaid( raid );
-			} else {
-				AddSelectedVerticalFullRaid( raid );
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Adding selected raid as Vertical card..." );
 			}
-			socket.emit( 'subscribe', {
-				room: room
-			} );
-			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+			try {
+				selectedRaidsArray.push( room );
+				individualSettings.push( {
+					room: room,
+					settings: Object.assign( {}, settings.notification )
+				} );
+				var raid = FindRaidConfig( room );
+				if ( settings.layout.infoLevel === "compact" ) {
+					AddSelectedVerticalCompactRaid( raid );
+				} else if ( settings.layout.infoLevel === "normal" ) {
+					AddSelectedVerticalNormalRaid( raid );
+				} else {
+					AddSelectedVerticalFullRaid( raid );
+				}
+				socket.emit( 'subscribe', {
+					room: room
+				} );
+				localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+			} catch ( error ) {
+				console.log( "Error adding selected raid as Vertical card: " + error );
+			}
 		}
 	}
 }
 
 function AddSelectedVerticalCompactRaid( raid ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Adding Vertical Compact raid:" );
+		console.dir( raid );
+	}
 	var raidDiv = document.createElement( "div" );
 	raidDiv.id = raid.room + "-card";
 	raidDiv.classList.add( "ui", "card" );
@@ -550,28 +691,36 @@ function AddSelectedVerticalCompactRaid( raid ) {
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = raid.room + "-table-body";
-	raidTable.appendChild( raidTableBody );
-	raidTableContainer.appendChild( raidTable );
-	raidDiv.appendChild( raidTableContainer );
-	document.getElementById( "raid-container" ).appendChild( raidDiv );
-	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
-		RemoveSelectedRaid( raid.room );
-	}, false );
-	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
-		SetupSettingsModal( raid );
-	}, false );
-	Draggable.create( document.getElementById( raid.room + "-card" ), {
-		type: "x",
-		autoScroll: 1,
-		liveSnap: true,
-		snap: {
-			points: CalculatePoints( raid.room, false ),
-			radius: 165
-		}
-	} );
+	try {
+		raidTable.appendChild( raidTableBody );
+		raidTableContainer.appendChild( raidTable );
+		raidDiv.appendChild( raidTableContainer );
+		document.getElementById( "raid-container" ).appendChild( raidDiv );
+		document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
+			RemoveSelectedRaid( raid.room );
+		}, false );
+		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
+			SetupSettingsModal( raid );
+		}, false );
+		Draggable.create( document.getElementById( raid.room + "-card" ), {
+			type: "x",
+			autoScroll: 1,
+			liveSnap: true,
+			snap: {
+				points: CalculatePoints( raid.room, false ),
+				radius: 165
+			}
+		} );
+	} catch ( error ) {
+		console.log( "Error adding Vertical Compact raid: " + error );
+	}
 }
 
 function AddSelectedVerticalNormalRaid( raid ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Adding Vertical Normal raid:" );
+		console.dir( raid );
+	}
 	var raidDiv = document.createElement( "div" );
 	raidDiv.id = raid.room + "-card";
 	raidDiv.classList.add( "ui", "card" );
@@ -611,28 +760,36 @@ function AddSelectedVerticalNormalRaid( raid ) {
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = raid.room + "-table-body";
-	raidTable.appendChild( raidTableBody );
-	raidTableContainer.appendChild( raidTable );
-	raidDiv.appendChild( raidTableContainer );
-	document.getElementById( "raid-container" ).appendChild( raidDiv );
-	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
-		RemoveSelectedRaid( raid.room );
-	}, false );
-	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
-		SetupSettingsModal( raid );
-	}, false );
-	Draggable.create( document.getElementById( raid.room + "-card" ), {
-		type: "x",
-		autoScroll: 1,
-		liveSnap: true,
-		snap: {
-			points: CalculatePoints( raid.room, false ),
-			radius: 165
-		}
-	} );
+	try {
+		raidTable.appendChild( raidTableBody );
+		raidTableContainer.appendChild( raidTable );
+		raidDiv.appendChild( raidTableContainer );
+		document.getElementById( "raid-container" ).appendChild( raidDiv );
+		document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
+			RemoveSelectedRaid( raid.room );
+		}, false );
+		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
+			SetupSettingsModal( raid );
+		}, false );
+		Draggable.create( document.getElementById( raid.room + "-card" ), {
+			type: "x",
+			autoScroll: 1,
+			liveSnap: true,
+			snap: {
+				points: CalculatePoints( raid.room, false ),
+				radius: 165
+			}
+		} );
+	} catch ( error ) {
+		console.log( "Error adding Vertical Normal raid: " + error );
+	}
 }
 
 function AddSelectedVerticalFullRaid( raid ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Adding Vertical Full raid:" );
+		console.dir( raid );
+	}
 	var raidDiv = document.createElement( "div" );
 	raidDiv.id = raid.room + "-card";
 	raidDiv.classList.add( "ui", "ultra", "card" );
@@ -672,25 +829,29 @@ function AddSelectedVerticalFullRaid( raid ) {
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = raid.room + "-table-body";
-	raidTable.appendChild( raidTableBody );
-	raidTableContainer.appendChild( raidTable );
-	raidDiv.appendChild( raidTableContainer );
-	document.getElementById( "raid-container" ).appendChild( raidDiv );
-	document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
-		RemoveSelectedRaid( raid.room );
-	}, false );
-	document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
-		SetupSettingsModal( raid );
-	}, false );
-	Draggable.create( document.getElementById( raid.room + "-card" ), {
-		type: "x",
-		autoScroll: 1,
-		liveSnap: true,
-		snap: {
-			points: CalculatePoints( raid.room, true ),
-			radius: 215
-		}
-	} );
+	try {
+		raidTable.appendChild( raidTableBody );
+		raidTableContainer.appendChild( raidTable );
+		raidDiv.appendChild( raidTableContainer );
+		document.getElementById( "raid-container" ).appendChild( raidDiv );
+		document.getElementById( raid.room + '-remover' ).addEventListener( "click", function ( event ) {
+			RemoveSelectedRaid( raid.room );
+		}, false );
+		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
+			SetupSettingsModal( raid );
+		}, false );
+		Draggable.create( document.getElementById( raid.room + "-card" ), {
+			type: "x",
+			autoScroll: 1,
+			liveSnap: true,
+			snap: {
+				points: CalculatePoints( raid.room, true ),
+				radius: 215
+			}
+		} );
+	} catch ( error ) {
+		console.log( "Error adding Vertical Full raid: " + error );
+	}
 }
 
 function CalculatePoints( room, isFull ) {
@@ -726,30 +887,41 @@ function CalculatePoints( room, isFull ) {
 }
 
 function RemoveSelectedRaid( room ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Removing selected raid: " + room );
+	}
 	if ( settings.layout.orientation === "horizontal" ) {
-		socket.emit( 'unsubscribe', {
-			room: room
-		} );
-		selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
-		localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
-		document.getElementById( room ).remove();
-	} else {
-		socket.emit( 'unsubscribe', {
-			room: room
-		} );
-		selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
-		for ( var i = 0; i < individualSettings.length; i++ ) {
-			if ( room === individualSettings[ i ].room ) {
-				individualSettings.splice( i, 1 );
-				break;
-			}
+		try {
+			socket.emit( 'unsubscribe', {
+				room: room
+			} );
+			selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
+			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+			document.getElementById( room ).remove();
+		} catch ( error ) {
+			console.log( "Error removing Horizontal raid: " + error );
 		}
-		localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
-		document.getElementById( room + "-card" ).remove();
-		for ( var i = raids.length - 1; i >= 0; i-- ) {
-			if ( room === raids[ i ].room ) {
-				raids.splice( i, 1 );
+	} else {
+		try {
+			socket.emit( 'unsubscribe', {
+				room: room
+			} );
+			selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
+			for ( var i = 0; i < individualSettings.length; i++ ) {
+				if ( room === individualSettings[ i ].room ) {
+					individualSettings.splice( i, 1 );
+					break;
+				}
 			}
+			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
+			document.getElementById( room + "-card" ).remove();
+			for ( var i = raids.length - 1; i >= 0; i-- ) {
+				if ( room === raids[ i ].room ) {
+					raids.splice( i, 1 );
+				}
+			}
+		} catch ( error ) {
+			console.log( "Error removing Vertical raid: " + error );
 		}
 	}
 }

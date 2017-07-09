@@ -28,10 +28,15 @@ var settings = {
 	},
 	version: "1.5",
 	newsSeen: false,
-	cardSlots: 8
+	cardSlots: 8,
+	debugLevel: 0
 };
 
 socket.on( 'tweet', function ( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Tweet recieved:" );
+		console.dir( data );
+	}
 	if ( document.getElementById( data.id ) === null ) {
 		raids.push( data );
 		CreateRaidRow( data );
@@ -41,11 +46,20 @@ socket.on( 'tweet', function ( data ) {
 } );
 
 function CheckConnectionStatus() {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Checking connection status..." );
+	}
 	if ( socket.connected ) {
+		if ( settings.debugLevel > 0 ) {
+			console.log( "Connection Status: UP" );
+		}
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
 		if ( wasDown ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Recovering from connection down..." );
+			}
 			if ( localStorage.getItem( "selectedRaids" ) ) {
 				var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
 				for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
@@ -57,6 +71,9 @@ function CheckConnectionStatus() {
 		}
 		wasDown = false;
 	} else {
+		if ( settings.debugLevel > 0 ) {
+			console.log( "Connection Status: DOWN" );
+		}
 		document.getElementById( "connection-status" ).classList.remove( "green" );
 		document.getElementById( "connection-status" ).classList.add( "red" );
 		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
@@ -65,12 +82,25 @@ function CheckConnectionStatus() {
 }
 
 window.onload = function () {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Window loaded." );
+	}
 	window.addEventListener( "message", onMessage, false );
 
 	function onMessage( evt ) {
+		if ( settings.debugLevel > 0 ) {
+			console.log( "Viramate message recieved." );
+		}
 		if ( evt.data.type !== "result" ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Viramate message not a result." );
+			}
 			return;
 		} else {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Viramate message:" );
+				console.dir( evt.data );
+			}
 			if ( evt.data.result === "refill required" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
@@ -120,8 +150,14 @@ window.onload = function () {
 	}
 
 	var xmlHttp = new XMLHttpRequest();
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Getting raid configs..." );
+	}
 	xmlHttp.onreadystatechange = function () {
 		if ( xmlHttp.readyState === 4 && xmlHttp.status === 200 && xmlHttp.responseText != undefined ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Raid configs recieved." );
+			}
 			raidConfigs = JSON.parse( xmlHttp.responseText );
 			LoadSavedSettings();
 			SetupControls();
@@ -153,36 +189,60 @@ window.onload = function () {
 };
 
 function PlaySoundNotif( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Playing sound notif for: " + data.room );
+		console.log( 'Sound Settings: Layout Orientation = "' + settings.layout.orientation + '", Are Sound Notifs On = "' + settings.notification.soundNotifOn + '", Sound Notif Choice = "' + settings.notification.soundNotifChoice + '", Sound Notif Volume = "' + settings.notification.soundNotifVolume + '"' );
+	}
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
-		if ( settings.notification.soundNotifChoice === "beeps" ) {
-			beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-			beepsSoundNotif.play();
-		} else if ( settings.notification.soundNotifChoice === "lily-event-ringring" ) {
-			lilyRingRingSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-			lilyRingRingSoundNotif.play();
-		} else if ( settings.notification.soundNotifChoice === "andira-oniichan" ) {
-			andiraOniichanSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-			andiraOniichanSoundNotif.play();
-		} else if ( settings.notification.soundNotifChoice === "titanfall-droppingnow" ) {
-			titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-			titanfallDroppingNowSoundNotif.play();
+		try {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Trying to play sound notif..." );
+			}
+			if ( settings.notification.soundNotifChoice === "beeps" ) {
+				beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+				beepsSoundNotif.play();
+			} else if ( settings.notification.soundNotifChoice === "lily-event-ringring" ) {
+				lilyRingRingSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+				lilyRingRingSoundNotif.play();
+			} else if ( settings.notification.soundNotifChoice === "andira-oniichan" ) {
+				andiraOniichanSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+				andiraOniichanSoundNotif.play();
+			} else if ( settings.notification.soundNotifChoice === "titanfall-droppingnow" ) {
+				titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+				titanfallDroppingNowSoundNotif.play();
+			}
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Played sound notif." );
+			}
+		} catch ( error ) {
+			console.log( "Error playing sound notif: " + error );
 		}
 	} else if ( settings.layout.orientation === "vertical" ) {
 		for ( var i = 0; i < individualSettings.length; i++ ) {
 			if ( data.room === individualSettings[ i ].room ) {
 				if ( individualSettings[ i ].settings.soundNotifOn ) {
-					if ( individualSettings[ i ].settings.soundNotifChoice === "beeps" ) {
-						beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-						beepsSoundNotif.play();
-					} else if ( individualSettings[ i ].settings.soundNotifChoice === "lily-event-ringring" ) {
-						lilyRingRingSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-						lilyRingRingSoundNotif.play();
-					} else if ( individualSettings[ i ].settings.soundNotifChoice === "andira-oniichan" ) {
-						andiraOniichanSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-						andiraOniichanSoundNotif.play();
-					} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
-						titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-						titanfallDroppingNowSoundNotif.play();
+					try {
+						if ( settings.debugLevel > 0 ) {
+							console.log( "Trying to play sound notif..." );
+						}
+						if ( individualSettings[ i ].settings.soundNotifChoice === "beeps" ) {
+							beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+							beepsSoundNotif.play();
+						} else if ( individualSettings[ i ].settings.soundNotifChoice === "lily-event-ringring" ) {
+							lilyRingRingSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+							lilyRingRingSoundNotif.play();
+						} else if ( individualSettings[ i ].settings.soundNotifChoice === "andira-oniichan" ) {
+							andiraOniichanSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+							andiraOniichanSoundNotif.play();
+						} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
+							titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+							titanfallDroppingNowSoundNotif.play();
+						}
+						if ( settings.debugLevel > 0 ) {
+							console.log( "Played sound notif." );
+						}
+					} catch ( error ) {
+						console.log( "Error playing sound notif: " + error );
 					}
 				}
 			}
@@ -191,38 +251,52 @@ function PlaySoundNotif( data ) {
 }
 
 function SendDesktopNotif( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Sending desktop notif for: " + data.room );
+		console.log( 'Desktop Settings: Layout Orientation = "' + settings.layout.orientation + '", Are Desktop Notifs On = "' + settings.notification.desktopNotifOn + '", Desktop Notif Size = "' + settings.notification.desktopNotifSize + '"' );
+	}
 	if ( settings.layout.orientation === "horizontal" && settings.notification.desktopNotifOn ) {
-		var raidConfig = FindRaidConfig( data.room );
 		if ( Notification.permission === "granted" ) {
-			var notification = null;
-			var title = "";
-			if ( data.language === "EN" ) {
-				title = raidConfig.english;
-			} else {
-				title = raidConfig.japanese;
-			}
-			if ( settings.notification.desktopNotifSize === "small" ) {
-				notification = new Notification( title, {
-					body: "ID: " + data.id + "\nTweeter: " + data.user + "\nMessage: " + data.message,
-					icon: raidConfig.image
-				} );
-			} else {
-				notification = new Notification( title, {
-					body: "ID: " + data.id,
-					image: raidConfig.image
-				} );
-			}
-			setTimeout( function () {
-				notification.close();
-			}, 5000 );
-			notification.onclick = function ( event ) {
-				event.preventDefault();
-				var raid = document.getElementById( data.id );
-				raid.click();
-				SendJoinCommand( data.id )
-				document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
-				document.getElementById( data.id + '-btn' ).classList.add( "negative" );
-				notification.close();
+			try {
+				var raidConfig = FindRaidConfig( data.room );
+				if ( settings.debugLevel > 0 ) {
+					console.log( "Trying to send desktop notif..." );
+				}
+				var notification = null;
+				var title = "";
+				if ( data.language === "EN" ) {
+					title = raidConfig.english;
+				} else {
+					title = raidConfig.japanese;
+				}
+				if ( settings.notification.desktopNotifSize === "small" ) {
+					notification = new Notification( title, {
+						body: "ID: " + data.id + "\nTweeter: " + data.user + "\nMessage: " + data.message,
+						icon: raidConfig.image
+					} );
+				} else {
+					notification = new Notification( title, {
+						body: "ID: " + data.id,
+						image: raidConfig.image
+					} );
+				}
+				setTimeout( function () {
+					notification.close();
+				}, 5000 );
+				notification.onclick = function ( event ) {
+					event.preventDefault();
+					var raid = document.getElementById( data.id );
+					raid.click();
+					SendJoinCommand( data.id )
+					document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
+					document.getElementById( data.id + '-btn' ).classList.add( "negative" );
+					notification.close();
+				}
+				if ( settings.debugLevel > 0 ) {
+					console.log( "Sent desktop notif." );
+				}
+			} catch ( error ) {
+				console.log( "Error sending desktop notif: " + error );
 			}
 		}
 	} else if ( settings.layout.orientation === "vertical" ) {
@@ -231,35 +305,46 @@ function SendDesktopNotif( data ) {
 				if ( individualSettings[ i ].settings.desktopNotifOn ) {
 					var raidConfig = FindRaidConfig( data.room );
 					if ( Notification.permission === "granted" ) {
-						var notification = null;
-						var title = "";
-						if ( data.language === "EN" ) {
-							title = raidConfig.english;
-						} else {
-							title = raidConfig.japanese;
-						}
-						if ( individualSettings[ i ].settings.desktopNotifSize === "small" ) {
-							notification = new Notification( title, {
-								body: "ID: " + data.id + "\nTweeter: " + data.user + "\nMessage: " + data.message,
-								icon: raidConfig.image
-							} );
-						} else {
-							notification = new Notification( title, {
-								body: "ID: " + data.id,
-								image: raidConfig.image
-							} );
-						}
-						setTimeout( function () {
-							notification.close();
-						}, 5000 );
-						notification.onclick = function ( event ) {
-							event.preventDefault();
-							var raid = document.getElementById( data.id );
-							raid.click();
-							SendJoinCommand( data.id )
-							document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
-							document.getElementById( data.id + '-btn' ).classList.add( "negative" );
-							notification.close();
+						try {
+							var raidConfig = FindRaidConfig( data.room );
+							if ( settings.debugLevel > 0 ) {
+								console.log( "Trying to send desktop notif..." );
+							}
+							var notification = null;
+							var title = "";
+							if ( data.language === "EN" ) {
+								title = raidConfig.english;
+							} else {
+								title = raidConfig.japanese;
+							}
+							if ( individualSettings[ i ].settings.desktopNotifSize === "small" ) {
+								notification = new Notification( title, {
+									body: "ID: " + data.id + "\nTweeter: " + data.user + "\nMessage: " + data.message,
+									icon: raidConfig.image
+								} );
+							} else {
+								notification = new Notification( title, {
+									body: "ID: " + data.id,
+									image: raidConfig.image
+								} );
+							}
+							setTimeout( function () {
+								notification.close();
+							}, 5000 );
+							notification.onclick = function ( event ) {
+								event.preventDefault();
+								var raid = document.getElementById( data.id );
+								raid.click();
+								SendJoinCommand( data.id )
+								document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
+								document.getElementById( data.id + '-btn' ).classList.add( "negative" );
+								notification.close();
+							}
+							if ( settings.debugLevel > 0 ) {
+								console.log( "Sent desktop notif." );
+							}
+						} catch ( error ) {
+							console.log( "Error sending desktop notif: " + error );
 						}
 					}
 				}
@@ -270,9 +355,19 @@ function SendDesktopNotif( data ) {
 }
 
 function SendJoinCommand( id ) {
-	document.getElementById( "viramate-api" ).contentWindow.postMessage( {
-		type: "tryJoinRaid",
-		id: id,
-		raidCode: id
-	}, "*" );
+	try {
+		document.getElementById( "viramate-api" ).contentWindow.postMessage( {
+			type: "tryJoinRaid",
+			id: id,
+			raidCode: id
+		}, "*" );
+	} catch ( error ) {
+		console.log( "Error sending message to Viramate: " + error );
+	}
+}
+
+function ChangeDebugLevel( debugLevel ) {
+	settings.debugLevel = debugLevel;
+	localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+	location.reload();
 }

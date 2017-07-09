@@ -82,6 +82,10 @@ td.larger>img {
 	max-height: calc(78%);
 }
 
+.rowed .extra.content .button {
+	font-size: 0.85em !important;
+}
+
 .rowed>.card:not(.ultra) {
 	display: inline-block !important;
 	flex-shrink: 0 !important;
