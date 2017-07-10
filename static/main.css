@@ -18,6 +18,10 @@ body {
 	margin-bottom: 25px;
 }
 
+.ui.checkbox {
+	padding: 10px;
+}
+
 .ultra {
 	width: 400px !important;
 	display: inline-block !important;
@@ -71,7 +75,7 @@ td.larger>img {
 .rowed {
 	overflow-x: scroll !important;
 	width: auto !important;
-	height: calc(74%);
+	height: calc(90%);
 	display: flex;
 	align-items: flex-start;
 	flex-wrap: nowrap;
@@ -79,7 +83,7 @@ td.larger>img {
 
 .rowed .extra.content {
 	overflow-y: auto;
-	max-height: calc(78%);
+	max-height: calc(85%);
 }
 
 .rowed .extra.content .button {
@@ -149,11 +153,11 @@ td.larger>img {
 	.selected-raids-label {
 		font-size: 0.85em !important;
 	}
-	body > .ui.container.segment.fluid {
+	body>.ui.container.segment.fluid {
 		margin-left: 0px !important;
 		margin-right: 0px !important;
 	}
-	#raid-table .item > .content {
+	#raid-table .item>.content {
 		text-align: center !important;
 	}
 }

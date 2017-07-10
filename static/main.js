@@ -16,7 +16,8 @@ var settings = {
 		soundNotifVolume: 100,
 		soundNotifChoice: "beeps",
 		desktopNotifOn: false,
-		desktopNotifSize: "large"
+		desktopNotifSize: "large",
+		autoJoin: false
 	},
 	layout: {
 		orientation: "horizontal",
@@ -26,7 +27,7 @@ var settings = {
 		raidMaxResults: 30,
 		nightMode: false
 	},
-	version: "1.5",
+	version: "1.6",
 	newsSeen: false,
 	cardSlots: 8,
 	debugLevel: 0
@@ -42,6 +43,7 @@ socket.on( 'tweet', function ( data ) {
 		CreateRaidRow( data );
 		PlaySoundNotif( data );
 		SendDesktopNotif( data );
+		AutoJoinRaid( data );
 	}
 } );
 
@@ -109,7 +111,8 @@ window.onload = function () {
 					title: "No more BP!",
 					text: "Please refill your BP or try again later.",
 					imageUrl: "assets/stickers/waitup-sticker.png",
-					imageSize: '150x150'
+					imageSize: '150x150',
+					timer: 2000
 				} );
 			} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
@@ -119,7 +122,8 @@ window.onload = function () {
 					title: "Raid has ended!",
 					text: "Please try a different raid.",
 					imageUrl: "assets/stickers/fail-sticker.png",
-					imageSize: '150x150'
+					imageSize: '150x150',
+					timer: 2000
 				} );
 			} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
@@ -129,7 +133,8 @@ window.onload = function () {
 					title: "Raid is full!",
 					text: "Please try a different raid.",
 					imageUrl: "assets/stickers/sorry-sticker.png",
-					imageSize: '150x150'
+					imageSize: '150x150',
+					timer: 2000
 				} );
 			} else if ( evt.data.result === "already in this raid" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
@@ -139,7 +144,8 @@ window.onload = function () {
 					title: "You are already in this raid!",
 					text: "Please try a different raid.",
 					imageUrl: "assets/stickers/whoops-sticker.png",
-					imageSize: '150x150'
+					imageSize: '150x150',
+					timer: 2000
 				} );
 			} else if ( evt.data.result === "ok" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
@@ -330,14 +336,13 @@ function SendDesktopNotif( data ) {
 							}
 							setTimeout( function () {
 								notification.close();
-							}, 5000 );
+							}, 4000 );
 							notification.onclick = function ( event ) {
 								event.preventDefault();
 								var raid = document.getElementById( data.id );
 								raid.click();
 								SendJoinCommand( data.id )
 								document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
-								document.getElementById( data.id + '-btn' ).classList.add( "negative" );
 								notification.close();
 							}
 							if ( settings.debugLevel > 0 ) {
@@ -349,6 +354,30 @@ function SendDesktopNotif( data ) {
 					}
 				}
 				break;
+			}
+		}
+	}
+}
+
+function AutoJoinRaid( data ) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Auto-joining raid: " + data.room );
+		console.log('Auto-Join setting: Layout Orientation = "' + settings.layout.orientation + '", Auto-Join = "' + settings.notification.autoJoin + '"');
+	}
+	if ( settings.layout.orientation === "horizontal" && settings.notification.autoJoin ) {
+		var raid = document.getElementById( data.id );
+		raid.click();
+		SendJoinCommand( data.id )
+		document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
+	} else if ( settings.layout.orientation === "vertical" ) {
+		for ( var i = 0; i < individualSettings.length; i++ ) {
+			if ( data.room === individualSettings[ i ].room ) {
+				if ( individualSettings[ i ].settings.autoJoin ) {
+					var raid = document.getElementById( data.id );
+					raid.click();
+					SendJoinCommand( data.id )
+					document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
+				}
 			}
 		}
 	}

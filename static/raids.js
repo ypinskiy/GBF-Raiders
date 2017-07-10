@@ -7,8 +7,8 @@ function FindRaidConfig( room ) {
 		if ( raidConfigs[ i ].room === room ) {
 			result = raidConfigs[ i ];
 			if ( settings.debugLevel > 0 ) {
-				console.log( "Found raid config:");
-				console.dir(raidConfigs[ i ]);
+				console.log( "Found raid config:" );
+				console.dir( raidConfigs[ i ] );
 			}
 			break;
 		}
@@ -25,7 +25,8 @@ function FindRaid( id ) {
 		if ( raids[ i ].id === id ) {
 			result = raids[ i ];
 			if ( settings.debugLevel > 0 ) {
-				console.log( "Found raid: " + raids[ i ] );
+				console.log( "Found raid: " );
+				console.dir( raids[ i ] );
 			}
 			break;
 		}
@@ -625,10 +626,20 @@ function AddSelectedRaid( room ) {
 			}
 			try {
 				selectedRaidsArray.push( room );
-				individualSettings.push( {
-					room: room,
-					settings: Object.assign( {}, settings.notification )
-				} );
+				var indivSettingExists = false;
+				for ( var i = 0; i < individualSettings.length; i++ ) {
+					if ( room === individualSettings[ i ].room ) {
+						indivSettingExists = true;
+						break;
+					}
+				}
+				if ( !indivSettingExists ) {
+					individualSettings.push( {
+						room: room,
+						settings: Object.assign( {}, settings.notification )
+					} );
+					localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
+				}
 				var raid = FindRaidConfig( room );
 				if ( settings.layout.infoLevel === "compact" ) {
 					AddSelectedVerticalCompactRaid( raid );
@@ -914,6 +925,7 @@ function RemoveSelectedRaid( room ) {
 					break;
 				}
 			}
+			localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
 			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
 			document.getElementById( room + "-card" ).remove();
 			for ( var i = raids.length - 1; i >= 0; i-- ) {

@@ -46,6 +46,11 @@ function SetupSettingsModal( raid ) {
 			$( "#modal-desktop-notif-size-dropdown" ).dropdown( 'set selected', individualSettings[ i ].settings.desktopNotifSize );
 			$( "#modal-sound-choice-dropdown" ).dropdown( 'set selected', individualSettings[ i ].settings.soundNotifChoice );
 			document.getElementById( "modal-sound-volume-slider" ).value = individualSettings[ i ].settings.soundNotifVolume;
+			if ( individualSettings[ i ].settings.autoJoin ) {
+				$( '#modal-auto-copy-checkbox' ).checkbox( "set checked" );
+			} else {
+				$( '#modal-auto-copy-checkbox' ).checkbox();
+			}
 			break;
 		}
 	}
@@ -75,10 +80,16 @@ function SaveIndividualSettings() {
 			individualSettings[ i ].settings.desktopNotifSize = document.getElementById( "modal-desktop-notif-size-input" ).value;
 			individualSettings[ i ].settings.soundNotifChoice = document.getElementById( "modal-sound-choice-input" ).value;
 			individualSettings[ i ].settings.soundNotifVolume = document.getElementById( "modal-sound-volume-slider" ).value;
+			if ( document.getElementById( "modal-auto-copy-checkbox" ).classList.contains( "checked" ) ) {
+				individualSettings[ i ].settings.autoJoin = true;
+			} else {
+				individualSettings[ i ].settings.autoJoin = false;
+			}
 			if ( settings.debugLevel > 0 ) {
 				console.log( "Saved individual settings for raid: " + individualSettings[ i ].room );
 				console.dir( individualSettings[ i ] );
 			}
+			localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
 			break;
 		}
 	}
@@ -98,6 +109,7 @@ function CreateSettingsModalFrame() {
 	result += '<button id="modal-enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>';
 	result += '<span id="modal-sound-choice-control" class="input-control-disabled"><span class="input-title">Sound Notification Choice</span><div id="modal-sound-choice-dropdown" class="ui compact selection disabled dropdown"><input id="modal-sound-choice-input" type="hidden" name="formatting" value="beeps"><i class="dropdown icon"></i><div class="default text">Sound Choice</div><div class="menu"><div class="item" data-value="beeps">Beeps Appear</div><div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div><div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div><div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div></div></div></span>';
 	result += '<span id="modal-sound-volume-control" class="slider-control-disabled"><span class="slider-title">Sound Notification Volume</span><input id="modal-sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled></span>';
+	result += '<span id="modal-auto-copy-control" class="input-control"><div id="modal-auto-copy-checkbox" class="ui checkbox"><label class="input-title">Auto Join</label><input id="modal-auto-copy-input" type="checkbox" tabindex="0" class="hidden"></div></span>';
 	result += '</div></div>';
 	result += '<div id="settings-modal-actions" class="actions">';
 	result += '<div id="settings-modal-save-btn" class="ui large positive button">Save</div>';
@@ -167,6 +179,21 @@ function LoadSavedSettings() {
 				document.getElementById( "enable-night" ).classList.add( "negative" );
 				document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
 			}
+			if ( settings.notification.autoJoin ) {
+				$( '#auto-copy-checkbox' ).checkbox( "set checked" );
+			}
+			if ( localStorage.getItem( "individualSettings" ) ) {
+				try {
+					var tempIndivSettings = JSON.parse( localStorage.getItem( "individualSettings" ) );
+				} catch ( error ) {
+					console.log( "Error parsing individual settings from localstorage: " + error );
+				}
+				try {
+					Object.assign( individualSettings, tempIndivSettings );
+				} catch ( error ) {
+					console.log( "Error assigning saved individual settings to current individual settings: " + error );
+				}
+			}
 			SetupTable();
 		} else {
 			if ( settings.debugLevel > 0 ) {
@@ -174,6 +201,7 @@ function LoadSavedSettings() {
 			}
 			localStorage.clear();
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
 		}
 	}
 }
@@ -206,6 +234,7 @@ function SetupControls() {
 		} );
 
 		document.getElementById( "enable-sound" ).addEventListener( "click", function ( event ) {
+			console.dir( event );
 			ToggleSoundNotifications( true )
 		} );
 
@@ -370,6 +399,29 @@ function SetupControls() {
 			$( this ).closest( '.message' ).transition( 'fade' );
 			settings.newsSeen = true;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		} );
+
+		$( '.ui.checkbox' ).checkbox( {
+			onChecked: function () {
+				settings.notification.autoJoin = true;
+				if ( settings.layout.orientation === "vertical" ) {
+					for ( var i = 0; i < individualSettings.length; i++ ) {
+						individualSettings[ i ].settings.autoJoin = true;
+					}
+				}
+				localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			},
+			onUnchecked: function () {
+				settings.notification.autoJoin = false;
+				if ( settings.layout.orientation === "vertical" ) {
+					for ( var i = 0; i < individualSettings.length; i++ ) {
+						individualSettings[ i ].settings.autoJoin = false;
+					}
+				}
+				localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
+				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			}
 		} );
 
 		$( '.help' )
