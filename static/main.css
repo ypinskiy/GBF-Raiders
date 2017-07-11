@@ -2,6 +2,11 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+body:-webkit-full-screen {
+	width: 100%;
+	height: 100%;
+}
+
 .ui.top.sidebar {
 	padding: 10px;
 	background-color: white;

@@ -49,7 +49,7 @@ function SetupSettingsModal( raid ) {
 			if ( individualSettings[ i ].settings.autoJoin ) {
 				$( '#modal-auto-copy-checkbox' ).checkbox( "set checked" );
 			} else {
-				$( '#modal-auto-copy-checkbox' ).checkbox("set unchecked");
+				$( '#modal-auto-copy-checkbox' ).checkbox( "set unchecked" );
 			}
 			break;
 		}
@@ -392,6 +392,34 @@ function SetupControls() {
 				}
 			} catch ( error ) {
 				console.log( "Error clearing raids from tables: " + error );
+			}
+		} );
+
+		document.getElementById( "full-screen" ).addEventListener( "click", function ( event ) {
+			if ( document.fullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen ) {
+				document.getElementById("full-screen").innerHTML = 'Full Screen<i class="right expand icon"></i>';
+				document.getElementById("full-screen").classList.remove("negative");
+				document.getElementById("full-screen").classList.add("primary");
+				if ( document.exitFullscreen ) {
+					document.exitFullscreen();
+				} else if ( document.mozCancelFullScreen ) {
+					document.mozCancelFullScreen();
+				} else if ( document.webkitCancelFullScreen ) {
+					document.webkitCancelFullScreen();
+				}
+			} else {
+				document.getElementById("full-screen").innerHTML = 'Normal Screen<i class="right compress icon"></i>';
+				document.getElementById("full-screen").classList.remove("primary");
+				document.getElementById("full-screen").classList.add("negative");
+				if ( document.body.requestFullscreen ) {
+					document.body.requestFullscreen();
+				} else if ( document.body.mozRequestFullScreen ) {
+					document.body.mozRequestFullScreen();
+				} else if ( document.body.webkitRequestFullScreen ) {
+					document.body.webkitRequestFullScreen();
+				} else if ( document.body.msRequestFullscreen ) {
+					document.body.msRequestFullscreen();
+				}
 			}
 		} );
 

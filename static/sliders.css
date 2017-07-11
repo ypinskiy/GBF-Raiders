@@ -5,6 +5,7 @@
 	background-color: rgb(224, 225, 226);
 	margin-left: 5px !important;
 	margin-right: 5px !important;
+	margin-bottom: 10px !important;
 }
 
 .slider-control-disabled {
@@ -13,6 +14,7 @@
 	display: inline-block;
 	margin-left: 5px !important;
 	margin-right: 5px !important;
+	margin-bottom: 10px !important;
 	background-color: rgb(150, 150, 150) !important;
 	cursor: not-allowed !important;
 }

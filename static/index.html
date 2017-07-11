@@ -78,7 +78,7 @@
 			</div>
 			</span>
 			<span class="input-control">
-				<span class="input-title">Info Level</span>
+					<span class="input-title">Info Level</span>
 			<div id="info-level" class="ui compact selection dropdown">
 				<input id="info-level-input" type="hidden" name="formatting" value="normal">
 				<i class="dropdown icon"></i>
@@ -91,14 +91,14 @@
 			</div>
 			</span>
 			<span class="input-control">
-				<span class="input-title">Remove raids after</span>
+					<span class="input-title">Remove raids after</span>
 			<div class="ui input input-text">
 				<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
 			</div>
 			<span class="input-footer">seconds</span>
 			</span>
 			<span class="input-control">
-				<span class="input-title">Start removing raids after</span>
+					<span class="input-title">Start removing raids after</span>
 			<div class="ui input input-text">
 				<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
 			</div>
@@ -141,13 +141,14 @@
 				</table>
 				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
 				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
+				<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
 				<span class="ui search">
-				<div class="ui icon input">
-					<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
-					<i class="search icon"></i>
-				</div>
-				<div class="results"></div>
-			</span>
+					<div class="ui icon input">
+						<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
+						<i class="search icon"></i>
+					</div>
+					<div class="results"></div>
+				</span>
 			</div>
 		</div>
 		<div id="news-message" class="ui hidden message">
@@ -161,8 +162,8 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		if (!navigator.userAgent.toLowerCase().match('edge') && !navigator.userAgent.toLowerCase().match('firefox') && document.getElementById('container'))
-			document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
+		if (!navigator.userAgent.toLowerCase().match('edge') && !navigator.userAgent.toLowerCase().match('firefox') && document.getElementById('root'))
+			document.getElementById('root').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
 	</script>
 	<script src="utils/jquery-3.2.1.min.js"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
