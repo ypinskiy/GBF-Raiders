@@ -49,7 +49,7 @@ function SetupSettingsModal( raid ) {
 			if ( individualSettings[ i ].settings.autoJoin ) {
 				$( '#modal-auto-copy-checkbox' ).checkbox( "set checked" );
 			} else {
-				$( '#modal-auto-copy-checkbox' ).checkbox();
+				$( '#modal-auto-copy-checkbox' ).checkbox("set unchecked");
 			}
 			break;
 		}
