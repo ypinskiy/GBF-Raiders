@@ -6,6 +6,15 @@
 	background-color: #031019 !important;
 }
 
+.darken .ui.special.popup {
+	background-color: #316d92 !important;
+	color: white;
+}
+
+.darken .ui.special.popup > a {
+	color: lightgrey;
+}
+
 .darken .sweet-alert {
 	background-color: #2a465c !important;
 }

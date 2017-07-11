@@ -365,16 +365,12 @@ function AutoJoinRaid( data ) {
 		console.log('Auto-Join setting: Layout Orientation = "' + settings.layout.orientation + '", Auto-Join = "' + settings.notification.autoJoin + '"');
 	}
 	if ( settings.layout.orientation === "horizontal" && settings.notification.autoJoin ) {
-		var raid = document.getElementById( data.id );
-		raid.click();
 		SendJoinCommand( data.id )
 		document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 	} else if ( settings.layout.orientation === "vertical" ) {
 		for ( var i = 0; i < individualSettings.length; i++ ) {
 			if ( data.room === individualSettings[ i ].room ) {
 				if ( individualSettings[ i ].settings.autoJoin ) {
-					var raid = document.getElementById( data.id );
-					raid.click();
 					SendJoinCommand( data.id )
 					document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 				}
