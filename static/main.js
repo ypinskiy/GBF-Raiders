@@ -16,8 +16,7 @@ var settings = {
 		soundNotifVolume: 100,
 		soundNotifChoice: "beeps",
 		desktopNotifOn: false,
-		desktopNotifSize: "large",
-		autoJoin: false
+		desktopNotifSize: "large"
 	},
 	layout: {
 		orientation: "horizontal",
@@ -27,7 +26,7 @@ var settings = {
 		raidMaxResults: 30,
 		nightMode: false
 	},
-	version: "1.6",
+	version: "1.7",
 	newsSeen: false,
 	cardSlots: 8,
 	debugLevel: 0
@@ -43,7 +42,6 @@ socket.on( 'tweet', function ( data ) {
 		CreateRaidRow( data );
 		PlaySoundNotif( data );
 		SendDesktopNotif( data );
-		AutoJoinRaid( data );
 	}
 } );
 
@@ -354,26 +352,6 @@ function SendDesktopNotif( data ) {
 					}
 				}
 				break;
-			}
-		}
-	}
-}
-
-function AutoJoinRaid( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Auto-joining raid: " + data.room );
-		console.log('Auto-Join setting: Layout Orientation = "' + settings.layout.orientation + '", Auto-Join = "' + settings.notification.autoJoin + '"');
-	}
-	if ( settings.layout.orientation === "horizontal" && settings.notification.autoJoin ) {
-		SendJoinCommand( data.id )
-		document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
-	} else if ( settings.layout.orientation === "vertical" ) {
-		for ( var i = 0; i < individualSettings.length; i++ ) {
-			if ( data.room === individualSettings[ i ].room ) {
-				if ( individualSettings[ i ].settings.autoJoin ) {
-					SendJoinCommand( data.id )
-					document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
-				}
 			}
 		}
 	}
