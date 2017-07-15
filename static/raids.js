@@ -714,15 +714,17 @@ function AddSelectedVerticalCompactRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		Draggable.create( document.getElementById( raid.room + "-card" ), {
-			type: "x",
-			autoScroll: 1,
-			liveSnap: true,
-			snap: {
-				points: CalculatePoints( raid.room, false ),
-				radius: 165
-			}
-		} );
+		if ( settings.layout.verticalStacking === "row" ) {
+			Draggable.create( document.getElementById( raid.room + "-card" ), {
+				type: "x",
+				autoScroll: 1,
+				liveSnap: true,
+				snap: {
+					points: CalculatePoints( raid.room, false ),
+					radius: 165
+				}
+			} );
+		}
 	} catch ( error ) {
 		console.log( "Error adding Vertical Compact raid: " + error );
 	}
@@ -783,15 +785,17 @@ function AddSelectedVerticalNormalRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		Draggable.create( document.getElementById( raid.room + "-card" ), {
-			type: "x",
-			autoScroll: 1,
-			liveSnap: true,
-			snap: {
-				points: CalculatePoints( raid.room, false ),
-				radius: 165
-			}
-		} );
+		if ( settings.layout.verticalStacking === "row" ) {
+			Draggable.create( document.getElementById( raid.room + "-card" ), {
+				type: "x",
+				autoScroll: 1,
+				liveSnap: true,
+				snap: {
+					points: CalculatePoints( raid.room, false ),
+					radius: 165
+				}
+			} );
+		}
 	} catch ( error ) {
 		console.log( "Error adding Vertical Normal raid: " + error );
 	}
@@ -852,15 +856,17 @@ function AddSelectedVerticalFullRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		Draggable.create( document.getElementById( raid.room + "-card" ), {
-			type: "x",
-			autoScroll: 1,
-			liveSnap: true,
-			snap: {
-				points: CalculatePoints( raid.room, true ),
-				radius: 215
-			}
-		} );
+		if ( settings.layout.verticalStacking === "row" ) {
+			Draggable.create( document.getElementById( raid.room + "-card" ), {
+				type: "x",
+				autoScroll: 1,
+				liveSnap: true,
+				snap: {
+					points: CalculatePoints( raid.room, true ),
+					radius: 215
+				}
+			} );
+		}
 	} catch ( error ) {
 		console.log( "Error adding Vertical Full raid: " + error );
 	}

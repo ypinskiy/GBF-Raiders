@@ -15,7 +15,8 @@ body:-webkit-full-screen {
 .container {
 	margin-bottom: 0px !important;
 	margin-top: -1px !important;
-	min-height: 100% !important;
+	height: 100% !important;
+	width: 100% !important;
 }
 
 #header {
@@ -23,13 +24,17 @@ body:-webkit-full-screen {
 	margin-bottom: 25px;
 }
 
-.ultra {
+.rowed .ultra {
 	width: 400px !important;
 	display: inline-block !important;
 	flex-shrink: 0 !important;
 	margin-top: 0px !important;
 	margin-left: 5px !important;
 	margin-right: 15px !important;
+}
+
+.results {
+	z-index: 5000;
 }
 
 .message>p {
@@ -76,10 +81,16 @@ td.larger>img {
 .rowed {
 	overflow-x: scroll !important;
 	width: auto !important;
+	height: -moz-calc(90%);
+	height: -webkit-calc(90%);
 	height: calc(90%);
 	display: flex;
 	align-items: flex-start;
 	flex-wrap: nowrap;
+}
+
+.rowed tr {
+	cursor: pointer;
 }
 
 .rowed .extra.content {
@@ -114,13 +125,28 @@ td.larger>img {
 	width: 100%;
 }
 
-.stacking>.card {
-	width: 90% !important;
+.stacking .extra.content .button {
+	font-size: 0.85em !important;
+}
+
+.stacking>.card:not(.ultra) {
+	width: 300px !important;
 	display: inline-block !important;
 	margin-top: 0px !important;
 	-webkit-column-break-inside: avoid !important;
 	page-break-inside: avoid !important;
 	break-inside: avoid-column !important;
+	max-width: none !important;
+}
+
+.stacking .ultra {
+	width: 400px !important;
+	display: inline-block !important;
+	margin-top: 0px !important;
+	-webkit-column-break-inside: avoid !important;
+	page-break-inside: avoid !important;
+	break-inside: avoid-column !important;
+	max-width: none !important;
 }
 
 .card>.content {

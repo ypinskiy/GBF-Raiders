@@ -40,6 +40,10 @@
 	color: white !important;
 }
 
+.darken .message>.description {
+	color: white !important;
+}
+
 .darken .menu>.item {
 	background-color: #2a465c !important;
 	color: white !important;

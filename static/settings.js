@@ -383,9 +383,9 @@ function SetupControls() {
 
 		document.getElementById( "full-screen" ).addEventListener( "click", function ( event ) {
 			if ( document.fullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen ) {
-				document.getElementById("full-screen").innerHTML = 'Full Screen<i class="right expand icon"></i>';
-				document.getElementById("full-screen").classList.remove("negative");
-				document.getElementById("full-screen").classList.add("primary");
+				document.getElementById( "full-screen" ).innerHTML = 'Full Screen<i class="right expand icon"></i>';
+				document.getElementById( "full-screen" ).classList.remove( "negative" );
+				document.getElementById( "full-screen" ).classList.add( "primary" );
 				if ( document.exitFullscreen ) {
 					document.exitFullscreen();
 				} else if ( document.mozCancelFullScreen ) {
@@ -394,9 +394,9 @@ function SetupControls() {
 					document.webkitCancelFullScreen();
 				}
 			} else {
-				document.getElementById("full-screen").innerHTML = 'Normal Screen<i class="right compress icon"></i>';
-				document.getElementById("full-screen").classList.remove("primary");
-				document.getElementById("full-screen").classList.add("negative");
+				document.getElementById( "full-screen" ).innerHTML = 'Normal Screen<i class="right compress icon"></i>';
+				document.getElementById( "full-screen" ).classList.remove( "primary" );
+				document.getElementById( "full-screen" ).classList.add( "negative" );
 				if ( document.body.requestFullscreen ) {
 					document.body.requestFullscreen();
 				} else if ( document.body.mozRequestFullScreen ) {

@@ -412,4 +412,52 @@
 	"japanese": "Lv100 バアル",
 	"room": "lvl100baal",
 	"image": "/assets/raids/BattleRaid_Baal_Extreme.jpg"
+},
+{
+	"english": "Lvl 60 Zhuque",
+	"japanese": "Lv60 朱雀",
+	"room": "lvl60zhuque",
+	"image": "/assets/raids/Zhuque_Extreme.jpg"
+},
+{
+	"english": "Lvl 60 Xuanwu",
+	"japanese": "Lv60 玄武",
+	"room": "lvl60xuanwu",
+	"image": "/assets/raids/Xuanwu_Extreme.jpg"
+},
+{
+	"english": "Lvl 60 Baihu",
+	"japanese": "Lv60 白虎",
+	"room": "lvl60baihu",
+	"image": "/assets/raids/Baihu_Extreme.jpg"
+},
+{
+	"english": "Lvl 60 Qinglong",
+	"japanese": "Lv60 青竜",
+	"room": "lvl60qinglong",
+	"image": "/assets/raids/Qinglong_Extreme.jpg"
+},
+{
+	"english": "Lvl 90 Agni",
+	"japanese": "Lv90 アグニス",
+	"room": "lvl90agni",
+	"image": "/assets/raids/Agni_ExtremePlus.jpg"
+},
+{
+	"english": "Lvl 90 Neptune",
+	"japanese": "Lv90 ネプチューン",
+	"room": "lvl90neptune",
+	"image": "/assets/raids/Neptune_ExtremePlus.jpg"
+},
+{
+	"english": "Lvl 90 Titan",
+	"japanese": "Lv90 ティターン",
+	"room": "lvl90titan",
+	"image": "/assets/raids/Titan_ExtremePlus.jpg"
+},
+{
+	"english": "Lvl 90 Zephyrus",
+	"japanese": "Lv90 ゼピュロス",
+	"room": "lvl90zephyrus",
+	"image": "/assets/raids/Zephyrus_ExtremePlus.jpg"
 }]
