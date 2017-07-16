@@ -10,6 +10,7 @@ body:-webkit-full-screen {
 .ui.top.sidebar {
 	padding: 10px;
 	background-color: white;
+	overflow-y: visible !important;
 }
 
 .container {
@@ -81,9 +82,7 @@ td.larger>img {
 .rowed {
 	overflow-x: scroll !important;
 	width: auto !important;
-	height: -moz-calc(90%);
-	height: -webkit-calc(90%);
-	height: calc(90%);
+	height: calc(93%);
 	display: flex;
 	align-items: flex-start;
 	flex-wrap: nowrap;
@@ -95,7 +94,8 @@ td.larger>img {
 
 .rowed .extra.content {
 	overflow-y: auto;
-	max-height: calc(85%);
+	max-height: 75vh;
+	padding: 0px !important;
 }
 
 .rowed .extra.content .button {
