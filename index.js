@@ -114,9 +114,6 @@ function StartTwitterStream() {
 		stream.on( 'error', function ( error ) {
 			TimedLogger( "Twitter Stream error:" );
 			console.dir( error );
-			io.sockets.sockets.forEach( function ( s ) {
-				s.disconnect( true );
-			} );
 			StartTwitterStream();
 		} );
 		stream.on( 'disconnect', function ( disconnect ) {

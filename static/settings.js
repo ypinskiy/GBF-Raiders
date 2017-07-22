@@ -124,71 +124,69 @@ function LoadSavedSettings() {
 			if ( settings.debugLevel > 0 ) {
 				console.log( "Loaded version matches current version." );
 			}
-			try {
-				Object.assign( settings, tempSettings );
-			} catch ( error ) {
-				console.log( "Error assigning saved settings to current settings: " + error );
-			}
-			if ( !settings.newsSeen ) {
-				document.getElementById( "news-message" ).classList.remove( "hidden" );
-			}
-			if ( settings.notification.desktopNotifOn ) {
-				document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
-				document.getElementById( "enable-notif" ).classList.add( "negative" );
-				document.getElementById( "desktop-notif-size-control" ).classList.remove( "input-control-disabled" );
-				document.getElementById( "desktop-notif-size-control" ).classList.add( "input-control" );
-				document.getElementById( "desktop-notif-size-dropdown" ).classList.remove( "disabled" );
-			}
-			document.getElementById( "desktop-notif-size-input" ).value = settings.notification.desktopNotifSize;
-			if ( settings.notification.soundNotifOn ) {
-				document.getElementById( "enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>';
-				document.getElementById( "enable-sound" ).classList.add( "negative" );
-				document.getElementById( "sound-volume-control" ).classList.remove( "slider-control-disabled" );
-				document.getElementById( "sound-volume-control" ).classList.add( "slider-control" );
-				document.getElementById( "sound-volume-slider" ).disabled = false;
-				document.getElementById( "sound-choice-control" ).classList.remove( "input-control-disabled" );
-				document.getElementById( "sound-choice-control" ).classList.add( "input-control" );
-				document.getElementById( "sound-choice-dropdown" ).classList.remove( "disabled" );
-			}
-			document.getElementById( "sound-volume-slider" ).value = settings.notification.soundNotifVolume;
-			document.getElementById( "sound-choice-input" ).value = settings.notification.soundNotifChoice;
-			if ( settings.layout.orientation === "vertical" ) {
-				document.getElementById( "vertical-layout-btn" ).classList.add( "primary" );
-				document.getElementById( "horiz-layout-btn" ).classList.remove( "primary" );
-				document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control-disabled" );
-				document.getElementById( "vertical-stacking-control" ).classList.add( "input-control" );
-				document.getElementById( "vertical-stacking-dropdown" ).classList.remove( "disabled" );
-			}
-			document.getElementById( "vertical-stacking-input" ).value = settings.layout.verticalStacking;
-			document.getElementById( "info-level-input" ).value = settings.layout.infoLevel;
-			document.getElementById( "raid-timeout" ).value = settings.layout.raidTimeout;
-			document.getElementById( "raid-max-results" ).value = settings.layout.raidMaxResults;
-			if ( settings.layout.nightMode ) {
-				document.body.classList.add( "darken" );
-				document.getElementById( "enable-night" ).classList.add( "negative" );
-				document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
-			}
-			if ( localStorage.getItem( "individualSettings" ) ) {
-				try {
-					var tempIndivSettings = JSON.parse( localStorage.getItem( "individualSettings" ) );
-				} catch ( error ) {
-					console.log( "Error parsing individual settings from localstorage: " + error );
-				}
-				try {
-					Object.assign( individualSettings, tempIndivSettings );
-				} catch ( error ) {
-					console.log( "Error assigning saved individual settings to current individual settings: " + error );
-				}
-			}
-			SetupTable();
 		} else {
 			if ( settings.debugLevel > 0 ) {
-				console.log( "Loaded version doesn't match current version. Clearing localstorage..." );
+				console.log( "Loaded version does not match current version." );
 			}
-			localStorage.clear();
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
+			settings.newsSeen = false;
 		}
+		try {
+			Object.assign( settings, tempSettings );
+		} catch ( error ) {
+			console.log( "Error assigning saved settings to current settings: " + error );
+		}
+		if ( !settings.newsSeen ) {
+			document.getElementById( "news-message" ).classList.remove( "hidden" );
+		}
+		if ( settings.notification.desktopNotifOn ) {
+			document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
+			document.getElementById( "enable-notif" ).classList.add( "negative" );
+			document.getElementById( "desktop-notif-size-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "desktop-notif-size-control" ).classList.add( "input-control" );
+			document.getElementById( "desktop-notif-size-dropdown" ).classList.remove( "disabled" );
+		}
+		document.getElementById( "desktop-notif-size-input" ).value = settings.notification.desktopNotifSize;
+		if ( settings.notification.soundNotifOn ) {
+			document.getElementById( "enable-sound" ).innerHTML = 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>';
+			document.getElementById( "enable-sound" ).classList.add( "negative" );
+			document.getElementById( "sound-volume-control" ).classList.remove( "slider-control-disabled" );
+			document.getElementById( "sound-volume-control" ).classList.add( "slider-control" );
+			document.getElementById( "sound-volume-slider" ).disabled = false;
+			document.getElementById( "sound-choice-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "sound-choice-control" ).classList.add( "input-control" );
+			document.getElementById( "sound-choice-dropdown" ).classList.remove( "disabled" );
+		}
+		document.getElementById( "sound-volume-slider" ).value = settings.notification.soundNotifVolume;
+		document.getElementById( "sound-choice-input" ).value = settings.notification.soundNotifChoice;
+		if ( settings.layout.orientation === "vertical" ) {
+			document.getElementById( "vertical-layout-btn" ).classList.add( "primary" );
+			document.getElementById( "horiz-layout-btn" ).classList.remove( "primary" );
+			document.getElementById( "vertical-stacking-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "vertical-stacking-control" ).classList.add( "input-control" );
+			document.getElementById( "vertical-stacking-dropdown" ).classList.remove( "disabled" );
+		}
+		document.getElementById( "vertical-stacking-input" ).value = settings.layout.verticalStacking;
+		document.getElementById( "info-level-input" ).value = settings.layout.infoLevel;
+		document.getElementById( "raid-timeout" ).value = settings.layout.raidTimeout;
+		document.getElementById( "raid-max-results" ).value = settings.layout.raidMaxResults;
+		if ( settings.layout.nightMode ) {
+			document.body.classList.add( "darken" );
+			document.getElementById( "enable-night" ).classList.add( "negative" );
+			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
+		}
+		if ( localStorage.getItem( "individualSettings" ) ) {
+			try {
+				var tempIndivSettings = JSON.parse( localStorage.getItem( "individualSettings" ) );
+			} catch ( error ) {
+				console.log( "Error parsing individual settings from localstorage: " + error );
+			}
+			try {
+				Object.assign( individualSettings, tempIndivSettings );
+			} catch ( error ) {
+				console.log( "Error assigning saved individual settings to current individual settings: " + error );
+			}
+		}
+		SetupTable();
 	}
 }
 
@@ -423,6 +421,17 @@ function SetupControls() {
 				setFluidWidth: false,
 				lastResort: "bottom left",
 				hoverable: true,
+				jitter: 50
+			} );
+
+		$( '.donate' )
+			.popup( {
+				inline: true,
+				position: "bottom left",
+				perserve: true,
+				setFluidWidth: false,
+				lastResort: "bottom left",
+				hoverable: false,
 				jitter: 50
 			} );
 

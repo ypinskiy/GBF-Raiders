@@ -13,6 +13,7 @@
 
 .darken .ui.special.popup  a {
 	color: lightgrey;
+	text-decoration: underline;
 }
 
 .darken .sweet-alert {
@@ -92,9 +93,16 @@
 }
 
 .darken #raid-container table td {
-	background-color: #2a465c !important;
 	color: white !important;
 	border: 1px solid black;
+}
+
+.darken .rowed tbody tr {
+	background-color: #2a465c !important;
+}
+
+.darken .rowed tbody tr:hover {
+	background-color: #316d92 !important;
 }
 
 .darken .header {

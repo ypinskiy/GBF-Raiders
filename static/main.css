@@ -38,6 +38,10 @@ body:-webkit-full-screen {
 	z-index: 5000;
 }
 
+.ui.special.popup  a {
+	text-decoration: underline;
+}
+
 .message>p {
 	text-indent: 25px;
 }
@@ -88,8 +92,17 @@ td.larger>img {
 	flex-wrap: nowrap;
 }
 
-.rowed tr {
+.rowed tbody tr {
 	cursor: pointer;
+	transition: height 1s;
+}
+
+.rowed .card:not(.ultra) tbody tr:hover {
+	height: 50px;
+}
+
+.rowed .card.ultra tbody tr:hover {
+	height: 70px;
 }
 
 .rowed .extra.content {

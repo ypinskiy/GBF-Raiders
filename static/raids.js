@@ -698,7 +698,7 @@ function AddSelectedVerticalCompactRaid( raid ) {
 	var raidTableContainer = document.createElement( "div" );
 	raidTableContainer.classList.add( "extra", "content" );
 	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
+	raidTable.classList.add( "ui", "blue", "celled", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
@@ -769,7 +769,7 @@ function AddSelectedVerticalNormalRaid( raid ) {
 	var raidTableContainer = document.createElement( "div" );
 	raidTableContainer.classList.add( "extra", "content" );
 	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
+	raidTable.classList.add( "ui", "blue", "celled", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
@@ -840,7 +840,7 @@ function AddSelectedVerticalFullRaid( raid ) {
 	var raidTableContainer = document.createElement( "div" );
 	raidTableContainer.classList.add( "extra", "content" );
 	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact", "smaller" );
+	raidTable.classList.add( "ui", "blue", "celled", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
