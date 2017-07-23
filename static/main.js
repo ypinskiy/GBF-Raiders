@@ -26,7 +26,7 @@ var settings = {
 		raidMaxResults: 30,
 		nightMode: false
 	},
-	version: "1.7",
+	version: "1.8",
 	newsSeen: false,
 	cardSlots: 8,
 	debugLevel: 0
@@ -289,8 +289,18 @@ function SendDesktopNotif( data ) {
 				}, 5000 );
 				notification.onclick = function ( event ) {
 					event.preventDefault();
-					var raid = document.getElementById( data.id );
-					raid.click();
+					var raidLabel = document.getElementById( data.id + '-label' );
+					if (raidLabel !== null) {
+						if (window.getSelection) {
+							raidLabel.focus();
+							var selection = window.getSelection();
+							var range = document.createRange();
+							range.selectNodeContents(raidLabel);
+							selection.removeAllRanges();
+							selection.addRange(range);
+							document.execCommand("copy");
+						}
+					}
 					SendJoinCommand( data.id )
 					document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 					document.getElementById( data.id + '-btn' ).classList.add( "negative" );
