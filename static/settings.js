@@ -124,6 +124,7 @@ function LoadSavedSettings() {
 			if ( settings.debugLevel > 0 ) {
 				console.log( "Loaded version matches current version." );
 			}
+			settings.newsSeen = tempSettings.newsSeen;
 		} else {
 			if ( settings.debugLevel > 0 ) {
 				console.log( "Loaded version does not match current version." );
@@ -131,7 +132,8 @@ function LoadSavedSettings() {
 			settings.newsSeen = false;
 		}
 		try {
-			Object.assign( settings, tempSettings );
+			Object.assign( settings.notification, tempSettings.notification );
+			Object.assign( settings.layout, tempSettings.layout );
 		} catch ( error ) {
 			console.log( "Error assigning saved settings to current settings: " + error );
 		}
