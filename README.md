@@ -7,6 +7,9 @@ Click here to make a new Heroku dyno with this site pre-installed! [![Deploy](ht
 
 ![Example of Website](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/site-example.png)
 
+# Reminders
+Please remember to change/remove the Google Analytics code at the bottom of `index.html` if you are cloning this repository!
+
 # Installing Dependencies
 After cloning or downloading the source code, make sure that you have Node.js and NPM installed and setup in your PATH. All the other dependencies will be installed when the command `npm install` is run in the root directory of the site. Semantic UI is set to automatically install itself during this process. The next step would be to setup the environment variables as shown in the next section. The site's server can then be started with `node index.js` or `npm start`.
 
