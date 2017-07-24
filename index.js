@@ -57,6 +57,7 @@ app.use( st( {
 	url: '/',
 	index: '/index.html',
 	gzip: true,
+	dot: true,
 	cache: {
 		content: {
 			max: 1024 * 1024 * 64, // how much memory to use on caching contents (bytes * kilo * mega)
