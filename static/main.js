@@ -347,8 +347,18 @@ function SendDesktopNotif( data ) {
 							}, 4000 );
 							notification.onclick = function ( event ) {
 								event.preventDefault();
-								var raid = document.getElementById( data.id );
-								raid.click();
+								var raidLabel = document.getElementById( data.id + '-label' );
+								if (raidLabel !== null) {
+									if (window.getSelection) {
+										raidLabel.focus();
+										var selection = window.getSelection();
+										var range = document.createRange();
+										range.selectNodeContents(raidLabel);
+										selection.removeAllRanges();
+										selection.addRange(range);
+										document.execCommand("copy");
+									}
+								}
 								SendJoinCommand( data.id )
 								document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 								notification.close();
