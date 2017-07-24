@@ -1,5 +1,4 @@
 let express = require( 'express' );
-let https = require( 'https' );
 let twitter = require( 'twitter' );
 let st = require( 'st' );
 let app = express();
@@ -7,9 +6,22 @@ let helmet = require( 'helmet' );
 let bodyParser = require( 'body-parser' );
 let compression = require( 'compression' );
 let morgan = require( 'morgan' );
-let server = require( 'http' ).createServer( app );
-let io = require( 'socket.io' ).listen( server );
 let port = process.env.PORT || 80;
+let io = null;
+
+if ( process.env.sslEnabled === "true" ) {
+	const options = {
+		cert: fs.readFileSync( './sslcert/fullchain.pem' ),
+		key: fs.readFileSync( './sslcert/privkey.pem' )
+	};
+	let sslServer = require( 'https' ).createServer( options, app );
+	sslServer.listen( 443 );
+	io = require( 'socket.io' ).listen( sslServer );
+} else {
+	let server = require( 'http' ).createServer( app );
+	server.listen( port );
+	io = require( 'socket.io' ).listen( server );
+}
 
 let client = new twitter( {
 	consumer_key: process.env.consumer_key,
@@ -146,15 +158,5 @@ io.sockets.on( 'connection', function ( socket ) {
 } );
 
 TimedLogger( "Starting GBF Raiders on port " + port + "." );
-
-if ( process.env.sslEnabled === "true" ) {
-	const options = {
-		cert: fs.readFileSync( './sslcert/fullchain.pem' ),
-		key: fs.readFileSync( './sslcert/privkey.pem' )
-	};
-	https.createServer( options, server ).listen( 443 );
-} else {
-	server.listen( port );
-}
 
 StartTwitterStream();
