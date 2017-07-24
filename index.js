@@ -11,8 +11,6 @@ let server = require( 'http' ).createServer( app );
 let io = require( 'socket.io' ).listen( server );
 let port = process.env.PORT || 80;
 
-const sslEnabled = false;
-
 let client = new twitter( {
 	consumer_key: process.env.consumer_key,
 	consumer_secret: process.env.consumer_secret,
@@ -148,14 +146,15 @@ io.sockets.on( 'connection', function ( socket ) {
 } );
 
 TimedLogger( "Starting GBF Raiders on port " + port + "." );
-server.listen( port );
 
-if ( sslEnabled ) {
+if ( process.env.sslEnabled === "true" ) {
 	const options = {
 		cert: fs.readFileSync( './sslcert/fullchain.pem' ),
 		key: fs.readFileSync( './sslcert/privkey.pem' )
 	};
-	https.createServer( options, app ).listen( 443 );
+	https.createServer( options, server ).listen( 443 );
+} else {
+	server.listen( port );
 }
 
 StartTwitterStream();
