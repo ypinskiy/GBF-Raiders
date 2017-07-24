@@ -1,15 +1,17 @@
 let express = require( 'express' );
+let https = require( 'https' );
 let twitter = require( 'twitter' );
 let st = require( 'st' );
 let app = express();
-var helmet = require( 'helmet' );
+let helmet = require( 'helmet' );
 let bodyParser = require( 'body-parser' );
 let compression = require( 'compression' );
 let morgan = require( 'morgan' );
 let server = require( 'http' ).createServer( app );
 let io = require( 'socket.io' ).listen( server );
 let port = process.env.PORT || 80;
-server.listen( port );
+
+const sslEnabled = false;
 
 let client = new twitter( {
 	consumer_key: process.env.consumer_key,
@@ -33,8 +35,10 @@ app.use( bodyParser.urlencoded( {
 	extended: true
 } ) );
 
+app.get( '/health-check', ( req, res ) => res.sendStatus( 200 ) );
+
 app.get( '/getraids', function ( req, res ) {
-	res.header('Cache-Control', 'public, max-age=432000000');
+	res.header( 'Cache-Control', 'public, max-age=432000000' );
 	res.send( raidConfigs );
 } );
 
@@ -144,4 +148,14 @@ io.sockets.on( 'connection', function ( socket ) {
 } );
 
 TimedLogger( "Starting GBF Raiders on port " + port + "." );
+server.listen( port );
+
+if ( sslEnabled ) {
+	const options = {
+		cert: fs.readFileSync( './sslcert/fullchain.pem' ),
+		key: fs.readFileSync( './sslcert/privkey.pem' )
+	};
+	https.createServer( options, app ).listen( 443 );
+}
+
 StartTwitterStream();
