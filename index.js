@@ -1,7 +1,7 @@
 let express = require( 'express' );
 let twitter = require( 'twitter' );
 let st = require( 'st' );
-let fs = require('fs');
+let fs = require( 'fs' );
 let app = express();
 let helmet = require( 'helmet' );
 let bodyParser = require( 'body-parser' );
@@ -12,8 +12,8 @@ let io = null;
 
 if ( process.env.sslEnabled === "true" ) {
 	const options = {
-		cert: fs.readFileSync( '/root/GBF-Raiders/sslcert/fullchain.pem' ),
-		key: fs.readFileSync( '/root/GBF-Raiders/sslcert/privkey.pem' )
+		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
+		key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
 	};
 	let sslServer = require( 'https' ).createServer( options, app );
 	sslServer.listen( 443 );

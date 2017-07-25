@@ -92,7 +92,7 @@ function CreateSettingsModalFrame() {
 	var result = '<div id="settings-modal" class="ui modal">';
 	result += '<div id="settings-modal-header" class="header">Lvl ??? Raid Boss</div>';
 	result += '<div class="image content">';
-	result += '<img id="settings-modal-image" class="ui medium rounded image" src="http://via.placeholder.com/250x250">';
+	result += '<img id="settings-modal-image" class="ui medium rounded image" src="https://via.placeholder.com/250x250">';
 	result += '<div id="settings-modal-desc" class="description">';
 	result += '<button id="modal-enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>';
 	result += '<span id="modal-desktop-notif-size-control" class="input-control-disabled"><span class="input-title">Desktop Notification Size</span><div id="modal-desktop-notif-size-dropdown" class="ui disabled compact selection dropdown"><input id="modal-desktop-notif-size-input" type="hidden" name="formatting" value="large"><i class="dropdown icon"></i><div class="default text">Notif Size</div><div class="menu"><div class="item" data-value="small">Small</div><div class="item" data-value="large">Large</div></div></div></span>';

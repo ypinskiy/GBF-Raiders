@@ -15,6 +15,7 @@ After cloning or downloading the source code, make sure that you have Node.js an
 
 # Setting Up The Environment Variables
 One of the main environment variables is `sslEnabled`. Set it to false if you do not have an SSL certificate for the site and set it to true if you do.
+Create a new folder in the root directory of the site called `sslcert` and place your keys in there.
 
 Setting up the other environment variables is necessary for using the Twitter API.
 
