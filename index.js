@@ -12,8 +12,8 @@ let io = null;
 
 if ( process.env.sslEnabled === "true" ) {
 	const options = {
-		cert: fs.readFileSync( './sslcert/fullchain.pem' ),
-		key: fs.readFileSync( './sslcert/privkey.pem' )
+		cert: fs.readFileSync( '/root/GBF-Raiders/sslcert/fullchain.pem' ),
+		key: fs.readFileSync( '/root/GBF-Raiders/sslcert/privkey.pem' )
 	};
 	let sslServer = require( 'https' ).createServer( options, app );
 	sslServer.listen( 443 );
