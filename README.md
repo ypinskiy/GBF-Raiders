@@ -14,7 +14,9 @@ Please remember to change/remove the Google Analytics code at the bottom of `ind
 After cloning or downloading the source code, make sure that you have Node.js and NPM installed and setup in your PATH. All the other dependencies will be installed when the command `npm install` is run in the root directory of the site. Semantic UI is set to automatically install itself during this process. The next step would be to setup the environment variables as shown in the next section. The site's server can then be started with `node index.js` or `npm start`.
 
 # Setting Up The Environment Variables
-Setting up the environment variables is necessary for using the Twitter API.
+One of the main environment variables is `sslEnabled`. Set it to false if you do not have an SSL certificate for the site and set it to true if you do.
+
+Setting up the other environment variables is necessary for using the Twitter API.
 
 ![Twitter App Page](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/twitter-app-page.png)
 
@@ -31,10 +33,10 @@ Setting up the environment variables is necessary for using the Twitter API.
 4. These 4 keys will need to be setup in your environment. See below on how to do so in Heroku.
 
 # Using The Environment Variables in Heroku
-![Twitter App Access Create Page](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/heroku-show-config.png)
+![Heroku Show Configs Page](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/heroku-show-config.png)
 
 1. Go to your app's settings page. There will be a "Reveal Config Vars" button.
-2. Enter all 4 keys and their corresponding values: `consumer_key`, `consumer_secret`, `access_token_key`, `access_token_secret`.
+2. Enter all 5 keys and their corresponding values: `consumer_key`, `consumer_secret`, `access_token_key`, `access_token_secret`, `sslEnabled`.
 3. Restart your dynos.
 4. App should work now!
 
