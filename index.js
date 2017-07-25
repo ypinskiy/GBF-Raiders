@@ -1,6 +1,7 @@
 let express = require( 'express' );
 let twitter = require( 'twitter' );
 let st = require( 'st' );
+let fs = require('fs');
 let app = express();
 let helmet = require( 'helmet' );
 let bodyParser = require( 'body-parser' );
