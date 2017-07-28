@@ -95,6 +95,10 @@ function StartTwitterStream() {
 		TimedLogger( "Twitter Stream started." );
 		stream.on( 'data', function ( event ) {
 			TimedLogger( "Tweet found." );
+			if ( event.source !== '<a href="http://granbluefantasy.jp/" rel="nofollow">グランブルー ファンタジー</a>' ) {
+				TimedLogger( "Ignoring tweet from unexpected source." );
+				return;
+			}
 			let room = searchTextForRaids( event.text );
 			var message = "No Twitter Message.";
 			var language = "JP";
