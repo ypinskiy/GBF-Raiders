@@ -109,8 +109,8 @@
 			<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
 		</div>
 	</div>
-	<div id="container" class="ui pusher container segment fluid">
-		<div id="header">
+	<div id="container" role="main" class="ui pusher container segment fluid">
+		<div id="header" role="banner">
 			<div class="ui segment misc-controls">
 				<button id="donate-btn" class="donate ui primary right labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Donate</a><i class="right dollar icon"></i></button>
 				<div class="ui special wide popup">
@@ -156,7 +156,7 @@
 				<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
 				<span class="ui search">
 					<div class="ui icon input">
-						<input id="searcher" class="prompt" type="text" placeholder="Search for raids...">
+						<input id="searcher" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
 						<i class="search icon"></i>
 					</div>
 					<div class="results"></div>

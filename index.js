@@ -122,9 +122,13 @@ function StartTwitterStream() {
 				language: language,
 				status: "unclicked"
 			};
-			TimedLogger( "Raid Info: " );
-			console.dir( raidInfo );
-			io.to( room ).emit( 'tweet', raidInfo );
+			if ( event.source === '<a href="http://granbluefantasy.jp/" rel="nofollow">グランブルー ファンタジー</a>' ) {
+				TimedLogger( "Raid Info: " );
+				console.dir( raidInfo );
+				io.to( room ).emit( 'tweet', raidInfo );
+			} else {
+				TimedLogger( "Invalid tweet source: " + event.source );
+			}
 		} );
 
 		stream.on( 'error', function ( error ) {
