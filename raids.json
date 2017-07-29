@@ -460,4 +460,16 @@
 	"japanese": "Lv90 ゼピュロス",
 	"room": "lvl90zephyrus",
 	"image": "/assets/raids/Zephyrus_ExtremePlus.jpg"
+},
+{
+	"english": "Lvl 150 Ultimate Bahamut",
+	"japanese": "Lv150 アルティメットバハムート",
+	"room": "lvl150ultimatebahamut",
+	"image": "/assets/raids/BattleRaid_Ultimate_Bahamut_Normal.png"
+},
+{
+	"english": "Lvl 200 Ultimate Bahamut",
+	"japanese": "Lv200 アルティメットバハムート",
+	"room": "lvl200ultimatebahamut",
+	"image": "/assets/raids/BattleRaid_Ultimate_Bahamut_Impossible.png"
 }]
