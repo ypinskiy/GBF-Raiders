@@ -123,6 +123,17 @@ window.onload = function () {
 					imageSize: '150x150',
 					timer: 2000
 				} );
+			} else if ( evt.data.result === "No granblue tab found" ) {
+				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+				FindRaid( evt.data.id ).status = "error";
+				swal( {
+					title: "You don't have Granblue open!",
+					text: "Please open the game and then try joining a raid.",
+					imageUrl: "assets/stickers/aboutthat-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
 			} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
