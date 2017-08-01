@@ -50,6 +50,7 @@ app.get( '/health-check', ( req, res ) => res.sendStatus( 200 ) );
 
 app.get( '/getraids', function ( req, res ) {
 	res.header( 'Cache-Control', 'public, max-age=432000000' );
+	res.header( 'Access-Control-Allow-Origin', '*')
 	res.send( raidConfigs );
 } );
 
