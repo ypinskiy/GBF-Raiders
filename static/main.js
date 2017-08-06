@@ -134,6 +134,17 @@ window.onload = function () {
 					imageSize: '150x150',
 					timer: 2000
 				} );
+			} else if (evt.data.result === "popup: The number that you entered doesn't match any battle.") {
+				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+				FindRaid( evt.data.id ).status = "error";
+				swal( {
+					title: "Error with Raid ID!",
+					text: "Sorry, but that raid ID doesn't match any raid.",
+					imageUrl: "assets/stickers/totallycrushed-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
 			} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
