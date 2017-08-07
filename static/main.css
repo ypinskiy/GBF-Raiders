@@ -187,7 +187,6 @@ td.larger>img {
 
 @media (max-width: 650px) {
 	#connection-status {
-		margin-bottom: 10px;
 		margin-top: 10px;
 	}
 	.selected-raids-label {
