@@ -134,7 +134,7 @@ window.onload = function () {
 					imageSize: '150x150',
 					timer: 2000
 				} );
-			} else if (evt.data.result === "popup: The number that you entered doesn't match any battle.") {
+			} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
 				FindRaid( evt.data.id ).status = "error";
@@ -153,6 +153,17 @@ window.onload = function () {
 					title: "Raid is full!",
 					text: "Please try a different raid.",
 					imageUrl: "assets/stickers/sorry-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
+				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
+				FindRaid( evt.data.id ).status = "error";
+				swal( {
+					title: "Error with Raid ID!",
+					text: "Sorry, but that raid ID doesn't match any raid.",
+					imageUrl: "/assets/stickers/totallycrushed-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -312,15 +323,15 @@ function SendDesktopNotif( data ) {
 				notification.onclick = function ( event ) {
 					event.preventDefault();
 					var raidLabel = document.getElementById( data.id + '-label' );
-					if (raidLabel !== null) {
-						if (window.getSelection) {
+					if ( raidLabel !== null ) {
+						if ( window.getSelection ) {
 							raidLabel.focus();
 							var selection = window.getSelection();
 							var range = document.createRange();
-							range.selectNodeContents(raidLabel);
+							range.selectNodeContents( raidLabel );
 							selection.removeAllRanges();
-							selection.addRange(range);
-							document.execCommand("copy");
+							selection.addRange( range );
+							document.execCommand( "copy" );
 						}
 					}
 					SendJoinCommand( data.id )
@@ -370,15 +381,15 @@ function SendDesktopNotif( data ) {
 							notification.onclick = function ( event ) {
 								event.preventDefault();
 								var raidLabel = document.getElementById( data.id + '-label' );
-								if (raidLabel !== null) {
-									if (window.getSelection) {
+								if ( raidLabel !== null ) {
+									if ( window.getSelection ) {
 										raidLabel.focus();
 										var selection = window.getSelection();
 										var range = document.createRange();
-										range.selectNodeContents(raidLabel);
+										range.selectNodeContents( raidLabel );
 										selection.removeAllRanges();
-										selection.addRange(range);
-										document.execCommand("copy");
+										selection.addRange( range );
+										document.execCommand( "copy" );
 									}
 								}
 								SendJoinCommand( data.id )
