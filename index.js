@@ -150,7 +150,7 @@ function StartTwitterStream() {
 			TimedLogger( "Twitter Stream limit:" );
 			console.dir( limit );
 		} );
-		stream.on( 'ping', function () ) {
+		stream.on( 'ping', function ()  {
 			TimedLogger( "Twitter Stream ping." );
 		} );
 		stream.on( 'event', function ( event ) {
