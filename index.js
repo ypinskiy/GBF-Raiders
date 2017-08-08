@@ -50,7 +50,7 @@ app.get( '/health-check', ( req, res ) => res.sendStatus( 200 ) );
 
 app.get( '/getraids', function ( req, res ) {
 	res.header( 'Cache-Control', 'public, max-age=432000000' );
-	res.header( 'Access-Control-Allow-Origin', '*')
+	res.header( 'Access-Control-Allow-Origin', '*' )
 	res.send( raidConfigs );
 } );
 
@@ -145,6 +145,14 @@ function StartTwitterStream() {
 		stream.on( 'warning', function ( warning ) {
 			TimedLogger( "Twitter Stream warning:" );
 			console.dir( warning );
+		} );
+		stream.on( 'limit', function ( limit ) {
+			TimedLogger( "Twitter Stream limit:" );
+			console.dir( limit );
+		} );
+		stream.on( 'end', function ( end ) {
+			TimedLogger( "Twitter Stream end:" );
+			console.dir( end );
 		} );
 	} );
 }
