@@ -26,7 +26,7 @@ var settings = {
 		raidMaxResults: 30,
 		nightMode: false
 	},
-	version: "1.8",
+	version: "1.9",
 	newsSeen: false,
 	cardSlots: 8,
 	debugLevel: 0
@@ -123,7 +123,18 @@ window.onload = function () {
 					imageSize: '150x150',
 					timer: 2000
 				} );
-			} else if ( evt.data.result === "No granblue tab found" ) {
+			} else if ( evt.data.result.error === "api disabled" ) {
+				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+				FindRaid( evt.data.id ).status = "error";
+				swal( {
+					title: "Viramate Web API is disabled!",
+					text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
+					imageUrl: "/assets/stickers/aboutthat-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			} else if ( evt.data.result.error === "No granblue tab found" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
 				FindRaid( evt.data.id ).status = "error";
@@ -131,17 +142,6 @@ window.onload = function () {
 					title: "You don't have Granblue open!",
 					text: "Please open the game and then try joining a raid.",
 					imageUrl: "assets/stickers/aboutthat-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
-				FindRaid( evt.data.id ).status = "error";
-				swal( {
-					title: "Error with Raid ID!",
-					text: "Sorry, but that raid ID doesn't match any raid.",
-					imageUrl: "assets/stickers/totallycrushed-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );

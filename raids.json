@@ -472,4 +472,16 @@
 	"japanese": "Lv200 アルティメットバハムート",
 	"room": "lvl200ultimatebahamut",
 	"image": "/assets/raids/BattleRaid_Ultimate_Bahamut_Impossible.png"
+},
+{
+	"english": "Lvl 30 Elder Vestige",
+	"japanese": "Lv30 先史の遺像",
+	"room": "lvl30eldervestige",
+	"image": "/assets/raids/BattleRaid_Five_Flowers_of_Fate_Raid_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Xolotl",
+	"japanese": "Lv50 ショロトル",
+	"room": "lvl50xolotl",
+	"image": "/assets/raids/BattleRaid_Five_Flowers_of_Fate_Raid_Extreme.png"
 }]
