@@ -176,8 +176,14 @@ function LoadSavedSettings() {
 		document.getElementById( "info-level-input" ).value = settings.layout.infoLevel;
 		document.getElementById( "raid-timeout" ).value = settings.layout.raidTimeout;
 		document.getElementById( "raid-max-results" ).value = settings.layout.raidMaxResults;
+		if (settings.layout.toolbarShrink) {
+			document.getElementById("toolbar-shrinker-input").value = true;
+			document.getElementById("header").classList.add("header-shrink");
+			document.getElementById("header-container").classList.add("header-container-shrink");
+		}
 		if ( settings.layout.nightMode ) {
 			document.body.classList.add( "darken" );
+			document.getElementById( "favicon" ).href = "/assets/misc/GBFRaidersIconv1.png";
 			document.getElementById( "enable-night" ).classList.add( "negative" );
 			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
 		}
@@ -342,11 +348,13 @@ function SetupControls() {
 			if ( settings.layout.nightMode === false ) {
 				settings.layout.nightMode = true;
 				document.body.classList.add( "darken" );
+				document.getElementById( "favicon" ).href = "/assets/misc/GBFRaidersIconv1.png";
 				document.getElementById( "enable-night" ).classList.add( "negative" );
 				document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
 			} else {
 				settings.layout.nightMode = false;
 				document.body.classList.remove( "darken" );
+				document.getElementById( "favicon" ).href = "/assets/misc/GBFRaidersIconv2.png";
 				document.getElementById( "enable-night" ).classList.remove( "negative" );
 				document.getElementById( "enable-night" ).innerHTML = 'Enable Night Mode<i class="right moon icon"></i>';
 			}
@@ -418,6 +426,19 @@ function SetupControls() {
 			$( this ).closest( '.message' ).transition( 'fade' );
 			settings.newsSeen = true;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		} );
+
+		$( '.ui.checkbox' ).checkbox().first().checkbox( {
+			onChecked: function () {
+				settings.layout.toolbarShrink = true;
+				document.getElementById("header").classList.add("header-shrink");
+				document.getElementById("header-container").classList.add("header-container-shrink");
+			},
+			onUnchecked: function () {
+				settings.layout.toolbarShrink = false;
+				document.getElementById("header").classList.remove("header-shrink");
+				document.getElementById("header-container").classList.remove("header-container-shrink");
+			}
 		} );
 
 		$( '.help' )

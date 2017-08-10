@@ -437,7 +437,7 @@ function CreateHorizontalCompactRaidTable() {
 	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
-		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
+		selectedRaidsDiv.classList.add( "ui", "secondary", "unstackable", "inverted", "blue", "segment" );
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}

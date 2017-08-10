@@ -24,7 +24,8 @@ var settings = {
 		infoLevel: "normal",
 		raidTimeout: 120,
 		raidMaxResults: 30,
-		nightMode: false
+		nightMode: false,
+		toolbarShrink: false
 	},
 	version: "1.9",
 	newsSeen: false,

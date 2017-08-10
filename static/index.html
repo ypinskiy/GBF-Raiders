@@ -6,8 +6,7 @@
 	<meta charset="UTF-8">
 	<title>GBF Raiders</title>
 	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link id="favicon" rel="shortcut icon" type="image/png" href="/assets/misc/GBFRaidersIconv2.png" />
 	<link rel="manifest" href="/manifest.json">
 	<meta name="msapplication-TileColor" content="#2b5797">
 	<meta name="theme-color" content="#2185d0">
@@ -93,7 +92,7 @@
 			</div>
 			</span>
 			<span class="input-control">
-					<span class="input-title">Remove raids after</span>
+				<span class="input-title">Remove raids after</span>
 			<div class="ui input input-text">
 				<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
 			</div>
@@ -106,66 +105,76 @@
 			</div>
 			<span class="input-footer">results</span>
 			</span>
+			<span class="input-control">
+				<div id="toolbar-shrinker" class="ui checkbox">
+					<label>Shrink unused toolbar</label>
+					<input id="toolbar-shrinker-input" type="checkbox" name="shrinker" tabindex="0" class="hidden">
+				</div>
+			</span>
 			<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
 		</div>
 	</div>
 	<div id="container" role="main" class="ui pusher container segment fluid">
-		<div id="header" role="banner">
-			<div class="ui segment misc-controls">
-				<button id="donate-btn" class="donate ui primary right labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Donate</a><i class="right dollar icon"></i></button>
-				<div class="ui special wide popup">
-					<div class="header">Thank you to all the donors that help keep GBF Raiders running!</div>
-					<ul>
-						<li>Eridan</li>
-						<li>Huuxera</li>
-						<li>Dragoonlance</li>
-						<li>Cash</li>
-						<li>Reizo Baka</li>
-						<li>Anonymous Donor</li>
-						<li>Anonymous Donor</li>
-					</ul>
-				</div>
-				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
-				<div class="ui special wide popup">
-					<div class="header">Help With Notable Features</div>
-					<ul>
-						<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, have enabled the Web API setting in Viramate, and have reloaded the GBF page, the Join button will send you right
-							to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
-						<li><span class="tip-title">Click to Copy:</span> Click on any part of a raid's row besides the Join button to copy the raid's ID for easy copying.</li>
-						<li><span class="tip-title">Desktop Notifications:</span> Click on a desktop notification to copy it's id or to join the raid if you have the Viramate integration setup.</li>
-					</ul>
-					<div class="header">Vertical Layout Options</div>
-					<ul>
-						<li><span class="tip-title">Single Row:</span>The "Single Row" option will just keep adding new selected raids to a single row which means that you will have to scroll horizontally after a certain number. The raids can be dragged to the left or right.</li>
-						<li><span class="tip-title">Stacking:</span>The "Stacking" option will keep everything on the same page by putting new selected raids below the first couple like a grid. PLEASE NOTE: The "Stacking" option does not work in Chrome because Chrome has a
-							bug that they haven't fixed yet. I will update the feature when they do fix it.</li>
-					</ul>
-					<div class="header">Support</div>
-					<ul>
-						<li>
-							If you want the Chrome extension version of the site, go to <a href="https://chrome.google.com/webstore/detail/gbf-raiders-2-the-chrome/jhdcbkpphfaclidacgbnnaphoilhgipm">the Chrome webstore</a>. Want to see how it works? Check out the code on <a href="https://github.com/ypinskiy/GBF-Raiders-Extension">my GitHub</a>.
-						</li>
-						<li>If you want to browse the code of this site or are looking to host your own copy, head on over to <a href="https://github.com/ypinskiy/GBF-Raiders">the GitHub page</a> for the site.</li>
-						<li>If you have any questions about the site, are experiencing issues, or want to suggest new features, <a href="https://www.reddit.com/user/galaxymover/">send me a PM on Reddit.</a></li>
-						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
-					</ul>
-				</div>
-				<table id="connection-status" class="ui definition unstackable  compact collapsing red table">
-					<tbody>
-						<td class="collapsing">Connection:</td>
-						<td id="connection-status-value" class="collapsing">DOWN</td>
-					</tbody>
-				</table>
-				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
-				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
-				<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
-				<span class="ui search">
+		<div id="header-container" class="header-container">
+			<div id="header" class="header" role="banner">
+				<div class="ui segment misc-controls">
+					<button id="donate-btn" class="donate ui primary right labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Donate</a><i class="right dollar icon"></i></button>
+					<div class="ui special wide popup">
+						<div class="header">Thank you to all the donors that help keep GBF Raiders running!</div>
+						<ul>
+							<li>Eridan</li>
+							<li>Huuxera</li>
+							<li>Dragoonlance</li>
+							<li>Cash</li>
+							<li>Reizo Baka</li>
+							<li>Anonymous Donor</li>
+							<li>Anonymous Donor</li>
+						</ul>
+						<div>A special thanks to <a href="https://www.reddit.com/user/Bloodhram">u/Bloodhram</a> for creating the icons for the site and extension!</div>
+					</div>
+					<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
+					<div class="ui special wide popup">
+						<div class="header">Help With Notable Features</div>
+						<ul>
+							<li><span class="tip-title">Join Button:</span> If you have the Viramate Chrome extension, have GBF running in another browser tab/window, have enabled the Web API setting in Viramate, and have reloaded the GBF page, the Join button will send you right
+								to the support summon selection page for that raid provided that you meet the requirements for the raid and have enough BP.</li>
+							<li><span class="tip-title">Click to Copy:</span> Click on any part of a raid's row besides the Join button to copy the raid's ID for easy copying.</li>
+							<li><span class="tip-title">Desktop Notifications:</span> Click on a desktop notification to copy it's id or to join the raid if you have the Viramate integration setup.</li>
+						</ul>
+						<div class="header">Vertical Layout Options</div>
+						<ul>
+							<li><span class="tip-title">Single Row:</span>The "Single Row" option will just keep adding new selected raids to a single row which means that you will have to scroll horizontally after a certain number. The raids can be dragged to the left or right.</li>
+							<li><span class="tip-title">Stacking:</span>The "Stacking" option will keep everything on the same page by putting new selected raids below the first couple like a grid. PLEASE NOTE: The "Stacking" option does not work in Chrome because Chrome has
+								a bug that they haven't fixed yet. I will update the feature when they do fix it.</li>
+						</ul>
+						<div class="header">Support</div>
+						<ul>
+							<li>
+								If you want the Chrome extension version of the site, go to <a href="https://chrome.google.com/webstore/detail/gbf-raiders-2-the-chrome/jhdcbkpphfaclidacgbnnaphoilhgipm">the Chrome webstore</a>. Want to see how it works? Check out the code on
+								<a href="https://github.com/ypinskiy/GBF-Raiders-Extension">my GitHub</a>.
+							</li>
+							<li>If you want to browse the code of this site or are looking to host your own copy, head on over to <a href="https://github.com/ypinskiy/GBF-Raiders">the GitHub page</a> for the site.</li>
+							<li>If you have any questions about the site, are experiencing issues, or want to suggest new features, <a href="https://www.reddit.com/user/galaxymover/">send me a PM on Reddit.</a></li>
+							<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
+						</ul>
+					</div>
+					<table id="connection-status" class="ui definition unstackable  compact collapsing red table">
+						<tbody>
+							<td class="collapsing">Connection:</td>
+							<td id="connection-status-value" class="collapsing">DOWN</td>
+						</tbody>
+					</table>
+					<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
+					<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
+					<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
+					<span class="ui search">
 					<div class="ui icon input">
 						<input id="searcher" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
 						<i class="search icon"></i>
 					</div>
 					<div class="results"></div>
 				</span>
+				</div>
 			</div>
 		</div>
 		<div id="news-message" class="ui hidden message">
