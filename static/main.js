@@ -27,7 +27,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "1.9",
+	version: "2.0",
 	newsSeen: false,
 	cardSlots: 8,
 	debugLevel: 0
