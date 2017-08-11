@@ -39,6 +39,10 @@ body:-webkit-full-screen {
 	position: relative;
 }
 
+.header-container-shrink > .misc-controls > .special.popup {
+	position: fixed !important;
+}
+
 #header.header-shrink {
 	max-height: 10px;
 	position: relative;
