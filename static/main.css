@@ -208,6 +208,14 @@ td.larger>img {
 	font-size: 0.85em !important;
 }
 
+.smaller > td > .ui.items > .item {
+	margin: 0px !important;
+}
+
+.smaller > td > .ui.items > .item > .content {
+	font-size: 0.85em;
+}
+
 .smaller>td>button {
 	font-size: 0.85em !important;
 }

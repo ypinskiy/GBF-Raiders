@@ -434,10 +434,10 @@ function CreateHorizontalCompactRaidTable() {
 	}
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table", "compact" );
+	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "selectable", "table", "compact" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
-		selectedRaidsDiv.classList.add( "ui", "secondary", "unstackable", "inverted", "blue", "segment" );
+		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
@@ -458,7 +458,7 @@ function CreateHorizontalNormalRaidTable() {
 	}
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table" );
+	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "selectable", "table" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
@@ -483,10 +483,10 @@ function CreateHorizontalFullRaidTable() {
 	}
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "celled", "selectable", "table" );
+	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "selectable", "table" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
-		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "unstackable", "blue", "segment" );
+		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
@@ -698,7 +698,7 @@ function AddSelectedVerticalCompactRaid( raid ) {
 	var raidTableContainer = document.createElement( "div" );
 	raidTableContainer.classList.add( "extra", "content" );
 	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "table", "compact", "smaller" );
+	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
@@ -769,7 +769,7 @@ function AddSelectedVerticalNormalRaid( raid ) {
 	var raidTableContainer = document.createElement( "div" );
 	raidTableContainer.classList.add( "extra", "content" );
 	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "table", "compact", "smaller" );
+	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
@@ -840,7 +840,7 @@ function AddSelectedVerticalFullRaid( raid ) {
 	var raidTableContainer = document.createElement( "div" );
 	raidTableContainer.classList.add( "extra", "content" );
 	var raidTable = document.createElement( "table" );
-	raidTable.classList.add( "ui", "blue", "celled", "table", "compact", "smaller" );
+	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
 	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
