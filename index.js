@@ -80,11 +80,82 @@ for ( let i = 0; i < raidConfigs.length; i++ ) {
 }
 
 function searchTextForRaids( text ) {
-	let result = "";
+	let result = null;
 	for ( let i = 0; i < raidConfigs.length; i++ ) {
 		if ( text.indexOf( raidConfigs[ i ].english ) != -1 || text.indexOf( raidConfigs[ i ].japanese ) != -1 ) {
 			result = raidConfigs[ i ].room;
 			break;
+		}
+	}
+	return result;
+}
+
+function DoesTweetContainMessage( data ) {
+	let result = false;
+	if ( data.text.substr( 0, 10 ) !== "参加者募集！参戦ID" && data.text.substr( 0, 10 ) !== "I need bac" ) {
+		result = true;
+	}
+	return result;
+}
+
+function GetTweetLanguage( data ) {
+	if ( data.text.indexOf( '参戦ID' ) !== -1 ) {
+		return "JP";
+	} else if ( data.text.indexOf( 'Battle ID' ) !== -1 ) {
+		return "EN";
+	} else {
+		return null;
+	}
+}
+
+function GetTweetMessage( data ) {
+	let result = {
+		language: "JP",
+		message: "No Twitter Message."
+	};
+	if ( GetTweetLanguage( data ) === "JP" ) {
+		result.message = data.text.substring( 0, data.text.indexOf( '参戦ID' ) - 7 );
+		result.language = "JP";
+	} else if ( GetTweetLanguage( data ) === "EN" ) {
+		result.message = data.text.substring( 0, data.text.indexOf( 'Battle ID' ) - 15 );
+		result.language = "EN";
+	}
+	return result;
+}
+
+function GetRaidID( data ) {
+	var result = null;
+	try {
+		result = data.text.substr( data.text.indexOf( 'ID' ) + 3, 9 );
+		if ( result.charAt( 0 ) == " " ) {
+			result = result.substr( 1, 8 );
+		} else {
+			result = result.substr( 0, 8 );
+		}
+	} catch ( error ) {
+		TimedLogger( "Error getting raid ID: " + error );
+	}
+	return result;
+}
+
+function IsValidTweet( data ) {
+	let result = false;
+	if ( data.source !== '<a href="http://granbluefantasy.jp/" rel="nofollow">グランブルー ファンタジー</a>' ) {
+		TimedLogger( "Invalid tweet source: " + data.source );
+	} else {
+		if ( searchTextForRaids( data.text ) === null ) {
+			TimedLogger( "Invalid tweet: No raid name in tweet." );
+		} else {
+			if ( DoesTweetContainMessage( data ) && searchTextForRaids( GetTweetMessage( data ).message ) !== null ) {
+				TimedLogger( "Invalid tweet: Message contains a raid name: " + GetTweetMessage( data ).message );
+			} else {
+				if ( GetRaidID( data ) === null ) {
+					TimedLogger( "Invalid tweet: No raid ID in tweet." );
+				} else {
+					TimedLogger( "Tweet is valid." );
+					result = true;
+				}
+			}
 		}
 	}
 	return result;
@@ -97,39 +168,26 @@ function StartTwitterStream() {
 		TimedLogger( "Twitter Stream started." );
 		stream.on( 'data', function ( event ) {
 			TimedLogger( "Tweet found." );
-			let room = searchTextForRaids( event.text );
-			var message = "No Twitter Message.";
-			var language = "JP";
-			var raidID = event.text.substr( event.text.indexOf( 'ID' ) + 3, 9 );
-			if ( raidID.charAt( 0 ) == " " ) {
-				raidID = raidID.substr( 1, 8 );
-			} else {
-				raidID = raidID.substr( 0, 8 );
-			}
-			if ( event.text.substr( 0, 10 ) !== "参加者募集！参戦ID" && event.text.substr( 0, 10 ) !== "I need bac" ) {
-				if ( event.text.indexOf( '参戦ID' ) !== -1 ) {
-					message = event.text.substring( 0, event.text.indexOf( '参戦ID' ) - 7 );
-					language = "JP";
-				} else if ( event.text.indexOf( 'Battle ID' ) !== -1 ) {
-					message = event.text.substring( 0, event.text.indexOf( 'Battle ID' ) - 15 );
-					language = "EN";
+			if ( IsValidTweet( event ) ) {
+				let raidInfo = {
+					id: GetRaidID( event ),
+					user: "@" + event.user.screen_name,
+					time: event.created_at,
+					room: searchTextForRaids( event.text ),
+					message: "No Twitter Message.",
+					language: "JP",
+					status: "unclicked"
+				};
+				if ( DoesTweetContainMessage( event ) ) {
+					let tweetMessage = GetTweetMessage( event );
+					raidInfo.message = tweetMessage.message;
+					raidInfo.language = tweetMessage.language;
+				} else if ( GetTweetLanguage( event ) !== null ) {
+					raidInfo.language = GetTweetLanguage( event );
 				}
-			}
-			var raidInfo = {
-				id: raidID,
-				user: "@" + event.user.screen_name,
-				time: event.created_at,
-				room: room,
-				message: message,
-				language: language,
-				status: "unclicked"
-			};
-			if ( event.source === '<a href="http://granbluefantasy.jp/" rel="nofollow">グランブルー ファンタジー</a>' ) {
 				TimedLogger( "Raid Info: " );
 				console.dir( raidInfo );
-				io.to( room ).emit( 'tweet', raidInfo );
-			} else {
-				TimedLogger( "Invalid tweet source: " + event.source );
+				io.to( raidInfo.room ).emit( 'tweet', raidInfo );
 			}
 		} );
 
@@ -151,7 +209,7 @@ function StartTwitterStream() {
 			TimedLogger( "Twitter Stream limit:" );
 			console.dir( limit );
 		} );
-		stream.on( 'ping', function ()  {
+		stream.on( 'ping', function () {
 			TimedLogger( "Twitter Stream ping." );
 		} );
 		stream.on( 'event', function ( event ) {

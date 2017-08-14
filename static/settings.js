@@ -177,7 +177,7 @@ function LoadSavedSettings() {
 		document.getElementById( "raid-timeout" ).value = settings.layout.raidTimeout;
 		document.getElementById( "raid-max-results" ).value = settings.layout.raidMaxResults;
 		if (settings.layout.toolbarShrink) {
-			document.getElementById("toolbar-shrinker-input").value = true;
+			document.getElementById("toolbar-shrinker-input").checked = true;
 			document.getElementById("header").classList.add("header-shrink");
 			document.getElementById("header-container").classList.add("header-container-shrink");
 		}
