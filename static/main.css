@@ -39,8 +39,10 @@ body:-webkit-full-screen {
 	position: relative;
 }
 
-.header-container-shrink > .misc-controls > .special.popup {
+.header-container-shrink>.misc-controls>.ui.special.wide.popup.bottom.left {
 	position: fixed !important;
+	margin-top: 25px !important;
+	margin-left: 15px !important;
 }
 
 #header.header-shrink {
@@ -99,7 +101,7 @@ body:-webkit-full-screen {
 td.larger>img {
 	object-fit: cover;
 	width: 100%;
-	height: 90%;
+	height: 80%;
 	object-position: 0% 20%;
 }
 
@@ -212,11 +214,11 @@ td.larger>img {
 	font-size: 0.85em !important;
 }
 
-.smaller > td > .ui.items > .item {
+.smaller>td>.ui.items>.item {
 	margin: 0px !important;
 }
 
-.smaller > td > .ui.items > .item > .content {
+.smaller>td>.ui.items>.item>.content {
 	font-size: 0.85em;
 }
 

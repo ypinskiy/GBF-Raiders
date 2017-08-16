@@ -484,4 +484,52 @@
 	"japanese": "Lv50 ショロトル",
 	"room": "lvl50xolotl",
 	"image": "/assets/raids/BattleRaid_Five_Flowers_of_Fate_Raid_Extreme.png"
+},
+{
+	"english": "Lvl 30 Cyaegha",
+	"japanese": "Lv30 シアエガ",
+	"room": "lvl30cyaegha",
+	"image": "/assets/raids/BattleRaid_Eyeball_Hard.png"
+},
+{
+	"english": "Lvl 40 Cyaegha",
+	"japanese": "Lv40 シアエガ",
+	"room": "lvl40cyaegha",
+	"image": "/assets/raids/BattleRaid_Eyeball_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Audumbla",
+	"japanese": "Lv50 アウズンブラ",
+	"room": "lvl50audumbla",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_Very_Hard.png"
+},
+{
+	"english": "Lvl 60 Audumbla",
+	"japanese": "Lv60 アウズンブラ",
+	"room": "lvl60audumbla",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_Extreme.png"
+},
+{
+	"english": "Lvl 75 Aberration",
+	"japanese": "Lv75 ビザールビースト",
+	"room": "lvl75aberration",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png"
+},
+{
+	"english": "Lvl 90 Oktopode",
+	"japanese": "Lv90 オクトポーデ",
+	"room": "lvl90oktopode",
+	"image": "/assets/raids/BattleRaid_Oktopode_Nightmare90.png"
+},
+{
+	"english": "Lvl 95 Oktopode",
+	"japanese": "Lv95 オクトポーデ",
+	"room": "lvl95oktopode",
+	"image": "/assets/raids/BattleRaid_Oktopode_Nightmare95.png"
+},
+{
+	"english": "Lvl 100 Oktopode",
+	"japanese": "Lv100 オクトポーデ",
+	"room": "lvl100oktopode",
+	"image": "/assets/raids/BattleRaid_Oktopode_Nightmare100.png"
 }]
