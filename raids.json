@@ -532,4 +532,10 @@
 	"japanese": "Lv100 オクトポーデ",
 	"room": "lvl100oktopode",
 	"image": "/assets/raids/BattleRaid_Oktopode_Nightmare100.png"
+},
+{
+	"english": "Lvl 100 Xeno Sagittarius",
+	"japanese": "Lv100 ゼノ・サジタリウス",
+	"room": "lvl100xenosagittarius",
+	"image": "/assets/raids/BattleRaid_Xeno_Sagittarius_Raid.png"
 }]
