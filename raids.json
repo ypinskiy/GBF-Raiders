@@ -538,4 +538,16 @@
 	"japanese": "Lv100 ゼノ・サジタリウス",
 	"room": "lvl100xenosagittarius",
 	"image": "/assets/raids/BattleRaid_Xeno_Sagittarius_Raid.png"
+},
+{
+	"english": "Lvl 30 Aberrant Tower",
+	"japanese": "Lv30 異形の司令塔",
+	"room": "lvl30aberranttower",
+	"image": "/assets/raids/BattleRaid_Lonesome_Dragoness_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Chaos Beast",
+	"japanese": "Lv50 ケイオスビースト",
+	"room": "lvl50chaosbeast",
+	"image": "/assets/raids/BattleRaid_Lonesome_Dragoness_Extreme.png"
 }]
