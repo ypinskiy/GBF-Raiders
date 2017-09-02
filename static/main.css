@@ -22,43 +22,31 @@ body:-webkit-full-screen {
 	padding-top: 5px;
 }
 
-.header-container-shrink:after {
-	content: '';
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	margin-left: -35px;
-	width: 0px;
-	height: 0px;
-	border-top: 10px solid rgba(34, 36, 38, 0.5);
-	border-left: 35px solid transparent;
-	border-right: 35px solid transparent;
-}
-
-.header-container-shrink {
-	position: relative;
-}
-
-.header-container-shrink>.misc-controls>.ui.special.wide.popup.bottom.left {
-	position: fixed !important;
-	margin-top: 25px !important;
-	margin-left: 15px !important;
-}
-
 #header.header-shrink {
-	max-height: 10px;
 	position: relative;
-	overflow: hidden;
-	margin-bottom: 15px;
-	border: 1px solid rgba(34, 36, 38, 0.5);
-	border-radius: 3px;
-	transition: max-height 0.5s ease, border 0.5s ease, margin-bottom 0.5s ease;
+	z-index: 5000;
+	transform: translateY(-100%);
+	transition: transform 0.5s ease;
+}
+
+#header.header-shrink ~ *:not(#raid-container) {
+	margin-top: -220px;
+}
+
+#header.header-shrink ~ #raid-container {
+	margin-top: -70px;
+}
+
+#header.header-shrink ~ .ui.message:not(.hidden) {
+	margin-bottom: 225px;
 }
 
 #header.header-shrink:hover {
-	margin-bottom: 25px;
-	border: none;
-	max-height: 600px;
+	transform: translateY(0%);
+}
+
+#header.header-shrink:hover ~ * {
+	filter: blur(2px) opacity(50%) brightness(50%);
 }
 
 .ui.checkbox {

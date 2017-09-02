@@ -179,7 +179,6 @@ function LoadSavedSettings() {
 		if ( settings.layout.toolbarShrink ) {
 			document.getElementById( "toolbar-shrinker-input" ).checked = true;
 			document.getElementById( "header" ).classList.add( "header-shrink" );
-			document.getElementById( "header-container" ).classList.add( "header-container-shrink" );
 		}
 		if ( settings.layout.nightMode ) {
 			document.body.classList.add( "darken" );
@@ -439,12 +438,10 @@ function SetupControls() {
 			onChecked: function () {
 				settings.layout.toolbarShrink = true;
 				document.getElementById( "header" ).classList.add( "header-shrink" );
-				document.getElementById( "header-container" ).classList.add( "header-container-shrink" );
 			},
 			onUnchecked: function () {
 				settings.layout.toolbarShrink = false;
 				document.getElementById( "header" ).classList.remove( "header-shrink" );
-				document.getElementById( "header-container" ).classList.remove( "header-container-shrink" );
 			}
 		} );
 

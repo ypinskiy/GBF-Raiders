@@ -2,14 +2,6 @@
 	background-color: #2a465c !important;
 }
 
-.darken .header-container:after {
-	border-top: 10px solid rgba(255, 255, 255, 0.5);
-}
-
-.darken #header.header-shrink {
-	border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
 .darken>div:not(.sweet-overlay) {
 	background-color: #031019 !important;
 }
@@ -25,6 +17,11 @@
 }
 
 .darken .ui.checkbox > label {
+	color: white !important;
+}
+
+.darken input .ui.label {
+	background-color: #316d92 !important;
 	color: white !important;
 }
 
