@@ -176,10 +176,10 @@ function LoadSavedSettings() {
 		document.getElementById( "info-level-input" ).value = settings.layout.infoLevel;
 		document.getElementById( "raid-timeout" ).value = settings.layout.raidTimeout;
 		document.getElementById( "raid-max-results" ).value = settings.layout.raidMaxResults;
-		if (settings.layout.toolbarShrink) {
-			document.getElementById("toolbar-shrinker-input").checked = true;
-			document.getElementById("header").classList.add("header-shrink");
-			document.getElementById("header-container").classList.add("header-container-shrink");
+		if ( settings.layout.toolbarShrink ) {
+			document.getElementById( "toolbar-shrinker-input" ).checked = true;
+			document.getElementById( "header" ).classList.add( "header-shrink" );
+			document.getElementById( "header-container" ).classList.add( "header-container-shrink" );
 		}
 		if ( settings.layout.nightMode ) {
 			document.body.classList.add( "darken" );
@@ -187,6 +187,7 @@ function LoadSavedSettings() {
 			document.getElementById( "enable-night" ).classList.add( "negative" );
 			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
 		}
+		document.getElementById( "viramate-id-input" ).value = settings.viramateID;
 		if ( localStorage.getItem( "individualSettings" ) ) {
 			try {
 				var tempIndivSettings = JSON.parse( localStorage.getItem( "individualSettings" ) );
@@ -234,7 +235,13 @@ function SetupControls() {
 			console.dir( event );
 			ToggleSoundNotifications( true )
 		} );
-
+		document.getElementById( "viramate-id-input" ).addEventListener( 'input', function ( event ) {
+			settings.viramateID = event.target.value;
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			if (document.getElementById("viramate-api") !== null) {
+				document.getElementById("viramate-api").src = "chrome-extension://" + settings.viramateID + "/content/api.html";
+			}
+		} );
 		document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
 			settings.notification.soundNotifVolume = event.target.value;
 			if ( settings.layout.orientation === "vertical" ) {
@@ -431,13 +438,13 @@ function SetupControls() {
 		$( '.ui.checkbox' ).checkbox().first().checkbox( {
 			onChecked: function () {
 				settings.layout.toolbarShrink = true;
-				document.getElementById("header").classList.add("header-shrink");
-				document.getElementById("header-container").classList.add("header-container-shrink");
+				document.getElementById( "header" ).classList.add( "header-shrink" );
+				document.getElementById( "header-container" ).classList.add( "header-container-shrink" );
 			},
 			onUnchecked: function () {
 				settings.layout.toolbarShrink = false;
-				document.getElementById("header").classList.remove("header-shrink");
-				document.getElementById("header-container").classList.remove("header-container-shrink");
+				document.getElementById( "header" ).classList.remove( "header-shrink" );
+				document.getElementById( "header-container" ).classList.remove( "header-container-shrink" );
 			}
 		} );
 

@@ -30,7 +30,8 @@ var settings = {
 	version: "2.2",
 	newsSeen: false,
 	cardSlots: 8,
-	debugLevel: 0
+	debugLevel: 0,
+	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
 };
 
 socket.on( 'tweet', function ( data ) {
