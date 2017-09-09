@@ -550,4 +550,16 @@
 	"japanese": "Lv50 ケイオスビースト",
 	"room": "lvl50chaosbeast",
 	"image": "/assets/raids/BattleRaid_Lonesome_Dragoness_Extreme.png"
+},
+{
+	"english": "Lvl 30 Time Retrograde Army",
+	"japanese": "Lv30 時間遡行軍",
+	"room": "lvl30timeretrogradearmy",
+	"image": "/assets/raids/BattleRaid_Katsugeki_Touken_Ranbu_Fate_Horizon_Raid_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Amatsumaula",
+	"japanese": "Lv50 アマツマウラ",
+	"room": "lvl50amatsumaula",
+	"image": "/assets/raids/BattleRaid_Katsugeki_Touken_Ranbu_Fate_Horizon_Raid_Extreme.png"
 }]
