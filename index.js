@@ -219,6 +219,7 @@ function StartTwitterStream() {
 		stream.on( 'end', function ( end ) {
 			TimedLogger( "Twitter Stream end:" );
 			console.dir( end );
+			StartTwitterStream();
 		} );
 	} );
 }
