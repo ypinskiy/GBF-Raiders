@@ -498,6 +498,18 @@
 	"image": "/assets/raids/BattleRaid_Eyeball_Very_Hard.png"
 },
 {
+	"english": "Lvl 30 Dimorphodon",
+	"japanese": "Lv30 ディモルフォドン",
+	"room": "lvl30dimorphodon",
+	"image": "/assets/raids/BattleRaid_Eyeball_Hard.png"
+},
+{
+	"english": "Lvl 40 Dimorphodon",
+	"japanese": "Lv40 ディモルフォドン",
+	"room": "lvl40dimorphodon",
+	"image": "/assets/raids/BattleRaid_Eyeball_Very_Hard.png"
+},
+{
 	"english": "Lvl 50 Audumbla",
 	"japanese": "Lv50 アウズンブラ",
 	"room": "lvl50audumbla",
@@ -513,6 +525,24 @@
 	"english": "Lvl 75 Aberration",
 	"japanese": "Lv75 ビザールビースト",
 	"room": "lvl75aberration",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png"
+},
+{
+	"english": "Lvl 50 Allosaurus",
+	"japanese": "Lv50 アロザロウス",
+	"room": "lvl50allosaurus",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_Very_Hard.png"
+},
+{
+	"english": "Lvl 60 Allosaurus",
+	"japanese": "Lv60 アロザロウス",
+	"room": "lvl60allosaurus",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_Extreme.png"
+},
+{
+	"english": "Lvl 75 Tyrannus",
+	"japanese": "Lv75 ティラノス",
+	"room": "lvl75tyrannus",
 	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png"
 },
 {
@@ -532,6 +562,24 @@
 	"japanese": "Lv100 オクトポーデ",
 	"room": "lvl100oktopode",
 	"image": "/assets/raids/BattleRaid_Oktopode_Nightmare100.png"
+},
+{
+	"english": "Lvl 90 Piasa",
+	"japanese": "Lv90 パイア・ソー",
+	"room": "lvl90piasa",
+	"image": "/assets/raids/BattleRaid_Piasa_Nightmare90.png"
+},
+{
+	"english": "Lvl 95 Piasa",
+	"japanese": "Lv95 パイア・ソー",
+	"room": "lvl95piasa",
+	"image": "/assets/raids/BattleRaid_Piasa_Nightmare95.png"
+},
+{
+	"english": "Lvl 100 Piasa",
+	"japanese": "Lv100 パイア・ソー",
+	"room": "lvl100piasa",
+	"image": "/assets/raids/BattleRaid_Piasa_Nightmare100.png"
 },
 {
 	"english": "Lvl 100 Xeno Sagittarius",
