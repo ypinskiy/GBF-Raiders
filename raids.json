@@ -610,4 +610,16 @@
 	"japanese": "Lv50 アマツマウラ",
 	"room": "lvl50amatsumaula",
 	"image": "/assets/raids/BattleRaid_Katsugeki_Touken_Ranbu_Fate_Horizon_Raid_Extreme.png"
+},
+{
+	"english": "Lvl 30 Queen's Armor",
+	"japanese": "Lv30 魔王の鎧",
+	"room": "lvl30queensarmor",
+	"image": "/assets/raids/BattleRaid_Violet_Violence_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Sharom",
+	"japanese": "Lv50 シャローム",
+	"room": "lvl50sharom",
+	"image": "/assets/raids/BattleRaid_Violet_Violence_Extreme.png"
 }]
