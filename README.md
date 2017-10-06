@@ -7,8 +7,6 @@ Hosted at [GBFRaiders.com](http://www.gbfraiders.com/)
 
 A special thanks to [u/Bloodhram](https://www.reddit.com/user/Bloodhram) for creating the icons for the site and extension!
 
-Click here to make a new Heroku dyno with this site pre-installed! [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 ![Example of Website](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/site-example.png)
 
 # Reminders
