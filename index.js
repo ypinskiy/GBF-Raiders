@@ -1,5 +1,5 @@
 let express = require( 'express' );
-let twitter = require( 'twitter' );
+let twitter = require( 'node-tweet-stream' );
 let st = require( 'st' );
 let fs = require( 'fs' );
 let app = express();
@@ -27,8 +27,8 @@ if ( process.env.sslEnabled === "true" ) {
 let client = new twitter( {
 	consumer_key: process.env.consumer_key,
 	consumer_secret: process.env.consumer_secret,
-	access_token_key: process.env.access_token_key,
-	access_token_secret: process.env.access_token_secret
+	token: process.env.access_token_key,
+	token_secret: process.env.access_token_secret
 } );
 
 function TimedLogger( data ) {
@@ -161,68 +161,37 @@ function IsValidTweet( data ) {
 	return result;
 }
 
-function StartTwitterStream() {
-	client.stream( 'statuses/filter', {
-		track: keywords
-	}, function ( stream ) {
-		TimedLogger( "Twitter Stream started." );
-		stream.on( 'data', function ( event ) {
-			TimedLogger( "Tweet found." );
-			if ( IsValidTweet( event ) ) {
-				let raidInfo = {
-					id: GetRaidID( event ),
-					user: "@" + event.user.screen_name,
-					time: event.created_at,
-					room: searchTextForRaids( event.text ),
-					message: "No Twitter Message.",
-					language: "JP",
-					status: "unclicked"
-				};
-				if ( DoesTweetContainMessage( event ) ) {
-					let tweetMessage = GetTweetMessage( event );
-					raidInfo.message = tweetMessage.message;
-					raidInfo.language = tweetMessage.language;
-				} else if ( GetTweetLanguage( event ) !== null ) {
-					raidInfo.language = GetTweetLanguage( event );
-				}
-				TimedLogger( "Raid Info: " );
-				console.dir( raidInfo );
-				io.to( raidInfo.room ).emit( 'tweet', raidInfo );
-			}
-		} );
+client.on( 'tweet', function ( tweet ) {
+	TimedLogger( "Tweet found." );
+	if ( IsValidTweet( tweet ) ) {
+		let raidInfo = {
+			id: GetRaidID( tweet ),
+			user: "@" + tweet.user.screen_name,
+			time: tweet.created_at,
+			room: searchTextForRaids( tweet.text ),
+			message: "No Twitter Message.",
+			language: "JP",
+			status: "unclicked"
+		};
+		if ( DoesTweetContainMessage( tweet ) ) {
+			let tweetMessage = GetTweetMessage( tweet );
+			raidInfo.message = tweetMessage.message;
+			raidInfo.language = tweetMessage.language;
+		} else if ( GetTweetLanguage( tweet ) !== null ) {
+			raidInfo.language = GetTweetLanguage( tweet );
+		}
+		TimedLogger( "Raid Info: " );
+		console.dir( raidInfo );
+		io.to( raidInfo.room ).emit( 'tweet', raidInfo );
+	}
+} );
 
-		stream.on( 'error', function ( error ) {
-			TimedLogger( "Twitter Stream error:" );
-			console.dir( error );
-			StartTwitterStream();
-		} );
-		stream.on( 'disconnect', function ( disconnect ) {
-			TimedLogger( "Twitter Stream disconnect:" );
-			console.dir( disconnect );
-			StartTwitterStream();
-		} );
-		stream.on( 'warning', function ( warning ) {
-			TimedLogger( "Twitter Stream warning:" );
-			console.dir( warning );
-		} );
-		stream.on( 'limit', function ( limit ) {
-			TimedLogger( "Twitter Stream limit:" );
-			console.dir( limit );
-		} );
-		stream.on( 'ping', function () {
-			TimedLogger( "Twitter Stream ping." );
-		} );
-		stream.on( 'event', function ( event ) {
-			TimedLogger( "Twitter Stream event:" );
-			console.dir( event );
-		} );
-		stream.on( 'end', function ( end ) {
-			TimedLogger( "Twitter Stream end:" );
-			console.dir( end );
-			StartTwitterStream();
-		} );
-	} );
-}
+client.on( 'error', function ( error ) {
+	TimedLogger( "Twitter Stream error:" );
+	console.dir( error );
+} );
+
+client.track( keywords );
 
 io.sockets.on( 'connection', function ( socket ) {
 	TimedLogger( "New connection established." );
@@ -240,5 +209,3 @@ io.sockets.on( 'connection', function ( socket ) {
 } );
 
 TimedLogger( "Starting GBF Raiders on port " + port + "." );
-
-StartTwitterStream();
