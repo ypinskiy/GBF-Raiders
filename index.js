@@ -20,11 +20,9 @@ if ( process.env.sslEnabled === "true" ) {
 	let sslServer = require( 'https' ).createServer( options, app );
 	sslServer.listen( 443 );
 	io = require( 'socket.io' ).listen( sslServer );
-} else {
-	let server = require( 'http' ).createServer( app );
-	server.listen( port );
-	io = require( 'socket.io' ).listen( server );
 }
+let server = require( 'http' ).createServer( app );
+server.listen( port );
 
 function TimedLogger( area, type, data ) {
 	let currentDate = new Date();
