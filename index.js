@@ -12,6 +12,8 @@ const port = process.env.PORT || 80;
 let io = null;
 let lastTweet = 0;
 
+let server = require( 'http' ).createServer( app );
+server.listen( port );
 if ( process.env.sslEnabled === "true" ) {
 	const options = {
 		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
@@ -20,9 +22,9 @@ if ( process.env.sslEnabled === "true" ) {
 	let sslServer = require( 'https' ).createServer( options, app );
 	sslServer.listen( 443 );
 	io = require( 'socket.io' ).listen( sslServer );
+} else {
+	io = require( 'socket.io' ).listen( server );
 }
-let server = require( 'http' ).createServer( app );
-server.listen( port );
 
 function TimedLogger( area, type, data ) {
 	let currentDate = new Date();
@@ -160,7 +162,7 @@ function IsValidTweet( data ) {
 
 function StartTwitterStream() {
 	TimedLogger( "System", "Starting Twitter Stream", "" );
-	let client = new twitter( {
+	let client = new Twitter( {
 		consumer_key: process.env.consumer_key,
 		consumer_secret: process.env.consumer_secret,
 		token: process.env.access_token_key,
