@@ -8,10 +8,13 @@ const helmet = require( 'helmet' );
 const bodyParser = require( 'body-parser' );
 const compression = require( 'compression' );
 const morgan = require( 'morgan' );
+const moment = require( 'moment' );
 const port = process.env.PORT || 80;
 let io = null;
 let lastTweet = 0;
 
+let server = require( 'http' ).createServer( app );
+server.listen( port );
 if ( process.env.sslEnabled === "true" ) {
 	const options = {
 		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
@@ -20,15 +23,13 @@ if ( process.env.sslEnabled === "true" ) {
 	let sslServer = require( 'https' ).createServer( options, app );
 	sslServer.listen( 443 );
 	io = require( 'socket.io' ).listen( sslServer );
+} else {
+	io = require( 'socket.io' ).listen( server );
 }
-let server = require( 'http' ).createServer( app );
-server.listen( port );
+
 
 function TimedLogger( area, type, data ) {
-	let currentDate = new Date();
-	let csvString = (currentDate.getMonth() + 1) + "/" + currentDate.getDate() + "/" + currentDate.getFullYear();
-	csvString += "," + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
-	csvString += "," + area + "," + type + "," + data;
+	let csvString = moment().format( 'MM/DD/YYYY,HH:mm:ss' ) + "," + area + "," + type + "," + data;
 	console.log( csvString );
 }
 
@@ -186,18 +187,18 @@ function StartTwitterStream() {
 			} else if ( GetTweetLanguage( tweet ) !== null ) {
 				raidInfo.language = GetTweetLanguage( tweet );
 			}
-			TimedLogger( "Twitter", "Raid Info", JSON.stringify(raidInfo) );
+			TimedLogger( "Twitter", "Raid Info", JSON.stringify( raidInfo ) );
 			lastTweet = new Date().getTime();
 			io.to( raidInfo.room ).emit( 'tweet', raidInfo );
 		}
 	} );
 
 	client.on( 'error', function ( error ) {
-		TimedLogger( "Twitter", "Error", JSON.stringify(error) );
+		TimedLogger( "Twitter", "Error", JSON.stringify( error ) );
 	} );
 
 	client.on( 'reconnect', function ( reconnect ) {
-		TimedLogger( "Twitter", "Reconnect", JSON.stringify(reconnect) );
+		TimedLogger( "Twitter", "Reconnect", JSON.stringify( reconnect ) );
 	} );
 
 	client.track( keywords );
@@ -209,12 +210,12 @@ setInterval( function () {
 		try {
 			exec( 'echo "There hasn\'t been a tweet in 5 minutes! You should check up on things." | mail -s "Tweet Warning!" gene@pinskiy.us' );
 			lastTweet = new Date().getTime();
-			setTimeout(function () {
+			setTimeout( function () {
 				TimedLogger( "Twitter", "No Tweet Warning", "Restarting Twitter Client..." );
 				StartTwitterStream();
-			}, 500);
+			}, 500 );
 		} catch ( error ) {
-			TimedLogger( "Twitter", "No Tweet Error", JSON.stringify(error) );
+			TimedLogger( "Twitter", "No Tweet Error", JSON.stringify( error ) );
 		}
 	}
 }, 60000 )
