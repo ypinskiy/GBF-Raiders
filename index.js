@@ -90,7 +90,7 @@ function searchTextForRaids( text ) {
 
 function DoesTweetContainMessage( data ) {
 	let result = false;
-	if ( data.text.substr( 0, 10 ) !== "参加者募集！参戦ID" && data.text.substr( 0, 10 ) !== "I need bac" ) {
+	if ( data.text.indexOf("参加者募集") != -1 || data.text.indexOf("I need backup") != -1 ) {
 		result = true;
 	}
 	return result;
@@ -111,11 +111,15 @@ function GetTweetMessage( data ) {
 		language: "JP",
 		message: "No Twitter Message."
 	};
+	let splitString = data.text.split('\n');
+	let tempMessage = splitString[1];
+	if (tempMessage != "I need backup!" && tempMessage != "参加者募集！")
+	{
+		result.message = tempMessage;
+	}
 	if ( GetTweetLanguage( data ) === "JP" ) {
-		result.message = data.text.substring( 0, data.text.indexOf( '参戦ID' ) - 7 );
 		result.language = "JP";
 	} else if ( GetTweetLanguage( data ) === "EN" ) {
-		result.message = data.text.substring( 0, data.text.indexOf( 'Battle ID' ) - 15 );
 		result.language = "EN";
 	}
 	return result;
@@ -124,12 +128,7 @@ function GetTweetMessage( data ) {
 function GetRaidID( data ) {
 	var result = null;
 	try {
-		result = data.text.substr( data.text.indexOf( 'ID' ) + 3, 9 );
-		if ( result.charAt( 0 ) == " " ) {
-			result = result.substr( 1, 8 );
-		} else {
-			result = result.substr( 0, 8 );
-		}
+		result = data.text.substr( 0, 8 );
 	} catch ( error ) {
 		TimedLogger( "Twitter", "Error", error );
 	}
@@ -169,6 +168,7 @@ function StartTwitterStream() {
 	} );
 
 	client.on( 'tweet', function ( tweet ) {
+		console.dir(tweet);
 		TimedLogger( "Twitter", "Tweet Found", "" );
 		if ( IsValidTweet( tweet ) ) {
 			let raidInfo = {
