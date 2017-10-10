@@ -90,7 +90,7 @@ function searchTextForRaids( text ) {
 
 function DoesTweetContainMessage( data ) {
 	let result = false;
-	if ( data.text.indexOf("参加者募集") != -1 || data.text.indexOf("I need backup") != -1 ) {
+	if ( data.text.indexOf( "参加者募集" ) != -1 || data.text.indexOf( "I need backup" ) != -1 ) {
 		result = true;
 	}
 	return result;
@@ -111,11 +111,10 @@ function GetTweetMessage( data ) {
 		language: "JP",
 		message: "No Twitter Message."
 	};
-	let splitString = data.text.split('\n');
-	let tempMessage = splitString[1];
-	if (tempMessage != "I need backup!" && tempMessage != "参加者募集！")
-	{
-		result.message = tempMessage;
+	let splitString = data.text.split( '\n' );
+	let tempMessage = splitString[ 1 ];
+	if ( data.text.indexOf( ":" ) > 9) {
+		result.message = data.text.substr(0, data.text.indexOf( ":" ) - 10);
 	}
 	if ( GetTweetLanguage( data ) === "JP" ) {
 		result.language = "JP";
@@ -128,7 +127,7 @@ function GetTweetMessage( data ) {
 function GetRaidID( data ) {
 	var result = null;
 	try {
-		result = data.text.substr( 0, 8 );
+		result = data.text.substr( data.text.indexOf( ":" ) - 9, 8 );
 	} catch ( error ) {
 		TimedLogger( "Twitter", "Error", error );
 	}
