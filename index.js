@@ -168,7 +168,6 @@ function StartTwitterStream() {
 	} );
 
 	client.on( 'tweet', function ( tweet ) {
-		console.dir(tweet);
 		TimedLogger( "Twitter", "Tweet Found", "" );
 		if ( IsValidTweet( tweet ) ) {
 			let raidInfo = {
