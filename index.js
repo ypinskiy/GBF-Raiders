@@ -128,7 +128,7 @@ function GetTweetMessage( data ) {
 function GetRaidID( data ) {
 	var result = null;
 	try {
-		result = data.text.substr( 0, 8 );
+		result = data.text.substr( data.text.indexOf(":") - 9 , 8 );
 	} catch ( error ) {
 		TimedLogger( "Twitter", "Error", error );
 	}
