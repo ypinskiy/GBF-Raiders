@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"description": "Find Raids In GBF",
 	"engines": {
-		"node": "8.1.2"
+		"node": "8.1.2",
+		"npm": "5.2.0"
 	},
 	"main": "index.js",
 	"scripts": {
