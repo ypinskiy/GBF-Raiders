@@ -627,11 +627,11 @@
 	"english": "Lvl 30 The Watery",
 	"japanese": "Lv30 『水』",
 	"room": "lvl30watery",
-	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Very_Hard.png"
+	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Raid_Very_Hard.png"
 },
 {
 	"english": "Lvl 50 The Thunder",
 	"japanese": "Lv50 『雷』",
 	"room": "lvl50thunder",
-	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Extreme.png"
+	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Raid_Extreme.png"
 }]
