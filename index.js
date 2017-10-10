@@ -124,11 +124,11 @@ function GetTweetMessage( data ) {
 function GetRaidID( data ) {
 	var result = null;
 	try {
-		result = data.text.substr( data.text.indexOf( 'ID' ) + 3, 9 );
-		if ( result.charAt( 0 ) == " " ) {
-			result = result.substr( 1, 8 );
+		//result = data.text.substr( data.text.indexOf( 'ID' ) + 3, 9 );
+		if ( data.text.charAt( 0 ) == " " ) {
+			result = data.text.substr( 1, 8 );
 		} else {
-			result = result.substr( 0, 8 );
+			result = data.text.substr( 0, 8 );
 		}
 	} catch ( error ) {
 		TimedLogger( "Twitter", "Error", error );
