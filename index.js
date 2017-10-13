@@ -1,15 +1,20 @@
-let express = require( 'express' );
-let twitter = require( 'twitter' );
-let st = require( 'st' );
+const express = require( 'express' );
+const twitter = require( 'node-tweet-stream' );
+const { exec } = require( 'child_process' );
+const st = require( 'st' );
 let fs = require( 'fs' );
 let app = express();
-let helmet = require( 'helmet' );
-let bodyParser = require( 'body-parser' );
-let compression = require( 'compression' );
-let morgan = require( 'morgan' );
-let port = process.env.PORT || 80;
+const helmet = require( 'helmet' );
+const bodyParser = require( 'body-parser' );
+const compression = require( 'compression' );
+const morgan = require( 'morgan' );
+const moment = require( 'moment' );
+const port = process.env.PORT || 80;
 let io = null;
+let lastTweet = 0;
 
+let server = require( 'http' ).createServer( app );
+server.listen( port );
 if ( process.env.sslEnabled === "true" ) {
 	const options = {
 		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
@@ -19,20 +24,13 @@ if ( process.env.sslEnabled === "true" ) {
 	sslServer.listen( 443 );
 	io = require( 'socket.io' ).listen( sslServer );
 } else {
-	let server = require( 'http' ).createServer( app );
-	server.listen( port );
 	io = require( 'socket.io' ).listen( server );
 }
 
-let client = new twitter( {
-	consumer_key: process.env.consumer_key,
-	consumer_secret: process.env.consumer_secret,
-	access_token_key: process.env.access_token_key,
-	access_token_secret: process.env.access_token_secret
-} );
 
-function TimedLogger( data ) {
-	console.log( new Date().toString() + " - " + data );
+function TimedLogger( area, type, data ) {
+	let csvString = moment().format( 'MM/DD/YYYY,HH:mm:ss' ) + "," + area + "," + type + "," + data;
+	console.log( csvString );
 }
 
 let raidConfigs = require( './raids.json' );
@@ -92,7 +90,7 @@ function searchTextForRaids( text ) {
 
 function DoesTweetContainMessage( data ) {
 	let result = false;
-	if ( data.text.substr( 0, 10 ) !== "参加者募集！参戦ID" && data.text.substr( 0, 10 ) !== "I need bac" ) {
+	if ( data.text.indexOf( "参加者募集" ) != -1 || data.text.indexOf( "I need backup" ) != -1 ) {
 		result = true;
 	}
 	return result;
@@ -113,11 +111,14 @@ function GetTweetMessage( data ) {
 		language: "JP",
 		message: "No Twitter Message."
 	};
+	let splitString = data.text.split( '\n' );
+	let tempMessage = splitString[ 1 ];
+	if ( data.text.indexOf( ":" ) > 9) {
+		result.message = data.text.substr(0, data.text.indexOf( ":" ) - 10);
+	}
 	if ( GetTweetLanguage( data ) === "JP" ) {
-		result.message = data.text.substring( 0, data.text.indexOf( '参戦ID' ) - 7 );
 		result.language = "JP";
 	} else if ( GetTweetLanguage( data ) === "EN" ) {
-		result.message = data.text.substring( 0, data.text.indexOf( 'Battle ID' ) - 15 );
 		result.language = "EN";
 	}
 	return result;
@@ -126,14 +127,9 @@ function GetTweetMessage( data ) {
 function GetRaidID( data ) {
 	var result = null;
 	try {
-		result = data.text.substr( data.text.indexOf( 'ID' ) + 3, 9 );
-		if ( result.charAt( 0 ) == " " ) {
-			result = result.substr( 1, 8 );
-		} else {
-			result = result.substr( 0, 8 );
-		}
+		result = data.text.substr( data.text.indexOf( ":" ) - 9, 8 );
 	} catch ( error ) {
-		TimedLogger( "Error getting raid ID: " + error );
+		TimedLogger( "Twitter", "Error", error );
 	}
 	return result;
 }
@@ -141,18 +137,18 @@ function GetRaidID( data ) {
 function IsValidTweet( data ) {
 	let result = false;
 	if ( data.source !== '<a href="http://granbluefantasy.jp/" rel="nofollow">グランブルー ファンタジー</a>' ) {
-		TimedLogger( "Invalid tweet source: " + data.source );
+		TimedLogger( "Twitter", "Invalid Tweet Source", data.source );
 	} else {
 		if ( searchTextForRaids( data.text ) === null ) {
-			TimedLogger( "Invalid tweet: No raid name in tweet." );
+			TimedLogger( "Twitter", "No Raid Name", data.text );
 		} else {
 			if ( DoesTweetContainMessage( data ) && searchTextForRaids( GetTweetMessage( data ).message ) !== null ) {
-				TimedLogger( "Invalid tweet: Message contains a raid name: " + GetTweetMessage( data ).message );
+				TimedLogger( "Twitter", "Message Contains Name", data.text );
 			} else {
 				if ( GetRaidID( data ) === null ) {
-					TimedLogger( "Invalid tweet: No raid ID in tweet." );
+					TimedLogger( "Twitter", "No Raid ID", data.text );
 				} else {
-					TimedLogger( "Tweet is valid." );
+					TimedLogger( "Twitter", "Valid Tweet", "" );
 					result = true;
 				}
 			}
@@ -162,82 +158,80 @@ function IsValidTweet( data ) {
 }
 
 function StartTwitterStream() {
-	client.stream( 'statuses/filter', {
-		track: keywords
-	}, function ( stream ) {
-		TimedLogger( "Twitter Stream started." );
-		stream.on( 'data', function ( event ) {
-			TimedLogger( "Tweet found." );
-			if ( IsValidTweet( event ) ) {
-				let raidInfo = {
-					id: GetRaidID( event ),
-					user: "@" + event.user.screen_name,
-					time: event.created_at,
-					room: searchTextForRaids( event.text ),
-					message: "No Twitter Message.",
-					language: "JP",
-					status: "unclicked"
-				};
-				if ( DoesTweetContainMessage( event ) ) {
-					let tweetMessage = GetTweetMessage( event );
-					raidInfo.message = tweetMessage.message;
-					raidInfo.language = tweetMessage.language;
-				} else if ( GetTweetLanguage( event ) !== null ) {
-					raidInfo.language = GetTweetLanguage( event );
-				}
-				TimedLogger( "Raid Info: " );
-				console.dir( raidInfo );
-				io.to( raidInfo.room ).emit( 'tweet', raidInfo );
-			}
-		} );
-
-		stream.on( 'error', function ( error ) {
-			TimedLogger( "Twitter Stream error:" );
-			console.dir( error );
-			StartTwitterStream();
-		} );
-		stream.on( 'disconnect', function ( disconnect ) {
-			TimedLogger( "Twitter Stream disconnect:" );
-			console.dir( disconnect );
-			StartTwitterStream();
-		} );
-		stream.on( 'warning', function ( warning ) {
-			TimedLogger( "Twitter Stream warning:" );
-			console.dir( warning );
-		} );
-		stream.on( 'limit', function ( limit ) {
-			TimedLogger( "Twitter Stream limit:" );
-			console.dir( limit );
-		} );
-		stream.on( 'ping', function () {
-			TimedLogger( "Twitter Stream ping." );
-		} );
-		stream.on( 'event', function ( event ) {
-			TimedLogger( "Twitter Stream event:" );
-			console.dir( event );
-		} );
-		stream.on( 'end', function ( end ) {
-			TimedLogger( "Twitter Stream end:" );
-			console.dir( end );
-		} );
+	TimedLogger( "System", "Starting Twitter Stream", "" );
+	let client = new twitter( {
+		consumer_key: process.env.consumer_key,
+		consumer_secret: process.env.consumer_secret,
+		token: process.env.access_token_key,
+		token_secret: process.env.access_token_secret
 	} );
+
+	client.on( 'tweet', function ( tweet ) {
+		TimedLogger( "Twitter", "Tweet Found", "" );
+		if ( IsValidTweet( tweet ) ) {
+			let raidInfo = {
+				id: GetRaidID( tweet ),
+				user: "@" + tweet.user.screen_name,
+				time: tweet.created_at,
+				room: searchTextForRaids( tweet.text ),
+				message: "No Twitter Message.",
+				language: "JP",
+				status: "unclicked"
+			};
+			if ( DoesTweetContainMessage( tweet ) ) {
+				let tweetMessage = GetTweetMessage( tweet );
+				raidInfo.message = tweetMessage.message;
+				raidInfo.language = tweetMessage.language;
+			} else if ( GetTweetLanguage( tweet ) !== null ) {
+				raidInfo.language = GetTweetLanguage( tweet );
+			}
+			TimedLogger( "Twitter", "Raid Info", JSON.stringify( raidInfo ) );
+			lastTweet = new Date().getTime();
+			io.to( raidInfo.room ).emit( 'tweet', raidInfo );
+		}
+	} );
+
+	client.on( 'error', function ( error ) {
+		TimedLogger( "Twitter", "Error", JSON.stringify( error ) );
+	} );
+
+	client.on( 'reconnect', function ( reconnect ) {
+		TimedLogger( "Twitter", "Reconnect", JSON.stringify( reconnect ) );
+	} );
+
+	client.track( keywords );
 }
 
+setInterval( function () {
+	if ( new Date().getTime() - 300000 > lastTweet ) {
+		TimedLogger( "Twitter", "No Tweet Warning", "Sending Email..." );
+		try {
+			exec( 'echo "There hasn\'t been a tweet in 5 minutes! You should check up on things." | mail -s "Tweet Warning!" gene@pinskiy.us' );
+			lastTweet = new Date().getTime();
+			setTimeout( function () {
+				TimedLogger( "Twitter", "No Tweet Warning", "Restarting Twitter Client..." );
+				StartTwitterStream();
+			}, 500 );
+		} catch ( error ) {
+			TimedLogger( "Twitter", "No Tweet Error", JSON.stringify( error ) );
+		}
+	}
+}, 60000 )
+
 io.sockets.on( 'connection', function ( socket ) {
-	TimedLogger( "New connection established." );
+	TimedLogger( "Socket", "New Connection", "" );
 	socket.on( 'subscribe',
 		function ( data ) {
-			TimedLogger( "Room subscribed: " + data.room );
+			TimedLogger( "Socket", "Room Subscribed", data.room );
 			socket.join( data.room );
 		} );
 
 	socket.on( 'unsubscribe',
 		function ( data ) {
-			TimedLogger( "Room unsubscribed: " + data.room );
+			TimedLogger( "Socket", "Room Unsubscribed", data.room );
 			socket.leave( data.room );
 		} );
 } );
 
-TimedLogger( "Starting GBF Raiders on port " + port + "." );
-
+TimedLogger( "System", "Starting GBF Raiders", "Port " + port );
 StartTwitterStream();
