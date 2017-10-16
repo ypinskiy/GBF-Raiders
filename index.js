@@ -113,8 +113,8 @@ function GetTweetMessage( data ) {
 	};
 	let splitString = data.text.split( '\n' );
 	let tempMessage = splitString[ 1 ];
-	if ( data.text.indexOf( ":" ) > 9) {
-		result.message = data.text.substr(0, data.text.indexOf( ":" ) - 10);
+	if ( data.text.indexOf( ":" ) > 9 ) {
+		result.message = data.text.substr( 0, data.text.indexOf( ":" ) - 10 );
 	}
 	if ( GetTweetLanguage( data ) === "JP" ) {
 		result.language = "JP";
@@ -205,6 +205,7 @@ function StartTwitterStream() {
 setInterval( function () {
 	if ( new Date().getTime() - 300000 > lastTweet ) {
 		TimedLogger( "Twitter", "No Tweet Warning", "Sending Email..." );
+		io.emit( 'warning', { type: "twitter" } );
 		try {
 			exec( 'echo "There hasn\'t been a tweet in 5 minutes! You should check up on things." | mail -s "Tweet Warning!" gene@pinskiy.us' );
 			lastTweet = new Date().getTime();

@@ -1,22 +1,47 @@
 {
-  "base": "static\\semantic\\",
-  "paths": {
-    "source": {
-      "config": "src/theme.config",
-      "definitions": "src/definitions/",
-      "site": "src/site/",
-      "themes": "src/themes/"
-    },
-    "output": {
-      "packaged": "dist/",
-      "uncompressed": "dist/components/",
-      "compressed": "dist/components/",
-      "themes": "dist/themes/"
-    },
-    "clean": "dist/"
-  },
-  "permission": false,
-  "autoInstall": true,
-  "rtl": false,
-  "version": "2.2.13"
+	"base": "static\\semantic\\",
+	"paths":
+	{
+		"source":
+		{
+			"config": "src/theme.config",
+			"definitions": "src/definitions/",
+			"site": "src/site/",
+			"themes": "src/themes/"
+		},
+		"output":
+		{
+			"packaged": "dist/",
+			"uncompressed": "dist/components/",
+			"compressed": "dist/components/",
+			"themes": "dist/themes/"
+		},
+		"clean": "dist/"
+	},
+	"permission": false,
+	"autoInstall": true,
+	"rtl": false,
+	"components": [
+		"button",
+		"container",
+		"divider",
+		"header",
+		"icon",
+		"image",
+		"input",
+		"label",
+		"segment",
+		"form",
+		"menu",
+		"message",
+		"table",
+		"card",
+		"item",
+		"checkbox",
+		"dropdown",
+		"search",
+		"sidebar",
+		"tab"
+	],
+	"version": "2.2.13"
 }

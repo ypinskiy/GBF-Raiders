@@ -4,6 +4,7 @@ var raidConfigs = [];
 var selectedRaidsArray = [];
 var individualSettings = [];
 var wasDown = false;
+var noTwitter = false;
 
 var beepsSoundNotif = new Audio( '/assets/sounds/Beeps_Appear.wav' );
 var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3' );
@@ -27,7 +28,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "2.5",
+	version: "2.6",
 	newsSeen: false,
 	cardSlots: 8,
 	debugLevel: 0,
@@ -39,6 +40,10 @@ socket.on( 'tweet', function ( data ) {
 		console.log( "Tweet recieved:" );
 		console.dir( data );
 	}
+	document.getElementById( "connection-status" ).classList.remove( "red" );
+	document.getElementById( "connection-status" ).classList.add( "green" );
+	document.getElementById( "connection-status-value" ).innerHTML = "UP";
+	noTwitter = false;
 	if ( document.getElementById( data.id ) === null ) {
 		raids.push( data );
 		CreateRaidRow( data );
@@ -46,6 +51,19 @@ socket.on( 'tweet', function ( data ) {
 		SendDesktopNotif( data );
 	}
 } );
+
+socket.on('warning', function(data) {
+	if ( settings.debugLevel > 0 ) {
+		console.log( "Warning recieved:" );
+		console.dir( data );
+	}
+	if (data.type == "twitter") {
+		document.getElementById( "connection-status" ).classList.remove( "green" );
+		document.getElementById( "connection-status" ).classList.add( "red" );
+		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
+		noTwitter = true;
+	}
+});
 
 function CheckConnectionStatus() {
 	if ( settings.debugLevel > 1 ) {
@@ -87,7 +105,34 @@ window.onload = function () {
 	if ( settings.debugLevel > 0 ) {
 		console.log( "Window loaded." );
 	}
-	window.addEventListener( "message", onMessage, false );
+
+	if (!navigator.onLine) {
+		swal( {
+			title: "You are offline!",
+			text: "Please make sure your internet is connected or try again later.",
+			imageUrl: "assets/stickers/nope-sticker.png",
+			imageSize: '150x150'
+		} );
+	}
+	window.addEventListener('online', function (event) {
+		swal( {
+			title: "You came back online!",
+			text: "Things should start working again!",
+			imageUrl: "assets/stickers/iknowthatalready-sticker.png",
+			imageSize: '150x150'
+		} );
+	});
+
+	window.addEventListener('offline', function (event) {
+		swal( {
+			title: "You are offline!",
+			text: "Please make sure your internet is connected or try again later.",
+			imageUrl: "assets/stickers/nope-sticker.png",
+			imageSize: '150x150'
+		} );
+	});
+
+	window.addEventListener( 'message', onMessage, false );
 
 	function onMessage( evt ) {
 		if ( settings.debugLevel > 0 ) {
@@ -213,7 +258,9 @@ window.onload = function () {
 				document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 			}
 			setInterval( function () {
-				CheckConnectionStatus();
+				if (!noTwitter) {
+					CheckConnectionStatus();
+				}
 				if ( selectedRaidsArray.length === 0 ) {
 					document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
 				}

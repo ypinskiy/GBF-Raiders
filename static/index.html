@@ -8,10 +8,20 @@
 	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
 	<link id="favicon" rel="shortcut icon" type="image/png" href="/assets/misc/GBFRaidersIconv2.png" />
 	<link rel="manifest" href="/manifest.json">
-	<meta name="msapplication-TileColor" content="#2b5797">
 	<meta name="theme-color" content="#2185d0">
-	<meta name="Description" content="A Grand Blue Fantasy Raid Finder With New And Innovative Features, Including Jumping Straight To The Raid With Viramate Integration">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="A Grand Blue Fantasy Raid Finder With New And Innovative Features, Including Jumping Straight To The Raid With Viramate Integration">
+	<script type="text/javascript">
+		if ( 'serviceWorker' in navigator ) {
+			navigator.serviceWorker.register( '/serviceWorker.js' )
+				.then( function ( registration ) {
+					console.log( 'ServiceWorker registration complete' );
+				} )
+				.catch( function ( err ) {
+					console.log( `Error registering ServiceWorker: ${err}` );
+				} );
+		}
+	</script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.min.css">
@@ -187,9 +197,9 @@
 		<div id="news-message" class="ui hidden message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 10/10/2017
+				News - 10/16/2017
 			</div>
-			<p>I added the CCS raids as well as fixing the fact that Cygames changed how their tweets are formatted. Should be all good now.</p>
+			<p>I added a service worker to the site, everyone with newish browsers will notice that subsequent visits to the site should load < 1s. This is a big experimental thing, please let me know if things don't work right. Also, I fixed the shrinking toolbar feature on phones. Speaking of phones, please try adding the site to your home screen! Doing this on mobile will add a new icon to the screen like any other app. This also works on desktop, will add a icon to the desktop I guess? Still, let me know how well this feature works.</p>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -209,7 +219,7 @@
 	<script src="raids.js"></script>
 	<script src="settings.js"></script>
 	<script src="main.js"></script>
-	<script src="https://cdn.jsdelivr.net/ga-lite/latest/ga-lite.min.js" async></script>
+	<script src="https://cdn.jsdelivr.net/ga-lite/latest/ga-lite.min.js"></script>
 	<script>
 		var galite = galite || {};
 		galite.UA = 'UA-48921108-3';

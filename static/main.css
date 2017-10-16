@@ -221,6 +221,48 @@ td.larger>img {
 	margin-right: 5px;
 }
 
+@media (max-width: 1101px) and (min-width: 1092px) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -255px;
+	}
+}
+
+@media (max-width: 1091px) and (min-width: 986px) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -255px;
+	}
+}
+
+@media (max-width: 985px) and (min-width: 975px) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -260px;
+	}
+}
+
+@media (max-width: 974px) and (min-width: 708px) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -305px;
+	}
+}
+
+@media (max-width: 707px) and (min-width: 650px) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -355px;
+	}
+}
+
+@media (max-width: 649px) and (min-width: 597px) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -295px;
+	}
+}
+
+@media (max-width: 596) {
+	#header.header-shrink ~ *:not(#raid-container) {
+		margin-top: -330px;
+	}
+}
+
 @media (max-width: 650px) {
 	#connection-status {
 		margin-top: 10px;
@@ -247,6 +289,7 @@ td.larger>img {
 
 .selected-raids-label {
 	margin-bottom: 5px !important;
+	cursor: pointer;
 }
 
 #viramate-api {
