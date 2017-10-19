@@ -634,4 +634,10 @@
 	"japanese": "Lv50 『雷』",
 	"room": "lvl50thunder",
 	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Raid_Extreme.png"
+},
+{
+	"english": "Lvl 60 Procris",
+	"japanese": "Lv60 プロスクリスィ",
+	"room": "lvl60procris",
+	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Raid_ExtremePlus.png"
 }]
