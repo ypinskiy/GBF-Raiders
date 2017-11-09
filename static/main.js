@@ -10,6 +10,7 @@ var beepsSoundNotif = new Audio( '/assets/sounds/Beeps_Appear.wav' );
 var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3' );
 var andiraOniichanSoundNotif = new Audio( '/assets/sounds/Andira_Oniichan.mp3' );
 var titanfallDroppingNowSoundNotif = new Audio( '/assets/sounds/Titanfall_DroppingNow.mp3' );
+var hoeeeeeSoundNotif - new Audio( '/assets/sounds/HOEEEEE.mp3' );
 
 var settings = {
 	notification: {
@@ -296,6 +297,9 @@ function PlaySoundNotif( data ) {
 			} else if ( settings.notification.soundNotifChoice === "titanfall-droppingnow" ) {
 				titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 				titanfallDroppingNowSoundNotif.play();
+			} else if ( settings.notification.soundNotifChoice === "sakura-hoeeeee" ) {
+				hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+				hoeeeeeSoundNotif.play();
 			}
 			if ( settings.debugLevel > 0 ) {
 				console.log( "Played sound notif." );
@@ -323,6 +327,9 @@ function PlaySoundNotif( data ) {
 						} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
 							titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
 							titanfallDroppingNowSoundNotif.play();
+						} else if ( individualSettings[ i ].settings.soundNotifChoice === "sakura-hoeeeee" ) {
+							hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+							hoeeeeeSoundNotif.play();
 						}
 						if ( settings.debugLevel > 0 ) {
 							console.log( "Played sound notif." );
