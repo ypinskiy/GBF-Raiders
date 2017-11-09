@@ -688,4 +688,16 @@
 	"japanese": "Lv100 セスランス",
 	"room": "lvl100sethlans",
 	"image": "/assets/raids/BattleRaid_Sethlans_Nightmare100.png"
+},
+{
+	"english": "Lvl 30 Phantom Fox",
+	"japanese": "Lv30 九尾の幻影",
+	"room": "lvl30phantomfox",
+	"image": "/assets/raids/BattleRaid_Forgiveness_and_Gratitude_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Ninpress",
+	"japanese": "Lv50 九尾",
+	"room": "lvl50ninpress",
+	"image": "/assets/raids/BattleRaid_Forgiveness_and_Gratitude_Extreme.png"
 }]
