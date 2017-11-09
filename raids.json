@@ -640,4 +640,52 @@
 	"japanese": "Lv60 プロスクリスィ",
 	"room": "lvl60procris",
 	"image": "/assets/raids/BattleRaid_Cardcaptor_Sakura_Raid_ExtremePlus.png"
+},
+{
+	"english": "Lvl 30 Ahura",
+	"japanese": "Lv30 アーフラー",
+	"room": "lvl30ahura",
+	"image": "/assets/raids/BattleRaid_Eyeball_Hard.png"
+},
+{
+	"english": "Lvl 40 Ahura",
+	"japanese": "Lv40 アーフラー",
+	"room": "lvl40ahura",
+	"image": "/assets/raids/BattleRaid_Eyeball_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Grendel",
+	"japanese": "Lv50 ベオウルフ",
+	"room": "lvl50grendel",
+	"image": "/assets/raids/BattleRaid_Grendel_Very_Hard.png"
+},
+{
+	"english": "Lvl 60 Grendel",
+	"japanese": "Lv60 ベオウルフ",
+	"room": "lvl60grendel",
+	"image": "/assets/raids/BattleRaid_Grendel_Extreme.png"
+},
+{
+	"english": "Lvl 75 Volcanrio",
+	"japanese": "Lv75 ヴァルカンライオ",
+	"room": "lvl75volcanrio",
+	"image": "/assets/raids/BattleRaid_Volcanrio_ExtremePlus.png"
+},
+{
+	"english": "Lvl 90 Sethlans",
+	"japanese": "Lv90 セスランス",
+	"room": "lvl90sethlans",
+	"image": "/assets/raids/BattleRaid_Sethlans_Nightmare90.png"
+},
+{
+	"english": "Lvl 95 Sethlans",
+	"japanese": "Lv95 セスランス",
+	"room": "lvl95sethlans",
+	"image": "/assets/raids/BattleRaid_Sethlans_Nightmare95.png"
+},
+{
+	"english": "Lvl 100 Sethlans",
+	"japanese": "Lv100 セスランス",
+	"room": "lvl100sethlans",
+	"image": "/assets/raids/BattleRaid_Sethlans_Nightmare100.png"
 }]
