@@ -102,6 +102,7 @@ function CreateSettingsModalFrame() {
 	result += '<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>';
 	result += '<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>';
 	result += '<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>';
+	result += '<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>';
 	result += '</div></div></span>';
 	result += '<span id="modal-sound-volume-control" class="slider-control-disabled"><span class="slider-title">Sound Notification Volume</span><input id="modal-sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled></span>';
 	result += '</div></div>';
