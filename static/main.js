@@ -10,7 +10,7 @@ var beepsSoundNotif = new Audio( '/assets/sounds/Beeps_Appear.wav' );
 var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3' );
 var andiraOniichanSoundNotif = new Audio( '/assets/sounds/Andira_Oniichan.mp3' );
 var titanfallDroppingNowSoundNotif = new Audio( '/assets/sounds/Titanfall_DroppingNow.mp3' );
-var hoeeeeeSoundNotif - new Audio( '/assets/sounds/HOEEEEE.mp3' );
+var hoeeeeeSoundNotif = new Audio( '/assets/sounds/HOEEEEE.mp3' );
 
 var settings = {
 	notification: {
