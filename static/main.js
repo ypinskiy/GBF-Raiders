@@ -29,18 +29,15 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "2.7",
+	version: "2.8",
 	newsSeen: false,
 	cardSlots: 8,
-	debugLevel: 0,
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
 };
 
 socket.on( 'tweet', function ( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Tweet recieved:" );
-		console.dir( data );
-	}
+	console.log( "Tweet recieved:" );
+	console.dir( data );
 	document.getElementById( "connection-status" ).classList.remove( "red" );
 	document.getElementById( "connection-status" ).classList.add( "green" );
 	document.getElementById( "connection-status-value" ).innerHTML = "UP";
@@ -53,34 +50,26 @@ socket.on( 'tweet', function ( data ) {
 	}
 } );
 
-socket.on('warning', function(data) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Warning recieved:" );
-		console.dir( data );
-	}
-	if (data.type == "twitter") {
+socket.on( 'warning', function ( data ) {
+	console.log( "Warning recieved:" );
+	console.dir( data );
+	if ( data.type == "twitter" ) {
 		document.getElementById( "connection-status" ).classList.remove( "green" );
 		document.getElementById( "connection-status" ).classList.add( "red" );
 		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 		noTwitter = true;
 	}
-});
+} );
 
 function CheckConnectionStatus() {
-	if ( settings.debugLevel > 1 ) {
-		console.log( "Checking connection status..." );
-	}
+	console.log( "Checking connection status..." );
 	if ( socket.connected ) {
-		if ( settings.debugLevel > 1 ) {
-			console.log( "Connection Status: UP" );
-		}
+		console.log( "Connection Status: UP" );
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
 		if ( wasDown ) {
-			if ( settings.debugLevel > 1 ) {
-				console.log( "Recovering from connection down..." );
-			}
+			console.log( "Recovering from connection down..." );
 			if ( localStorage.getItem( "selectedRaids" ) ) {
 				var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
 				for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
@@ -92,9 +81,7 @@ function CheckConnectionStatus() {
 		}
 		wasDown = false;
 	} else {
-		if ( settings.debugLevel > 1 ) {
-			console.log( "Connection Status: DOWN" );
-		}
+		console.log( "Connection Status: DOWN" );
 		document.getElementById( "connection-status" ).classList.remove( "green" );
 		document.getElementById( "connection-status" ).classList.add( "red" );
 		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
@@ -103,11 +90,9 @@ function CheckConnectionStatus() {
 }
 
 window.onload = function () {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Window loaded." );
-	}
-
-	if (!navigator.onLine) {
+	console.log( "Window loaded." );
+	if ( !navigator.onLine ) {
+		console.log( "Page loaded offline." );
 		swal( {
 			title: "You are offline!",
 			text: "Please make sure your internet is connected or try again later.",
@@ -115,40 +100,36 @@ window.onload = function () {
 			imageSize: '150x150'
 		} );
 	}
-	window.addEventListener('online', function (event) {
+	window.addEventListener( 'online', function ( event ) {
+		console.log( "Page came back online." );
 		swal( {
 			title: "You came back online!",
 			text: "Things should start working again!",
 			imageUrl: "assets/stickers/iknowthatalready-sticker.png",
 			imageSize: '150x150'
 		} );
-	});
+	} );
 
-	window.addEventListener('offline', function (event) {
+	window.addEventListener( 'offline', function ( event ) {
+		console.log( "Page is offline." );
 		swal( {
 			title: "You are offline!",
 			text: "Please make sure your internet is connected or try again later.",
 			imageUrl: "assets/stickers/nope-sticker.png",
 			imageSize: '150x150'
 		} );
-	});
+	} );
 
 	window.addEventListener( 'message', onMessage, false );
 
 	function onMessage( evt ) {
-		if ( settings.debugLevel > 0 ) {
-			console.log( "Viramate message recieved." );
-		}
+		console.log( "Viramate message recieved." );
 		if ( evt.data.type !== "result" ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Viramate message not a result." );
-			}
+			console.log( "Viramate message not a result." );
 			return;
 		} else {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Viramate message:" );
-				console.dir( evt.data );
-			}
+			console.log( "Viramate message:" );
+			console.dir( evt.data );
 			if ( evt.data.result === "refill required" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
@@ -233,58 +214,46 @@ window.onload = function () {
 			}
 		}
 	}
-
-	var xmlHttp = new XMLHttpRequest();
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Getting raid configs..." );
-	}
-	xmlHttp.onreadystatechange = function () {
-		if ( xmlHttp.readyState === 4 && xmlHttp.status === 200 && xmlHttp.responseText != undefined ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Raid configs recieved." );
-			}
-			raidConfigs = JSON.parse( xmlHttp.responseText );
-			LoadSavedSettings();
-			SetupControls();
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			SetupTable();
-			LoadSavedRaids();
-			if ( socket.connected ) {
-				document.getElementById( "connection-status" ).classList.remove( "red" );
-				document.getElementById( "connection-status" ).classList.add( "green" );
-				document.getElementById( "connection-status-value" ).innerHTML = "UP";
-			} else {
-				document.getElementById( "connection-status" ).classList.remove( "green" );
-				document.getElementById( "connection-status" ).classList.add( "red" );
-				document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
-			}
-			setInterval( function () {
-				if (!noTwitter) {
-					CheckConnectionStatus();
-				}
-				if ( selectedRaidsArray.length === 0 ) {
-					document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
-				}
-				for ( var i = raids.length - 1; i >= 0; i-- ) {
-					UpdateRaidRow( raids[ i ] );
-				}
-			}, 500 );
+	console.log( "Getting raid configs..." );
+	fetch( "/getraids" ).then( function ( response ) {
+		return response.json();
+	} ).then( function ( raids ) {
+		console.log( "Raid configs recieved." );
+		raidConfigs = raids;
+		LoadSavedSettings();
+		SetupControls();
+		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		SetupTable();
+		LoadSavedRaids();
+		if ( socket.connected ) {
+			document.getElementById( "connection-status" ).classList.remove( "red" );
+			document.getElementById( "connection-status" ).classList.add( "green" );
+			document.getElementById( "connection-status-value" ).innerHTML = "UP";
+		} else {
+			document.getElementById( "connection-status" ).classList.remove( "green" );
+			document.getElementById( "connection-status" ).classList.add( "red" );
+			document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 		}
-	};
-	xmlHttp.open( "GET", '/getraids', true );
-	xmlHttp.send();
+		setInterval( function () {
+			if ( !noTwitter ) {
+				CheckConnectionStatus();
+			}
+			if ( selectedRaidsArray.length === 0 ) {
+				document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
+			}
+			for ( var i = raids.length - 1; i >= 0; i-- ) {
+				UpdateRaidRow( raids[ i ] );
+			}
+		}, 500 );
+	} );
 };
 
 function PlaySoundNotif( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Playing sound notif for: " + data.room );
-		console.log( 'Sound Settings: Layout Orientation = "' + settings.layout.orientation + '", Are Sound Notifs On = "' + settings.notification.soundNotifOn + '", Sound Notif Choice = "' + settings.notification.soundNotifChoice + '", Sound Notif Volume = "' + settings.notification.soundNotifVolume + '"' );
-	}
+	console.log( "Playing sound notif for: " + data.room );
+	console.log( `Sound Settings: Layout Orientation = ${settings.layout.orientation},  Are Sound Notifs On = ${settings.notification.soundNotifOn},  Sound Notif Choice = ${settings.notification.soundNotifChoice}, Sound Notif Volume = ${settings.notification.soundNotifVolume}` );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		try {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Trying to play sound notif..." );
-			}
+			console.log( "Trying to play sound notif..." );
 			if ( settings.notification.soundNotifChoice === "beeps" ) {
 				beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 				beepsSoundNotif.play();
@@ -297,13 +266,8 @@ function PlaySoundNotif( data ) {
 			} else if ( settings.notification.soundNotifChoice === "titanfall-droppingnow" ) {
 				titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 				titanfallDroppingNowSoundNotif.play();
-			} else if ( settings.notification.soundNotifChoice === "sakura-hoeeeee" ) {
-				hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-				hoeeeeeSoundNotif.play();
 			}
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Played sound notif." );
-			}
+			console.log( "Played sound notif." );
 		} catch ( error ) {
 			console.log( "Error playing sound notif: " + error );
 		}
@@ -312,9 +276,7 @@ function PlaySoundNotif( data ) {
 			if ( data.room === individualSettings[ i ].room ) {
 				if ( individualSettings[ i ].settings.soundNotifOn ) {
 					try {
-						if ( settings.debugLevel > 0 ) {
-							console.log( "Trying to play sound notif..." );
-						}
+						console.log( "Trying to play sound notif..." );
 						if ( individualSettings[ i ].settings.soundNotifChoice === "beeps" ) {
 							beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
 							beepsSoundNotif.play();
@@ -327,13 +289,8 @@ function PlaySoundNotif( data ) {
 						} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
 							titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
 							titanfallDroppingNowSoundNotif.play();
-						} else if ( individualSettings[ i ].settings.soundNotifChoice === "sakura-hoeeeee" ) {
-							hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-							hoeeeeeSoundNotif.play();
 						}
-						if ( settings.debugLevel > 0 ) {
-							console.log( "Played sound notif." );
-						}
+						console.log( "Played sound notif." );
 					} catch ( error ) {
 						console.log( "Error playing sound notif: " + error );
 					}
@@ -344,17 +301,13 @@ function PlaySoundNotif( data ) {
 }
 
 function SendDesktopNotif( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Sending desktop notif for: " + data.room );
-		console.log( 'Desktop Settings: Layout Orientation = "' + settings.layout.orientation + '", Are Desktop Notifs On = "' + settings.notification.desktopNotifOn + '", Desktop Notif Size = "' + settings.notification.desktopNotifSize + '"' );
-	}
+	console.log( "Sending desktop notif for: " + data.room );
+	console.log( `Desktop Settings: Layout Orientation = ${settings.layout.orientation}, Are Desktop Notifs On = ${settings.notification.desktopNotifOn}, Desktop Notif Size = ${settings.notification.desktopNotifSize}` );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.desktopNotifOn ) {
 		if ( Notification.permission === "granted" ) {
 			try {
 				var raidConfig = FindRaidConfig( data.room );
-				if ( settings.debugLevel > 0 ) {
-					console.log( "Trying to send desktop notif..." );
-				}
+				console.log( "Trying to send desktop notif..." );
 				var notification = null;
 				var title = "";
 				if ( data.language === "EN" ) {
@@ -395,9 +348,7 @@ function SendDesktopNotif( data ) {
 					document.getElementById( data.id + '-btn' ).classList.add( "negative" );
 					notification.close();
 				}
-				if ( settings.debugLevel > 0 ) {
-					console.log( "Sent desktop notif." );
-				}
+				console.log( "Sent desktop notif." );
 			} catch ( error ) {
 				console.log( "Error sending desktop notif: " + error );
 			}
@@ -410,9 +361,7 @@ function SendDesktopNotif( data ) {
 					if ( Notification.permission === "granted" ) {
 						try {
 							var raidConfig = FindRaidConfig( data.room );
-							if ( settings.debugLevel > 0 ) {
-								console.log( "Trying to send desktop notif..." );
-							}
+							console.log( "Trying to send desktop notif..." );
 							var notification = null;
 							var title = "";
 							if ( data.language === "EN" ) {
@@ -452,9 +401,7 @@ function SendDesktopNotif( data ) {
 								document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 								notification.close();
 							}
-							if ( settings.debugLevel > 0 ) {
-								console.log( "Sent desktop notif." );
-							}
+							console.log( "Sent desktop notif." );
 						} catch ( error ) {
 							console.log( "Error sending desktop notif: " + error );
 						}
