@@ -1,4 +1,4 @@
-const version = '0.0.1'
+const version = '0.0.2'
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -41,6 +41,8 @@ self.addEventListener( 'install', function ( event ) {
 self.addEventListener( 'fetch', function ( event ) {
 	let request = event.request.clone();
 	let requestURL = new URL( event.request.url );
+	console.log( "Service Worker - fetching request:" );
+	console.dir( requestURL );
 	if ( /EIO=3&transport=polling/.test( requestURL.search ) ) {
 		event.respondWith(
 			NetworkOnly( request )
@@ -57,28 +59,36 @@ self.addEventListener( 'fetch', function ( event ) {
 } );
 
 function CacheOnly( request ) {
+	console.log( "Checking only cache for response..." );
 	return caches.match( request )
 		.then( function ( cacheResponse ) {
+			console.log( "Found response in cache." );
 			return cacheResponse;
 		} );
 }
 
 function NetworkOnly( request ) {
+	console.log( "Getting response straight from network..." );
 	return fetch( request );
 }
 
 function NetworkFallingBackToCache( request ) {
+	console.log( "Getting reponse from network with cache fallback..." );
 	return fetch( request )
 		.catch( function ( error ) {
+			console.log( `Failed to get response from network: ${error}` );
+			console.log( "Checking cache for fallback..." );
 			return caches.match( request );
 		} );
 }
 
 function CacheFallingBackToNetwork( request ) {
+	console.log( "Getting reponse from cache with network fallback..." );
 	return caches.match( request )
 		.then( function ( cacheResponse ) {
 			return cacheResponse || fetch( request )
 				.then( function ( networkResponse ) {
+					console.log( "Failed to get response from cache. Retrieved response from network and placing it in cache..." );
 					return caches.open( dynamicname )
 						.then( function ( cache ) {
 							if ( [ 0, 200 ].includes( networkResponse.status ) ) {
