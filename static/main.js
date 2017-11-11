@@ -217,9 +217,9 @@ window.onload = function () {
 	console.log( "Getting raid configs..." );
 	fetch( "/getraids" ).then( function ( response ) {
 		return response.json();
-	} ).then( function ( raids ) {
+	} ).then( function ( raidResults ) {
 		console.log( "Raid configs recieved." );
-		raidConfigs = raids;
+		raidConfigs = raidResults;
 		LoadSavedSettings();
 		SetupControls();
 		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
