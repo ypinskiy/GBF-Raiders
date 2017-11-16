@@ -62,9 +62,7 @@ socket.on( 'warning', function ( data ) {
 } );
 
 function CheckConnectionStatus() {
-	console.log( "Checking connection status..." );
 	if ( socket.connected ) {
-		console.log( "Connection Status: UP" );
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
@@ -81,7 +79,6 @@ function CheckConnectionStatus() {
 		}
 		wasDown = false;
 	} else {
-		console.log( "Connection Status: DOWN" );
 		document.getElementById( "connection-status" ).classList.remove( "green" );
 		document.getElementById( "connection-status" ).classList.add( "red" );
 		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
@@ -423,10 +420,4 @@ function SendJoinCommand( id ) {
 	} catch ( error ) {
 		console.log( "Error sending message to Viramate: " + error );
 	}
-}
-
-function ChangeDebugLevel( debugLevel ) {
-	settings.debugLevel = debugLevel;
-	localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-	location.reload();
 }
