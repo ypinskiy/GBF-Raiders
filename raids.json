@@ -700,4 +700,10 @@
 	"japanese": "Lv50 九尾",
 	"room": "lvl50ninpress",
 	"image": "/assets/raids/BattleRaid_Forgiveness_and_Gratitude_Extreme.png"
+},
+{
+	"english": "Lvl 100 Xeno Cocytus",
+	"japanese": "Lv100 ゼノ・コキュートス",
+	"room": "lvl100xenococytus",
+	"image": "/assets/raids/BattleRaid_Xeno_Cocytus_Raid.png"
 }]
