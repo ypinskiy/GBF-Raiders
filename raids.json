@@ -706,4 +706,10 @@
 	"japanese": "Lv100 ゼノ・コキュートス",
 	"room": "lvl100xenococytus",
 	"image": "/assets/raids/BattleRaid_Xeno_Cocytus_Raid.png"
+},
+{
+	"english": "Lvl 100 Xeno Diablo",
+	"japanese": "Lv100 ゼノ・ディアボロス",
+	"room": "lvl100xenodiablo",
+	"image": "/assets/raids/BattleRaid_Xeno_Diablo_Raid.png"
 }]
