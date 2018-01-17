@@ -712,4 +712,52 @@
 	"japanese": "Lv100 ゼノ・ディアボロス",
 	"room": "lvl100xenodiablo",
 	"image": "/assets/raids/BattleRaid_Xeno_Diablo_Raid.png"
+},
+{
+	"english": "Lvl 30 Ogler",
+	"japanese": "Lv30 ゲイザー",
+	"room": "lvl30ogler",
+	"image": "/assets/raids/BattleRaid_Ogler_Hard.png"
+},
+{
+	"english": "Lvl 40 Ogler",
+	"japanese": "Lv40 ゲイザー",
+	"room": "lvl40ogler",
+	"image": "/assets/raids/BattleRaid_Ogler_Very_Hard.png"
+},
+{
+	"english": "Lvl 50 Gugalanna",
+	"japanese": "Lv50 グガランナ",
+	"room": "lvl50gugalanna",
+	"image": "/assets/raids/BattleRaid_Gugalanna_Very_Hard.png"
+},
+{
+	"english": "Lvl 60 Gugalanna",
+	"japanese": "Lv60 グガランナ",
+	"room": "lvl60gugalanna",
+	"image": "/assets/raids/BattleRaid_Gugalanna_Extreme.png"
+},
+{
+	"english": "Lvl 75 Viridian Horn",
+	"japanese": "Lv75 エメラルドホーン",
+	"room": "lvl75viridianhorn",
+	"image": "/assets/raids/BattleRaid_Viridian_Horn_ExtremePlus.png"
+},
+{
+	"english": "Lvl 90 Quetzalcoatl",
+	"japanese": "Lv90 ケツァルコアトル",
+	"room": "lvl90quetzalcoatl",
+	"image": "/assets/raids/BattleRaid_Quetzalcoatl_Nightmare90.png"
+},
+{
+	"english": "Lvl 95 Quetzalcoatl",
+	"japanese": "Lv95 ケツァルコアトル",
+	"room": "lvl95quetzalcoatl",
+	"image": "/assets/raids/BattleRaid_Quetzalcoatl_Nightmare95.png"
+},
+{
+	"english": "Lvl 100 Quetzalcoatl",
+	"japanese": "Lv100 ケツァルコアトル",
+	"room": "lvl100quetzalcoatl",
+	"image": "/assets/raids/BattleRaid_Quetzalcoatl_Nightmare100.png"
 }]
