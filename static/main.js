@@ -263,6 +263,9 @@ function PlaySoundNotif( data ) {
 			} else if ( settings.notification.soundNotifChoice === "titanfall-droppingnow" ) {
 				titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 				titanfallDroppingNowSoundNotif.play();
+			} else if ( individualSettings[ i ].settings.soundNotifChoice === "sakura-hoeeeee" ) {
+				hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+				hoeeeeeSoundNotif.play();
 			}
 			console.log( "Played sound notif." );
 		} catch ( error ) {
@@ -286,6 +289,9 @@ function PlaySoundNotif( data ) {
 						} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
 							titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
 							titanfallDroppingNowSoundNotif.play();
+						} else if ( individualSettings[ i ].settings.soundNotifChoice === "sakura-hoeeeee" ) {
+							hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+							hoeeeeeSoundNotif.play();
 						}
 						console.log( "Played sound notif." );
 					} catch ( error ) {
