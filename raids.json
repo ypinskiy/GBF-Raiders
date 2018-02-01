@@ -760,4 +760,23 @@
 	"japanese": "Lv100 ケツァルコアトル",
 	"room": "lvl100quetzalcoatl",
 	"image": "/assets/raids/BattleRaid_Quetzalcoatl_Nightmare100.png"
-}]
+},
+{
+	"english": "Lvl 50 Joya",
+	"japanese": "Lv50 ジョヤ",
+	"room": "lvl50joya",
+	"image": "/assets/raids/BattleRaid_Auld_Lanxiety_Extreme.png"
+},
+{
+	"english": "Lvl 100 Joya",
+	"japanese": "Lv100 ジョヤ",
+	"room": "lvl100joya",
+	"image": "/assets/raids/BattleRaid_Auld_Lanxiety_Impossible.png"
+},
+{
+	"english": "Lvl 30 Bad Seed Boys",
+	"japanese": "Lv30 煩悩に塗れた男たち",
+	"room": "lvl30badseedboys",
+	"image": "/assets/raids/BattleRaid_Auld_Lanxiety_Very_Hard.png"
+}
+]
