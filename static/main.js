@@ -29,7 +29,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "2.8",
+	version: "2.9",
 	newsSeen: false,
 	cardSlots: 8,
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"

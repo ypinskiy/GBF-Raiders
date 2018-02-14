@@ -470,6 +470,7 @@ function SetupControls() {
 
 		$( '.ui.search' )
 			.search( {
+				type: 'category',
 				source: raidConfigs,
 				searchFields: [
 					'english',
@@ -478,6 +479,7 @@ function SetupControls() {
 				searchFullText: true,
 				fields: {
 					title: 'english',
+					description: 'element'
 				},
 				maxResults: 10,
 				onSelect: function ( result, response ) {
