@@ -470,7 +470,6 @@ function SetupControls() {
 
 		$( '.ui.search' )
 			.search( {
-				type: 'category',
 				source: raidConfigs,
 				searchFields: [
 					'english',
