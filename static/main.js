@@ -130,7 +130,7 @@ window.onload = function () {
 			if ( evt.data.result === "refill required" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
-				document.getElementById( evt.data.id ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "No more BP!",
@@ -142,8 +142,8 @@ window.onload = function () {
 			} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
-				document.getElementById( evt.data.id ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
-				document.getElementById( evt.data.id ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "Raid has ended!",
@@ -155,7 +155,7 @@ window.onload = function () {
 			} else if ( evt.data.result.error === "api disabled" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
-				document.getElementById( evt.data.id ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "Viramate Web API is disabled!",
@@ -167,7 +167,7 @@ window.onload = function () {
 			} else if ( evt.data.result.error === "No granblue tab found" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
-				document.getElementById( evt.data.id ).innerHTML = 'No Granblue<i class="right help icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No Granblue<i class="right help icon"></i>';
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "You don't have Granblue open!",
@@ -179,8 +179,8 @@ window.onload = function () {
 			} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
-				document.getElementById( evt.data.id ).innerHTML = 'Full Raid<i class="right users icon"></i>';
-				document.getElementById( evt.data.id ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "Raid is full!",
@@ -192,8 +192,8 @@ window.onload = function () {
 			} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
-				document.getElementById( evt.data.id ).innerHTML = 'Full Raid<i class="right zoom out icon"></i>';
-				document.getElementById( evt.data.id ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right zoom out icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "Error with Raid ID!",
@@ -205,8 +205,8 @@ window.onload = function () {
 			} else if ( evt.data.result === "already in this raid" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-				document.getElementById( evt.data.id ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
-				document.getElementById( evt.data.id ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
 				swal( {
 					title: "You are already in this raid!",
@@ -218,8 +218,8 @@ window.onload = function () {
 			} else if ( evt.data.result === "ok" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-				document.getElementById( evt.data.id ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
-				document.getElementById( evt.data.id ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "success";
 			}
 		}
