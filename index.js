@@ -66,6 +66,10 @@ app.get( '/getraids', function ( req, res ) {
 	res.send( raidConfigs );
 } );
 
+app.get( '/', function ( req, res ) {
+	res.sendFile(  __dirname + '/static/index.html' );
+} );
+
 app.use( st( {
 	path: __dirname + '/static',
 	url: '/',
@@ -79,7 +83,7 @@ app.use( st( {
 			maxAge: 1000 * 60 * 60 * 24 * 7, // how long to cache contents for (milliseconds * seconds * minutes * hours * days)
 		}
 	},
-	passthrough: false
+	passthrough: true
 } ) );
 
 let keywords = "";

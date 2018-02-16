@@ -563,25 +563,49 @@ function CreateVerticalRaidContainer() {
 	} );
 }
 
+function ConstructRaidURL() {
+	let URLString = "?";
+	selectedRaidsArray.forEach( function ( raid ) {
+		URLString += "raid=" + raid + "&";
+	} );
+	URLString = URLString.slice( 0, -1 );
+	history.replaceState( {}, "", URLString );
+}
+
+function GetRaidsFromURL() {
+	let parsedURL = new URL( window.location.href );
+	return parsedURL.searchParams.getAll( 'raid' );
+}
+
 function LoadSavedRaids() {
 	if ( settings.debugLevel > 0 ) {
 		console.log( "Loading saved raids..." );
 	}
-	if ( localStorage.getItem( "selectedRaids" ) ) {
+	let URLRaids = GetRaidsFromURL();
+	if ( URLRaids.length > 0 ) {
 		if ( settings.debugLevel > 0 ) {
-			console.log( "Found saved raids." );
+			console.log( "Found URL saved raids." );
 		}
-		try {
-			var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
-		} catch ( error ) {
-			console.log( "Error parsing saved raids: " + error );
-		}
-		try {
-			for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
-				AddSelectedRaid( tempSelectedRaids[ i ] );
+		URLRaids.forEach( function ( raid ) {
+			AddSelectedRaid( raid );
+		} );
+	} else {
+		if ( localStorage.getItem( "selectedRaids" ) ) {
+			if ( settings.debugLevel > 0 ) {
+				console.log( "Found local storage saved raids." );
 			}
-		} catch ( error ) {
-			console.log( "Error adding saved raids: " + error );
+			try {
+				var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
+			} catch ( error ) {
+				console.log( "Error parsing saved raids: " + error );
+			}
+			try {
+				for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
+					AddSelectedRaid( tempSelectedRaids[ i ] );
+				}
+			} catch ( error ) {
+				console.log( "Error adding saved raids: " + error );
+			}
 		}
 	}
 }
@@ -600,6 +624,7 @@ function AddSelectedRaid( room ) {
 			}
 			try {
 				selectedRaidsArray.push( room );
+				ConstructRaidURL();
 				var raid = FindRaidConfig( room );
 				var selectedLabel = document.createElement( "div" );
 				selectedLabel.classList.add( "ui", "big", "label", "image", "selected-raids-label" );
@@ -624,6 +649,7 @@ function AddSelectedRaid( room ) {
 			}
 			try {
 				selectedRaidsArray.push( room );
+				ConstructRaidURL();
 				var indivSettingExists = false;
 				for ( var i = 0; i < individualSettings.length; i++ ) {
 					if ( room === individualSettings[ i ].room ) {
@@ -912,6 +938,7 @@ function RemoveSelectedRaid( room ) {
 				room: room
 			} );
 			selectedRaidsArray.splice( selectedRaidsArray.indexOf( room ), 1 );
+			ConstructRaidURL();
 			localStorage.setItem( "selectedRaids", JSON.stringify( selectedRaidsArray ) );
 			document.getElementById( room ).remove();
 		} catch ( error ) {
