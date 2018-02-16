@@ -1,4 +1,4 @@
-const version = '0.0.4'
+const version = '0.0.5';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -51,6 +51,10 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( request )
 		);
+	} else if ( requestURL.pathname == '/' ) {
+		event.respondWith(
+			CacheFallingBackToNetwork( '/' )
+		);
 	} else {
 		event.respondWith(
 			CacheFallingBackToNetwork( request )
@@ -69,12 +73,12 @@ function CacheOnly( request ) {
 
 function NetworkOnly( request ) {
 	console.log( "Getting response straight from network..." );
-	return fetch( request , { cache: 'no-store' });
+	return fetch( request, { cache: 'no-store' } );
 }
 
 function NetworkFallingBackToCache( request ) {
 	console.log( "Getting reponse from network with cache fallback..." );
-	return fetch( request , { cache: 'no-store' } )
+	return fetch( request, { cache: 'no-store' } )
 		.catch( function ( error ) {
 			console.log( `Failed to get response from network: ${error}` );
 			console.log( "Checking cache for fallback..." );
@@ -86,7 +90,7 @@ function CacheFallingBackToNetwork( request ) {
 	console.log( "Getting reponse from cache with network fallback..." );
 	return caches.match( request )
 		.then( function ( cacheResponse ) {
-			return cacheResponse || fetch( request , { cache: 'no-store' } )
+			return cacheResponse || fetch( request, { cache: 'no-store' } )
 				.then( function ( networkResponse ) {
 					console.log( "Failed to get response from cache. Retrieved response from network and placing it in cache..." );
 					return caches.open( dynamicname )
