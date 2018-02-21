@@ -1,16 +1,13 @@
 function FindRaidConfig( room ) {
 	console.log( "Trying to find raid config for room: " + room );
-	var result = null;
-	for ( var i = 0; i < raidConfigs.length; i++ ) {
-		if ( raidConfigs[ i ].room === room ) {
-			result = raidConfigs[ i ];
-
-			console.log( "Found raid config:" );
-			console.dir( raidConfigs[ i ] );
-		}
-		break;
+	var result = raidConfigs.filter( ( raid ) => { return raid.room == room; } );
+	if ( result.length > 0 ) {
+		console.log( "Found raid config:" );
+		console.dir( result[ 0 ] );
+	} else {
+		console.log( "Error finding raid config." );
 	}
-	return result;
+	return result[ 0 ] || {};
 }
 
 function FindRaid( id ) {
@@ -19,7 +16,6 @@ function FindRaid( id ) {
 	for ( var i = 0; i < raids.length; i++ ) {
 		if ( raids[ i ].id === id ) {
 			result = raids[ i ];
-
 			console.log( "Found raid: " );
 			console.dir( raids[ i ] );
 			break;
