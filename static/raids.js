@@ -10,8 +10,7 @@ function FindRaidConfig( room ) {
 		}
 		break;
 	}
-}
-return result;
+	return result;
 }
 
 function FindRaid( id ) {
