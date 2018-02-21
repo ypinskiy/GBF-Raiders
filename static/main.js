@@ -86,7 +86,7 @@ function CheckConnectionStatus() {
 	}
 }
 
-window.onload = function () {
+window.addEventListener( 'load', function () {
 	console.log( "Window loaded." );
 	if ( !navigator.onLine ) {
 		console.log( "Page loaded offline." );
@@ -256,7 +256,7 @@ window.onload = function () {
 			}
 		}, 500 );
 	} );
-};
+} );
 
 function PlaySoundNotif( data ) {
 	console.log( "Playing sound notif for: " + data.room );

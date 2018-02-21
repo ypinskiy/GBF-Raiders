@@ -1,33 +1,28 @@
 function FindRaidConfig( room ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Trying to find raid config for room: " + room );
-	}
+	console.log( "Trying to find raid config for room: " + room );
 	var result = null;
 	for ( var i = 0; i < raidConfigs.length; i++ ) {
 		if ( raidConfigs[ i ].room === room ) {
 			result = raidConfigs[ i ];
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Found raid config:" );
-				console.dir( raidConfigs[ i ] );
-			}
-			break;
+
+			console.log( "Found raid config:" );
+			console.dir( raidConfigs[ i ] );
 		}
+		break;
 	}
-	return result;
+}
+return result;
 }
 
 function FindRaid( id ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Trying to find raid for id: " + id );
-	}
+	console.log( "Trying to find raid for id: " + id );
 	var result = null;
 	for ( var i = 0; i < raids.length; i++ ) {
 		if ( raids[ i ].id === id ) {
 			result = raids[ i ];
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Found raid: " );
-				console.dir( raids[ i ] );
-			}
+
+			console.log( "Found raid: " );
+			console.dir( raids[ i ] );
 			break;
 		}
 	}
@@ -55,10 +50,8 @@ function CreateRaidRow( data ) {
 }
 
 function CreateHorizontalCompactRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Horizontal Compact Raid Row for data: " );
-		console.dir( data );
-	}
+	console.log( "Creating Horizontal Compact Raid Row for data: " );
+	console.dir( data );
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -102,10 +95,8 @@ function CreateHorizontalCompactRaidRow( data ) {
 }
 
 function CreateHorizontalNormalRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Horizontal Normal Raid Row for data: " );
-		console.dir( data );
-	}
+	console.log( "Creating Horizontal Normal Raid Row for data: " );
+	console.dir( data );
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -154,10 +145,8 @@ function CreateHorizontalNormalRaidRow( data ) {
 }
 
 function CreateHorizontalFullRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Horizontal Full Raid Row for data: " );
-		console.dir( data );
-	}
+	console.log( "Creating Horizontal Full Raid Row for data: " );
+	console.dir( data );
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -219,10 +208,8 @@ function CreateHorizontalFullRaidRow( data ) {
 }
 
 function CreateVerticalCompactRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Vertical Compact Raid Row for data: " );
-		console.dir( data );
-	}
+	console.log( "Creating Vertical Compact Raid Row for data: " );
+	console.dir( data );
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -263,10 +250,8 @@ function CreateVerticalCompactRaidRow( data ) {
 }
 
 function CreateVerticalNormalRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Vertical Normal Raid Row for data: " );
-		console.dir( data );
-	}
+	console.log( "Creating Vertical Normal Raid Row for data: " );
+	console.dir( data );
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -312,10 +297,8 @@ function CreateVerticalNormalRaidRow( data ) {
 }
 
 function CreateVerticalFullRaidRow( data ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Vertical Normal Raid Row for data: " );
-		console.dir( data );
-	}
+	console.log( "Creating Vertical Normal Raid Row for data: " );
+	console.dir( data );
 	var raidConfig = FindRaidConfig( data.room );
 	var newLine = document.createElement( "tr" );
 	newLine.id = data.id;
@@ -370,9 +353,7 @@ function UpdateRaidRow( data ) {
 		console.dir( data );
 	}
 	if ( raids.length > settings.layout.raidMaxResults ) {
-		if ( settings.debugLevel > 0 ) {
-			console.log( 'Too many raids (' + raids.length + ') for raidMaxResults: ' + settings.layout.raidMaxResults );
-		}
+		console.log( 'Too many raids (' + raids.length + ') for raidMaxResults: ' + settings.layout.raidMaxResults );
 		try {
 			var raidDIV = document.getElementById( raids[ 0 ].id );
 			if ( settings.layout.orientation === "horizontal" ) {
@@ -387,9 +368,7 @@ function UpdateRaidRow( data ) {
 	} else {
 		var raidDIV = document.getElementById( data.id );
 		if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( 'Raid too old(' + moment().diff( data.time, "seconds" ) + ') for selected timeout: ' + settings.layout.raidTimeout );
-			}
+			console.log( 'Raid too old(' + moment().diff( data.time, "seconds" ) + ') for selected timeout: ' + settings.layout.raidTimeout );
 			try {
 				if ( settings.layout.orientation === "horizontal" ) {
 					document.getElementById( "table-body" ).removeChild( raidDIV );
@@ -429,9 +408,7 @@ function SetupTable() {
 }
 
 function CreateHorizontalCompactRaidTable() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Horizontal Compact raid table..." );
-	}
+	console.log( "Creating Horizontal Compact raid table..." );
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "selectable", "table", "compact" );
@@ -453,9 +430,7 @@ function CreateHorizontalCompactRaidTable() {
 }
 
 function CreateHorizontalNormalRaidTable() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Horizontal Normal raid table..." );
-	}
+	console.log( "Creating Horizontal Normal raid table..." );
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "selectable", "compact", "table" );
@@ -477,9 +452,7 @@ function CreateHorizontalNormalRaidTable() {
 }
 
 function CreateHorizontalFullRaidTable() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Horizontal Full raid table..." );
-	}
+	console.log( "Creating Horizontal Full raid table..." );
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "selectable", "compact", "table" );
@@ -501,9 +474,7 @@ function CreateHorizontalFullRaidTable() {
 }
 
 function CreateVerticalRaidContainer() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Vertical raid container..." );
-	}
+	console.log( "Creating Vertical raid container..." );
 	if ( document.getElementById( "selected-raids-label" ) !== null ) {
 		document.getElementById( "selected-raids-label" ).parentElement.remove();
 	}
@@ -578,22 +549,16 @@ function GetRaidsFromURL() {
 }
 
 function LoadSavedRaids() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Loading saved raids..." );
-	}
+	console.log( "Loading saved raids..." );
 	let URLRaids = GetRaidsFromURL();
 	if ( URLRaids.length > 0 ) {
-		if ( settings.debugLevel > 0 ) {
-			console.log( "Found URL saved raids." );
-		}
+		console.log( "Found URL saved raids." );
 		URLRaids.forEach( function ( raid ) {
 			AddSelectedRaid( raid );
 		} );
 	} else {
 		if ( localStorage.getItem( "selectedRaids" ) ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Found local storage saved raids." );
-			}
+			console.log( "Found local storage saved raids." );
 			try {
 				var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
 			} catch ( error ) {
@@ -611,17 +576,13 @@ function LoadSavedRaids() {
 }
 
 function AddSelectedRaid( room ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Adding selected raid: " + room );
-	}
+	console.log( "Adding selected raid: " + room );
 	if ( settings.layout.orientation === "horizontal" ) {
 		if ( document.getElementById( room ) === null ) {
 			if ( document.getElementById( "selected-raids" ).innerHTML === "No raids selected. Please search for a raid in the search bar above." ) {
 				document.getElementById( "selected-raids" ).innerHTML = "";
 			}
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Adding selected raid to Horizontal selected raids segment..." );
-			}
+			console.log( "Adding selected raid to Horizontal selected raids segment..." );
 			try {
 				selectedRaidsArray.push( room );
 				ConstructRaidURL();
@@ -644,9 +605,7 @@ function AddSelectedRaid( room ) {
 		}
 	} else {
 		if ( document.getElementById( room + "-card" ) === null ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Adding selected raid as Vertical card..." );
-			}
+			console.log( "Adding selected raid as Vertical card..." );
 			try {
 				selectedRaidsArray.push( room );
 				ConstructRaidURL();
@@ -684,10 +643,8 @@ function AddSelectedRaid( room ) {
 }
 
 function AddSelectedVerticalCompactRaid( raid ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Adding Vertical Compact raid:" );
-		console.dir( raid );
-	}
+	console.log( "Adding Vertical Compact raid:" );
+	console.dir( raid );
 	var raidDiv = document.createElement( "div" );
 	raidDiv.id = raid.room + "-card";
 	raidDiv.classList.add( "ui", "card" );
@@ -755,10 +712,8 @@ function AddSelectedVerticalCompactRaid( raid ) {
 }
 
 function AddSelectedVerticalNormalRaid( raid ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Adding Vertical Normal raid:" );
-		console.dir( raid );
-	}
+	console.log( "Adding Vertical Normal raid:" );
+	console.dir( raid );
 	var raidDiv = document.createElement( "div" );
 	raidDiv.id = raid.room + "-card";
 	raidDiv.classList.add( "ui", "card" );
@@ -826,10 +781,8 @@ function AddSelectedVerticalNormalRaid( raid ) {
 }
 
 function AddSelectedVerticalFullRaid( raid ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Adding Vertical Full raid:" );
-		console.dir( raid );
-	}
+	console.log( "Adding Vertical Full raid:" );
+	console.dir( raid );
 	var raidDiv = document.createElement( "div" );
 	raidDiv.id = raid.room + "-card";
 	raidDiv.classList.add( "ui", "ultra", "card" );
@@ -929,9 +882,7 @@ function CalculatePoints( room, isFull ) {
 }
 
 function RemoveSelectedRaid( room ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Removing selected raid: " + room );
-	}
+	console.log( "Removing selected raid: " + room );
 	if ( settings.layout.orientation === "horizontal" ) {
 		try {
 			socket.emit( 'unsubscribe', {

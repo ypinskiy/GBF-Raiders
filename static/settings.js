@@ -1,16 +1,12 @@
 function SetupSettingsModal( raid ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Setting up settings modal for raid: " + raid.room );
-	}
+	console.log( "Setting up settings modal for raid: " + raid.room );
 	document.getElementById( "settings-modal" ).dataset.room = raid.room;
 	document.getElementById( "settings-modal-header" ).innerHTML = raid.english;
 	document.getElementById( "settings-modal-image" ).src = raid.image;
 	for ( var i = 0; i < individualSettings.length; i++ ) {
 		if ( raid.room === individualSettings[ i ].room ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Settings for selected raid:" );
-				console.dir( individualSettings[ i ] );
-			}
+			console.log( "Settings for selected raid:" );
+			console.dir( individualSettings[ i ] );
 			if ( individualSettings[ i ].settings.desktopNotifOn ) {
 				document.getElementById( "modal-enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
 				document.getElementById( "modal-enable-notif" ).classList.add( "negative" );
@@ -59,9 +55,7 @@ function SetupSettingsModal( raid ) {
 function SaveIndividualSettings() {
 	for ( var i = 0; i < individualSettings.length; i++ ) {
 		if ( document.getElementById( "settings-modal" ).dataset.room === individualSettings[ i ].room ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Saving individual settings for raid: " + individualSettings[ i ].room );
-			}
+			console.log( "Saving individual settings for raid: " + individualSettings[ i ].room );
 			if ( document.getElementById( "modal-enable-sound" ).innerHTML === 'Disable Sound Notifications<i class="right alarm mute outline icon"></i>' ) {
 				individualSettings[ i ].settings.soundNotifOn = true;
 			} else {
@@ -75,10 +69,8 @@ function SaveIndividualSettings() {
 			individualSettings[ i ].settings.desktopNotifSize = document.getElementById( "modal-desktop-notif-size-input" ).value;
 			individualSettings[ i ].settings.soundNotifChoice = document.getElementById( "modal-sound-choice-input" ).value;
 			individualSettings[ i ].settings.soundNotifVolume = document.getElementById( "modal-sound-volume-slider" ).value;
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Saved individual settings for raid: " + individualSettings[ i ].room );
-				console.dir( individualSettings[ i ] );
-			}
+			console.log( "Saved individual settings for raid: " + individualSettings[ i ].room );
+			console.dir( individualSettings[ i ] );
 			localStorage.setItem( "individualSettings", JSON.stringify( individualSettings ) );
 			break;
 		}
@@ -86,9 +78,7 @@ function SaveIndividualSettings() {
 }
 
 function CreateSettingsModalFrame() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Creating Settings Modal..." );
-	}
+	console.log( "Creating Settings Modal..." );
 	var result = '<div id="settings-modal" class="ui modal">';
 	result += '<div id="settings-modal-header" class="header">Lvl ??? Raid Boss</div>';
 	result += '<div class="image content">';
@@ -114,27 +104,19 @@ function CreateSettingsModalFrame() {
 }
 
 function LoadSavedSettings() {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Loading settings from localstorage..." );
-	}
+	console.log( "Loading settings from localstorage..." );
 	if ( localStorage.getItem( "savedSettings" ) ) {
-		if ( settings.debugLevel > 0 ) {
-			console.log( "Found settings in localstorage." );
-		}
+		console.log( "Found settings in localstorage." );
 		try {
 			var tempSettings = JSON.parse( localStorage.getItem( "savedSettings" ) );
 		} catch ( error ) {
 			console.log( "Error parsing settings from localstorage: " + error );
 		}
 		if ( tempSettings.version === settings.version ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Loaded version matches current version." );
-			}
+			console.log( "Loaded version matches current version." );
 			settings.newsSeen = tempSettings.newsSeen;
 		} else {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Loaded version does not match current version." );
-			}
+			console.log( "Loaded version does not match current version." );
 			settings.newsSeen = false;
 		}
 		try {
@@ -208,9 +190,7 @@ function SetupControls() {
 	try {
 		var clipboard = new Clipboard( '.copy-div', {
 			text: function ( trigger ) {
-				if ( settings.debugLevel > 0 ) {
-					console.log( "Copying to clipboard: " + trigger.dataset.clipboard );
-				}
+				console.log( "Copying to clipboard: " + trigger.dataset.clipboard );
 				return trigger.dataset.clipboard;
 			}
 		} );
@@ -238,8 +218,8 @@ function SetupControls() {
 		document.getElementById( "viramate-id-input" ).addEventListener( 'input', function ( event ) {
 			settings.viramateID = event.target.value;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			if (document.getElementById("viramate-api") !== null) {
-				document.getElementById("viramate-api").src = "chrome-extension://" + settings.viramateID + "/content/api.html";
+			if ( document.getElementById( "viramate-api" ) !== null ) {
+				document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
 			}
 		} );
 		document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
@@ -369,9 +349,7 @@ function SetupControls() {
 		} );
 
 		document.getElementById( "open-settings" ).addEventListener( 'click', function ( event ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Opening settings bar..." );
-			}
+			console.log( "Opening settings bar..." );
 			try {
 				$( '.ui.sidebar' ).sidebar( 'toggle' );
 			} catch ( error ) {
@@ -380,9 +358,7 @@ function SetupControls() {
 		} );
 
 		document.getElementById( "clear-list" ).addEventListener( "click", function ( event ) {
-			if ( settings.debugLevel > 0 ) {
-				console.log( "Clearing all raids from tables..." );
-			}
+			console.log( "Clearing all raids from tables..." );
 			raids = [];
 			try {
 				if ( settings.layout.orientation === "horizontal" ) {
@@ -482,9 +458,7 @@ function SetupControls() {
 				},
 				maxResults: 10,
 				onSelect: function ( result, response ) {
-					if ( settings.debugLevel > 0 ) {
-						console.log( "Adding selected raid..." );
-					}
+					console.log( "Adding selected raid..." );
 					try {
 						AddSelectedRaid( result.room );
 					} catch ( error ) {
@@ -504,9 +478,7 @@ function SetupControls() {
 }
 
 function ToggleDesktopNotifications( clicked ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Toggling desktop notifications..." );
-	}
+	console.log( "Toggling desktop notifications..." );
 	if ( settings.notification.desktopNotifOn === false ) {
 		if ( Notification.permission !== "denied" ) {
 			Notification.requestPermission( function ( permission ) {
@@ -553,9 +525,7 @@ function ToggleDesktopNotifications( clicked ) {
 }
 
 function ToggleSoundNotifications( clicked ) {
-	if ( settings.debugLevel > 0 ) {
-		console.log( "Toggling sound notifications..." );
-	}
+	console.log( "Toggling sound notifications..." );
 	if ( settings.notification.soundNotifOn === false ) {
 		settings.notification.soundNotifOn = true;
 		if ( settings.layout.orientation === "vertical" ) {
