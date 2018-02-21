@@ -43,7 +43,7 @@ self.addEventListener( 'fetch', function ( event ) {
 	let requestURL = new URL( event.request.url );
 	console.log( "Service Worker - fetching request:" );
 	console.dir( requestURL );
-	if ( /EIO=3&transport=polling/.test( requestURL.search ) ) {
+	if ( requestURL.pathname == "/socket.io/" ) {
 		event.respondWith(
 			NetworkOnly( request )
 		);
