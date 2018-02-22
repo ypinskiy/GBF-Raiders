@@ -1,4 +1,4 @@
-var socket = io.connect( '/' );
+var socket = null;
 var raids = [];
 var raidConfigs = [];
 var selectedRaidsArray = [];
@@ -34,32 +34,6 @@ var settings = {
 	cardSlots: 8,
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
 };
-
-socket.on( 'tweet', function ( data ) {
-	console.log( "Tweet recieved:" );
-	console.dir( data );
-	document.getElementById( "connection-status" ).classList.remove( "red" );
-	document.getElementById( "connection-status" ).classList.add( "green" );
-	document.getElementById( "connection-status-value" ).innerHTML = "UP";
-	noTwitter = false;
-	if ( document.getElementById( data.id ) === null ) {
-		raids.push( data );
-		CreateRaidRow( data );
-		PlaySoundNotif( data );
-		SendDesktopNotif( data );
-	}
-} );
-
-socket.on( 'warning', function ( data ) {
-	console.log( "Warning recieved:" );
-	console.dir( data );
-	if ( data.type == "twitter" ) {
-		document.getElementById( "connection-status" ).classList.remove( "green" );
-		document.getElementById( "connection-status" ).classList.add( "red" );
-		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
-		noTwitter = true;
-	}
-} );
 
 function CheckConnectionStatus() {
 	if ( socket.connected ) {
@@ -234,6 +208,31 @@ window.addEventListener( 'load', function () {
 		SetupControls();
 		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		SetupTable();
+		socket = io.connect( '/' );
+		socket.on( 'tweet', function ( data ) {
+			console.log( "Tweet recieved:" );
+			console.dir( data );
+			document.getElementById( "connection-status" ).classList.remove( "red" );
+			document.getElementById( "connection-status" ).classList.add( "green" );
+			document.getElementById( "connection-status-value" ).innerHTML = "UP";
+			noTwitter = false;
+			if ( document.getElementById( data.id ) === null ) {
+				raids.push( data );
+				CreateRaidRow( data );
+				PlaySoundNotif( data );
+				SendDesktopNotif( data );
+			}
+		} );
+		socket.on( 'warning', function ( data ) {
+			console.log( "Warning recieved:" );
+			console.dir( data );
+			if ( data.type == "twitter" ) {
+				document.getElementById( "connection-status" ).classList.remove( "green" );
+				document.getElementById( "connection-status" ).classList.add( "red" );
+				document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
+				noTwitter = true;
+			}
+		} );
 		LoadSavedRaids();
 		if ( socket.connected ) {
 			document.getElementById( "connection-status" ).classList.remove( "red" );
@@ -255,6 +254,8 @@ window.addEventListener( 'load', function () {
 				UpdateRaidRow( raids[ i ] );
 			}
 		}, 500 );
+		var galite = galite || {};
+		galite.UA = 'UA-48921108-3';
 	} );
 } );
 
