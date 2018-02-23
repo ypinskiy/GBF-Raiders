@@ -1082,8 +1082,25 @@
 {
 	"english": "Lvl 100 Fudgey Filly",
 	"japanese": "Lv100 ボンボン・ポニー",
-	"room": "lvl100fudgeyfilly",
-	"image": "/assets/raids/BattleRaid_Fudgey_Filly_Nightmare100.png",
-	"catagory": "Unite and Fight",
-	"element": "Light"
-}]
+	"room": "lvl100fudgey",
+	"image": "/assets/raids/BattleRaid_Fudgey_Filly_Nightmare100.png"
+},
+{
+	"english": "Lvl 30 Dominion Core",
+	"japanese": "Lv30 ドミニオンズ・コア",
+	"room": "lvl30core",
+	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Very_Hard.jpg"
+},
+{
+	"english": "Lvl 50 Sandalphon",
+	"japanese": "Lv50 サンダルフォン",
+	"room": "lvl50sandalphon",
+	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Extreme.jpg"
+},
+{
+	"english": "Lvl 100 Sandalphon",
+	"japanese": "Lv100 サンダルフォン",
+	"room": "lvl100sandalphon",
+	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Impossible.png"
+}
+]
