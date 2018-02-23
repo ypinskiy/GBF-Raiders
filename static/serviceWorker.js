@@ -1,4 +1,4 @@
-const version = '0.0.6';
+const version = '0.0.7';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -47,13 +47,13 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkOnly( request )
 		);
-	} else if ( /getraids/.test( requestURL.pathname ) ) {
+	} else if ( requestURL.pathname == "/getraids" || requestURL.pathname == "/index.html" || requestURL.pathname == "/main.js" || requestURL.pathname == "/raids.js" || requestURL.pathname == "/settings.js" ) {
 		event.respondWith(
 			NetworkFallingBackToCache( request )
 		);
 	} else if ( requestURL.pathname == '/' ) {
 		event.respondWith(
-			CacheFallingBackToNetwork( '/' )
+			NetworkFallingBackToCache( '/' )
 		);
 	} else {
 		event.respondWith(
