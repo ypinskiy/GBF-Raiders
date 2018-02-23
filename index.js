@@ -62,12 +62,17 @@ app.get( '/health-check', ( req, res ) => res.sendStatus( 200 ) );
 
 app.get( '/getraids', function ( req, res ) {
 	res.header( 'Cache-Control', 'public, max-age=432000000' );
-	res.header( 'Access-Control-Allow-Origin', '*' )
+	res.header( 'Access-Control-Allow-Origin', '*' );
 	res.send( raidConfigs );
 } );
 
+app.get( '/serviceWorker.js', function ( req, res ) {
+	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
+	res.sendFile( __dirname + '/static/serviceWorker.js' );
+} );
+
 app.get( '/', function ( req, res ) {
-	res.sendFile(  __dirname + '/static/index.html' );
+	res.sendFile( __dirname + '/static/index.html' );
 } );
 
 app.use( st( {
