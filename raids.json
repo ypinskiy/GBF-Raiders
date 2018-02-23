@@ -1016,6 +1016,30 @@
 	"element": "Wind"
 },
 {
+	"english": "Lvl 30 Bad Seed Boys",
+	"japanese": "Lv30 煩悩に塗れた男たち",
+	"room": "lvl30badseedboys",
+	"image": "/assets/raids/BattleRaid_Auld_Lanxiety_Very_Hard.png",
+	"catagory": "Auld Lanxiety",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 50 Joya",
+	"japanese": "Lv50 ジョヤ",
+	"room": "lvl50joya",
+	"image": "/assets/raids/BattleRaid_Auld_Lanxiety_Extreme.png",
+	"catagory": "Auld Lanxiety",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 100 Joya",
+	"japanese": "Lv100 ジョヤ",
+	"room": "lvl100joya",
+	"image": "/assets/raids/BattleRaid_Auld_Lanxiety_Impossible.png",
+	"catagory": "Auld Lanxiety",
+	"element": "Wind"
+},
+{
 	"english": "Lvl 50 Cocoa Creepy",
 	"japanese": "Lv50 チョコポーチ",
 	"room": "lvl50cocoacreepy",
