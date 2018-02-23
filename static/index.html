@@ -12,14 +12,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="Description" content="A Grand Blue Fantasy Raid Finder With New And Innovative Features, Including Jumping Straight To The Raid With Viramate Integration">
 	<script type="text/javascript">
-		if ( 'serviceWorker' in navigator ) {
-			navigator.serviceWorker.register( '/serviceWorker.js' )
-				.then( function ( registration ) {
-					console.log( 'ServiceWorker registration complete' );
-				} )
-				.catch( function ( err ) {
-					console.log( `Error registering ServiceWorker: ${err}` );
-				} );
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/serviceWorker.js')
+				.then(function(registration) {
+					console.log('ServiceWorker registration complete');
+				})
+				.catch(function(err) {
+					console.log(`Error registering ServiceWorker: ${err}`);
+				});
 		}
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -64,7 +64,28 @@
 					<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
 					<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
 					<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>
+					<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>
+					<div class="item" data-value="alarm-submarine">Alarm - Submarine</div>
+					<div class="item" data-value="scifi-sweep">Sci Fi Sweep</div>
+					<div class="item" data-value="female-gogogo">Female - "Go Go Go!"</div>
+					<div class="item" data-value="male-gogogo">Male - "Go Go Go!"</div>
+					<div class="item" data-value="female-hurryup">Female - "Hurry Up!"</div>
+					<div class="item" data-value="male-hurryup">Male - "Hurry Up!"</div>
+					<div class="item" data-value="jingle-nes">Jingle - NES</div>
+					<div class="item" data-value="jingle-sax">Jingle - Sax</div>
+					<div class="item" data-value="jingle-steel">Jingle - Steel Drum</div>
+					<div class="item" data-value="jingle-steel2">Jingle - Steel Drum 2</div>
+					<div class="item" data-value="zap-3tone">Zap - Three Tone</div>
+					<div class="item" data-value="zap-2tone">Jingle - Two Tone</div>
+					<div class="item" data-value="magic-spell">Magic Spell</div>
+					<div class="item" data-value="custom">Custom</div>
 				</div>
+			</div>
+			</span>
+			<span id="sound-input-control" class="input-control-disabled">
+				<span class="input-title">Choose Local Audio File</span>
+			<div class="ui input">
+				<input id="local-file-input" type="file" accept="audio/*">
 			</div>
 			</span>
 			<span id="sound-volume-control" class="slider-control-disabled">
@@ -200,9 +221,9 @@
 		<div id="news-message" class="ui hidden message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 2/16/2018
+				News - 2/23/2018
 			</div>
-			<p>I added icons and text for raid join buttons that help tell what happened with that raid (full, dead, already joined, etc). I also made the URL reflect what raids you have subscribed to so that you can bookmark sets of raids and switch between them.</p>
+			<p>I added a lot more generic sound notifications, so please try them out. I also added a control in the settings so that you can use a custom sound notification by using one of your local sound files. It does get reset every time you refresh the page though, its a limitation of browsers unfortunately.</p>
 		</div>
 	</div>
 	<script type="text/javascript">

@@ -93,6 +93,21 @@ function CreateSettingsModalFrame() {
 	result += '<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>';
 	result += '<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>';
 	result += '<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>';
+	result += '<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>';
+	result += '<div class="item" data-value="alarm-submarine">Alarm - Submarine</div>';
+	result += '<div class="item" data-value="scifi-sweep">Sci Fi Sweep</div>';
+	result += '<div class="item" data-value="female-gogogo">Female - "Go Go Go!"</div>';
+	result += '<div class="item" data-value="male-gogogo">Male - "Go Go Go!"</div>';
+	result += '<div class="item" data-value="female-hurryup">Female - "Hurry Up!"</div>';
+	result += '<div class="item" data-value="male-hurryup">Male - "Hurry Up!"</div>';
+	result += '<div class="item" data-value="jingle-nes">Jingle - NES</div>';
+	result += '<div class="item" data-value="jingle-sax">Jingle - Sax</div>';
+	result += '<div class="item" data-value="jingle-steel">Jingle - Steel Drum</div>';
+	result += '<div class="item" data-value="jingle-steel2">Jingle - Steel Drum 2</div>';
+	result += '<div class="item" data-value="zap-3tone">Zap - Three Tone</div>';
+	result += '<div class="item" data-value="zap-2tone">Jingle - Two Tone</div>';
+	result += '<div class="item" data-value="magic-spell">Magic Spell</div>';
+	result += '<div class="item" data-value="custom">Custom</div>';
 	result += '</div></div></span>';
 	result += '<span id="modal-sound-volume-control" class="slider-control-disabled"><span class="slider-title">Sound Notification Volume</span><input id="modal-sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled></span>';
 	result += '</div></div>';
@@ -125,6 +140,7 @@ function LoadSavedSettings() {
 		} catch ( error ) {
 			console.log( "Error assigning saved settings to current settings: " + error );
 		}
+		settings.viramateID = tempSettings.viramateID;
 		if ( !settings.newsSeen ) {
 			document.getElementById( "news-message" ).classList.remove( "hidden" );
 		}
@@ -145,6 +161,8 @@ function LoadSavedSettings() {
 			document.getElementById( "sound-choice-control" ).classList.remove( "input-control-disabled" );
 			document.getElementById( "sound-choice-control" ).classList.add( "input-control" );
 			document.getElementById( "sound-choice-dropdown" ).classList.remove( "disabled" );
+			document.getElementById( "sound-input-control" ).classList.remove( "input-control-disabled" );
+			document.getElementById( "sound-input-control" ).classList.add( "input-control" );
 		}
 		document.getElementById( "sound-volume-slider" ).value = settings.notification.soundNotifVolume;
 		document.getElementById( "sound-choice-input" ).value = settings.notification.soundNotifChoice;
@@ -215,7 +233,17 @@ function SetupControls() {
 			console.dir( event );
 			ToggleSoundNotifications( true )
 		} );
+
+		document.getElementById( "local-file-input" ).addEventListener( "change", function () {
+			console.log( "Changing custom sound notif..." );
+			customSoundNotif.src = URL.createObjectURL( this.files[ 0 ] );
+			customSoundNotif.onend = function ( e ) {
+				URL.revokeObjectURL( this.src );
+			}
+		} );
+
 		document.getElementById( "viramate-id-input" ).addEventListener( 'input', function ( event ) {
+			console.log( "Changing Viramate id to " + event.target.value );
 			settings.viramateID = event.target.value;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			if ( document.getElementById( "viramate-api" ) !== null ) {
@@ -540,6 +568,8 @@ function ToggleSoundNotifications( clicked ) {
 		document.getElementById( "sound-volume-slider" ).disabled = false;
 		document.getElementById( "sound-choice-control" ).classList.remove( "input-control-disabled" );
 		document.getElementById( "sound-choice-control" ).classList.add( "input-control" );
+		document.getElementById( "sound-input-control" ).classList.remove( "input-control-disabled" );
+		document.getElementById( "sound-input-control" ).classList.add( "input-control" );
 		document.getElementById( "sound-choice-dropdown" ).classList.remove( "disabled" );
 		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		if ( clicked ) {
@@ -558,6 +588,8 @@ function ToggleSoundNotifications( clicked ) {
 		document.getElementById( "sound-volume-control" ).classList.add( "slider-control-disabled" );
 		document.getElementById( "sound-choice-control" ).classList.remove( "input-control" );
 		document.getElementById( "sound-choice-control" ).classList.add( "input-control-disabled" );
+		document.getElementById( "sound-input-control" ).classList.add( "input-control-disabled" );
+		document.getElementById( "sound-input-control" ).classList.remove( "input-control" );
 		document.getElementById( "sound-choice-dropdown" ).classList.add( "disabled" );
 		document.getElementById( "sound-volume-slider" ).disabled = true;
 		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );

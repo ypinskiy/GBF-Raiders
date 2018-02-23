@@ -11,6 +11,21 @@ var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3'
 var andiraOniichanSoundNotif = new Audio( '/assets/sounds/Andira_Oniichan.mp3' );
 var titanfallDroppingNowSoundNotif = new Audio( '/assets/sounds/Titanfall_DroppingNow.mp3' );
 var hoeeeeeSoundNotif = new Audio( '/assets/sounds/HOEEEEE.mp3' );
+var alarmFoghornSoundNotif = new Audio( '/assets/sounds/ALARM_Foghorn_full_stereo.wav' );
+var alarmSubmarineSoundNotif = new Audio( '/assets/sounds/ALARM_Submarine_Slow_loop_stereo.wav' );
+var chargeSciFiSweepSoundNotif = new Audio( '/assets/sounds/CHARGE_Sci-Fi_Sweep.wav' );
+var femaleGoGoGoSoundNotif = new Audio( '/assets/sounds/female_go_go_go.ogg' );
+var maleGoGoGoSoundNotif = new Audio( '/assets/sounds/male_go_go_go.ogg' );
+var femaleHurryUpSoundNotif = new Audio( '/assets/sounds/female_hurry_up.ogg' );
+var maleHurryUpSoundNotif = new Audio( '/assets/sounds/male_hurry_up.ogg' );
+var jingleNESSoundNotif = new Audio( '/assets/sounds/jingles_NES16.ogg' );
+var jingleSaxSoundNotif = new Audio( '/assets/sounds/jingles_SAX00.ogg' );
+var jingleSteel0SoundNotif = new Audio( '/assets/sounds/jingles_STEEL00.ogg' );
+var jingleSteel16SoundNotif = new Audio( '/assets/sounds/jingles_STEEL16.ogg' );
+var magicSpellSoundNotif = new Audio( '/assets/sounds/MAGIC_SPELL_Attacking.wav' );
+var zapThreeToneSoundNotif = new Audio( '/assets/sounds/zapThreeToneUp.mp3' );
+var zapTwoToneSoundNotif = new Audio( '/assets/sounds/zapTwoTone2.mp3' );
+var customSoundNotif = new Audio();
 
 var settings = {
 	notification: {
@@ -29,7 +44,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "2.9",
+	version: "3.0",
 	newsSeen: false,
 	cardSlots: 8,
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
@@ -265,21 +280,87 @@ function PlaySoundNotif( data ) {
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		try {
 			console.log( "Trying to play sound notif..." );
-			if ( settings.notification.soundNotifChoice === "beeps" ) {
-				beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-				beepsSoundNotif.play();
-			} else if ( settings.notification.soundNotifChoice === "lily-event-ringring" ) {
-				lilyRingRingSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-				lilyRingRingSoundNotif.play();
-			} else if ( settings.notification.soundNotifChoice === "andira-oniichan" ) {
-				andiraOniichanSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-				andiraOniichanSoundNotif.play();
-			} else if ( settings.notification.soundNotifChoice === "titanfall-droppingnow" ) {
-				titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-				titanfallDroppingNowSoundNotif.play();
-			} else if ( individualSettings[ i ].settings.soundNotifChoice === "sakura-hoeeeee" ) {
-				hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-				hoeeeeeSoundNotif.play();
+			switch ( settings.notification.soundNotifChoice ) {
+				case "alarm-foghorn":
+					alarmFoghornSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					alarmFoghornSoundNotif.play();
+					break;
+				case "alarm-submarine":
+					alarmSubmarineSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					alarmSubmarineSoundNotif.play();
+					break;
+				case "scifi-sweep":
+					chargeSciFiSweepSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					chargeSciFiSweepSoundNotif.play();
+					break;
+				case "female-gogogo":
+					femaleGoGoGoSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					femaleGoGoGoSoundNotif.play();
+					break;
+				case "male-gogogo":
+					maleGoGoGoSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					maleGoGoGoSoundNotif.play();
+					break;
+				case "female-hurryup":
+					femaleHurryUpSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					femaleHurryUpSoundNotif.play();
+					break;
+				case "male-hurryup":
+					maleHurryUpSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					maleHurryUpSoundNotif.play();
+					break;
+				case "jingle-nes":
+					jingleNESSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					jingleNESSoundNotif.play();
+					break;
+				case "jingle-sax":
+					jingleSaxSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					jingleSaxSoundNotif.play();
+					break;
+				case "jingle-steel":
+					jingleSteel0SoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					jingleSteel0SoundNotif.play();
+					break;
+				case "jingle-steel2":
+					jingleSteel16SoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					jingleSteel16SoundNotif.play();
+					break;
+				case "zap-3tone":
+					zapThreeToneSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					zapThreeToneSoundNotif.play();
+					break;
+				case "zap-2tone":
+					zapTwoToneSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					zapTwoToneSoundNotif.play();
+					break;
+				case "magic-spell":
+					magicSpellSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					magicSpellSoundNotif.play();
+					break;
+				case "custom":
+					customSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					customSoundNotif.play();
+					break;
+				case "beeps":
+					beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					beepsSoundNotif.play();
+					break;
+				case "lily-event-ringring":
+					lilyRingRingSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					lilyRingRingSoundNotif.play();
+					break;
+				case "andira-oniichan":
+					andiraOniichanSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					andiraOniichanSoundNotif.play();
+					break;
+				case "titanfall-droppingnow":
+					titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					titanfallDroppingNowSoundNotif.play();
+					break;
+				case "sakura-hoeeeee":
+					hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					hoeeeeeSoundNotif.play();
+					break;
 			}
 			console.log( "Played sound notif." );
 		} catch ( error ) {
@@ -291,21 +372,87 @@ function PlaySoundNotif( data ) {
 				if ( individualSettings[ i ].settings.soundNotifOn ) {
 					try {
 						console.log( "Trying to play sound notif..." );
-						if ( individualSettings[ i ].settings.soundNotifChoice === "beeps" ) {
-							beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-							beepsSoundNotif.play();
-						} else if ( individualSettings[ i ].settings.soundNotifChoice === "lily-event-ringring" ) {
-							lilyRingRingSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-							lilyRingRingSoundNotif.play();
-						} else if ( individualSettings[ i ].settings.soundNotifChoice === "andira-oniichan" ) {
-							andiraOniichanSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-							andiraOniichanSoundNotif.play();
-						} else if ( individualSettings[ i ].settings.soundNotifChoice === "titanfall-droppingnow" ) {
-							titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-							titanfallDroppingNowSoundNotif.play();
-						} else if ( individualSettings[ i ].settings.soundNotifChoice === "sakura-hoeeeee" ) {
-							hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-							hoeeeeeSoundNotif.play();
+						switch ( individualSettings[ i ].settings.soundNotifChoice ) {
+							case "alarm-foghorn":
+								alarmFoghornSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								alarmFoghornSoundNotif.play();
+								break;
+							case "alarm-submarine":
+								alarmSubmarineSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								alarmSubmarineSoundNotif.play();
+								break;
+							case "scifi-sweep":
+								chargeSciFiSweepSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								chargeSciFiSweepSoundNotif.play();
+								break;
+							case "female-gogogo":
+								femaleGoGoGoSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								femaleGoGoGoSoundNotif.play();
+								break;
+							case "male-gogogo":
+								maleGoGoGoSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								maleGoGoGoSoundNotif.play();
+								break;
+							case "female-hurryup":
+								femaleHurryUpSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								femaleHurryUpSoundNotif.play();
+								break;
+							case "male-hurryup":
+								maleHurryUpSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								maleHurryUpSoundNotif.play();
+								break;
+							case "jingle-nes":
+								jingleNESSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								jingleNESSoundNotif.play();
+								break;
+							case "jingle-sax":
+								jingleSaxSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								jingleSaxSoundNotif.play();
+								break;
+							case "jingle-steel":
+								jingleSteel0SoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								jingleSteel0SoundNotif.play();
+								break;
+							case "jingle-steel2":
+								jingleSteel16SoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								jingleSteel16SoundNotif.play();
+								break;
+							case "zap-3tone":
+								zapThreeToneSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								zapThreeToneSoundNotif.play();
+								break;
+							case "zap-2tone":
+								zapTwoToneSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								zapTwoToneSoundNotif.play();
+								break;
+							case "magic-spell":
+								magicSpellSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								magicSpellSoundNotif.play();
+								break;
+							case "custom":
+								customSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								customSoundNotif.play();
+								break;
+							case "beeps":
+								beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								beepsSoundNotif.play();
+								break;
+							case "lily-event-ringring":
+								lilyRingRingSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								lilyRingRingSoundNotif.play();
+								break;
+							case "andira-oniichan":
+								andiraOniichanSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								andiraOniichanSoundNotif.play();
+								break;
+							case "titanfall-droppingnow":
+								titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								titanfallDroppingNowSoundNotif.play();
+								break;
+							case "sakura-hoeeeee":
+								hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								hoeeeeeSoundNotif.play();
+								break;
 						}
 						console.log( "Played sound notif." );
 					} catch ( error ) {
