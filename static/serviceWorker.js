@@ -41,7 +41,7 @@ self.addEventListener( 'install', function ( event ) {
 self.addEventListener( 'fetch', function ( event ) {
 	let request = event.request.clone();
 	let requestURL = new URL( event.request.url );
-	console.log( "Service Worker - fetching request:" );
+	console.log( "Service Worker - fetching request: " + requestURL.href );
 	console.dir( requestURL );
 	if ( requestURL.pathname == "/socket.io/" ) {
 		event.respondWith(

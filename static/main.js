@@ -225,7 +225,7 @@ window.addEventListener( 'load', function () {
 		SetupTable();
 		socket = io.connect( '/' );
 		socket.on( 'tweet', function ( data ) {
-			console.log( "Tweet recieved:" );
+			console.log( "Tweet recieved: " + data.room );
 			console.dir( data );
 			document.getElementById( "connection-status" ).classList.remove( "red" );
 			document.getElementById( "connection-status" ).classList.add( "green" );

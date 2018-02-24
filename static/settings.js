@@ -141,6 +141,9 @@ function LoadSavedSettings() {
 			console.log( "Error assigning saved settings to current settings: " + error );
 		}
 		settings.viramateID = tempSettings.viramateID;
+		if ( document.getElementById( "viramate-api" ) !== null ) {
+			document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
+		}
 		if ( !settings.newsSeen ) {
 			document.getElementById( "news-message" ).classList.remove( "hidden" );
 		}
