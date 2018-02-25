@@ -150,9 +150,15 @@
 				<div class="ui label">
 					Viramate ID:
 				</div>
-				<input id="viramate-id-input" type="text">
+				<input id="viramate-id-input" type="text" value="fgpokpknehglcioijejfeebigdnbnokj">
 			</div>
 			<button id="view-statistics" class="ui bigger button right labeled icon">View Current Stats<i class="question circle icon"></i></button>
+			<span class="input-control">
+				<span class="input-title">Set Strike Time</span>
+			<div class="ui input">
+				<input type="time" step="60" id="time-picker">
+			</div>
+			</span>
 		</div>
 	</div>
 	<div id="container" role="main" class="ui pusher container segment fluid">
@@ -202,7 +208,7 @@
 						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
 					</ul>
 				</div>
-				<table id="connection-status" class="ui definition unstackable  compact collapsing red table">
+				<table id="connection-status" class="ui definition unstackable compact collapsing red table">
 					<tbody>
 						<td class="collapsing">Connection:</td>
 						<td id="connection-status-value" class="collapsing">DOWN</td>
@@ -211,6 +217,7 @@
 				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
 				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
 				<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
+				<span id="time-until">Strike Time: Not Set Yet</span>
 				<span class="ui search">
 					<div class="ui icon input">
 						<input id="searcher" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
@@ -225,8 +232,8 @@
 			<div class="header">
 				News - 2/25/2018
 			</div>
-			<p>I added a lot more generic sound notifications, so please try them out. I also added a control in the settings so that you can use a custom sound notification by using one of your local sound files. It does get reset every time you refresh the page
-				though, its a limitation of browsers unfortunately. I also added the "What Makes the Sky Blue" raids. In addition, I added some rudimentary statistics so that people can see how may of each raid they joined recently. The button to view them is in the Misc settings. Bear in mind, I made it so that they get reset on page refresh in order to prevent the numbers from getting too high.</p>
+			<p>I added a Strike Time reminder in the dashboard. Set your strike time (using local time) in the Misc settings. In addition, I added some rudimentary statistics so that people can see how may of each raid they joined recently. The button to view them
+				is in the Misc settings. Bear in mind, I made it so that they get reset on page refresh in order to prevent the numbers from getting too high.</p>
 		</div>
 	</div>
 	<script type="text/javascript">

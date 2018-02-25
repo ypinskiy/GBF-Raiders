@@ -22,6 +22,27 @@ body:-webkit-full-screen {
 	padding-top: 5px;
 }
 
+#time-picker {
+	font-size: 14pt;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+.strike-time {
+	border: 1px solid red !important;
+	color: red !important;
+}
+
+#time-until {
+	font-size: 14pt;
+	margin-right: 5px;
+	padding: 5px;
+	border: 1px solid black;
+	width: max-content;
+	transition: all 1s;
+	border-radius: 5px;
+}
+
 #header.header-shrink {
 	position: relative;
 	z-index: 5000;
@@ -29,15 +50,15 @@ body:-webkit-full-screen {
 	transition: transform 0.5s ease;
 }
 
-#header.header-shrink ~ *:not(#raid-container) {
+#header.header-shrink~*:not(#raid-container) {
 	margin-top: -220px;
 }
 
-#header.header-shrink ~ #raid-container {
+#header.header-shrink~#raid-container {
 	margin-top: -70px;
 }
 
-#header.header-shrink ~ .ui.message:not(.hidden) {
+#header.header-shrink~.ui.message:not(.hidden) {
 	margin-bottom: 225px;
 }
 
@@ -45,7 +66,7 @@ body:-webkit-full-screen {
 	transform: translateY(0%);
 }
 
-#header.header-shrink:hover ~ * {
+#header.header-shrink:hover~* {
 	filter: blur(2px) opacity(50%) brightness(50%);
 }
 
@@ -222,43 +243,43 @@ td.larger>img {
 }
 
 @media (max-width: 1101px) and (min-width: 1092px) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -255px;
 	}
 }
 
 @media (max-width: 1091px) and (min-width: 986px) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -255px;
 	}
 }
 
 @media (max-width: 985px) and (min-width: 975px) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -260px;
 	}
 }
 
 @media (max-width: 974px) and (min-width: 708px) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -305px;
 	}
 }
 
 @media (max-width: 707px) and (min-width: 650px) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -355px;
 	}
 }
 
 @media (max-width: 649px) and (min-width: 597px) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -295px;
 	}
 }
 
 @media (max-width: 596) {
-	#header.header-shrink ~ *:not(#raid-container) {
+	#header.header-shrink~*:not(#raid-container) {
 		margin-top: -330px;
 	}
 }

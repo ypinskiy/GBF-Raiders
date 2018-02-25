@@ -141,9 +141,13 @@ function LoadSavedSettings() {
 			console.log( "Error assigning saved settings to current settings: " + error );
 		}
 		settings.viramateID = tempSettings.viramateID;
+		document.getElementById( "viramate-id-input" ).value = settings.viramateID;
 		if ( document.getElementById( "viramate-api" ) !== null ) {
 			document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
 		}
+		settings.strikeTime = tempSettings.strikeTime;
+		document.getElementById( "time-picker" ).value = settings.strikeTime;
+		SetTime();
 		if ( !settings.newsSeen ) {
 			document.getElementById( "news-message" ).classList.remove( "hidden" );
 		}
@@ -231,39 +235,48 @@ function SetupControls() {
 				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			}
 		} );
+		document.getElementById( "time-picker" ).addEventListener( 'input', function ( evt ) {
+			settings.strikeTime = evt.target.value;
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			SetTime();
+		} );
+
+		setInterval( function () {
+			SetTime();
+		}, 10000 );
 
 		document.getElementById( "view-statistics" ).addEventListener( 'click', function () {
 			var statsTable = document.createElement( "table" );
-			var statsTableBody = document.createElement("tbody");
-			if (statistics.succeded.total == 0 && statistics.failed.total == 0) {
-				var statsTableBodyRow = document.createElement("tr");
-				var statsTableBodyRowTD = document.createElement("td");
+			var statsTableBody = document.createElement( "tbody" );
+			if ( statistics.succeded.total == 0 && statistics.failed.total == 0 ) {
+				var statsTableBodyRow = document.createElement( "tr" );
+				var statsTableBodyRowTD = document.createElement( "td" );
 				statsTableBodyRowTD.innerHTML = "No statistics so far!";
-				statsTableBodyRow.appendChild(statsTableBodyRowTD);
-				statsTableBody.appendChild(statsTableBodyRow);
+				statsTableBodyRow.appendChild( statsTableBodyRowTD );
+				statsTableBody.appendChild( statsTableBodyRow );
 			} else {
-				statistics.succeded.individual.forEach(function(statItem) {
-					var statsTableBodyRow = document.createElement("tr");
-					var statsTableBodyRowRoomTD = document.createElement("td");
+				statistics.succeded.individual.forEach( function ( statItem ) {
+					var statsTableBodyRow = document.createElement( "tr" );
+					var statsTableBodyRowRoomTD = document.createElement( "td" );
 					statsTableBodyRowRoomTD.innerHTML = statItem.room + " joined:";
-					var statsTableBodyRowCountTD = document.createElement("td");
+					var statsTableBodyRowCountTD = document.createElement( "td" );
 					statsTableBodyRowCountTD.innerHTML = statItem.count + " time(s)";
-					statsTableBodyRow.appendChild(statsTableBodyRowRoomTD);
-					statsTableBodyRow.appendChild(statsTableBodyRowCountTD);
-					statsTableBody.appendChild(statsTableBodyRow);
-				});
-				statistics.failed.individual.forEach(function(statItem) {
-					var statsTableBodyRow = document.createElement("tr");
-					var statsTableBodyRowRoomTD = document.createElement("td");
+					statsTableBodyRow.appendChild( statsTableBodyRowRoomTD );
+					statsTableBodyRow.appendChild( statsTableBodyRowCountTD );
+					statsTableBody.appendChild( statsTableBodyRow );
+				} );
+				statistics.failed.individual.forEach( function ( statItem ) {
+					var statsTableBodyRow = document.createElement( "tr" );
+					var statsTableBodyRowRoomTD = document.createElement( "td" );
 					statsTableBodyRowRoomTD.innerHTML = statItem.room + " failed:";
-					var statsTableBodyRowCountTD = document.createElement("td");
+					var statsTableBodyRowCountTD = document.createElement( "td" );
 					statsTableBodyRowCountTD.innerHTML = statItem.count + " time(s)";
-					statsTableBodyRow.appendChild(statsTableBodyRowRoomTD);
-					statsTableBodyRow.appendChild(statsTableBodyRowCountTD);
-					statsTableBody.appendChild(statsTableBodyRow);
-				});
+					statsTableBodyRow.appendChild( statsTableBodyRowRoomTD );
+					statsTableBodyRow.appendChild( statsTableBodyRowCountTD );
+					statsTableBody.appendChild( statsTableBodyRow );
+				} );
 			}
-			statsTable.appendChild(statsTableBody);
+			statsTable.appendChild( statsTableBody );
 
 			swal( {
 				title: "Current Statistics",
