@@ -1092,7 +1092,7 @@
 	"japanese": "Lv30 ドミニオンズ・コア",
 	"room": "lvl30dominioncore",
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Very_Hard.jpg",
-	"catagory": "What Makes the Sky Blue",
+	"catagory": "Event",
 	"element": "Light"
 },
 {
@@ -1100,7 +1100,7 @@
 	"japanese": "Lv50 サンダルフォン",
 	"room": "lvl50sandalphon",
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Extreme.jpg",
-	"catagory": "What Makes the Sky Blue",
+	"catagory": "Event",
 	"element": "Light"
 },
 {
@@ -1108,7 +1108,6 @@
 	"japanese": "Lv100 サンダルフォン",
 	"room": "lvl100sandalphon",
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Impossible.png",
-	"catagory": "What Makes the Sky Blue",
-	"element": "None"
-}
-]
+	"catagory": "Event",
+	"element": "Light"
+}]
