@@ -22,8 +22,6 @@ let precachedResourcesWithoutDependency = [
 	'draggable/EasePack.min.js',
 	'draggable/TweenLite.min.js',
 	'assets/stickers/nope-sticker.png',
-	'sweetalert/sweetalert.min.js',
-	'sweetalert/sweetalert.min.css',
 	'sliders.css'
 ];
 

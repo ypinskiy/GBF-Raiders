@@ -50,6 +50,17 @@ var settings = {
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
 };
 
+var statistics = {
+	"succeded": {
+		"total": 0,
+		"individual": []
+	},
+	"failed": {
+		"total": 0,
+		"individual": []
+	}
+};
+
 function CheckConnectionStatus() {
 	if ( socket.connected ) {
 		document.getElementById( "connection-status" ).classList.remove( "red" );
@@ -75,6 +86,27 @@ function CheckConnectionStatus() {
 	}
 }
 
+function AddStatistic( id, succeded ) {
+	var raidConfig = FindRaidConfig( FindRaid( id ).room );
+	if ( succeded ) {
+		if ( statistics.succeded.individual.filter( stat => { return stat.room == raidConfig.english; } ).length > 0 ) {
+			var statIndex = statistics.succeded.individual.findIndex( stat => { return stat.room == raidConfig.english; } );
+			statistics.succeded.individual[ statIndex ].count++;
+		} else {
+			statistics.succeded.individual.push( { "room": raidConfig.english, "count": 1 } );
+		}
+		statistics.succeded.total++;
+	} else {
+		if ( statistics.failed.individual.filter( stat => { return stat.room == raidConfig.english; } ).length > 0 ) {
+			var statIndex = statistics.failed.individual.findIndex( stat => { return stat.room == raidConfig.english; } );
+			statistics.failed.individual[ statIndex ].count++;
+		} else {
+			statistics.failed.individual.push( { "room": raidConfig.english, "count": 1 } );
+		}
+		statistics.failed.total++;
+	}
+}
+
 window.addEventListener( 'load', function () {
 	console.log( "Window loaded." );
 	if ( !navigator.onLine ) {
@@ -82,7 +114,7 @@ window.addEventListener( 'load', function () {
 		swal( {
 			title: "You are offline!",
 			text: "Please make sure your internet is connected or try again later.",
-			imageUrl: "assets/stickers/nope-sticker.png",
+			icon: "assets/stickers/nope-sticker.png",
 			imageSize: '150x150'
 		} );
 	}
@@ -91,7 +123,7 @@ window.addEventListener( 'load', function () {
 		swal( {
 			title: "You came back online!",
 			text: "Things should start working again!",
-			imageUrl: "assets/stickers/iknowthatalready-sticker.png",
+			icon: "assets/stickers/iknowthatalready-sticker.png",
 			imageSize: '150x150'
 		} );
 	} );
@@ -101,7 +133,7 @@ window.addEventListener( 'load', function () {
 		swal( {
 			title: "You are offline!",
 			text: "Please make sure your internet is connected or try again later.",
-			imageUrl: "assets/stickers/nope-sticker.png",
+			icon: "assets/stickers/nope-sticker.png",
 			imageSize: '150x150'
 		} );
 	} );
@@ -124,7 +156,7 @@ window.addEventListener( 'load', function () {
 				swal( {
 					title: "No more BP!",
 					text: "Please refill your BP or try again later.",
-					imageUrl: "assets/stickers/waitup-sticker.png",
+					icon: "assets/stickers/waitup-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -134,10 +166,11 @@ window.addEventListener( 'load', function () {
 				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
+				AddStatistic( evt.data.id, false );
 				swal( {
 					title: "Raid has ended!",
 					text: "Please try a different raid.",
-					imageUrl: "assets/stickers/fail-sticker.png",
+					icon: "assets/stickers/fail-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -149,7 +182,7 @@ window.addEventListener( 'load', function () {
 				swal( {
 					title: "Viramate Web API is disabled!",
 					text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
-					imageUrl: "/assets/stickers/aboutthat-sticker.png",
+					icon: "/assets/stickers/aboutthat-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -161,7 +194,7 @@ window.addEventListener( 'load', function () {
 				swal( {
 					title: "You don't have Granblue open!",
 					text: "Please open the game and then try joining a raid.",
-					imageUrl: "assets/stickers/aboutthat-sticker.png",
+					icon: "assets/stickers/aboutthat-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -171,10 +204,11 @@ window.addEventListener( 'load', function () {
 				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
+				AddStatistic( evt.data.id, false );
 				swal( {
 					title: "Raid is full!",
 					text: "Please try a different raid.",
-					imageUrl: "assets/stickers/sorry-sticker.png",
+					icon: "assets/stickers/sorry-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -184,10 +218,11 @@ window.addEventListener( 'load', function () {
 				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right zoom out icon"></i>';
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
 				FindRaid( evt.data.id ).status = "error";
+				AddStatistic( evt.data.id, false );
 				swal( {
 					title: "Error with Raid ID!",
 					text: "Sorry, but that raid ID doesn't match any raid.",
-					imageUrl: "/assets/stickers/totallycrushed-sticker.png",
+					icon: "/assets/stickers/totallycrushed-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -196,11 +231,11 @@ window.addEventListener( 'load', function () {
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
 				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				FindRaid( evt.data.id ).status = "error";
+				FindRaid( evt.data.id ).status = "success";
 				swal( {
 					title: "You are already in this raid!",
 					text: "Please try a different raid.",
-					imageUrl: "assets/stickers/whoops-sticker.png",
+					icon: "assets/stickers/whoops-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -209,6 +244,7 @@ window.addEventListener( 'load', function () {
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
 				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				AddStatistic( evt.data.id, true );
 				FindRaid( evt.data.id ).status = "success";
 			}
 		}

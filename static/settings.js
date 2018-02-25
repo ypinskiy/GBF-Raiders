@@ -232,6 +232,45 @@ function SetupControls() {
 			}
 		} );
 
+		document.getElementById( "view-statistics" ).addEventListener( 'click', function () {
+			var statsTable = document.createElement( "table" );
+			var statsTableBody = document.createElement("tbody");
+			if (statistics.succeded.total == 0 && statistics.failed.total == 0) {
+				var statsTableBodyRow = document.createElement("tr");
+				var statsTableBodyRowTD = document.createElement("td");
+				statsTableBodyRowTD.innerHTML = "No statistics so far!";
+				statsTableBodyRow.appendChild(statsTableBodyRowTD);
+				statsTableBody.appendChild(statsTableBodyRow);
+			} else {
+				statistics.succeded.individual.forEach(function(statItem) {
+					var statsTableBodyRow = document.createElement("tr");
+					var statsTableBodyRowRoomTD = document.createElement("td");
+					statsTableBodyRowRoomTD.innerHTML = statItem.room + " joined:";
+					var statsTableBodyRowCountTD = document.createElement("td");
+					statsTableBodyRowCountTD.innerHTML = statItem.count + " time(s)";
+					statsTableBodyRow.appendChild(statsTableBodyRowRoomTD);
+					statsTableBodyRow.appendChild(statsTableBodyRowCountTD);
+					statsTableBody.appendChild(statsTableBodyRow);
+				});
+				statistics.failed.individual.forEach(function(statItem) {
+					var statsTableBodyRow = document.createElement("tr");
+					var statsTableBodyRowRoomTD = document.createElement("td");
+					statsTableBodyRowRoomTD.innerHTML = statItem.room + " failed:";
+					var statsTableBodyRowCountTD = document.createElement("td");
+					statsTableBodyRowCountTD.innerHTML = statItem.count + " time(s)";
+					statsTableBodyRow.appendChild(statsTableBodyRowRoomTD);
+					statsTableBodyRow.appendChild(statsTableBodyRowCountTD);
+					statsTableBody.appendChild(statsTableBodyRow);
+				});
+			}
+			statsTable.appendChild(statsTableBody);
+
+			swal( {
+				title: "Current Statistics",
+				content: statsTable
+			} );
+		} );
+
 		document.getElementById( "enable-sound" ).addEventListener( "click", function ( event ) {
 			console.dir( event );
 			ToggleSoundNotifications( true )

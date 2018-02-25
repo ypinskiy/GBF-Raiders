@@ -24,7 +24,6 @@
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.min.css">
 	<link rel="stylesheet" type="text/css" href="darken.css">
 	<link rel="stylesheet" type="text/css" href="sliders.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
@@ -153,6 +152,7 @@
 				</div>
 				<input id="viramate-id-input" type="text">
 			</div>
+			<button id="view-statistics" class="ui bigger button right labeled icon">View Current Stats<i class="question circle icon"></i></button>
 		</div>
 	</div>
 	<div id="container" role="main" class="ui pusher container segment fluid">
@@ -167,6 +167,8 @@
 						<li>Dragoonlance</li>
 						<li>Cash</li>
 						<li>Reizo Baka</li>
+						<li>Anonymous Donor</li>
+						<li>Anonymous Donor</li>
 						<li>Anonymous Donor</li>
 						<li>Anonymous Donor</li>
 						<li>Anonymous Donor</li>
@@ -221,9 +223,10 @@
 		<div id="news-message" class="ui hidden message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 2/23/2018
+				News - 2/25/2018
 			</div>
-			<p>I added a lot more generic sound notifications, so please try them out. I also added a control in the settings so that you can use a custom sound notification by using one of your local sound files. It does get reset every time you refresh the page though, its a limitation of browsers unfortunately. I also added the "What Makes the Sky Blue" raids.</p>
+			<p>I added a lot more generic sound notifications, so please try them out. I also added a control in the settings so that you can use a custom sound notification by using one of your local sound files. It does get reset every time you refresh the page
+				though, its a limitation of browsers unfortunately. I also added the "What Makes the Sky Blue" raids. In addition, I added some rudimentary statistics so that people can see how may of each raid they joined recently. The button to view them is in the Misc settings. Bear in mind, I made it so that they get reset on page refresh in order to prevent the numbers from getting too high.</p>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -236,7 +239,7 @@
 	<script src="utils/socket.io.slim.js"></script>
 	<script src="utils/moment.min.js"></script>
 	<script src="utils/clipboard.min.js"></script>
-	<script src="sweetalert/sweetalert.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="draggable/CSSPlugin.min.js"></script>
 	<script src="draggable/Draggable.min.js"></script>
 	<script src="draggable/EasePack.min.js"></script>
