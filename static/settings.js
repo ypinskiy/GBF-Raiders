@@ -141,6 +141,7 @@ function LoadSavedSettings() {
 			console.log( "Error assigning saved settings to current settings: " + error );
 		}
 		settings.viramateID = tempSettings.viramateID;
+		settings.disableJoined = tempSettings.disableJoined;
 		document.getElementById( "viramate-id-input" ).value = settings.viramateID;
 		if ( document.getElementById( "viramate-api" ) !== null ) {
 			document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
@@ -148,6 +149,9 @@ function LoadSavedSettings() {
 		settings.strikeTime = tempSettings.strikeTime;
 		document.getElementById( "time-picker" ).value = settings.strikeTime;
 		SetTime();
+		if ( settings.disableJoined ) {
+			document.getElementById( "join-disable-input" ).checked = true;
+		}
 		if ( !settings.newsSeen ) {
 			document.getElementById( "news-message" ).classList.remove( "hidden" );
 		}
@@ -235,6 +239,16 @@ function SetupControls() {
 				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			}
 		} );
+
+		document.getElementById( "join-disable-input" ).addEventListener( 'change', function ( evt ) {
+			if ( document.getElementById( "join-disable-input" ).checked ) {
+				settings.disableJoined = true;
+			} else {
+				settings.disableJoined = false;
+			}
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		} );
+
 		document.getElementById( "time-picker" ).addEventListener( 'input', function ( evt ) {
 			settings.strikeTime = evt.target.value;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );

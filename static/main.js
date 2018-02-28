@@ -44,10 +44,11 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.1",
+	version: "3.2",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
+	disableJoined: false,
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
 };
 
@@ -231,7 +232,9 @@ window.addEventListener( 'load', function () {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
 				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				if ( settings.disableJoined ) {
+					document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				}
 				FindRaid( evt.data.id ).status = "success";
 				swal( {
 					title: "You are already in this raid!",
@@ -243,8 +246,10 @@ window.addEventListener( 'load', function () {
 			} else if ( evt.data.result === "ok" ) {
 				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Just Joined<i class="right hand peace icon"></i>';
+				if ( settings.disableJoined ) {
+					document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				}
 				AddStatistic( evt.data.id, true );
 				FindRaid( evt.data.id ).status = "success";
 			}
@@ -635,16 +640,16 @@ function SetTime() {
 		let hoursDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "hours", true );
 		let minutesDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
 		if ( hoursDiff > 0 ) {
-			timeDisplay.innerHTML =	"Strike Time: " +	Math.floor(hoursDiff) + "h and " +	Math.floor( minutesDiff - (60 * Math.floor( hoursDiff ))) + "m until";
+			timeDisplay.innerHTML = "Strike Time: " + Math.floor( hoursDiff ) + "h and " + Math.floor( minutesDiff - ( 60 * Math.floor( hoursDiff ) ) ) + "m until";
 			timeDisplay.classList.remove( "strike-time" );
 		} else if ( hoursDiff < -1 ) {
 			hoursDiff = moment().add( 1, "days" ).hour( hour ).minute( minute ).second( 0 ).diff( moment(), "hours", true );
 			minutesDiff = moment().add( 1, "days" ).hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
-			timeDisplay.innerHTML =	"Strike Time: " +	Math.floor(hoursDiff) + "h and " +	Math.floor( minutesDiff - (60 * Math.floor( hoursDiff ))) + "m until";
+			timeDisplay.innerHTML = "Strike Time: " + Math.floor( hoursDiff ) + "h and " + Math.floor( minutesDiff - ( 60 * Math.floor( hoursDiff ) ) ) + "m until";
 			timeDisplay.classList.remove( "strike-time" );
 		} else if ( hoursDiff < 0 ) {
 			let minutesLeftDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
-			timeDisplay.innerHTML =	"Strike Time: " + Math.floor( 60 + parseInt( minutesLeftDiff ) ) + " minutes left";
+			timeDisplay.innerHTML = "Strike Time: " + Math.floor( 60 + parseInt( minutesLeftDiff ) ) + " minutes left";
 			timeDisplay.classList.add( "strike-time" );
 		}
 	}

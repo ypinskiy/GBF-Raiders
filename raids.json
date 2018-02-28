@@ -1086,4 +1086,28 @@
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_Impossible.png",
 	"catagory": "Event",
 	"element": "Light"
+},
+{
+	"english": "Lvl 30 Belial",
+	"japanese": "Lv30 ベリアル",
+	"room": "lvl30belial",
+	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_II_Very_Hard.jpg",
+	"catagory": "Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 50 Avatar",
+	"japanese": "Lv50 アバター",
+	"room": "lvl50avatar",
+	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_II_Extreme.jpg",
+	"catagory": "Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 100 Belial",
+	"japanese": "Lv100 ベリアル",
+	"room": "lvl1000belial",
+	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_II_Impossible.png",
+	"catagory": "Event",
+	"element": "Dark"
 }]

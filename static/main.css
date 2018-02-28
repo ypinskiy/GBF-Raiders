@@ -41,6 +41,7 @@ body:-webkit-full-screen {
 	width: max-content;
 	transition: all 1s;
 	border-radius: 5px;
+	white-space: nowrap;
 }
 
 #header.header-shrink {

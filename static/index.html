@@ -154,6 +154,12 @@
 			</div>
 			<button id="view-statistics" class="ui bigger button right labeled icon">View Current Stats<i class="question circle icon"></i></button>
 			<span class="input-control">
+				<div id="join-disable" class="ui checkbox">
+					<label>Disable Already Joined Raids</label>
+					<input id="join-disable-input" type="checkbox"  tabindex="0" class="hidden">
+				</div>
+			</span>
+			<span class="input-control">
 				<span class="input-title">Set Strike Time</span>
 			<div class="ui input">
 				<input type="time" step="60" id="time-picker">
@@ -230,10 +236,9 @@
 		<div id="news-message" class="ui hidden message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 2/25/2018
+				News - 2/28/2018
 			</div>
-			<p>I added a Strike Time reminder in the dashboard. Set your strike time (using local time) in the Misc settings. In addition, I added some rudimentary statistics so that people can see how may of each raid they joined recently. The button to view them
-				is in the Misc settings. Bear in mind, I made it so that they get reset on page refresh in order to prevent the numbers from getting too high.</p>
+			<p>Added the What Makes the Sky Blue II raids. I also added a settings in the Misc settings that controls whether or not already joined raids get their join buttons disabled.</p>
 		</div>
 	</div>
 	<script type="text/javascript">
