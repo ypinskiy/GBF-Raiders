@@ -1,7 +1,7 @@
 # GBF-Raiders
 ![Site Logo](https://github.com/ypinskiy/GBF-Raiders/raw/master/static/assets/misc/GBFRaidersWeb.png)
 
-A Raid Finder For The Game [Grand Blue Fantasy](http://game.granbluefantasy.jp/)
+A Raid Finder For The Game [Granblue Fantasy](http://game.granbluefantasy.jp/)
 
 Hosted at [GBFRaiders.com](http://www.gbfraiders.com/)
 
