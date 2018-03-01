@@ -124,29 +124,30 @@ function LoadSavedSettings() {
 		console.log( "Found settings in localstorage." );
 		try {
 			var tempSettings = JSON.parse( localStorage.getItem( "savedSettings" ) );
+			if ( tempSettings.version === settings.version ) {
+				console.log( "Loaded version matches current version." );
+				settings.newsSeen = tempSettings.newsSeen;
+			} else {
+				console.log( "Loaded version does not match current version." );
+				settings.newsSeen = false;
+			}
+			try {
+				Object.assign( settings.notification, tempSettings.notification );
+				Object.assign( settings.layout, tempSettings.layout );
+				settings.viramateID = tempSettings.viramateID;
+				settings.disableJoined = tempSettings.disableJoined;
+				settings.strikeTime = tempSettings.strikeTime;
+			} catch ( error ) {
+				console.log( "Error assigning saved settings to current settings: " + error );
+			}
 		} catch ( error ) {
 			console.log( "Error parsing settings from localstorage: " + error );
 		}
-		if ( tempSettings.version === settings.version ) {
-			console.log( "Loaded version matches current version." );
-			settings.newsSeen = tempSettings.newsSeen;
-		} else {
-			console.log( "Loaded version does not match current version." );
-			settings.newsSeen = false;
-		}
-		try {
-			Object.assign( settings.notification, tempSettings.notification );
-			Object.assign( settings.layout, tempSettings.layout );
-		} catch ( error ) {
-			console.log( "Error assigning saved settings to current settings: " + error );
-		}
-		settings.viramateID = tempSettings.viramateID;
-		settings.disableJoined = tempSettings.disableJoined;
+
 		document.getElementById( "viramate-id-input" ).value = settings.viramateID;
 		if ( document.getElementById( "viramate-api" ) !== null ) {
 			document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
 		}
-		settings.strikeTime = tempSettings.strikeTime;
 		document.getElementById( "time-picker" ).value = settings.strikeTime;
 		SetTime();
 		if ( settings.disableJoined ) {
@@ -216,6 +217,7 @@ function LoadSavedSettings() {
 }
 
 function SetupControls() {
+	console.log("Setting up controls...");
 	try {
 		var clipboard = new Clipboard( '.copy-div', {
 			text: function ( trigger ) {

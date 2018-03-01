@@ -16,6 +16,10 @@
 			navigator.serviceWorker.register('/serviceWorker.js')
 				.then(function(registration) {
 					console.log('ServiceWorker registration complete');
+					registration.addEventListener('updatefound', function() {
+						var installingWorker = registration.installing;
+						console.log('Update found. A new service worker is being installed:', installingWorker);
+					});
 				})
 				.catch(function(err) {
 					console.log(`Error registering ServiceWorker: ${err}`);
@@ -246,7 +250,6 @@
 			document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
 	</script>
 	<script src="utils/jquery-3.2.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/ga-lite/latest/ga-lite.min.js"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
 	<script src="utils/socket.io.slim.js"></script>
 	<script src="utils/moment.min.js"></script>

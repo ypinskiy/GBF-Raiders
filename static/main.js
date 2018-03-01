@@ -44,7 +44,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.2",
+	version: "3.3",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
@@ -109,8 +109,122 @@ function AddStatistic( id, succeded ) {
 	}
 }
 
+function onMessage( evt ) {
+	console.log( "Viramate message recieved." );
+	if ( evt.data.type !== "result" ) {
+		console.log( "Viramate message not a result." );
+		return;
+	} else {
+		console.log( "Viramate message:" );
+		console.dir( evt.data );
+		if ( evt.data.result === "refill required" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
+			FindRaid( evt.data.id ).status = "error";
+			swal( {
+				title: "No more BP!",
+				text: "Please refill your BP or try again later.",
+				icon: "assets/stickers/waitup-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			FindRaid( evt.data.id ).status = "error";
+			AddStatistic( evt.data.id, false );
+			swal( {
+				title: "Raid has ended!",
+				text: "Please try a different raid.",
+				icon: "assets/stickers/fail-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result.error === "api disabled" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
+			FindRaid( evt.data.id ).status = "error";
+			swal( {
+				title: "Viramate Web API is disabled!",
+				text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
+				icon: "/assets/stickers/aboutthat-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result.error === "No granblue tab found" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No Granblue<i class="right help icon"></i>';
+			FindRaid( evt.data.id ).status = "error";
+			swal( {
+				title: "You don't have Granblue open!",
+				text: "Please open the game and then try joining a raid.",
+				icon: "assets/stickers/aboutthat-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			FindRaid( evt.data.id ).status = "error";
+			AddStatistic( evt.data.id, false );
+			swal( {
+				title: "Raid is full!",
+				text: "Please try a different raid.",
+				icon: "assets/stickers/sorry-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right zoom out icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			FindRaid( evt.data.id ).status = "error";
+			AddStatistic( evt.data.id, false );
+			swal( {
+				title: "Error with Raid ID!",
+				text: "Sorry, but that raid ID doesn't match any raid.",
+				icon: "/assets/stickers/totallycrushed-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "already in this raid" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
+			if ( settings.disableJoined ) {
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			}
+			FindRaid( evt.data.id ).status = "success";
+			swal( {
+				title: "You are already in this raid!",
+				text: "Please try a different raid.",
+				icon: "assets/stickers/whoops-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "ok" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Just Joined<i class="right hand peace icon"></i>';
+			if ( settings.disableJoined ) {
+				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			}
+			AddStatistic( evt.data.id, true );
+			FindRaid( evt.data.id ).status = "success";
+		}
+	}
+}
+
 window.addEventListener( 'load', function () {
-	console.log( "Window loaded." );
+	console.log( "Window loaded. Page version: " + settings.version );
 	if ( !navigator.onLine ) {
 		console.log( "Page loaded offline." );
 		swal( {
@@ -142,119 +256,6 @@ window.addEventListener( 'load', function () {
 
 	window.addEventListener( 'message', onMessage, false );
 
-	function onMessage( evt ) {
-		console.log( "Viramate message recieved." );
-		if ( evt.data.type !== "result" ) {
-			console.log( "Viramate message not a result." );
-			return;
-		} else {
-			console.log( "Viramate message:" );
-			console.dir( evt.data );
-			if ( evt.data.result === "refill required" ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
-				FindRaid( evt.data.id ).status = "error";
-				swal( {
-					title: "No more BP!",
-					text: "Please refill your BP or try again later.",
-					icon: "assets/stickers/waitup-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				FindRaid( evt.data.id ).status = "error";
-				AddStatistic( evt.data.id, false );
-				swal( {
-					title: "Raid has ended!",
-					text: "Please try a different raid.",
-					icon: "assets/stickers/fail-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result.error === "api disabled" ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
-				FindRaid( evt.data.id ).status = "error";
-				swal( {
-					title: "Viramate Web API is disabled!",
-					text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
-					icon: "/assets/stickers/aboutthat-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result.error === "No granblue tab found" ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No Granblue<i class="right help icon"></i>';
-				FindRaid( evt.data.id ).status = "error";
-				swal( {
-					title: "You don't have Granblue open!",
-					text: "Please open the game and then try joining a raid.",
-					icon: "assets/stickers/aboutthat-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				FindRaid( evt.data.id ).status = "error";
-				AddStatistic( evt.data.id, false );
-				swal( {
-					title: "Raid is full!",
-					text: "Please try a different raid.",
-					icon: "assets/stickers/sorry-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right zoom out icon"></i>';
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				FindRaid( evt.data.id ).status = "error";
-				AddStatistic( evt.data.id, false );
-				swal( {
-					title: "Error with Raid ID!",
-					text: "Sorry, but that raid ID doesn't match any raid.",
-					icon: "/assets/stickers/totallycrushed-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result === "already in this raid" ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
-				if ( settings.disableJoined ) {
-					document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				}
-				FindRaid( evt.data.id ).status = "success";
-				swal( {
-					title: "You are already in this raid!",
-					text: "Please try a different raid.",
-					icon: "assets/stickers/whoops-sticker.png",
-					imageSize: '150x150',
-					timer: 2000
-				} );
-			} else if ( evt.data.result === "ok" ) {
-				document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-				document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Just Joined<i class="right hand peace icon"></i>';
-				if ( settings.disableJoined ) {
-					document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				}
-				AddStatistic( evt.data.id, true );
-				FindRaid( evt.data.id ).status = "success";
-			}
-		}
-	}
 	console.log( "Getting raid configs..." );
 	fetch( "/getraids" ).then( function ( response ) {
 		return response.json();
@@ -262,9 +263,12 @@ window.addEventListener( 'load', function () {
 		console.log( "Raid configs recieved." );
 		raidConfigs = raidResults;
 		LoadSavedSettings();
-		SetupControls();
-		localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-		SetupTable();
+		try {
+			SetupControls();
+		} catch ( err ) {
+			console.log( "Error setting up controls: " + err );
+		}
+
 		socket = io.connect( '/' );
 		socket.on( 'tweet', function ( data ) {
 			console.log( "Tweet recieved: " + data.room );
@@ -290,7 +294,6 @@ window.addEventListener( 'load', function () {
 				noTwitter = true;
 			}
 		} );
-		LoadSavedRaids();
 		if ( socket.connected ) {
 			document.getElementById( "connection-status" ).classList.remove( "red" );
 			document.getElementById( "connection-status" ).classList.add( "green" );
@@ -300,19 +303,25 @@ window.addEventListener( 'load', function () {
 			document.getElementById( "connection-status" ).classList.add( "red" );
 			document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 		}
-		setInterval( function () {
-			if ( !noTwitter ) {
-				CheckConnectionStatus();
-			}
-			if ( selectedRaidsArray.length === 0 ) {
-				document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
-			}
-			for ( var i = raids.length - 1; i >= 0; i-- ) {
-				UpdateRaidRow( raids[ i ] );
-			}
-		}, 500 );
-		var galite = galite || {};
-		galite.UA = 'UA-48921108-3';
+
+		LoadSavedRaids();
+
+		try {
+			setInterval( function () {
+				if ( !noTwitter ) {
+					CheckConnectionStatus();
+				}
+				if ( selectedRaidsArray.length === 0 ) {
+					document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
+				}
+				for ( var i = raids.length - 1; i >= 0; i-- ) {
+					UpdateRaidRow( raids[ i ] );
+				}
+			}, 500 );
+		} catch ( err ) {
+			console.log( "Error setting up page interval: " + err );
+		}
+
 	} );
 } );
 

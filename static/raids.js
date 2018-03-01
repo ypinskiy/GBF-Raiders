@@ -383,6 +383,7 @@ function UpdateRaidRow( data ) {
 }
 
 function SetupTable() {
+	console.log("Setting up table...");
 	if ( document.getElementById( "raid-table" ) !== null ) {
 		document.getElementById( "raid-table" ).remove();
 	}
@@ -552,19 +553,20 @@ function LoadSavedRaids() {
 			AddSelectedRaid( raid );
 		} );
 	} else {
+		console.log("No URL raids found. Checking for local storage saved raids...");
 		if ( localStorage.getItem( "selectedRaids" ) ) {
 			console.log( "Found local storage saved raids." );
 			try {
 				var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
-			} catch ( error ) {
-				console.log( "Error parsing saved raids: " + error );
-			}
-			try {
-				for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
-					AddSelectedRaid( tempSelectedRaids[ i ] );
+				try {
+					for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
+						AddSelectedRaid( tempSelectedRaids[ i ] );
+					}
+				} catch ( error ) {
+					console.log( "Error adding saved raids: " + error );
 				}
 			} catch ( error ) {
-				console.log( "Error adding saved raids: " + error );
+				console.log( "Error parsing saved raids: " + error );
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-const version = '0.0.8';
+const version = '0.0.9';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -33,7 +33,7 @@ self.addEventListener( 'install', function ( event ) {
 			return cache.addAll( precachedResourcesAsDependency );
 		} )
 	);
-	console.log( 'ServiceWorker finished installing.' )
+	console.log( `ServiceWorker ${version} finished installing.` );
 } );
 
 self.addEventListener( 'fetch', function ( event ) {
@@ -121,5 +121,5 @@ self.addEventListener( 'activate', function ( event ) {
 			);
 		} )
 	);
-	console.log( 'ServiceWorker finished activating.' )
+	console.log( `ServiceWorker ${version} finished activating.` );
 } );
