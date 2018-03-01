@@ -212,8 +212,8 @@ function LoadSavedSettings() {
 				console.log( "Error assigning saved individual settings to current individual settings: " + error );
 			}
 		}
-		SetupTable();
 	}
+	SetupTable();
 }
 
 function SetupControls() {
