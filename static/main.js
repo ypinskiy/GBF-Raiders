@@ -44,7 +44,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.3",
+	version: "3.4",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
@@ -311,7 +311,7 @@ window.addEventListener( 'load', function () {
 				if ( !noTwitter ) {
 					CheckConnectionStatus();
 				}
-				if ( selectedRaidsArray.length === 0 ) {
+				if ( selectedRaidsArray.length === 0 && document.getElementById( "selected-raids" ) ) {
 					document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
 				}
 				for ( var i = raids.length - 1; i >= 0; i-- ) {

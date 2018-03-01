@@ -1,4 +1,4 @@
-const version = '0.0.9';
+const version = '0.0.10';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -53,6 +53,8 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( '/' )
 		);
+	} else if ( requestURL.protocol == "chrome-extension:" ) {
+		return;
 	} else {
 		event.respondWith(
 			CacheFallingBackToNetwork( request )

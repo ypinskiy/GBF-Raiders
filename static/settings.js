@@ -137,6 +137,7 @@ function LoadSavedSettings() {
 				settings.viramateID = tempSettings.viramateID;
 				settings.disableJoined = tempSettings.disableJoined;
 				settings.strikeTime = tempSettings.strikeTime;
+				console.log("Assigned saved settings to current settings.");
 			} catch ( error ) {
 				console.log( "Error assigning saved settings to current settings: " + error );
 			}

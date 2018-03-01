@@ -383,7 +383,7 @@ function UpdateRaidRow( data ) {
 }
 
 function SetupTable() {
-	console.log("Setting up table...");
+	console.log( "Setting up table..." );
 	if ( document.getElementById( "raid-table" ) !== null ) {
 		document.getElementById( "raid-table" ).remove();
 	}
@@ -531,7 +531,7 @@ function CreateVerticalRaidContainer() {
 }
 
 function ConstructRaidURL() {
-	let URLString = "?";
+	let URLString = "/?";
 	selectedRaidsArray.forEach( function ( raid ) {
 		URLString += "raid=" + raid + "&";
 	} );
@@ -553,7 +553,7 @@ function LoadSavedRaids() {
 			AddSelectedRaid( raid );
 		} );
 	} else {
-		console.log("No URL raids found. Checking for local storage saved raids...");
+		console.log( "No URL raids found. Checking for local storage saved raids..." );
 		if ( localStorage.getItem( "selectedRaids" ) ) {
 			console.log( "Found local storage saved raids." );
 			try {

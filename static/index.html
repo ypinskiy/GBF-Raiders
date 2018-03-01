@@ -247,10 +247,15 @@
 	</div>
 	<script type="text/javascript">
 		if (!navigator.userAgent.toLowerCase().match('edge') && !navigator.userAgent.toLowerCase().match('firefox') && document.getElementById('container')) {
-			fetch("chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html").then(function() {
+			fetch("chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html").then(function(response) {
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+				return response;
+			}).then(function() {
 				document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
 			}).catch(function(err) {
-				console.log("Error finding Viramate extension on page load.")
+				console.log("Error finding Viramate extension on page load. " + err);
 			});
 		}
 	</script>
