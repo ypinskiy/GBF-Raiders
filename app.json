@@ -1,9 +1,9 @@
 {
 	"name": "GBFRaiders",
-	"description": "A Raid Finder For Grand Blue Fantasy ",
+	"description": "A Raid Finder For Granblue Fantasy ",
 	"repository": "https://github.com/ypinskiy/GBF-Raiders",
 	"logo": "https://raw.githubusercontent.com/ypinskiy/GBF-Raiders/master/static/assets/comeforth-sticker.png",
-	"keywords": ["gbf", "granblue", "grand blue fantasy", "raid finder", "twitter", "gbfraiders"],
+	"keywords": ["gbf", "granblue", "granblue fantasy", "grand blue fantasy", "raid finder", "twitter", "gbfraiders"],
 	"env":
 	{
 		"consumer_key":
