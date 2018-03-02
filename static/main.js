@@ -641,25 +641,30 @@ function SendJoinCommand( id ) {
 }
 
 function SetTime() {
-	if ( settings.strikeTime != "" ) {
-		let timeDisplay = document.getElementById( "time-until" );
-		let unparsedTime = settings.strikeTime.split( ":" );
-		let hour = parseInt( unparsedTime[ 0 ] );
-		let minute = parseInt( unparsedTime[ 1 ] );
-		let hoursDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "hours", true );
-		let minutesDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
-		if ( hoursDiff > 0 ) {
-			timeDisplay.innerHTML = "Strike Time: " + Math.floor( hoursDiff ) + "h and " + Math.floor( minutesDiff - ( 60 * Math.floor( hoursDiff ) ) ) + "m until";
-			timeDisplay.classList.remove( "strike-time" );
-		} else if ( hoursDiff < -1 ) {
-			hoursDiff = moment().add( 1, "days" ).hour( hour ).minute( minute ).second( 0 ).diff( moment(), "hours", true );
-			minutesDiff = moment().add( 1, "days" ).hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
-			timeDisplay.innerHTML = "Strike Time: " + Math.floor( hoursDiff ) + "h and " + Math.floor( minutesDiff - ( 60 * Math.floor( hoursDiff ) ) ) + "m until";
-			timeDisplay.classList.remove( "strike-time" );
-		} else if ( hoursDiff < 0 ) {
-			let minutesLeftDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
-			timeDisplay.innerHTML = "Strike Time: " + Math.floor( 60 + parseInt( minutesLeftDiff ) ) + " minutes left";
-			timeDisplay.classList.add( "strike-time" );
+	if ( settings.strikeTime && settings.strikeTime != "" ) {
+		try {
+			let timeDisplay = document.getElementById( "time-until" );
+			let unparsedTime = settings.strikeTime.split( ":" );
+			let hour = parseInt( unparsedTime[ 0 ] );
+			let minute = parseInt( unparsedTime[ 1 ] );
+			let hoursDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "hours", true );
+			let minutesDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
+			if ( hoursDiff > 0 ) {
+				timeDisplay.innerHTML = "Strike Time: " + Math.floor( hoursDiff ) + "h and " + Math.floor( minutesDiff - ( 60 * Math.floor( hoursDiff ) ) ) + "m until";
+				timeDisplay.classList.remove( "strike-time" );
+			} else if ( hoursDiff < -1 ) {
+				hoursDiff = moment().add( 1, "days" ).hour( hour ).minute( minute ).second( 0 ).diff( moment(), "hours", true );
+				minutesDiff = moment().add( 1, "days" ).hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
+				timeDisplay.innerHTML = "Strike Time: " + Math.floor( hoursDiff ) + "h and " + Math.floor( minutesDiff - ( 60 * Math.floor( hoursDiff ) ) ) + "m until";
+				timeDisplay.classList.remove( "strike-time" );
+			} else if ( hoursDiff < 0 ) {
+				let minutesLeftDiff = moment().hour( hour ).minute( minute ).second( 0 ).diff( moment(), "minutes", true );
+				timeDisplay.innerHTML = "Strike Time: " + Math.floor( 60 + parseInt( minutesLeftDiff ) ) + " minutes left";
+				timeDisplay.classList.add( "strike-time" );
+			}
+		} catch ( err ) {
+			console.log( "Error setting Strike Time reminder: " + err );
+			console.log( "Current Strike Time settings: " + settings.strikeTime );
 		}
 	}
 }
