@@ -154,8 +154,8 @@ function LoadSavedSettings() {
 		if ( settings.disableJoined ) {
 			document.getElementById( "join-disable-input" ).checked = true;
 		}
-		if ( !settings.newsSeen ) {
-			document.getElementById( "news-message" ).classList.remove( "hidden" );
+		if ( settings.newsSeen ) {
+			document.getElementById( "news-message" ).classList.add( "hidden" );
 		}
 		if ( settings.notification.desktopNotifOn ) {
 			document.getElementById( "enable-notif" ).innerHTML = 'Disable Desktop Notifications<i class="right remove circle icon"></i>';
