@@ -55,6 +55,7 @@
 	padding: 5px;
 	margin: 0px;
 	display: grid;
+	grid-gap: 5px;
 	grid-template-columns: repeat(auto-fill, 310px);
 	grid-auto-rows: 40px;
 }
