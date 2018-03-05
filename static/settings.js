@@ -137,7 +137,7 @@ function LoadSavedSettings() {
 				settings.viramateID = tempSettings.viramateID;
 				settings.disableJoined = tempSettings.disableJoined;
 				settings.strikeTime = tempSettings.strikeTime;
-				console.log("Assigned saved settings to current settings.");
+				console.log( "Assigned saved settings to current settings." );
 			} catch ( error ) {
 				console.log( "Error assigning saved settings to current settings: " + error );
 			}
@@ -218,7 +218,7 @@ function LoadSavedSettings() {
 }
 
 function SetupControls() {
-	console.log("Setting up controls...");
+	console.log( "Setting up controls..." );
 	try {
 		var clipboard = new Clipboard( '.copy-div', {
 			text: function ( trigger ) {
@@ -240,6 +240,14 @@ function SetupControls() {
 					}
 				}
 				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+			}
+		} );
+
+		$( "#filter-dropdown" ).dropdown( {
+			onChange: function ( value, text, $selectedItem ) {
+				let filteredRaids = GetFilteredRaids();
+				$( '.ui.search' ).search( 'clear cache' );
+				$( '.ui.search' ).search( 'setting', 'source', filteredRaids );
 			}
 		} );
 
@@ -546,16 +554,17 @@ function SetupControls() {
 
 		$( '.ui.search' )
 			.search( {
-				source: raidConfigs,
+				source: GetFilteredRaids(),
 				searchFields: [
 					'english',
 					'japanese'
 				],
-				searchFullText: true,
+				fullTextSearch: true,
 				fields: {
 					title: 'english',
 					description: 'element'
 				},
+				cache: false,
 				maxResults: 10,
 				onSelect: function ( result, response ) {
 					console.log( "Adding selected raid..." );

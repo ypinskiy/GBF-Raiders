@@ -1,16 +1,13 @@
 {
 	"base": "static\\semantic\\",
-	"paths":
-	{
-		"source":
-		{
+	"paths": {
+		"source": {
 			"config": "src/theme.config",
 			"definitions": "src/definitions/",
 			"site": "src/site/",
 			"themes": "src/themes/"
 		},
-		"output":
-		{
+		"output": {
 			"packaged": "dist/",
 			"uncompressed": "dist/components/",
 			"compressed": "dist/components/",
@@ -43,5 +40,5 @@
 		"sidebar",
 		"tab"
 	],
-	"version": "2.2.13"
+	"version": "2.3.0"
 }

@@ -44,7 +44,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.4",
+	version: "3.5",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
@@ -119,6 +119,7 @@ function onMessage( evt ) {
 		console.dir( evt.data );
 		if ( evt.data.result === "refill required" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
 			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
 			FindRaid( evt.data.id ).status = "error";
@@ -131,7 +132,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -145,6 +146,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result.error === "api disabled" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
 			document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
 			FindRaid( evt.data.id ).status = "error";
@@ -157,6 +159,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result.error === "No granblue tab found" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
 			document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No Granblue<i class="right help icon"></i>';
 			FindRaid( evt.data.id ).status = "error";
@@ -169,7 +172,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -183,8 +186,9 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right zoom out icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow blocked" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Unknown ID<i class="right question icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
@@ -195,12 +199,56 @@ function onMessage( evt ) {
 				imageSize: '150x150',
 				timer: 2000
 			} );
+		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 101</div>" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			FindRaid( evt.data.id ).status = "error";
+			AddStatistic( evt.data.id, false );
+			swal( {
+				title: "Sorry!",
+				text: "Your rank is too low! You need to be at least rank 101.",
+				icon: "/assets/stickers/totallycrushed-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 50</div>" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			FindRaid( evt.data.id ).status = "error";
+			AddStatistic( evt.data.id, false );
+			swal( {
+				title: "Sorry!",
+				text: "Your rank is too low! You need to be at least rank 50.",
+				icon: "/assets/stickers/totallycrushed-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 40</div>" ) {
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
+			document.getElementById( evt.data.id + '-btn' ).disabled = true;
+			FindRaid( evt.data.id ).status = "error";
+			AddStatistic( evt.data.id, false );
+			swal( {
+				title: "Sorry!",
+				text: "Your rank is too low! You need to be at least rank 40.",
+				icon: "/assets/stickers/totallycrushed-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
 		} else if ( evt.data.result === "already in this raid" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
 			document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
 			if ( settings.disableJoined ) {
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "blocked" );
 			}
 			FindRaid( evt.data.id ).status = "success";
 			swal( {
@@ -212,10 +260,12 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "ok" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
+			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
 			document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Just Joined<i class="right hand peace icon"></i>';
 			if ( settings.disableJoined ) {
 				document.getElementById( evt.data.id + '-btn' ).disabled = true;
+				document.getElementById( evt.data.id + '-btn' ).classList.add( "blocked" );
 			}
 			AddStatistic( evt.data.id, true );
 			FindRaid( evt.data.id ).status = "success";
@@ -318,6 +368,7 @@ window.addEventListener( 'load', function () {
 					UpdateRaidRow( raids[ i ] );
 				}
 			}, 500 );
+			console.log( 'Setup of page intervals complete.' )
 		} catch ( err ) {
 			console.log( "Error setting up page interval: " + err );
 		}
@@ -614,6 +665,7 @@ function SendDesktopNotif( data ) {
 								}
 								SendJoinCommand( data.id )
 								document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
+								document.getElementById( data.id + '-btn' ).classList.add( "secondary" );
 								notification.close();
 							}
 							console.log( "Sent desktop notif." );
@@ -640,8 +692,74 @@ function SendJoinCommand( id ) {
 	}
 }
 
+function GetFilteredRaids() {
+	let filter = document.getElementById( "filter-input" );
+	let result = [];
+	switch ( filter.value ) {
+		case 'none':
+			result = raidConfigs;
+			break;
+		case "current":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Current Event"; } );
+			break;
+		case "unf":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Unite and Fight"; } );
+			break;
+		case "rotb":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Rise of the Beasts"; } );
+			break;
+		case "events":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Event"; } );
+			break;
+		case "low":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Low Level"; } );
+			break;
+		case "primarch":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Primarch"; } );
+			break;
+		case "omega":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Tier 1" || config.category == "Tier 2" || config.category == "Omega"; } );
+			break;
+		case "nightmare":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Nightmare" || config.category == "Nightmare Omega"; } );
+			break;
+		case "impossible":
+			result = raidConfigs.filter( ( config ) => { return config.category == "Impossible" || config.category == "Impossible Nightmare" || config.category == "Impossible Ultimate" || config.category == "Impossible Tier 1" || config.category == "Impossible Tier 3" || config.category == "Impossible Omega"; } );
+			break;
+		case 'fire':
+			result = raidConfigs.filter( ( config ) => { return config.element == "Fire"; } );
+			break;
+		case 'water':
+			result = raidConfigs.filter( ( config ) => { return config.element == "Water"; } );
+			break;
+		case 'earth':
+			result = raidConfigs.filter( ( config ) => { return config.element == "Earth"; } );
+			break;
+		case 'wind':
+			result = raidConfigs.filter( ( config ) => { return config.element == "Wind"; } );
+			break;
+		case 'light':
+			result = raidConfigs.filter( ( config ) => { return config.element == "Light"; } );
+			break;
+		case 'dark':
+			result = raidConfigs.filter( ( config ) => { return config.element == "Dark"; } );
+			break;
+		default:
+			result = raidConfigs;
+			break;
+	}
+	return result;
+}
+
 function SetTime() {
 	if ( settings.strikeTime && settings.strikeTime != "" ) {
+		if ( document.getElementById( "time-until" ) == null ) {
+			let timeSpan = document.createElement( "span" );
+			timeSpan.innerHTML = "Strike Time: Not Set Yet";
+			timeSpan.id = "time-until";
+			timeSpan.value = settings.strikeTime;
+			document.getElementById( "dashboard" ).insertBefore( timeSpan, document.getElementById( "searcher" ) );
+		}
 		try {
 			let timeDisplay = document.getElementById( "time-until" );
 			let unparsedTime = settings.strikeTime.split( ":" );
@@ -666,5 +784,7 @@ function SetTime() {
 			console.log( "Error setting Strike Time reminder: " + err );
 			console.log( "Current Strike Time settings: " + settings.strikeTime );
 		}
+	} else {
+		document.getElementById( "time-until" ).remove();
 	}
 }

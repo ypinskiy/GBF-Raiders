@@ -122,8 +122,8 @@
 				<div class="default text">Info Level</div>
 				<div class="menu">
 					<div class="item" data-value="compact">Compact</div>
-					<div class="item" data-value="normal">Normal&nbsp;</div>
-					<div class="item" data-value="full">Full&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<div class="item" data-value="normal">Normal</div>
+					<div class="item" data-value="full">Full</div>
 				</div>
 			</div>
 			</span>
@@ -157,6 +157,7 @@
 				<input id="viramate-id-input" type="text" value="fgpokpknehglcioijejfeebigdnbnokj">
 			</div>
 			<button id="view-statistics" class="ui bigger button right labeled icon">View Current Stats<i class="question circle icon"></i></button>
+			<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
 			<span class="input-control">
 				<div id="join-disable" class="ui checkbox">
 					<label>Disable Already Joined Raids</label>
@@ -173,7 +174,7 @@
 	</div>
 	<div id="container" role="main" class="ui pusher container segment fluid">
 		<div id="header" class="header" role="banner">
-			<div class="ui segment misc-controls">
+			<div id="dashboard" class="ui segment dashboard">
 				<button id="donate-btn" class="donate ui primary right labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Donate</a><i class="right dollar icon"></i></button>
 				<div class="ui special wide popup">
 					<div class="header">Thank you to all the donors that help keep GBF Raiders running!</div>
@@ -218,7 +219,7 @@
 						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
 					</ul>
 				</div>
-				<table id="connection-status" class="ui definition unstackable compact collapsing red table">
+				<table id="connection-status" class="ui definition unstackable compact red table">
 					<tbody>
 						<td class="collapsing">Connection:</td>
 						<td id="connection-status-value" class="collapsing">DOWN</td>
@@ -226,23 +227,48 @@
 				</table>
 				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
 				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
-				<button id="full-screen" class="primary ui button right labeled icon">Full Screen<i class="right expand icon"></i></button>
-				<span id="time-until">Strike Time: Not Set Yet</span>
-				<span class="ui search">
-					<div class="ui icon input">
-						<input id="searcher" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
-						<i class="search icon"></i>
+				<div id="searcher">
+					<div id="filter-dropdown" class="ui compact selection dropdown">
+						<label for="formatting">Filter:</label>
+						<input id="filter-input" type="hidden" name="formatting" value="none">
+						<i class="dropdown icon"></i>
+						<div class="default text"></div>
+						<div class="menu">
+							<div class="item" data-value="none">None</div>
+							<div class="item" data-value="current">Current Event</div>
+							<div class="item" data-value="unf">Unite and Fight</div>
+							<div class="item" data-value="rotb">Rise of the Beasts</div>
+							<div class="item" data-value="events">Other Events</div>
+							<div class="item" data-value="low">Low Level</div>
+							<div class="item" data-value="omega">Tier 1 to Omega</div>
+							<div class="item" data-value="primarch">Primarch</div>
+							<div class="item" data-value="nightmare">Nightmare</div>
+							<div class="item" data-value="impossible">Impossible</div>
+							<div class="item" data-value="fire">Fire</div>
+							<div class="item" data-value="water">Water</div>
+							<div class="item" data-value="earth">Earth</div>
+							<div class="item" data-value="wind">Wind</div>
+							<div class="item" data-value="light">Light</div>
+							<div class="item" data-value="dark">Dark</div>
+						</div>
 					</div>
-					<div class="results"></div>
-				</span>
+					<span class="ui search">
+						<div class="ui icon input">
+							<input id="searcher" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
+							<i class="search icon"></i>
+						</div>
+						<div class="results"></div>
+					</span>
+				</div>
 			</div>
 		</div>
 		<div id="news-message" class="ui hidden message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 2/28/2018
+				News - 3/05/2018
 			</div>
-			<p>Added the What Makes the Sky Blue II raids. I also added a settings in the Misc settings that controls whether or not already joined raids get their join buttons disabled.</p>
+			<p>A lot of updates, please let me know if anything gets messed up. I moved the Full Screen button to the Misc Settings tab and the strike time reminder only appears if you actually set the strike time in the settings. I added a filter to the raid search.
+				I tried to make a bit more space on the screen so please forgive if something looks wonky.</p>
 		</div>
 	</div>
 	<script type="text/javascript">

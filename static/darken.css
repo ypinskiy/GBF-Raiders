@@ -1,182 +1,67 @@
-.darken {
-	background-color: #2a465c !important;
-}
-
-.darken>div:not(.sweet-overlay) {
-	background-color: #031019 !important;
-}
-
-.darken .ui.special.popup {
+.darken #header>div.ui.secondary.inverted.blue.segment, .darken .rowed tbody tr:hover {
 	background-color: #316d92 !important;
-	color: white;
-}
-
-.darken .ui.special.popup  a {
-	color: lightgrey;
-	text-decoration: underline;
-}
-
-.darken .ui.checkbox > label {
-	color: white !important;
-}
-
-.darken input .ui.label {
-	background-color: #316d92 !important;
-	color: white !important;
-}
-
-.darken .sweet-alert {
-	background-color: #2a465c !important;
-}
-
-.darken .sweet-alert>h2 {
-	color: white !important;
-}
-
-.darken .sweet-alert>p {
-	color: white !important;
-}
-
-.darken #raid-container>.card {
-	background-color: #2a465c !important;
-}
-
-.darken #selected-raids {
-	color: white !important;
-}
-
-.darken .message {
-	background-color: #2a465c !important;
-	color: white !important;
-}
-
-.darken .message>.description {
-	color: white !important;
-}
-
-.darken .menu>.item {
-	background-color: #2a465c !important;
-	color: white !important;
-}
-
-.darken .menu>.item:hover {
-	color: lightgrey !important;
-}
-
-.darken .sidebar {
-	border-bottom: 3px solid black !important;
-}
-
-.darken .sidebar>.segment {
-	background-color: #2a465c !important;
-}
-
-.darken #header>div.ui.segment:not(.inverted) {
-	background-color: #2a465c !important;
-}
-
-.darken #header>div.ui.secondary.inverted.blue.segment {
-	background-color: #316d92 !important;
-}
-
-.darken #header>div.ui.secondary.inverted.blue.segment>.segment {
-	background-color: #2a465c !important;
-}
-
-.darken #raid-table th {
-	background-color: #2a465c !important;
-	color: white !important;
-	border: 1px solid black;
-}
-
-.darken #raid-table td {
-	background-color: #2a465c !important;
-	color: white !important;
-	border: 1px solid black;
-}
-
-.darken #raid-container table th {
-	background-color: #2a465c !important;
-	color: white !important;
-	border: 1px solid black;
 }
 
 .darken #raid-container table td {
-	color: white !important;
-	border: 1px solid black;
+	border: 1px solid #000;
+	color: #FFF !important;
 }
 
-.darken .rowed tbody tr {
+.darken #raid-table th, .darken #raid-table td, .darken #raid-container table th {
 	background-color: #2a465c !important;
+	border: 1px solid #000;
+	color: #FFF !important;
 }
 
-.darken .rowed tbody tr:hover {
-	background-color: #316d92 !important;
-}
-
-.darken .header {
-	color: white !important;
-}
-
-.darken .meta {
-	color: white !important;
-}
-
-.darken :not(.layout-switcher):not(td)>.button:not(.negative) {
-	background-color: #316d92 !important;
-	color: white !important;
+.darken .input-control-disabled, .darken .slider-control-disabled {
+	background-color: #000 !important;
 }
 
 .darken .layout-switcher>button {
 	background-color: #031019 !important;
-	color: white !important;
+	color: #FFF !important;
 }
 
-.darken .layout-switcher>button.primary {
+.darken .menu>.item:hover {
+	color: #D3D3D3 !important;
+}
+
+.darken .message, .darken .menu>.item {
+	background-color: #2a465c !important;
+	color: #FFF !important;
+}
+
+.darken .modal>div>div>span, .darken .modal>div>img, .darken .modal>div>div>button {
+	border: 1px solid #000;
+}
+
+.darken .sidebar {
+	border-bottom: 3px solid #000 !important;
+}
+
+.darken .ui.checkbox>label, .darken .sweet-alert>h2, .darken .sweet-alert>p, .darken #selected-raids, .darken .message>.description, .darken .header, .darken .meta, .darken .input-title, .darken .input-footer, .darken .slider-title {
+	color: #FFF !important;
+}
+
+.darken .ui.special.popup {
 	background-color: #316d92 !important;
-	color: white !important;
+	color: #FFF;
 }
 
-.darken .input-control {
-	background-color: #031019 !important;
+.darken .ui.special.popup a {
+	color: #D3D3D3;
+	text-decoration: underline;
 }
 
-.darken .input-control-disabled {
-	background-color: #000000 !important;
+.darken input .ui.label, .darken :not(.layout-switcher):not(td)>.button:not(.negative), .darken .layout-switcher>button.primary {
+	background-color: #316d92 !important;
+	color: #FFF !important;
 }
 
-.darken .input-title {
-	color: white !important;
-}
-
-.darken .input-footer {
-	color: white !important;
-}
-
-.darken .slider-control {
-	background-color: #031019 !important;
-}
-
-.darken .slider-control-disabled {
-	background-color: #000000 !important;
-}
-
-.darken .slider-title {
-	color: white !important;
-}
-
-.darken .modal>div {
+.darken, .darken .sweet-alert, .darken #raid-container>.card, .darken .sidebar>.segment, .darken #header>div.ui.segment:not(.inverted), .darken #header>div.ui.secondary.inverted.blue.segment>.segment, .darken .rowed tbody tr, .darken .modal>div {
 	background-color: #2a465c !important;
 }
 
-.darken .modal>div>div>span {
-	border: 1px solid black;
-}
-
-.darken .modal>div>img {
-	border: 1px solid black;
-}
-
-.darken .modal>div>div>button {
-	border: 1px solid black;
+.darken>div:not(.sweet-overlay), .darken .input-control, .darken .slider-control {
+	background-color: #031019 !important;
 }

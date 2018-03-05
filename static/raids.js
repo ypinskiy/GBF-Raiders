@@ -411,6 +411,7 @@ function CreateHorizontalCompactRaidTable() {
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
+		selectedRaidsDiv.id = "selected-raids-container";
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
@@ -433,6 +434,7 @@ function CreateHorizontalNormalRaidTable() {
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
+		selectedRaidsDiv.id = "selected-raids-container";
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
@@ -455,6 +457,7 @@ function CreateHorizontalFullRaidTable() {
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
+		selectedRaidsDiv.id = "selected-raids-container";
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
@@ -568,6 +571,8 @@ function LoadSavedRaids() {
 			} catch ( error ) {
 				console.log( "Error parsing saved raids: " + error );
 			}
+		} else {
+			console.log( "Could not find local storage saved raids." );
 		}
 	}
 }
