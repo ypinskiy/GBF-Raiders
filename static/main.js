@@ -785,6 +785,8 @@ function SetTime() {
 			console.log( "Current Strike Time settings: " + settings.strikeTime );
 		}
 	} else {
-		document.getElementById( "time-until" ).remove();
+		if ( document.getElementById( "time-until" ) ) {
+			document.getElementById( "time-until" ).remove();
+		}
 	}
 }
