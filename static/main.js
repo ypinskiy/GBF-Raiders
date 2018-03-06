@@ -132,7 +132,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -172,7 +172,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -187,7 +187,7 @@ function onMessage( evt ) {
 		} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow blocked" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow", "blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Unknown ID<i class="right question icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -201,7 +201,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 101</div>" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -215,7 +215,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 50</div>" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";
@@ -229,7 +229,7 @@ function onMessage( evt ) {
 			} );
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 40</div>" ) {
 			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative blocked" );
+			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
 			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
 			document.getElementById( evt.data.id + '-btn' ).disabled = true;
 			FindRaid( evt.data.id ).status = "error";

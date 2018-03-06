@@ -27,6 +27,19 @@
 		}
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-48921108-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-48921108-3');
+	</script>
+
 	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="darken.css">
 	<link rel="stylesheet" type="text/css" href="sliders.css">
@@ -254,7 +267,7 @@
 					</div>
 					<span class="ui search">
 						<div class="ui icon input">
-							<input id="searcher" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
+							<input id="search-input" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
 							<i class="search icon"></i>
 						</div>
 						<div class="results"></div>

@@ -176,14 +176,6 @@
 	width: auto !important;
 }
 
-.rowed .card.ultra tbody tr:hover {
-	height: 70px;
-}
-
-.rowed .card:not(.ultra) tbody tr:hover {
-	height: 50px;
-}
-
 .rowed .extra.content {
 	max-height: 75vh;
 	overflow-y: auto;

@@ -570,12 +570,11 @@ function SetupControls() {
 					console.log( "Adding selected raid..." );
 					try {
 						AddSelectedRaid( result.room );
+						document.getElementById( "search-input" ).value = "";
 					} catch ( error ) {
 						console.log( "Error adding raid to selected raids: " + error );
 					}
-					setTimeout( function () {
-						document.getElementById( "searcher" ).value = "";
-					}, 50 );
+					return false;
 				},
 				showNoResults: true
 			} );
