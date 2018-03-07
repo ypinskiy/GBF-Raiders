@@ -2,6 +2,11 @@
 	font-size: 10pt;
 }
 
+#container {
+	display: flex;
+	flex-direction: column;
+}
+
 #donate-btn>a {
 	color: #FFF !important;
 }
@@ -49,6 +54,7 @@
 
 #searcher {
 	grid-column: span 3;
+	z-index: 5000 !important;
 }
 
 #selected-raids {
@@ -128,7 +134,7 @@
 	align-items: center;
 }
 
-.dashboard > button {
+.dashboard>button {
 	margin: 0px !important;
 }
 
@@ -164,15 +170,17 @@
 }
 
 .results, .ui.dimmer.modals.page {
-	z-index: 5000;
+	z-index: 5000 !important;
 }
 
 .rowed {
-	align-items: flex-start;
+	flex-grow: 1;
+	align-items: stretch;
 	display: flex;
 	flex-wrap: nowrap;
-	height: calc(93%);
+	height: 100%;
 	overflow-x: scroll !important;
+	padding-bottom: 5px;
 	width: auto !important;
 }
 
@@ -182,17 +190,12 @@
 	padding: 0 !important;
 }
 
-.rowed .extra.content .button, .stacking .extra.content .button, .smaller, .smaller>td>button {
-	font-size: .85em !important;
+.rowed>.card>.content {
+	flex-grow: 0 !important;
 }
 
-.rowed .ultra {
-	display: inline-block !important;
-	flex-shrink: 0 !important;
-	margin-left: 5px !important;
-	margin-right: 15px !important;
-	margin-top: 0 !important;
-	width: 400px !important;
+.rowed .extra.content .button, .stacking .extra.content .button, .smaller, .smaller>td>button {
+	font-size: .85em !important;
 }
 
 .rowed tbody tr {
@@ -200,13 +203,16 @@
 	transition: height 1s;
 }
 
+.rowed>.card {
+	margin: 0px 5px 0px 1px !important;
+}
+
 .rowed>.card:not(.ultra) {
-	display: inline-block !important;
-	flex-shrink: 0 !important;
-	margin-left: 5px !important;
-	margin-right: 15px !important;
-	margin-top: 0 !important;
 	width: 300px !important;
+}
+
+.rowed>.card.ultra) {
+	width: 400px !important;
 }
 
 .rowed>.card~.card {

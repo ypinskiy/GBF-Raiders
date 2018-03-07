@@ -531,6 +531,7 @@ function CreateVerticalRaidContainer() {
 	document.getElementById( "settings-modal-save-btn" ).addEventListener( "click", function ( event ) {
 		SaveIndividualSettings();
 	} );
+	$( '.ui.modal' ).modal();
 }
 
 function ConstructRaidURL() {
