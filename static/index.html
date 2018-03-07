@@ -293,6 +293,7 @@
 				return response;
 			}).then(function() {
 				document.getElementById('container').innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
+				document.getElementById("viramate-api").contentWindow.console.log = function() {};
 			}).catch(function(err) {
 				console.log("Error finding Viramate extension on page load. " + err);
 			});

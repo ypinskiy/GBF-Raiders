@@ -328,6 +328,7 @@ function SetupControls() {
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 			if ( document.getElementById( "viramate-api" ) !== null ) {
 				document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
+				document.getElementById( "viramate-api" ).contentWindow.console.log = function () {};
 			}
 		} );
 		document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
