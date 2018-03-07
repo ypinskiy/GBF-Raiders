@@ -255,7 +255,10 @@ io.sockets.on( 'connection', function ( socket ) {
 			TimedLogger( "Socket", "Room Subscribed", data.room );
 			socket.join( data.room );
 		} );
-
+	socket.on( 'raid-over',
+		function ( data ) {
+			io.to( data.room ).emit( 'raid-over', data );
+		} );
 	socket.on( 'unsubscribe',
 		function ( data ) {
 			TimedLogger( "Socket", "Room Unsubscribed", data.room );

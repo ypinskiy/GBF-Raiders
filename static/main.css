@@ -185,7 +185,6 @@
 }
 
 .rowed .extra.content {
-	max-height: 75vh;
 	overflow-y: auto;
 	padding: 0 !important;
 }

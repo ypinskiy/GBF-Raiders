@@ -44,7 +44,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.5",
+	version: "3.6",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
@@ -109,20 +109,94 @@ function AddStatistic( id, succeded ) {
 	}
 }
 
+function ChangeButtonStatus( event, id ) {
+	if ( event === "refill required" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "yellow" );
+		document.getElementById( id + '-btn' ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
+		FindRaid( id ).status = "error";
+	} else if ( event === "popup: This raid battle has already ended." ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.add( "negative", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
+	} else if ( event === "api disabled" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "orange" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
+		FindRaid( id ).status = "error";
+	} else if ( event === "No granblue tab found" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "orange" );
+		document.getElementById( id + '-btn' ).innerHTML = 'No Granblue<i class="right help icon"></i>';
+		FindRaid( id ).status = "error";
+	} else if ( event === "popup: This raid battle is full. You can't participate." ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.add( "negative", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
+	} else if ( event === "popup: The number that you entered doesn't match any battle." ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "yellow", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Unknown ID<i class="right question icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
+	} else if ( event === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 101</div>" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.add( "negative", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
+	} else if ( event === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 50</div>" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.add( "negative", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
+	} else if ( event === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 40</div>" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.add( "negative", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
+	} else if ( event === "already in this raid" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "positive" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
+		if ( settings.disableJoined ) {
+			document.getElementById( id + '-btn' ).disabled = true;
+			document.getElementById( id + '-btn' ).classList.add( "blocked" );
+		}
+		FindRaid( id ).status = "success";
+	} else if ( event === "ok" ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "positive" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Just Joined<i class="right hand peace icon"></i>';
+		if ( settings.disableJoined ) {
+			document.getElementById( id + '-btn' ).disabled = true;
+			document.getElementById( id + '-btn' ).classList.add( "blocked" );
+		}
+		FindRaid( id ).status = "success";
+	}
+}
+
 function onMessage( evt ) {
 	console.log( "Viramate message recieved." );
 	if ( evt.data.type !== "result" ) {
 		console.log( "Viramate message not a result." );
 		return;
 	} else {
-		console.log( "Viramate message:" );
-		console.dir( evt.data );
+		console.log( "Viramate message:", evt.data );
+		ChangeButtonStatus( evt.data.result, evt.data.id );
 		if ( evt.data.result === "refill required" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No BP<i class="right quarter thermometer icon"></i>';
-			FindRaid( evt.data.id ).status = "error";
 			swal( {
 				title: "No more BP!",
 				text: "Please refill your BP or try again later.",
@@ -131,12 +205,12 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Raid Over<i class="right hourglass empty icon"></i>';
-			document.getElementById( evt.data.id + '-btn' ).disabled = true;
-			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
+			socket.emit( 'raid-over', {
+				room: FindRaid( evt.data.id ).room,
+				id: evt.data.id,
+				event: evt.data.result
+			} );
 			swal( {
 				title: "Raid has ended!",
 				text: "Please try a different raid.",
@@ -145,11 +219,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result.error === "api disabled" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Viramate Disabled<i class="right power icon"></i>';
-			FindRaid( evt.data.id ).status = "error";
 			swal( {
 				title: "Viramate Web API is disabled!",
 				text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
@@ -158,11 +227,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result.error === "No granblue tab found" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "orange" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'No Granblue<i class="right help icon"></i>';
-			FindRaid( evt.data.id ).status = "error";
 			swal( {
 				title: "You don't have Granblue open!",
 				text: "Please open the game and then try joining a raid.",
@@ -171,12 +235,12 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
-			document.getElementById( evt.data.id + '-btn' ).disabled = true;
-			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
+			socket.emit( 'raid-over', {
+				room: FindRaid( evt.data.id ).room,
+				id: evt.data.id,
+				event: evt.data.result
+			} );
 			swal( {
 				title: "Raid is full!",
 				text: "Please try a different raid.",
@@ -185,13 +249,12 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "yellow", "blocked" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Unknown ID<i class="right question icon"></i>';
-			document.getElementById( evt.data.id + '-btn' ).disabled = true;
-			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
+			socket.emit( 'raid-over', {
+				room: FindRaid( evt.data.id ).room,
+				id: evt.data.id,
+				event: evt.data.result
+			} );
 			swal( {
 				title: "Error with Raid ID!",
 				text: "Sorry, but that raid ID doesn't match any raid.",
@@ -200,11 +263,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 101</div>" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
-			document.getElementById( evt.data.id + '-btn' ).disabled = true;
-			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
 			swal( {
 				title: "Sorry!",
@@ -214,11 +272,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 50</div>" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
-			document.getElementById( evt.data.id + '-btn' ).disabled = true;
-			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
 			swal( {
 				title: "Sorry!",
@@ -228,11 +281,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 40</div>" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "negative", "blocked" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
-			document.getElementById( evt.data.id + '-btn' ).disabled = true;
-			FindRaid( evt.data.id ).status = "error";
 			AddStatistic( evt.data.id, false );
 			swal( {
 				title: "Sorry!",
@@ -242,15 +290,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "already in this raid" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Already Joined<i class="right hand peace icon"></i>';
-			if ( settings.disableJoined ) {
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "blocked" );
-			}
-			FindRaid( evt.data.id ).status = "success";
 			swal( {
 				title: "You are already in this raid!",
 				text: "Please try a different raid.",
@@ -259,14 +298,6 @@ function onMessage( evt ) {
 				timer: 2000
 			} );
 		} else if ( evt.data.result === "ok" ) {
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "secondary" );
-			document.getElementById( evt.data.id + '-btn' ).classList.remove( "negative" );
-			document.getElementById( evt.data.id + '-btn' ).classList.add( "positive" );
-			document.getElementById( evt.data.id + '-btn' ).innerHTML = 'Just Joined<i class="right hand peace icon"></i>';
-			if ( settings.disableJoined ) {
-				document.getElementById( evt.data.id + '-btn' ).disabled = true;
-				document.getElementById( evt.data.id + '-btn' ).classList.add( "blocked" );
-			}
 			AddStatistic( evt.data.id, true );
 			FindRaid( evt.data.id ).status = "success";
 		}
@@ -343,6 +374,10 @@ window.addEventListener( 'load', function () {
 				document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 				noTwitter = true;
 			}
+		} );
+		socket.on( 'raid-over', function ( data ) {
+			console.log( "Raid-Over recieved: " + data.room );
+			ChangeButtonStatus( data.event, data.id );
 		} );
 		if ( socket.connected ) {
 			document.getElementById( "connection-status" ).classList.remove( "red" );

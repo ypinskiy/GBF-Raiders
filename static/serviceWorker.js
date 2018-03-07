@@ -1,4 +1,4 @@
-const version = '0.0.11';
+const version = '0.0.12';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -39,8 +39,7 @@ self.addEventListener( 'install', function ( event ) {
 self.addEventListener( 'fetch', function ( event ) {
 	let request = event.request.clone();
 	let requestURL = new URL( event.request.url );
-	console.log( "Service Worker - fetching request: " + requestURL.href );
-	console.dir( requestURL );
+	console.log( "Service Worker - fetching request: " + requestURL.href, requestURL );
 	if ( requestURL.pathname == "/socket.io/" ) {
 		event.respondWith(
 			NetworkOnly( request )
