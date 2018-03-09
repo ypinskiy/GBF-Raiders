@@ -54,7 +54,7 @@
 
 #searcher {
 	grid-column: span 3;
-	z-index: 5000 !important;
+	z-index: 2000 !important;
 }
 
 #selected-raids {
@@ -223,6 +223,10 @@
 	margin: 0px !important;
 }
 
+.selected-raids-label>.delete.icon {
+	float: right;
+}
+
 .smaller>td>.ui.items>.item {
 	margin: 0 !important;
 }
@@ -282,6 +286,10 @@
 .ui.search>.input>input {
 	border-radius: 0px 5px 5px 0px;
 	margin-left: -5px;
+}
+
+.ui.popup {
+	z-index: 3000 !important;
 }
 
 .ui.special.popup a {
