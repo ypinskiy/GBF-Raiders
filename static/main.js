@@ -165,6 +165,13 @@ function ChangeButtonStatus( event, id ) {
 		document.getElementById( id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
 		document.getElementById( id + '-btn' ).disabled = true;
 		FindRaid( id ).status = "error";
+	} else if ( evt.data.result === "popup: Check your pending battles." ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.remove( "negative" );
+		document.getElementById( id + '-btn' ).classList.add( "yellow" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Pending Battles<i class="right help icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = true;
+		FindRaid( id ).status = "error";
 	} else if ( event === "already in this raid" ) {
 		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
 		document.getElementById( id + '-btn' ).classList.remove( "negative" );
@@ -268,6 +275,14 @@ function onMessage( evt ) {
 				title: "Sorry!",
 				text: "Your rank is too low! You need to be at least rank 101.",
 				icon: "/assets/stickers/totallycrushed-sticker.png",
+				imageSize: '150x150',
+				timer: 2000
+			} );
+		} else if ( evt.data.result === "popup: Check your pending battles." ) {
+			swal( {
+				title: "Check your pending battles!",
+				text: "You are a part of too many battles.",
+				icon: "assets/stickers/whoops-sticker.png",
 				imageSize: '150x150',
 				timer: 2000
 			} );
