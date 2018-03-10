@@ -211,7 +211,11 @@
 }
 
 .rowed>.card.ultra) {
-	width: 400px !important;
+	width: 450px !important;
+}
+
+.rowed .card.ultra td) {
+	padding: 2px !important;
 }
 
 .rowed>.card~.card {
