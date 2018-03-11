@@ -774,7 +774,7 @@ function GetFilteredRaids() {
 			result = raidConfigs.filter( ( config ) => { return config.category == "Nightmare" || config.category == "Nightmare Omega"; } );
 			break;
 		case "impossible":
-			result = raidConfigs.filter( ( config ) => { return config.category == "Impossible" || config.category == "Impossible Nightmare" || config.category == "Impossible Ultimate" || config.category == "Impossible Tier 1" || config.category == "Impossible Tier 3" || config.category == "Impossible Omega"; } );
+			result = raidConfigs.filter( ( config ) => { return config.category == "Impossible" || config.category == "Impossible Nightmare" || config.category == "Impossible Ultimate" || config.category == "Impossible Tier 1" || config.category == "Impossible Tier 3" || config.category == "Impossible Omega" || config.category == "Impossible Omega II"; } );
 			break;
 		case 'fire':
 			result = raidConfigs.filter( ( config ) => { return config.element == "Fire"; } );
