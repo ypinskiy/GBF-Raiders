@@ -1120,9 +1120,9 @@
 	"element": "Fire"
 },
 {
-	"english": "Lvl ?? Europa",
-	"japanese": "Lv?? エウロペ",
-	"room": "lvlxxeuropa",
+	"english": "Lvl 120 Europa",
+	"japanese": "Lv120 エウロペ",
+	"room": "lvl120europa",
 	"image": "/assets/raids/BattleRaid_Europa_Impossible.png",
 	"category": "Impossible Omega II",
 	"element": "Water"
@@ -1136,9 +1136,9 @@
 	"element": "Earth"
 },
 {
-	"english": "Lvl ?? Grimnir",
-	"japanese": "Lv?? グリームニル",
-	"room": "lvlxxgrimnir",
+	"english": "Lvl 120 Grimnir",
+	"japanese": "Lv120 グリームニル",
+	"room": "lvl120grimnir",
 	"image": "/assets/raids/BattleRaid_Grimnir_Impossible.png",
 	"category": "Impossible Omega II",
 	"element": "Wind"
