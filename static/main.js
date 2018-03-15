@@ -165,7 +165,7 @@ function ChangeButtonStatus( event, id ) {
 		document.getElementById( id + '-btn' ).innerHTML = 'Rank Low<i class="right user plus icon"></i>';
 		document.getElementById( id + '-btn' ).disabled = true;
 		FindRaid( id ).status = "error";
-	} else if ( evt.data.result === "popup: Check your pending battles." ) {
+	} else if ( event === "popup: Check your pending battles." ) {
 		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
 		document.getElementById( id + '-btn' ).classList.remove( "negative" );
 		document.getElementById( id + '-btn' ).classList.add( "yellow" );
