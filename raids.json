@@ -1142,4 +1142,12 @@
 	"image": "/assets/raids/BattleRaid_Grimnir_Impossible.png",
 	"category": "Impossible Omega II",
 	"element": "Wind"
+},
+{
+	"english": "Lvl 100 Xeno Corow",
+	"japanese": "Lv100 ゼノ・コロゥ",
+	"room": "lvl100xenocorow",
+	"image": "/assets/raids/BattleRaid_Xeno_Corow_Raid.png",
+	"category": "Current Event",
+	"element": "Light"
 }]

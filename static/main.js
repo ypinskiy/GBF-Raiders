@@ -44,9 +44,10 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.6",
+	version: "3.7",
 	newsSeen: false,
 	cardSlots: 8,
+	disablePopups: false,
 	strikeTime: "",
 	disableJoined: false,
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
@@ -204,13 +205,15 @@ function onMessage( evt ) {
 		console.log( "Viramate message:", evt.data );
 		ChangeButtonStatus( evt.data.result, evt.data.id );
 		if ( evt.data.result === "refill required" ) {
-			swal( {
-				title: "No more BP!",
-				text: "Please refill your BP or try again later.",
-				icon: "assets/stickers/waitup-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "No more BP!",
+					text: "Please refill your BP or try again later.",
+					icon: "assets/stickers/waitup-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: This raid battle has already ended." ) {
 			AddStatistic( evt.data.id, false );
 			socket.emit( 'raid-over', {
@@ -218,29 +221,35 @@ function onMessage( evt ) {
 				id: evt.data.id,
 				event: evt.data.result
 			} );
-			swal( {
-				title: "Raid has ended!",
-				text: "Please try a different raid.",
-				icon: "assets/stickers/fail-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Raid has ended!",
+					text: "Please try a different raid.",
+					icon: "assets/stickers/fail-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result.error === "api disabled" ) {
-			swal( {
-				title: "Viramate Web API is disabled!",
-				text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
-				icon: "/assets/stickers/aboutthat-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Viramate Web API is disabled!",
+					text: "Please enable the web API in Viramate, refresh your GBF tab, and try again.",
+					icon: "/assets/stickers/aboutthat-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result.error === "No granblue tab found" ) {
-			swal( {
-				title: "You don't have Granblue open!",
-				text: "Please open the game and then try joining a raid.",
-				icon: "assets/stickers/aboutthat-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "You don't have Granblue open!",
+					text: "Please open the game and then try joining a raid.",
+					icon: "assets/stickers/aboutthat-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: This raid battle is full. You can't participate." ) {
 			AddStatistic( evt.data.id, false );
 			socket.emit( 'raid-over', {
@@ -248,13 +257,15 @@ function onMessage( evt ) {
 				id: evt.data.id,
 				event: evt.data.result
 			} );
-			swal( {
-				title: "Raid is full!",
-				text: "Please try a different raid.",
-				icon: "assets/stickers/sorry-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Raid is full!",
+					text: "Please try a different raid.",
+					icon: "assets/stickers/sorry-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: The number that you entered doesn't match any battle." ) {
 			AddStatistic( evt.data.id, false );
 			socket.emit( 'raid-over', {
@@ -262,56 +273,68 @@ function onMessage( evt ) {
 				id: evt.data.id,
 				event: evt.data.result
 			} );
-			swal( {
-				title: "Error with Raid ID!",
-				text: "Sorry, but that raid ID doesn't match any raid.",
-				icon: "/assets/stickers/totallycrushed-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Error with Raid ID!",
+					text: "Sorry, but that raid ID doesn't match any raid.",
+					icon: "/assets/stickers/totallycrushed-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 101</div>" ) {
 			AddStatistic( evt.data.id, false );
-			swal( {
-				title: "Sorry!",
-				text: "Your rank is too low! You need to be at least rank 101.",
-				icon: "/assets/stickers/totallycrushed-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Sorry!",
+					text: "Your rank is too low! You need to be at least rank 101.",
+					icon: "/assets/stickers/totallycrushed-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: Check your pending battles." ) {
-			swal( {
-				title: "Check your pending battles!",
-				text: "You are a part of too many battles.",
-				icon: "assets/stickers/whoops-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Check your pending battles!",
+					text: "You are a part of too many battles.",
+					icon: "assets/stickers/whoops-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 50</div>" ) {
 			AddStatistic( evt.data.id, false );
-			swal( {
-				title: "Sorry!",
-				text: "Your rank is too low! You need to be at least rank 50.",
-				icon: "/assets/stickers/totallycrushed-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Sorry!",
+					text: "Your rank is too low! You need to be at least rank 50.",
+					icon: "/assets/stickers/totallycrushed-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "popup: Your rank isn't high enough to participate in this battle.<br><div class='pop-text-yellow'>Requirements: Rank 40</div>" ) {
 			AddStatistic( evt.data.id, false );
-			swal( {
-				title: "Sorry!",
-				text: "Your rank is too low! You need to be at least rank 40.",
-				icon: "/assets/stickers/totallycrushed-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Sorry!",
+					text: "Your rank is too low! You need to be at least rank 40.",
+					icon: "/assets/stickers/totallycrushed-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "already in this raid" ) {
-			swal( {
-				title: "You are already in this raid!",
-				text: "Please try a different raid.",
-				icon: "assets/stickers/whoops-sticker.png",
-				imageSize: '150x150',
-				timer: 2000
-			} );
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "You are already in this raid!",
+					text: "Please try a different raid.",
+					icon: "assets/stickers/whoops-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
 		} else if ( evt.data.result === "ok" ) {
 			AddStatistic( evt.data.id, true );
 			FindRaid( evt.data.id ).status = "success";

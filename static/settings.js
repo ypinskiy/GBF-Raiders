@@ -136,6 +136,7 @@ function LoadSavedSettings() {
 				Object.assign( settings.layout, tempSettings.layout );
 				settings.viramateID = tempSettings.viramateID;
 				settings.disableJoined = tempSettings.disableJoined;
+				settings.disablePopups = tempSettings.disablePopups;
 				settings.strikeTime = tempSettings.strikeTime;
 				console.log( "Assigned saved settings to current settings." );
 			} catch ( error ) {
@@ -153,6 +154,9 @@ function LoadSavedSettings() {
 		SetTime();
 		if ( settings.disableJoined ) {
 			document.getElementById( "join-disable-input" ).checked = true;
+		}
+		if ( settings.disablePopups ) {
+			document.getElementById( "popup-disable-input" ).checked = true;
 		}
 		if ( settings.newsSeen ) {
 			document.getElementById( "news-message" ).classList.add( "hidden" );
@@ -256,6 +260,15 @@ function SetupControls() {
 				settings.disableJoined = true;
 			} else {
 				settings.disableJoined = false;
+			}
+			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
+		} );
+
+		document.getElementById( "popup-disable-input" ).addEventListener( 'change', function ( evt ) {
+			if ( document.getElementById( "popup-disable-input" ).checked ) {
+				settings.disablePopups = true;
+			} else {
+				settings.disablePopups = false;
 			}
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		} );
