@@ -1092,7 +1092,7 @@
 	"japanese": "Lv30 ベリアル",
 	"room": "lvl30belial",
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_II_Very_Hard.jpg",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
 },
 {
@@ -1100,7 +1100,7 @@
 	"japanese": "Lv50 アバター",
 	"room": "lvl50avatar",
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_II_Extreme.jpg",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
 },
 {
@@ -1108,7 +1108,7 @@
 	"japanese": "Lv100 ベリアル",
 	"room": "lvl1000belial",
 	"image": "/assets/raids/BattleRaid_What_Makes_the_Sky_Blue_II_Impossible.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
 },
 {
@@ -1150,4 +1150,20 @@
 	"image": "/assets/raids/BattleRaid_Xeno_Corow_Raid.png",
 	"category": "Current Event",
 	"element": "Light"
+},
+{
+	"english": "Lvl 120 Metatron",
+	"japanese": "Lv120 メタトロン",
+	"room": "lvl120metatron",
+	"image": "/assets/raids/BattleRaid_Metatron_Impossible.png",
+	"category": "Impossible Omega II",
+	"element": "Light"
+},
+{
+	"english": "Lvl 120 Avatar",
+	"japanese": "Lv120 アバター",
+	"room": "lvl120avatar",
+	"image": "/assets/raids/BattleRaid_Avatar_Impossible.png",
+	"category": "Impossible Omega II",
+	"element": "Dark"
 }]
