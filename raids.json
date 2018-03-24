@@ -10,9 +10,9 @@
 	"element": "Light"
 },
 {
-	"japanese": "Lv?? アバター",
-	"english": "Lvl ?? Avatar",
-	"room": "lvl??avatar",
+	"japanese": "Lv120 アバター",
+	"english": "Lvl 120 Avatar",
+	"room": "lvl120avatar",
 	"image": "/assets/raids/BattleRaid_Avatar_Impossible.png",
 	"catagory": "Magna2",
 	"element": "Dark"
