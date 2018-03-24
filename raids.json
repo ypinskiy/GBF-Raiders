@@ -1,5 +1,22 @@
 [
 
+	
+{
+	"japanese": "Lv120 メタトロン",
+	"english": "Lvl 120 Metatron",
+	"room": "lvl120metatron",
+	"image": "/assets/raids/BattleRaid_Metatron_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Light"
+},
+{
+	"japanese": "Lv?? アバター",
+	"english": "Lvl ?? Avatar",
+	"room": "lvl??avatar",
+	"image": "/assets/raids/BattleRaid_Avatar_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Dark"
+},
 {
 	"japanese": "Lv120 ゴッドガード・ブローディア",
 	"english": "Lvl 120 Godsworn Alexiel",
