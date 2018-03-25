@@ -1148,7 +1148,7 @@
 	"japanese": "Lv100 ゼノ・コロゥ",
 	"room": "lvl100xenocorow",
 	"image": "/assets/raids/BattleRaid_Xeno_Corow_Raid.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Light"
 },
 {
@@ -1165,5 +1165,21 @@
 	"room": "lvl120avatar",
 	"image": "/assets/raids/BattleRaid_Avatar_Impossible.png",
 	"category": "Impossible Omega II",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 30 Mecha Zogora",
+	"japanese": "Lv30 覇壊機獣メカゾゴラ",
+	"room": "lvl30mechazogora",
+	"image": "/assets/raids/BattleRaid_Robomi_Generations_Raid_Very_Hard.png",
+	"category": "Current Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 50 Lord Daimon",
+	"japanese": "Lv50 覇壊神ダイモン",
+	"room": "lvl50lorddaimon",
+	"image": "/assets/raids/BattleRaid_Robomi_Generations_Raid_Extreme.png",
+	"category": "Current Event",
 	"element": "Dark"
 }]
