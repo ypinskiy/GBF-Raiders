@@ -1,4 +1,54 @@
 [
+
+	
+{
+	"japanese": "Lv120 メタトロン",
+	"english": "Lvl 120 Metatron",
+	"room": "lvl120metatron",
+	"image": "/assets/raids/BattleRaid_Metatron_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Light"
+},
+{
+	"japanese": "Lv120 アバター",
+	"english": "Lvl 120 Avatar",
+	"room": "lvl120avatar",
+	"image": "/assets/raids/BattleRaid_Avatar_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Dark"
+},
+{
+	"japanese": "Lv120 ゴッドガード・ブローディア",
+	"english": "Lvl 120 Godsworn Alexiel",
+	"room": "lvl120godswornalexiel",
+	"image": "/assets/raids/BattleRaid_Godsworn_Alexiel_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Earth"
+},
+{
+	"japanese": "Lv120 グリームニル",
+	"english": "Lvl 120 Grimnir",
+	"room": "lvl120grimnir",
+	"image": "/assets/raids/BattleRaid_Grimnir_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Wind"
+},
+{
+	"japanese": "Lv120 エウロペ",
+	"english": "Lvl 120 Europa",
+	"room": "lvl120europa",
+	"image": "/assets/raids/BattleRaid_Europa_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Water"
+},
+{
+	"japanese": "Lv120 シヴァ",
+	"english": "Lvl 120 Shiva",
+	"room": "lvl120shiva",
+	"image": "/assets/raids/BattleRaid_Shiva_Impossible.png",
+	"catagory": "Magna2",
+	"element": "Fire"
+},	
 {
 	"japanese": "Lv100 プロトバハムート",
 	"english": "Lvl 100 Proto Bahamut",
