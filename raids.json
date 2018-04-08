@@ -1172,7 +1172,7 @@
 	"japanese": "Lv30 覇壊機獣メカゾゴラ",
 	"room": "lvl30mechazogora",
 	"image": "/assets/raids/BattleRaid_Robomi_Generations_Raid_Very_Hard.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
 },
 {
@@ -1180,6 +1180,22 @@
 	"japanese": "Lv50 覇壊神ダイモン",
 	"room": "lvl50lorddaimon",
 	"image": "/assets/raids/BattleRaid_Robomi_Generations_Raid_Extreme.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
+},
+{
+	"english": "Lvl 30 Devastation Cannon",
+	"japanese": "Lv30 自律駆動ガトリング砲",
+	"room": "lvl30devastationcannon",
+	"image": "/assets/raids/BattleRaid_Detective_Conan_Gears_of_Conspiracy_Raid_Very_Hard.png",
+	"category": "Current Event",
+	"element": "Earth"
+},
+{
+	"english": "Lvl 50 Devastation Cannon",
+	"japanese": "Lv50 自律駆動ガトリング砲",
+	"room": "lvl50devastationcannon",
+	"image": "/assets/raids/BattleRaid_Detective_Conan_Gears_of_Conspiracy_Raid_Extreme.png",
+	"category": "Current Event",
+	"element": "Earth"
 }]
