@@ -1188,7 +1188,7 @@
 	"japanese": "Lv30 自律駆動ガトリング砲",
 	"room": "lvl30devastationcannon",
 	"image": "/assets/raids/BattleRaid_Detective_Conan_Gears_of_Conspiracy_Raid_Very_Hard.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Earth"
 },
 {
@@ -1196,6 +1196,54 @@
 	"japanese": "Lv50 自律駆動ガトリング砲",
 	"room": "lvl50devastationcannon",
 	"image": "/assets/raids/BattleRaid_Detective_Conan_Gears_of_Conspiracy_Raid_Extreme.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Earth"
+},
+{
+	"english": "Lvl 30 Ahriman",
+	"japanese": "Lv30 アーリマン",
+	"room": "lvl30ahriman",
+	"image": "/assets/raids/BattleRaid_Eyeball_Hard.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 40 Ahriman",
+	"japanese": "Lv40 アーリマン",
+	"room": "lvl40ahriman",
+	"image": "/assets/raids/BattleRaid_Eyeball_Very_Hard.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 75 Wicked Rebel",
+	"japanese": "Lv75 ウィケッドレブル",
+	"room": "lvl75wickedrebel",
+	"image": "/assets/raids/BattleRaid_Wicked_Rebel_ExtremePlus.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 90 Typhon",
+	"japanese": "Lv90 テュポーン",
+	"room": "lvl90typhon",
+	"image": "/assets/raids/BattleRaid_Typhon_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 95 Typhon",
+	"japanese": "Lv95 テュポーン",
+	"room": "lvl95typhon",
+	"image": "/assets/raids/BattleRaid_Typhon_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 100 Typhon",
+	"japanese": "Lv100 テュポーン",
+	"room": "lvl100typhon",
+	"image": "/assets/raids/BattleRaid_Typhon_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
 }]
