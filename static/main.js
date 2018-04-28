@@ -6,6 +6,7 @@ var individualSettings = [];
 var wasDown = false;
 var noTwitter = false;
 
+var funfNotif = new Audio( '/assets/sounds/funf.mp3' );
 var beepsSoundNotif = new Audio( '/assets/sounds/Beeps_Appear.wav' );
 var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3' );
 var andiraOniichanSoundNotif = new Audio( '/assets/sounds/Andira_Oniichan.mp3' );
@@ -536,6 +537,10 @@ function PlaySoundNotif( data ) {
 					hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 					hoeeeeeSoundNotif.play();
 					break;
+				case "funf-dancho":
+					funfNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+					funfNotif.play();
+					break;
 			}
 			console.log( "Played sound notif." );
 		} catch ( error ) {
@@ -627,6 +632,10 @@ function PlaySoundNotif( data ) {
 							case "sakura-hoeeeee":
 								hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
 								hoeeeeeSoundNotif.play();
+								break;
+							case "funf-dancho":
+								funfNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+								funfNotif.play();
 								break;
 						}
 						console.log( "Played sound notif." );
