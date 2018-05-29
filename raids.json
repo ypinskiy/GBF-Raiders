@@ -1253,7 +1253,7 @@
 	"room": "lvl90snowwhite",
 	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare90.png",
 	"category": "Unite and Fight",
-	"element": "Dark"
+	"element": "Water"
 },
 {
 	"english": "Lvl 95 Snow White",
@@ -1261,7 +1261,7 @@
 	"room": "lvl95snowwhite",
 	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare95.png",
 	"category": "Unite and Fight",
-	"element": "Dark"
+	"element": "Water"
 },
 {
 	"english": "Lvl 100 Snow White",
@@ -1269,5 +1269,5 @@
 	"room": "lvl100snowwhite",
 	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare100.png",
 	"category": "Unite and Fight",
-	"element": "Dark"
+	"element": "Water"
 }]
