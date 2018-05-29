@@ -1250,24 +1250,24 @@
 {
 	"english": "Lvl 90 Snow White",
 	"japanese": "Lv90 スノウホワイト",
-	"room": "lvl90typhon",
-	"image": "/assets/raids/BattleRaid_SnowWhite_Nightmare90.png",
+	"room": "lvl90snowwhite",
+	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare90.png",
 	"category": "Unite and Fight",
-	"element": "Dark"
+	"element": "Water"
 },
 {
 	"english": "Lvl 95 Snow White",
 	"japanese": "Lv95 スノウホワイト",
-	"room": "lvl95typhon",
-	"image": "/assets/raids/BattleRaid_SnowWhite_Nightmare95.png",
+	"room": "lvl95snowwhite",
+	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare95.png",
 	"category": "Unite and Fight",
-	"element": "Dark"
+	"element": "Water"
 },
 {
 	"english": "Lvl 100 Snow White",
 	"japanese": "Lv100 スノウホワイト",
-	"room": "lvl100typhon",
-	"image": "/assets/raids/BattleRaid_SnowWhite_Nightmare100.png",
+	"room": "lvl100snowwhite",
+	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare100.png",
 	"category": "Unite and Fight",
-	"element": "Dark"
+	"element": "Water"
 }]
