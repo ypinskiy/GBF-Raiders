@@ -1246,4 +1246,28 @@
 	"image": "/assets/raids/BattleRaid_Typhon_Nightmare100.png",
 	"category": "Unite and Fight",
 	"element": "Dark"
+},
+{
+	"english": "Lvl 90 Snow White",
+	"japanese": "Lv90 スノウホワイト",
+	"room": "lvl90typhon",
+	"image": "/assets/raids/BattleRaid_SnowWhite_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 95 Snow White",
+	"japanese": "Lv95 スノウホワイト",
+	"room": "lvl95typhon",
+	"image": "/assets/raids/BattleRaid_SnowWhite_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 100 Snow White",
+	"japanese": "Lv100 スノウホワイト",
+	"room": "lvl100typhon",
+	"image": "/assets/raids/BattleRaid_SnowWhite_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
 }]
