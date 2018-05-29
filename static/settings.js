@@ -91,6 +91,7 @@ function CreateSettingsModalFrame() {
 	result += '<div class="item" data-value="beeps">Beeps Appear</div>';
 	result += '<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>';
 	result += '<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>';
+	result += '<div class="item" data-value="funf-dancho">GBF - Funf - DANCHO!</div>';
 	result += '<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>';
 	result += '<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>';
 	result += '<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>';
