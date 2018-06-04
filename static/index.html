@@ -26,8 +26,6 @@
 				});
 		}
 	</script>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-48921108-3"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
@@ -36,14 +34,13 @@
 			dataLayer.push(arguments);
 		}
 		gtag('js', new Date());
-
 		gtag('config', 'UA-48921108-3');
 	</script>
-
-	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="darken.css">
-	<link rel="stylesheet" type="text/css" href="sliders.css">
-	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="semantic/dist/semantic.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="darken.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="sliders.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 </head>
 
 <body>
