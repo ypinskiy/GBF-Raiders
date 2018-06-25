@@ -436,9 +436,6 @@ window.addEventListener( 'load', function () {
 				if ( selectedRaidsArray.length === 0 && document.getElementById( "selected-raids" ) ) {
 					document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
 				}
-				for ( var i = raids.length - 1; i >= 0; i-- ) {
-					UpdateRaidRow( raids[ i ] );
-				}
 			}, 500 );
 			setInterval( function () {
 				for ( var i = raids.length - 1; i >= 0; i-- ) {
