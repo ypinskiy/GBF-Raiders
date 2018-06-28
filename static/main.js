@@ -66,23 +66,21 @@ var statistics = {
 };
 
 function CheckConnectionStatus() {
-	if ( socket.connected ) {
+	if ( socket.connected && wasDown ) {
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
-		if ( wasDown ) {
-			logger.AddLog( "info", "Recovering from connection down..." );
-			if ( localStorage.getItem( "selectedRaids" ) ) {
-				var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
-				for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
-					socket.emit( 'subscribe', {
-						room: tempSelectedRaids[ i ]
-					} );
-				}
+		logger.AddLog( "info", "Recovering from connection down..." );
+		if ( localStorage.getItem( "selectedRaids" ) ) {
+			var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
+			for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
+				socket.emit( 'subscribe', {
+					room: tempSelectedRaids[ i ]
+				} );
 			}
 		}
 		wasDown = false;
-	} else {
+	} else if ( !socket.connected ) {
 		document.getElementById( "connection-status" ).classList.remove( "green" );
 		document.getElementById( "connection-status" ).classList.add( "red" );
 		document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
@@ -430,9 +428,6 @@ window.addEventListener( 'load', function () {
 
 		try {
 			setInterval( function () {
-				if ( !noTwitter ) {
-					CheckConnectionStatus();
-				}
 				if ( selectedRaidsArray.length === 0 && document.getElementById( "selected-raids" ) ) {
 					document.getElementById( "selected-raids" ).innerHTML = "No raids selected. Please search for a raid in the search bar above.";
 				}
@@ -442,6 +437,11 @@ window.addEventListener( 'load', function () {
 					UpdateRaidRow( raids[ i ] );
 				}
 			}, 2000 );
+			setInterval( function () {
+				if ( !noTwitter ) {
+					CheckConnectionStatus();
+				}
+			}, 10000 );
 			logger.AddLog( "info", "Setup of page intervals complete." );
 		} catch ( err ) {
 			logger.AddLog( "error", `Error setting up page interval: ${err.message}`, err );

@@ -343,7 +343,6 @@ function CreateVerticalFullRaidRow( data ) {
 }
 
 function UpdateRaidRow( data ) {
-//	console.log( "Updating raid row for data: ", data );
 	if ( settings.layout.orientation === "horizontal" ) {
 		if ( raids.length > settings.layout.raidMaxResults ) {
 			console.log( 'Too many raids (' + raids.length + ') for raidMaxResults: ' + settings.layout.raidMaxResults );
@@ -425,7 +424,7 @@ function CreateHorizontalCompactRaidTable() {
 	console.log( "Creating Horizontal Compact raid table..." );
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "selectable", "table", "compact" );
+	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "table", "compact" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
@@ -448,7 +447,7 @@ function CreateHorizontalNormalRaidTable() {
 	console.log( "Creating Horizontal Normal raid table..." );
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "selectable", "compact", "table" );
+	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "compact", "table" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
@@ -471,7 +470,7 @@ function CreateHorizontalFullRaidTable() {
 	console.log( "Creating Horizontal Full raid table..." );
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
-	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "selectable", "compact", "table" );
+	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "compact", "table" );
 	if ( document.getElementById( "selected-raids-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
