@@ -76,13 +76,14 @@ app.get( '/serviceWorker.js', function ( req, res ) {
 
 app.get( '/errorlogs', function ( req, res ) {
 	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
-	let htmlString = `<html lang="en"><head><meta charset="UTF-8"><title>GBF Raiders Errors</title></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>`;
+	let htmlString = '<html lang="en"><head><meta charset="UTF-8"><title>GBF Raiders Errors</title></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>';
 	errors.forEach( function ( error ) {
 		let parsedError = error.split( "," );
 		htmlString += `<tr><td>${parsedError[0]}</td><td>${parsedError[1]}</td><td>${parsedError[3]}</td><td${parsedError[4]}></td></tr>`;
 	} );
-	htmlString += `<tbody></table></body></html>`;
+	htmlString += '<tbody></table></body></html>';
 	res.send( htmlString );
+	res.status(200);
 } );
 
 app.get( '/', function ( req, res ) {
