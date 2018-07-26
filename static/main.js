@@ -45,7 +45,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "3.8",
+	version: "3.9",
 	newsSeen: false,
 	cardSlots: 8,
 	disablePopups: false,
@@ -70,7 +70,7 @@ function CheckConnectionStatus() {
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
-		logger.AddLog( "info", "Recovering from connection down..." );
+		console.log( "Recovering from connection down..." );
 		if ( localStorage.getItem( "selectedRaids" ) ) {
 			var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
 			for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
@@ -196,12 +196,12 @@ function ChangeButtonStatus( event, id ) {
 }
 
 function onMessage( evt ) {
-	logger.AddLog( "info", "Viramate message recieved." );
+	console.log( "Viramate message recieved." );
 	if ( evt.data.type !== "result" ) {
-		logger.AddLog( "info", "Viramate message not a result." );
+		console.log( "Viramate message not a result." );
 		return;
 	} else {
-		logger.AddLog( "info", "Viramate message is a result.", evt.data );
+		console.log( "Viramate message is a result.", evt.data );
 		ChangeButtonStatus( evt.data.result, evt.data.id );
 		if ( evt.data.result === "refill required" ) {
 			if ( !settings.disablePopups ) {
@@ -342,9 +342,9 @@ function onMessage( evt ) {
 }
 
 window.addEventListener( 'load', function () {
-	logger.AddLog( "info", "Window loaded.", "Page version: " + settings.version );
+	console.log( "Window loaded.", "Page version: " + settings.version );
 	if ( !navigator.onLine ) {
-		logger.AddLog( "info", "Page loaded offline." );
+		console.log( "Page loaded offline." );
 		swal( {
 			title: "You are offline!",
 			text: "Please make sure your internet is connected or try again later.",
@@ -353,7 +353,7 @@ window.addEventListener( 'load', function () {
 		} );
 	}
 	window.addEventListener( 'online', function ( event ) {
-		logger.AddLog( "info", "Page came back online." );
+		console.log( "Page came back online." );
 		swal( {
 			title: "You came back online!",
 			text: "Things should start working again!",
@@ -363,7 +363,7 @@ window.addEventListener( 'load', function () {
 	} );
 
 	window.addEventListener( 'offline', function ( event ) {
-		logger.AddLog( "info", "Page is offline." );
+		console.log( "Page is offline." );
 		swal( {
 			title: "You are offline!",
 			text: "Please make sure your internet is connected or try again later.",
@@ -374,22 +374,22 @@ window.addEventListener( 'load', function () {
 
 	window.addEventListener( 'message', onMessage, false );
 
-	logger.AddLog( "info", "Getting raid configs..." );
+	console.log( "Getting raid configs..." );
 	fetch( "/getraids" ).then( function ( response ) {
 		return response.json();
 	} ).then( function ( raidResults ) {
-		logger.AddLog( "info", "Raid configs recieved." );
+		console.log( "Raid configs recieved." );
 		raidConfigs = raidResults;
 		LoadSavedSettings();
 		try {
 			SetupControls();
 		} catch ( err ) {
-			logger.AddLog( "error", `Error setting up controls: ${err.message}`, err );
+			console.log( `Error setting up controls: ${err.message}`, err );
 		}
 
 		socket = io.connect( '/' );
 		socket.on( 'tweet', function ( data ) {
-			logger.AddLog( "info", "Tweet recieved: " + data.room, data );
+			console.log( "Tweet recieved: " + data.room );
 			document.getElementById( "connection-status" ).classList.remove( "red" );
 			document.getElementById( "connection-status" ).classList.add( "green" );
 			document.getElementById( "connection-status-value" ).innerHTML = "UP";
@@ -402,7 +402,7 @@ window.addEventListener( 'load', function () {
 			}
 		} );
 		socket.on( 'warning', function ( data ) {
-			logger.AddLog( "info", "Warning recieved: " + data.room, data );
+			console.log( "Warning recieved: " + data.room, data );
 			if ( data.type == "twitter" ) {
 				document.getElementById( "connection-status" ).classList.remove( "green" );
 				document.getElementById( "connection-status" ).classList.add( "red" );
@@ -411,19 +411,10 @@ window.addEventListener( 'load', function () {
 			}
 		} );
 		socket.on( 'raid-over', function ( data ) {
-			logger.AddLog( "info", "Raid Over recieved: " + data.room, data );
+			console.log( "Raid Over recieved: " + data.room, data );
 			ChangeButtonStatus( data.event, data.id );
 		} );
-		if ( socket.connected ) {
-			document.getElementById( "connection-status" ).classList.remove( "red" );
-			document.getElementById( "connection-status" ).classList.add( "green" );
-			document.getElementById( "connection-status-value" ).innerHTML = "UP";
-		} else {
-			document.getElementById( "connection-status" ).classList.remove( "green" );
-			document.getElementById( "connection-status" ).classList.add( "red" );
-			document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
-		}
-
+		CheckConnectionStatus();
 		LoadSavedRaids();
 
 		try {
@@ -433,25 +424,28 @@ window.addEventListener( 'load', function () {
 				}
 			}, 500 );
 			setInterval( function () {
-				for ( var i = raids.length - 1; i >= 0; i-- ) {
-					UpdateRaidRow( raids[ i ] );
+				if (raids.length > 0) {
+					TrimExtraRaids();
+					for ( var i = raids.length - 1; i >= 0; i-- ) {
+						UpdateRaidRow( raids[ i ] );
+					}
 				}
-			}, 2000 );
+			}, 1000 );
 			setInterval( function () {
 				if ( !noTwitter ) {
 					CheckConnectionStatus();
 				}
 			}, 10000 );
-			logger.AddLog( "info", "Setup of page intervals complete." );
+			console.log( "Setup of page intervals complete." );
 		} catch ( err ) {
-			logger.AddLog( "error", `Error setting up page interval: ${err.message}`, err );
+			console.log( `Error setting up page interval: ${err.message}`, err );
 		}
 
 	} );
 } );
 
 function PlaySoundNotif( data ) {
-	logger.AddLog( "info", `Playing sound notif for: ${data.room}`, settings.notification );
+	console.log( `Playing sound notif for: ${data.room}`, settings.notification );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		try {
 			switch ( settings.notification.soundNotifChoice ) {
@@ -540,9 +534,9 @@ function PlaySoundNotif( data ) {
 					funfNotif.play();
 					break;
 			}
-			logger.AddLog( "info", `Played sound notif for: ${data.room}`, settings.notification );
+			console.log( `Played sound notif for: ${data.room}`, settings.notification );
 		} catch ( error ) {
-			logger.AddLog( "error", `Error playing sound notif for: ${data.room}`, error, settings.notification );
+			console.log( `Error playing sound notif for: ${data.room}`, error, settings.notification );
 		}
 	} else if ( settings.layout.orientation === "vertical" ) {
 		for ( var i = 0; i < individualSettings.length; i++ ) {
@@ -635,9 +629,9 @@ function PlaySoundNotif( data ) {
 								funfNotif.play();
 								break;
 						}
-						logger.AddLog( "info", `Played sound notif for: ${data.room}`, settings.notification );
+						console.log( `Played sound notif for: ${data.room}`, settings.notification );
 					} catch ( error ) {
-						logger.AddLog( "error", `Error playing sound notif for: ${data.room}`, error, settings.notification );
+						console.log( `Error playing sound notif for: ${data.room}`, error, settings.notification );
 					}
 				}
 			}
@@ -646,7 +640,7 @@ function PlaySoundNotif( data ) {
 }
 
 function SendDesktopNotif( data ) {
-	logger.AddLog( "info", `Sending desktop notif for: ${data.room}`, settings.notification );
+	console.log( `Sending desktop notif for: ${data.room}`, settings.notification );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.desktopNotifOn ) {
 		if ( Notification.permission === "granted" ) {
 			try {
@@ -691,9 +685,9 @@ function SendDesktopNotif( data ) {
 					document.getElementById( data.id + '-btn' ).classList.add( "negative" );
 					notification.close();
 				}
-				logger.AddLog( "info", `Sent desktop notif for: ${data.room}`, settings.notification );
+				console.log( `Sent desktop notif for: ${data.room}`, settings.notification );
 			} catch ( error ) {
-				logger.AddLog( "error", `Error sending desktop notif for: ${data.room}`, error, settings.notification );
+				console.log( `Error sending desktop notif for: ${data.room}`, error, settings.notification );
 			}
 		}
 	} else if ( settings.layout.orientation === "vertical" ) {
@@ -744,9 +738,9 @@ function SendDesktopNotif( data ) {
 								document.getElementById( data.id + '-btn' ).classList.add( "secondary" );
 								notification.close();
 							}
-							logger.AddLog( "info", `Sent desktop notif for: ${data.room}`, settings.notification );
+							console.log( `Sent desktop notif for: ${data.room}`, settings.notification );
 						} catch ( error ) {
-							logger.AddLog( "error", `Error sending desktop notif for: ${data.room}`, error, settings.notification );
+							console.log( `Error sending desktop notif for: ${data.room}`, error, settings.notification );
 						}
 					}
 				}
@@ -764,7 +758,7 @@ function SendJoinCommand( id ) {
 			raidCode: id
 		}, "*" );
 	} catch ( error ) {
-		logger.AddLog( "error", `Error sending join command to Viramate: ${error.message}`, error );
+		console.log( `Error sending join command to Viramate: ${error.message}`, error );
 	}
 }
 
@@ -857,7 +851,7 @@ function SetTime() {
 				timeDisplay.classList.add( "strike-time" );
 			}
 		} catch ( err ) {
-			logger.AddLog( "error", `Error setting StrikeTime reminder: ${err.message}`, err );
+			console.log( `Error setting StrikeTime reminder: ${err.message}`, err );
 		}
 	} else {
 		if ( document.getElementById( "time-until" ) ) {

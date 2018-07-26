@@ -342,60 +342,52 @@ function CreateVerticalFullRaidRow( data ) {
 	}
 }
 
-function UpdateRaidRow( data ) {
-	if ( settings.layout.orientation === "horizontal" ) {
-		if ( raids.length > settings.layout.raidMaxResults ) {
-			console.log( 'Too many raids (' + raids.length + ') for raidMaxResults: ' + settings.layout.raidMaxResults );
-			try {
-				var raidDIV = document.getElementById( raids[ 0 ].id );
-				document.getElementById( "table-body" ).removeChild( raidDIV );
-				raids.splice( 0, 1 );
-			} catch ( error ) {
-				console.log( "Error removing raid row that was over max results: " + error );
-			}
-		} else {
-			var raidDIV = document.getElementById( data.id );
-			if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout ) {
-				console.log( 'Raid too old(' + moment().diff( data.time, "seconds" ) + ') for selected timeout: ' + settings.layout.raidTimeout );
-				try {
-					document.getElementById( "table-body" ).removeChild( raidDIV );
-					raids.splice( raids.indexOf( data ), 1 );
-				} catch ( error ) {
-					console.log( "Error removing raid row that too old: " + error );
-				}
-			} else {
-				if ( settings.layout.infoLevel === "normal" || settings.layout.infoLevel === "full" ) {
-					document.getElementById( data.id + '-time' ).innerHTML = moment().diff( data.time, "seconds" ) + ' secs ago';
-				}
-			}
+const groupBy = ( array, fn ) => array.reduce( ( result, item ) => {
+	const key = fn( item );
+	if ( !result[ key ] ) result[ key ] = [];
+	result[ key ].push( item );
+	return result;
+}, {} );
+
+function TrimExtraRaids() {
+	if ( raids.length > settings.layout.raidMaxResults ) {
+		console.log( 'Too many raids (' + raids.length + ') for raidMaxResults: ' + settings.layout.raidMaxResults );
+		try {
+			var raidDIV = document.getElementById( raids[ 0 ].id );
+			document.getElementById( "table-body" ).removeChild( raidDIV );
+			raids.splice( 0, 1 );
+		} catch ( error ) {
+			console.log( "Error removing raid row that was over max results: " + error );
 		}
 	} else {
-		if ( raids.filter( raid => raid.room === data.room ).length > settings.layout.raidMaxResults ) {
-			var roomedRaids = raids.filter( raid => raid.room === data.room );
-			console.log( 'Too many raids (' + roomedRaids.length + ') in room ' + data.room + ' for raidMaxResults: ' + settings.layout.raidMaxResults );
-			try {
-				var raidDIV = document.getElementById( roomedRaids[ 0 ].id );
-				document.getElementById( roomedRaids[ 0 ].room + "-table-body" ).removeChild( raidDIV );
-				raids.splice( raids.indexOf( roomedRaids[ 0 ] ), 1 );
-			} catch ( error ) {
-				console.log( "Error removing raid row that was over max results: " + error );
-			}
-		} else {
-			var raidDIV = document.getElementById( data.id );
-			if ( moment().diff( data.time, "seconds" ) > settings.layout.raidTimeout ) {
-				console.log( 'Raid too old(' + moment().diff( data.time, "seconds" ) + ') for selected timeout: ' + settings.layout.raidTimeout );
+		var groupedRaids = groupBy( raids, i => i.room );
+		Object.keys( groupedRaids ).forEach( function ( raidRoom ) {
+			if ( groupedRaids[ raidRoom ].length > settings.layout.raidMaxResults ) {
+				console.log( 'Too many raids (' + groupedRaids[ raidRoom ].length + ') in room ' + raidRoom + ' for raidMaxResults: ' + settings.layout.raidMaxResults );
 				try {
-					document.getElementById( data.room + "-table-body" ).removeChild( raidDIV );
-					raids.splice( raids.indexOf( data ), 1 );
+					var raidDIV = document.getElementById( groupedRaids[ raidRoom ][ 0 ].id );
+					document.getElementById( groupedRaids[ raidRoom ][ 0 ].room + "-table-body" ).removeChild( raidDIV );
+					raids.splice( raids.indexOf( groupedRaids[ raidRoom ][ 0 ] ), 1 );
 				} catch ( error ) {
-					console.log( "Error removing raid row that too old: " + error );
-				}
-			} else {
-				if ( settings.layout.infoLevel === "normal" || settings.layout.infoLevel === "full" ) {
-					document.getElementById( data.id + '-time' ).innerHTML = moment().diff( data.time, "seconds" ) + ' secs ago';
+					console.log( "Error removing raid row that was over max results: " + error );
 				}
 			}
+		} );
+	}
+}
+
+function UpdateRaidRow( data ) {
+	data.timer++;
+	if ( data.timer > settings.layout.raidTimeout ) {
+		console.log( 'Raid too old(' + data.timer + ' secs) for selected timeout: ' + settings.layout.raidTimeout );
+		if ( settings.layout.orientation === "horizontal" ) {
+			document.getElementById( "table-body" ).removeChild( document.getElementById( data.id ) );
+		} else {
+			document.getElementById( data.room + "-table-body" ).removeChild( document.getElementById( data.id ) );
 		}
+		raids.splice( raids.indexOf( data ), 1 );
+	} else {
+		document.getElementById( data.id + '-time' ).textContent  = data.timer + ' secs ago';
 	}
 }
 

@@ -11,19 +11,18 @@
 	<meta name="theme-color" content="#2185d0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="Description" content="A Granblue Fantasy Raid Finder With New And Innovative Features, Including Jumping Straight To The Raid With Viramate Integration">
-	<script src="utils/lumberjack.min.js"></script>
 	<script type="text/javascript">
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('/serviceWorker.js')
 				.then(function(registration) {
-					logger.AddLog("info", "ServiceWorker registration complete.");
+					console.log("ServiceWorker registration complete.");
 					registration.addEventListener('updatefound', function() {
 						let installingWorker = registration.installing;
-						logger.AddLog("info", "Update found. A new service worker is being installed.", installingWorker);
+						console.log("Update found. A new service worker is being installed.", installingWorker);
 					});
 				})
 				.catch(function(err) {
-					logger.AddLog("error", `Error installing ServiceWorker: ${err.message}`, err);
+					console.log(`Error installing ServiceWorker: ${err.message}`, err);
 				});
 		}
 	</script>
@@ -37,11 +36,11 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-48921108-3');
 	</script>
-	<link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans" as="style" onload="logger.AddLog('info', 'Open Sans Font loaded.');this.onload=null;this.rel='stylesheet'">
-	<link rel="preload" href="semantic/dist/semantic.min.css" as="style" onload="logger.AddLog('info', 'SemanticUI CSS loaded.');this.onload=null;this.rel='stylesheet'">
-	<link rel="preload" href="darken.css" as="style" onload="logger.AddLog('info', 'Darken CSS loaded.');this.onload=null;this.rel='stylesheet'">
-	<link rel="preload" href="sliders.css" as="style" onload="logger.AddLog('info', 'Sliders CSS loaded.');this.onload=null;this.rel='stylesheet'">
-	<link rel="preload" href="main.css" as="style" onload="logger.AddLog('info', 'Main CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans" as="style" onload="console.log('Open Sans Font loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="semantic/dist/semantic.min.css" as="style" onload="console.log('SemanticUI CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="darken.css" as="style" onload="console.log('Darken CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="sliders.css" as="style" onload="console.log('Sliders CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="main.css" as="style" onload="console.log('Main CSS loaded.');this.onload=null;this.rel='stylesheet'">
 </head>
 
 <body>
@@ -270,9 +269,9 @@
 		<div id="news-message" class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 5/29/2018
+				News - 7/12/2018
 			</div>
-			<p>Added Unite and Fight raids.</p>
+			<p>I fixed the issue causing a bad connection for most people, ended up being a mismanaged hostname on my server causing the Twitter response to fail.</p>
 		</div>
 	</div>
 	<script src="utils/browsedetect.js"></script>

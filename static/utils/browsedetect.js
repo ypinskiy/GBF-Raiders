@@ -7,9 +7,9 @@ if ( isChrome && document.getElementById( 'container' ) ) {
 		return response;
 	} ).then( function () {
 		document.getElementById( 'container' ).innerHTML += '<iframe id="viramate-api" src="chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" width="1" height="1"><p>Your browser does not support iframes.</p></iframe>';
-		logger.AddLog( "info", "Added Viramate extension API to page." );
+		console.log( "Added Viramate extension API to page." );
 	} ).catch( function ( err ) {
-		logger.AddLog( "error", `Error finding Viramate extension on page load: ${err.message}`, err );
+		console.log( `Error finding Viramate extension on page load: ${err.message}`, err );
 	} );
 } else if ( !isChrome ) {
 	const preloadedLinks = [ "https://fonts.googleapis.com/css?family=Open+Sans", "semantic/dist/semantic.min.css", "darken.css", "sliders.css", "main.css" ];

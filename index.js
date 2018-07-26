@@ -195,7 +195,8 @@ function StartTwitterStream( options ) {
 					room: searchTextForRaids( tweet.text ),
 					message: "No Twitter Message.",
 					language: "JP",
-					status: "unclicked"
+					status: "unclicked",
+					timer: 0
 				};
 				if ( DoesTweetContainMessage( tweet ) ) {
 					let tweetMessage = GetTweetMessage( tweet );
@@ -233,7 +234,7 @@ setInterval( function () {
 			lastTweet = new Date().getTime();
 			setTimeout( function () {
 				TimedLogger( "Twitter", "No Tweet Warning", "Restarting Twitter Client..." );
-				if ( usingTwitterBackup ) {
+				if ( !usingTwitterBackup ) {
 					if ( twitterBackupOptions.consumer_key != "" ) {
 						StartTwitterStream( twitterBackupOptions );
 					}
