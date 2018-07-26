@@ -42,10 +42,12 @@ let twitterBackupOptions = {
 };
 let usingTwitterBackup = false;
 let twitterClient = null;
+let errors = [];
 
 function TimedLogger( area, type, data ) {
 	let csvString = moment().format( 'MM/DD/YYYY,HH:mm:ss' ) + "," + area + "," + type + "," + data;
 	console.log( csvString );
+	return csvString;
 }
 
 let raidConfigs = require( './raids.json' );
@@ -70,6 +72,11 @@ app.get( '/getraids', function ( req, res ) {
 app.get( '/serviceWorker.js', function ( req, res ) {
 	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
 	res.sendFile( __dirname + '/static/serviceWorker.js' );
+} );
+
+app.get( '/errors', function ( req, res ) {
+	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
+	res.send( errors );
 } );
 
 app.get( '/', function ( req, res ) {
@@ -213,25 +220,25 @@ function StartTwitterStream( options ) {
 		} );
 
 		client.on( 'error', function ( error ) {
-			TimedLogger( "Twitter", "Error", JSON.stringify( error ) );
+			errors.push( TimedLogger( "Twitter", "Error", JSON.stringify( error ) ) );
 			twitterClient.abort();
 		} );
 
 		client.on( 'reconnect', function ( reconnect ) {
-			TimedLogger( "Twitter", "Reconnect", JSON.stringify( reconnect ) );
+			errors.push( TimedLogger( "Twitter", "Reconnect", JSON.stringify( reconnect ) ) );
 			twitterClient.reconnect();
 		} );
 
 		client.track( keywords );
 	} catch ( error ) {
-		TimedLogger( "Twitter", "Error", JSON.stringify( error ) );
+		errors.push( TimedLogger( "Twitter", "Error", JSON.stringify( error ) ) );
 		twitterClient.abort();
 	}
 }
 
 setInterval( function () {
 	if ( new Date().getTime() - 600000 > lastTweet ) {
-		TimedLogger( "Twitter", "No Tweet Warning", "Sending Email..." );
+		errors.push( TimedLogger( "Twitter", "No Tweet Warning", "Sending Email..." ) );
 		io.emit( 'warning', { type: "twitter" } );
 		try {
 			exec( 'echo "There hasn\'t been a tweet in 10 minutes! You should check up on things." | mail -s "Tweet Warning!" gene@pinskiy.us' );
@@ -249,7 +256,7 @@ setInterval( function () {
 				usingTwitterBackup = !usingTwitterBackup;
 			}, 500 );
 		} catch ( error ) {
-			TimedLogger( "Twitter", "No Tweet Error", JSON.stringify( error ) );
+			errors.push( TimedLogger( "Twitter", "No Tweet Error", JSON.stringify( error ) ) );
 		}
 	}
 }, 60000 )
