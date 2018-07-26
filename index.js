@@ -74,9 +74,15 @@ app.get( '/serviceWorker.js', function ( req, res ) {
 	res.sendFile( __dirname + '/static/serviceWorker.js' );
 } );
 
-app.get( '/errors', function ( req, res ) {
+app.get( '/errorlogs', function ( req, res ) {
 	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
-	res.send( errors );
+	let htmlString = `<html lang="en"><head><meta charset="UTF-8"><title>GBF Raiders Errors</title></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>`;
+	errors.forEach( function ( error ) {
+		let parsedError = error.split( "," );
+		htmlString += `<tr><td>${parsedError[0]}</td><td>${parsedError[1]}</td><td>${parsedError[3]}</td><td${parsedError[4]}></td></tr>`;
+	} );
+	htmlString += `<tbody></table></body></html>`;
+	res.send( htmlString );
 } );
 
 app.get( '/', function ( req, res ) {
@@ -193,7 +199,7 @@ function StartTwitterStream( options ) {
 	try {
 		twitterClient = new twitter( options );
 
-		client.on( 'tweet', function ( tweet ) {
+		twitterClient.on( 'tweet', function ( tweet ) {
 			TimedLogger( "Twitter", "Tweet Found", "" );
 			if ( IsValidTweet( tweet ) ) {
 				let raidInfo = {
@@ -219,19 +225,19 @@ function StartTwitterStream( options ) {
 			}
 		} );
 
-		client.on( 'error', function ( error ) {
-			errors.push( TimedLogger( "Twitter", "Error", JSON.stringify( error ) ) );
+		twitterClient.on( 'error', function ( error ) {
+			errors.push( TimedLogger( "Twitter", "Twitter Error", error ) );
 			twitterClient.abort();
 		} );
 
-		client.on( 'reconnect', function ( reconnect ) {
-			errors.push( TimedLogger( "Twitter", "Reconnect", JSON.stringify( reconnect ) ) );
+		twitterClient.on( 'reconnect', function ( reconnect ) {
+			errors.push( TimedLogger( "Twitter", "Reconnect", reconnect ) );
 			twitterClient.reconnect();
 		} );
 
-		client.track( keywords );
+		twitterClient.track( keywords );
 	} catch ( error ) {
-		errors.push( TimedLogger( "Twitter", "Error", JSON.stringify( error ) ) );
+		errors.push( TimedLogger( "Twitter", "Stream Error", error ) );
 		twitterClient.abort();
 	}
 }
