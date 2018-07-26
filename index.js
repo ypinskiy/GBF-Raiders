@@ -41,6 +41,7 @@ let twitterBackupOptions = {
 	token_secret: process.env.backup_access_token_secret || ""
 };
 let usingTwitterBackup = false;
+let twitterClient = null;
 
 function TimedLogger( area, type, data ) {
 	let csvString = moment().format( 'MM/DD/YYYY,HH:mm:ss' ) + "," + area + "," + type + "," + data;
@@ -183,7 +184,7 @@ function IsValidTweet( data ) {
 function StartTwitterStream( options ) {
 	TimedLogger( "System", "Starting Twitter Stream", "" );
 	try {
-		let client = new twitter( options );
+		twitterClient = new twitter( options );
 
 		client.on( 'tweet', function ( tweet ) {
 			TimedLogger( "Twitter", "Tweet Found", "" );
@@ -213,15 +214,18 @@ function StartTwitterStream( options ) {
 
 		client.on( 'error', function ( error ) {
 			TimedLogger( "Twitter", "Error", JSON.stringify( error ) );
+			twitterClient.abort();
 		} );
 
 		client.on( 'reconnect', function ( reconnect ) {
 			TimedLogger( "Twitter", "Reconnect", JSON.stringify( reconnect ) );
+			twitterClient.reconnect();
 		} );
 
 		client.track( keywords );
 	} catch ( error ) {
 		TimedLogger( "Twitter", "Error", JSON.stringify( error ) );
+		twitterClient.abort();
 	}
 }
 
@@ -234,6 +238,7 @@ setInterval( function () {
 			lastTweet = new Date().getTime();
 			setTimeout( function () {
 				TimedLogger( "Twitter", "No Tweet Warning", "Restarting Twitter Client..." );
+				twitterClient.abort();
 				if ( !usingTwitterBackup ) {
 					if ( twitterBackupOptions.consumer_key != "" ) {
 						StartTwitterStream( twitterBackupOptions );
