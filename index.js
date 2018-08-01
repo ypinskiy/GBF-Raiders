@@ -75,13 +75,34 @@ app.get( '/serviceWorker.js', function ( req, res ) {
 } );
 
 app.get( '/errorlogs', function ( req, res ) {
+	console.log( "Fetching error logs..." );
 	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
-	let htmlString = '<html lang="en"><head><meta charset="UTF-8"><title>GBF Raiders Errors</title></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>';
+	res.header( 'Access-Control-Allow-Origin', '*' );
+	let htmlString = '<html lang="en"><head><meta charset="UTF-8"><title>GBF Raiders Errors</title><style>';
+	htmlString += `
+	body {
+		padding: 50px;
+	}
+	caption {
+		font-size: 26px;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	table {
+		width: 100%;
+		border: 1px solid black;
+	}
+	td, th {
+		padding: 10px;
+		border: 1px solid black;
+	}`;
+	htmlString += '</style></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>';
 	errors.forEach( function ( error ) {
 		let parsedError = error.split( "," );
 		htmlString += `<tr><td>${parsedError[0]}</td><td>${parsedError[1]}</td><td>${parsedError[3]}</td><td${parsedError[4]}></td></tr>`;
 	} );
 	htmlString += '</tbody></table></body></html>';
+	console.log( htmlString );
 	res.status( 200 ).type( 'html' ).send( new Buffer( htmlString ) );
 } );
 
