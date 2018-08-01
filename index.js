@@ -81,8 +81,8 @@ app.get( '/errorlogs', function ( req, res ) {
 		let parsedError = error.split( "," );
 		htmlString += `<tr><td>${parsedError[0]}</td><td>${parsedError[1]}</td><td>${parsedError[3]}</td><td${parsedError[4]}></td></tr>`;
 	} );
-	htmlString += '<tbody></table></body></html>';
-	res.status(200).type('html').send( htmlString );
+	htmlString += '</tbody></table></body></html>';
+	res.status( 200 ).type( 'html' ).send( new Buffer( htmlString ) );
 } );
 
 app.get( '/', function ( req, res ) {
