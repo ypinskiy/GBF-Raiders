@@ -96,7 +96,7 @@ app.get( '/errorlogs', function ( req, res ) {
 	htmlString += '</style></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>';
 	errors.reverse();
 	errors.forEach( function ( error ) {
-		htmlString += `<tr><td>${error.date}</td><td>${error.time}</td><td>${error.message}</td><td>${error.data}</td></tr>`;
+		htmlString += `<tr><td>${error.date}</td><td>${error.time}</td><td>${error.message}</td><td>${JSON.stringify(error.data)}</td></tr>`;
 	} );
 	htmlString += '</tbody></table></body></html>';
 	errors.reverse();
