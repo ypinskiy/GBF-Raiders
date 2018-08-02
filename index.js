@@ -45,7 +45,7 @@ let twitterClient = null;
 let errors = [];
 
 function TimedLogger( area, type, data ) {
-	let csvString = moment().format( 'MM/DD/YYYY,HH:mm:ss' ) + "," + area + "," + type + "," + data;
+	let csvString = moment().format( 'MM/DD/YYYY,HH:mm:ss' ) + "," + area + "," + type + "," + JSON.stringify(data);
 	console.log( csvString );
 	return csvString;
 }
@@ -75,7 +75,7 @@ app.get( '/serviceWorker.js', function ( req, res ) {
 } );
 
 app.get( '/errorlogs', function ( req, res ) {
-	console.log( "Fetching error logs..." );
+	TimedLogger( "Index", "Fetching error logs..." );
 	res.header( 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate' );
 	res.header( 'Access-Control-Allow-Origin', '*' );
 	let htmlString = '<html lang="en"><head><meta charset="UTF-8"><title>GBF Raiders Errors</title><style>';
@@ -90,18 +90,24 @@ app.get( '/errorlogs', function ( req, res ) {
 	}
 	table {
 		width: 100%;
-		border: 1px solid black;
+		border: 2px solid black;
 	}
-	td, th {
+	td {
 		padding: 10px;
 		border: 1px solid black;
+	}
+	th {
+		padding: 10px;
+		border: 2px solid black;
 	}`;
 	htmlString += '</style></head><body><table><caption>Most recent errors since up</caption><thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Message</th><th scope="col">Data</th></tr></thead><tbody>';
+	errors.reverse();
 	errors.forEach( function ( error ) {
 		let parsedError = error.split( "," );
-		htmlString += `<tr><td>${parsedError[0]}</td><td>${parsedError[1]}</td><td>${parsedError[3]}</td><td${parsedError[4]}></td></tr>`;
+		htmlString += `<tr><td>${parsedError[0]}</td><td>${parsedError[1]}</td><td>${parsedError[3]}</td><td${JSON.stringify(parsedError[4])}></td></tr>`;
 	} );
 	htmlString += '</tbody></table></body></html>';
+	errors.reverse();
 	console.log( htmlString );
 	res.status( 200 ).type( 'html' ).send( new Buffer( htmlString ) );
 } );
