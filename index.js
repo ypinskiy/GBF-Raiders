@@ -48,7 +48,7 @@ let raidConfigs = require( './raids.json' );
 
 app.set( 'json spaces', 0 );
 app.use( helmet() );
-app.use( morgan( 'combined' ) );
+//app.use( morgan( 'combined' ) );
 app.use( compression() );
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( {
