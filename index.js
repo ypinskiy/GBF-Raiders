@@ -1,6 +1,8 @@
 const express = require( 'express' );
 const twitter = require( 'node-tweet-stream' );
 const { exec } = require( 'child_process' );
+const http2 = require( 'http2' );
+const https = require( 'https' );
 const st = require( 'st' );
 let fs = require( 'fs' );
 let app = express();
@@ -20,7 +22,7 @@ if ( process.env.sslEnabled === "true" ) {
 		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
 		key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
 	};
-	let sslServer = require( 'https' ).createServer( options, app );
+	let sslServer = http2.createServer( options, app );
 	sslServer.listen( 443 );
 	io = require( 'socket.io' ).listen( sslServer );
 } else {
