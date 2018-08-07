@@ -22,7 +22,7 @@ if ( process.env.sslEnabled === "true" ) {
 		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
 		key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
 	};
-	let sslServer = http2.createServer( options, app );
+	let sslServer = https.createServer( options, app );
 	sslServer.listen( 443 );
 	io = require( 'socket.io' ).listen( sslServer );
 } else {
