@@ -228,6 +228,7 @@ function SetupControls() {
 		var clipboard = new Clipboard( '.copy-div', {
 			text: function ( trigger ) {
 				console.log( "Copying to clipboard: " + trigger.dataset.clipboard );
+				toastr["success"]("Raid ID copied to clipboard.");
 				return trigger.dataset.clipboard;
 			}
 		} );
@@ -553,17 +554,6 @@ function SetupControls() {
 				setFluidWidth: false,
 				lastResort: "bottom left",
 				hoverable: true,
-				jitter: 50
-			} );
-
-		$( '.donate' )
-			.popup( {
-				inline: true,
-				position: "bottom left",
-				perserve: true,
-				setFluidWidth: false,
-				lastResort: "bottom left",
-				hoverable: false,
 				jitter: 50
 			} );
 

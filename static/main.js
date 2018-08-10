@@ -54,6 +54,24 @@ var settings = {
 	viramateID: "fgpokpknehglcioijejfeebigdnbnokj"
 };
 
+toastr.options = {
+	"closeButton": false,
+	"debug": false,
+	"newestOnTop": false,
+	"progressBar": false,
+	"positionClass": "toast-top-center",
+	"preventDuplicates": false,
+	"onclick": null,
+	"showDuration": "300",
+	"hideDuration": "1000",
+	"timeOut": "5000",
+	"extendedTimeOut": "1000",
+	"showEasing": "swing",
+	"hideEasing": "linear",
+	"showMethod": "fadeIn",
+	"hideMethod": "fadeOut"
+}
+
 var statistics = {
 	"succeded": {
 		"total": 0,
@@ -424,7 +442,7 @@ window.addEventListener( 'load', function () {
 				}
 			}, 500 );
 			setInterval( function () {
-				if (raids.length > 0) {
+				if ( raids.length > 0 ) {
 					TrimExtraRaids();
 					for ( var i = raids.length - 1; i >= 0; i-- ) {
 						UpdateRaidRow( raids[ i ] );

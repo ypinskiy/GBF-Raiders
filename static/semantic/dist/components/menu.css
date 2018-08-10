@@ -165,8 +165,8 @@
   -webkit-box-align: inherit;
       -ms-flex-align: inherit;
           align-items: inherit;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
+  -webkit-box-orient: inherit;
+  -webkit-box-direction: inherit;
       -ms-flex-direction: inherit;
           flex-direction: inherit;
 }
@@ -366,6 +366,16 @@
 
 
 /*--------------
+     List
+---------------*/
+
+
+/* Menu divider shouldnt apply */
+.ui.menu .list .item:before {
+  background: none !important;
+}
+
+/*--------------
      Sidebar
 ---------------*/
 
@@ -457,9 +467,9 @@
 
 .ui.menu .item.disabled,
 .ui.menu .item.disabled:hover {
-  cursor: default;
+  cursor: default !important;
   background-color: transparent !important;
-  color: rgba(40, 40, 40, 0.3);
+  color: rgba(40, 40, 40, 0.3) !important;
 }
 
 
@@ -2007,18 +2017,18 @@ Floated Menu / Item
 
 /* Huge */
 .ui.huge.menu {
-  font-size: 1.14285714rem;
+  font-size: 1.21428571rem;
 }
 .ui.huge.vertical.menu {
-  width: 20rem;
+  width: 22rem;
 }
 
 /* Big */
 .ui.big.menu {
-  font-size: 1.21428571rem;
+  font-size: 1.14285714rem;
 }
 .ui.big.vertical.menu {
-  width: 22rem;
+  width: 20rem;
 }
 
 /* Massive */
