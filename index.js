@@ -21,11 +21,17 @@ var openSockets = Probe.metric( {
 } );
 
 function GetTopRoom() {
-	let raidRooms = Object.entries( io.sockets.adapter.rooms ).filter( roomSet => roomSet[ 0 ].startsWith( "lvl" ) );
-	raidRooms.sort( function ( a, b ) {
-		return b[ 1 ].length - a[ 1 ].length;
-	} );
-	return raidRooms[ 0 ][ 0 ] + ": " + raidRooms[ 0 ][ 1 ].length;
+	try {
+		let raidRooms = Object.entries( io.sockets.adapter.rooms ).filter( roomSet => roomSet[ 0 ].startsWith( "lvl" ) );
+		if ( raidRooms.length > 0 ) {
+			raidRooms.sort( function ( a, b ) {
+				return b[ 1 ].length - a[ 1 ].length;
+			} );
+			return raidRooms[ 0 ][ 0 ] + ": " + raidRooms[ 0 ][ 1 ].length;
+		}
+	} catch ( err ) {
+		console.log( "Error getting top room" );
+	}
 }
 
 var topRoom = Probe.metric( {
