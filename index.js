@@ -11,6 +11,37 @@ const bodyParser = require( 'body-parser' );
 const compression = require( 'compression' );
 const morgan = require( 'morgan' );
 const moment = require( 'moment' );
+
+const Probe = require( 'pmx' ).probe();
+var openSockets = Probe.metric( {
+	name: 'Open Sockets',
+	value: function () {
+		return Object.keys( io.sockets.sockets ).length;
+	}
+} );
+
+function GetTopRoom() {
+	let raidRooms = Object.entries( io.sockets.adapter.rooms ).filter( roomSet => roomSet[ 0 ].startsWith( "lvl" ) );
+	raidRooms.sort( function ( a, b ) {
+		return b[ 1 ].length - a[ 1 ].length;
+	} );
+	return raidRooms[ 0 ][ 0 ] + ": " + raidRooms[ 0 ][ 1 ].length;
+}
+
+var topRoom = Probe.metric( {
+	name: 'Top Room',
+	agg_type: 'none',
+	value: function () {
+		return GetTopRoom();
+	}
+} );
+
+var tweetsPerMin = Probe.meter( {
+	name: 'tweets/min',
+	samples: 1,
+	timeframe: 60
+} );
+
 const port = process.env.PORT || 80;
 let io = null;
 let lastTweet = new Date().getTime();
@@ -237,6 +268,7 @@ function StartTwitterStream( options ) {
 				}
 				lastTweet = new Date().getTime();
 				io.to( raidInfo.room ).emit( 'tweet', raidInfo );
+				tweetsPerMin.mark();
 			}
 		} );
 
