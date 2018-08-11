@@ -214,7 +214,6 @@ function IsValidTweet( data ) {
 }
 
 function StartTwitterStream( options ) {
-	console.log( "Starting Twitter Stream" );
 	try {
 		twitterClient = new twitter( options );
 		twitterClient.on( 'tweet', function ( tweet ) {
@@ -303,5 +302,4 @@ io.sockets.on( 'connection', function ( socket ) {
 		} );
 } );
 
-console.log( "Starting GBF Raiders on Port " + port );
 StartTwitterStream( twitterOptions );

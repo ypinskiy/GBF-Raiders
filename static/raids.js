@@ -387,7 +387,7 @@ function UpdateRaidRow( data ) {
 		}
 		raids.splice( raids.indexOf( data ), 1 );
 	} else {
-		document.getElementById( data.id + '-time' ).textContent  = data.timer + ' secs ago';
+		document.getElementById( data.id + '-time' ).textContent = data.timer + ' secs ago';
 	}
 }
 
@@ -589,6 +589,9 @@ function LoadSavedRaids() {
 
 function AddSelectedRaid( room ) {
 	console.log( "Adding selected raid: " + room );
+	if ( document.getElementById( "welcome" ) ) {
+		document.getElementById( "container" ).removeChild( document.getElementById( "welcome" ) );
+	}
 	if ( settings.layout.orientation === "horizontal" ) {
 		if ( document.getElementById( room ) === null ) {
 			if ( document.getElementById( "selected-raids" ).innerHTML === "No raids selected. Please search for a raid in the search bar above." ) {

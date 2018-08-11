@@ -1,4 +1,4 @@
-const version = '0.0.15';
+const version = '0.0.16';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
