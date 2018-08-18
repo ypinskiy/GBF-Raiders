@@ -284,20 +284,20 @@ function StartTwitterStream( options ) {
 
 		twitterClient.on( 'error', function ( error ) {
 			errors.push( { date: new Date().toDateString(), time: new Date().toTimeString(), message: "Twitter Client Error", data: error } );
-			console.log( "Twitter Client Error", error.stack );
+			console.log( "Twitter Client Error", JSON.stringify( error ) );
 			twitterClient.abort();
 		} );
 
 		twitterClient.on( 'reconnect', function ( reconnect ) {
 			errors.push( { date: new Date().toDateString(), time: new Date().toTimeString(), message: "Twitter Client Reconnect", data: reconnect } );
-			console.log( "Twitter Client Reconnect", reconnect.stack );
+			console.log( "Twitter Client Reconnect", JSON.stringify( reconnect ) );
 			twitterClient.reconnect();
 		} );
 
 		twitterClient.track( keywords );
 	} catch ( error ) {
 		errors.push( { date: new Date().toDateString(), time: new Date().toTimeString(), message: "Twitter Client Creation Error", data: error } );
-		console.log( "Twitter Client Error", error.stack );
+		console.log( "Twitter Client Error", JSON.stringify( error ) );
 		twitterClient.abort();
 	}
 }
