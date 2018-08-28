@@ -406,6 +406,9 @@ window.addEventListener( 'load', function () {
 		}
 
 		socket = io.connect( '/' );
+		document.getElementById( "connection-status" ).classList.remove( "red" );
+		document.getElementById( "connection-status" ).classList.add( "green" );
+		document.getElementById( "connection-status-value" ).innerHTML = "UP";
 		socket.on( 'tweet', function ( data ) {
 			console.log( "Tweet recieved: " + data.room );
 			document.getElementById( "connection-status" ).classList.remove( "red" );
