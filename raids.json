@@ -1270,4 +1270,20 @@
 	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare100.png",
 	"category": "Unite and Fight",
 	"element": "Water"
+},
+{
+	"english": "Lvl 30 Pisard",
+	"japanese": "Lv30 ピーサード",
+	"room": "lvl30pisard",
+	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_Very_Hard.png",
+	"category": "Current Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 50 Pisard",
+	"japanese": "Lv50 ピーサード",
+	"room": "lvl50pisard",
+	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_Extreme.png",
+	"category": "Current Event",
+	"element": "Dark"
 }]
