@@ -387,7 +387,9 @@ function UpdateRaidRow( data ) {
 		}
 		raids.splice( raids.indexOf( data ), 1 );
 	} else {
-		document.getElementById( data.id + '-time' ).textContent = data.timer + ' secs ago';
+		if (settings.layout.infoLevel !== "compact") {
+			document.getElementById( data.id + '-time' ).textContent = data.timer + ' secs ago';
+		}
 	}
 }
 

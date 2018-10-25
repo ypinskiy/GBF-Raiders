@@ -1276,7 +1276,7 @@
 	"japanese": "Lv30 ピーサード",
 	"room": "lvl30pisard",
 	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_Very_Hard.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
 },
 {
@@ -1284,6 +1284,30 @@
 	"japanese": "Lv50 ピーサード",
 	"room": "lvl50pisard",
 	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_Extreme.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Dark"
+},
+{
+	"english": "Lvl 60 Desperate Pisard",
+	"japanese": "Lv60 捨て身のピーサード",
+	"room": "lvl60desperatepisard",
+	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_ExtremePlus.png",
+	"category": "Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 30 Nagelwolf",
+	"japanese": "Lv30 ナーゲルヴォルフ",
+	"room": "lvl30nagelwolf",
+	"image": "/assets/raids/BattleRaid_Divergent_Knighthoods_Raid_Very_Hard.png",
+	"category": "Current Event",
+	"element": "Earth"
+},
+{
+	"english": "Lvl 50 Bone Dragon",
+	"japanese": "Lv50 ボーンドラゴン",
+	"room": "lvl50bonedragon",
+	"image": "/assets/raids/BattleRaid_Divergent_Knighthoods_Raid_Extreme.png",
+	"category": "Current Event",
+	"element": "Earth"
 }]
