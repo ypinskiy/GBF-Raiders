@@ -1300,7 +1300,7 @@
 	"japanese": "Lv30 ナーゲルヴォルフ",
 	"room": "lvl30nagelwolf",
 	"image": "/assets/raids/BattleRaid_Divergent_Knighthoods_Raid_Very_Hard.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Earth"
 },
 {
@@ -1308,6 +1308,30 @@
 	"japanese": "Lv50 ボーンドラゴン",
 	"room": "lvl50bonedragon",
 	"image": "/assets/raids/BattleRaid_Divergent_Knighthoods_Raid_Extreme.png",
-	"category": "Current Event",
+	"category": "Event",
 	"element": "Earth"
+},
+{
+	"english": "Lvl 90 Freyr",
+	"japanese": "Lv90 フレイ",
+	"room": "lvl90freyr",
+	"image": "/assets/raids/BattleRaid_Freyr_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 95 Freyr",
+	"japanese": "Lv95 フレイ",
+	"room": "lvl95freyr",
+	"image": "/assets/raids/BattleRaid_Freyr_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 100 Freyr",
+	"japanese": "Lv100 フレイ",
+	"room": "lvl100freyr",
+	"image": "/assets/raids/BattleRaid_Freyr_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
 }]
