@@ -1246,4 +1246,92 @@
 	"image": "/assets/raids/BattleRaid_Typhon_Nightmare100.png",
 	"category": "Unite and Fight",
 	"element": "Dark"
+},
+{
+	"english": "Lvl 90 Snow White",
+	"japanese": "Lv90 スノウホワイト",
+	"room": "lvl90snowwhite",
+	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Water"
+},
+{
+	"english": "Lvl 95 Snow White",
+	"japanese": "Lv95 スノウホワイト",
+	"room": "lvl95snowwhite",
+	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Water"
+},
+{
+	"english": "Lvl 100 Snow White",
+	"japanese": "Lv100 スノウホワイト",
+	"room": "lvl100snowwhite",
+	"image": "/assets/raids/BattleRaid_Snow_White_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Water"
+},
+{
+	"english": "Lvl 30 Pisard",
+	"japanese": "Lv30 ピーサード",
+	"room": "lvl30pisard",
+	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_Very_Hard.png",
+	"category": "Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 50 Pisard",
+	"japanese": "Lv50 ピーサード",
+	"room": "lvl50pisard",
+	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_Extreme.png",
+	"category": "Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 60 Desperate Pisard",
+	"japanese": "Lv60 捨て身のピーサード",
+	"room": "lvl60desperatepisard",
+	"image": "/assets/raids/BattleRaid_Pretty_Cure_Memories_of_the_Sky_Raid_ExtremePlus.png",
+	"category": "Event",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 30 Nagelwolf",
+	"japanese": "Lv30 ナーゲルヴォルフ",
+	"room": "lvl30nagelwolf",
+	"image": "/assets/raids/BattleRaid_Divergent_Knighthoods_Raid_Very_Hard.png",
+	"category": "Event",
+	"element": "Earth"
+},
+{
+	"english": "Lvl 50 Bone Dragon",
+	"japanese": "Lv50 ボーンドラゴン",
+	"room": "lvl50bonedragon",
+	"image": "/assets/raids/BattleRaid_Divergent_Knighthoods_Raid_Extreme.png",
+	"category": "Event",
+	"element": "Earth"
+},
+{
+	"english": "Lvl 90 Freyr",
+	"japanese": "Lv90 フレイ",
+	"room": "lvl90freyr",
+	"image": "/assets/raids/BattleRaid_Freyr_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 95 Freyr",
+	"japanese": "Lv95 フレイ",
+	"room": "lvl95freyr",
+	"image": "/assets/raids/BattleRaid_Freyr_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 100 Freyr",
+	"japanese": "Lv100 フレイ",
+	"room": "lvl100freyr",
+	"image": "/assets/raids/BattleRaid_Freyr_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
 }]

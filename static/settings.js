@@ -91,6 +91,7 @@ function CreateSettingsModalFrame() {
 	result += '<div class="item" data-value="beeps">Beeps Appear</div>';
 	result += '<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>';
 	result += '<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>';
+	result += '<div class="item" data-value="funf-dancho">GBF - Funf - DANCHO!</div>';
 	result += '<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>';
 	result += '<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>';
 	result += '<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>';
@@ -227,6 +228,7 @@ function SetupControls() {
 		var clipboard = new Clipboard( '.copy-div', {
 			text: function ( trigger ) {
 				console.log( "Copying to clipboard: " + trigger.dataset.clipboard );
+				toastr["success"]("Raid ID copied to clipboard.");
 				return trigger.dataset.clipboard;
 			}
 		} );
@@ -552,17 +554,6 @@ function SetupControls() {
 				setFluidWidth: false,
 				lastResort: "bottom left",
 				hoverable: true,
-				jitter: 50
-			} );
-
-		$( '.donate' )
-			.popup( {
-				inline: true,
-				position: "bottom left",
-				perserve: true,
-				setFluidWidth: false,
-				lastResort: "bottom left",
-				hoverable: false,
 				jitter: 50
 			} );
 
