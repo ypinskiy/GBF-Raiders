@@ -84,7 +84,7 @@
 	margin: 0px;
 	display: grid;
 	grid-gap: 5px;
-	grid-template-columns: repeat(auto-fill, 315px);
+	grid-template-columns: repeat(auto-fill, 320px);
 	grid-auto-rows: 40px;
 }
 

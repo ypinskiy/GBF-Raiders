@@ -1,4 +1,4 @@
-const isChrome = !!window.chrome && !!window.chrome.webstore;
+const isChrome = !!window.chrome;
 if ( isChrome && document.getElementById( 'container' ) ) {
 	fetch( "chrome-extension://fgpokpknehglcioijejfeebigdnbnokj/content/api.html" ).then( function ( response ) {
 		if ( !response.ok ) {
@@ -12,6 +12,7 @@ if ( isChrome && document.getElementById( 'container' ) ) {
 		console.log( `Error finding Viramate extension on page load: ${err.message}`, err );
 	} );
 } else if ( !isChrome ) {
+	console.log("Detected browser is not Chrome. Canceling Viramate integration and changing to preloading css...");
 	const preloadedLinks = [ "https://fonts.googleapis.com/css?family=Open+Sans", "semantic/dist/semantic.min.css", "darken.css", "sliders.css", "main.css" ];
 	for ( let i = 0; i < preloadedLinks.length; i++ ) {
 		let preloadLink = document.createElement( "link" );
