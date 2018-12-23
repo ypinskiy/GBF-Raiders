@@ -1342,4 +1342,20 @@
 	"image": "/assets/raids/BattleRaid_Huanglong_and_Qilin_Impossible.png",
 	"category": "Unite and Fight",
 	"element": "Light"
+},
+{
+	"english": "Lvl 150 Tiamat Malice",
+	"japanese": "Lv150 ティアマト・マリス",
+	"room": "lvl150tiamatmalice",
+	"image": "/assets/raids/BattleRaid_Tiamat_Malice_Impossible.png",
+	"category": "Impossible Nightmare",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 200 Akasha",
+	"japanese": "Lv200 アーカーシャ",
+	"room": "lvl200akasha",
+	"image": "/assets/raids/BattleRaid_Akasha_Impossible.png",
+	"category": "Impossible Nightmare",
+	"element": "Light"
 }]
