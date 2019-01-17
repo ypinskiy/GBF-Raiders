@@ -1358,4 +1358,52 @@
 	"image": "/assets/raids/BattleRaid_Akasha_Impossible.png",
 	"category": "Impossible Nightmare",
 	"element": "Light"
+},
+{
+	"english": "Lvl 50 Mahisha",
+	"japanese": "Lv50 マヒシャ",
+	"room": "lvl50mahisha",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_Very_Hard.png",
+	"category": "Unite and Fight",
+	"element": "Light"
+},
+{
+	"english": "Lvl 60 Mahisha",
+	"japanese": "Lv60 マヒシャ",
+	"room": "lvl60mahisha",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_Extreme.png",
+	"category": "Unite and Fight",
+	"element": "Light"
+},
+{
+	"english": "Lvl 75 Supergigante",
+	"japanese": "Lv75 スーペルヒガンテ",
+	"room": "lvl75supergigante",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png",
+	"category": "Unite and Fight",
+	"element": "Light"
+},
+{
+	"english": "Lvl 90 Vortex Dragon",
+	"japanese": "Lv90 雷霆公",
+	"room": "lvl90vortexdragon",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png",
+	"category": "Unite and Fight",
+	"element": "Light"
+},
+{
+	"english": "Lvl 95 Vortex Dragon",
+	"japanese": "Lv95 雷霆公",
+	"room": "lvl95vortexdragon",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png",
+	"category": "Unite and Fight",
+	"element": "Light"
+},
+{
+	"english": "Lvl 100 Vortex Dragon",
+	"japanese": "Lv100 雷霆公",
+	"room": "lvl100vortexdragon",
+	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png",
+	"category": "Unite and Fight",
+	"element": "Light"
 }]
