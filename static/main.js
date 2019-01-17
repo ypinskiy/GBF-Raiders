@@ -413,7 +413,7 @@ window.addEventListener( 'load', function () {
 	window.addEventListener( 'message', onMessage, false );
 
 	console.log( "Getting raid configs..." );
-	fetch( "/getraids" ).then( function ( response ) {
+	fetch( "/getraids", { cache: 'no-store' } ).then( function ( response ) {
 		return response.json();
 	} ).then( function ( raidResults ) {
 		console.log( "Raid configs recieved." );
@@ -481,11 +481,18 @@ window.addEventListener( 'load', function () {
 					CheckConnectionStatus();
 				}
 			}, 10000 );
+			setInterval( function () {
+				fetch( "/getraids", { cache: 'no-store' } ).then( function ( response ) {
+					return response.json();
+				} ).then( function ( raidResults ) {
+					console.log( "Raid configs recieved." );
+					raidConfigs = raidResults;
+				} );
+			}, 7200000 );
 			console.log( "Setup of page intervals complete." );
 		} catch ( err ) {
 			console.log( `Error setting up page interval: ${err.message}`, err );
 		}
-
 	} );
 } );
 
