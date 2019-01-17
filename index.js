@@ -199,17 +199,17 @@ if ( cluster.isMaster ) {
 		const port = process.env.PORT2 || 8080;
 		let server = require( 'http' ).createServer();
 		server.listen( port );
-		if ( process.env.sslEnabled === "true" ) {
-			const options = {
-				cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
-				key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
-			};
-			let sslServer = https.createServer( options );
-			sslServer.listen( 443 );
-			io = require( 'socket.io' ).listen( sslServer );
-		} else {
+		// if ( process.env.sslEnabled === "true" ) {
+		// 	const options = {
+		// 		cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
+		// 		key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
+		// 	};
+		// 	let sslServer = https.createServer( options );
+		// 	sslServer.listen( 443 );
+		// 	io = require( 'socket.io' ).listen( sslServer );
+		// } else {
 			io = require( 'socket.io' ).listen( server );
-		}
+		// }
 		io.sockets.on( 'connection', function ( socket ) {
 			socket.on( 'subscribe',
 				function ( data ) {
