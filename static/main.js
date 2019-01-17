@@ -45,7 +45,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "4.4",
+	version: "4.5",
 	newsSeen: false,
 	cardSlots: 8,
 	disablePopups: false,
@@ -82,6 +82,12 @@ var statistics = {
 		"individual": []
 	}
 };
+
+function ResetSite() {
+	localStorage.clear();
+	window.history.pushState( {}, document.title, "/" );
+	location.reload( true );
+}
 
 function CheckConnectionStatus() {
 	if ( socket.connected && wasDown ) {
@@ -215,7 +221,21 @@ function ChangeButtonStatus( event, id ) {
 
 function onMessage( evt ) {
 	console.log( "Viramate message recieved." );
-	if ( evt.data.type !== "result" ) {
+	if ( evt.data.type === "apiEvent:actionResult" ) {
+		if ( FindRaid( evt.data.combatState.raidCode ) ) {
+			console.log( "Raid exists on page, parsing and sending raid health..." );
+			let mainEnemies = evt.data.combatState.enemies.filter( e => e.hasModeGauge == 1 );
+			socket.emit( 'raid-health-submit', {
+				room: FindRaid( evt.data.combatState.raidCode ).room,
+				id: evt.data.combatState.raidCode,
+				currentHP: mainEnemies[ 0 ].hp,
+				maxHP: mainEnemies[ 0 ].hpMax,
+				percent: ( ( mainEnemies[ 0 ].hp / mainEnemies[ 0 ].hpMax ) * 100 ).toFixed( 2 )
+			} );
+		} else {
+			console.log( "Raid does not exists on page, not sending raid health." );
+		}
+	} else if ( evt.data.type !== "result" ) {
 		console.log( "Viramate message not a result." );
 		return;
 	} else {
@@ -405,7 +425,7 @@ window.addEventListener( 'load', function () {
 			console.log( `Error setting up controls: ${err.message}`, err );
 		}
 
-		socket = io.connect( '/' );
+		socket = io.connect( ':8080/' );
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
@@ -430,6 +450,10 @@ window.addEventListener( 'load', function () {
 				document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 				noTwitter = true;
 			}
+		} );
+		socket.on( 'raid-health', function ( data ) {
+			console.log( "Raid Health recieved: " + data.room, data );
+			UpdateRaidHealth( data );
 		} );
 		socket.on( 'raid-over', function ( data ) {
 			console.log( "Raid Over recieved: " + data.room, data );

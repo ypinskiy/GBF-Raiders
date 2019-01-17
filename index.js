@@ -5,8 +5,8 @@ const st = require( 'st' );
 const helmet = require( 'helmet' );
 const bodyParser = require( 'body-parser' );
 const compression = require( 'compression' );
-const morgan = require( 'morgan' );
-const moment = require( 'moment' );
+//const morgan = require( 'morgan' );
+//const moment = require( 'moment' );
 const fs = require( 'fs' );
 const cluster = require( 'cluster' );
 const OS = require( 'os' );
@@ -14,6 +14,7 @@ const raidConfigs = require( './raids.json' );
 
 if ( cluster.isMaster ) {
 	console.log( "Starting cluster master..." );
+	let io = null;
 
 	function SendToWorkers( message ) {
 		for ( const id in cluster.workers ) {
@@ -82,8 +83,8 @@ if ( cluster.isMaster ) {
 			language: "JP",
 			message: "No Twitter Message."
 		};
-		let splitString = data.text.split( '\n' );
-		let tempMessage = splitString[ 1 ];
+		//let splitString = data.text.split( '\n' );
+		//let tempMessage = splitString[ 1 ];
 		if ( data.text.indexOf( ":" ) > 9 ) {
 			result.message = data.text.substr( 0, data.text.indexOf( ":" ) - 10 );
 		}
@@ -132,6 +133,7 @@ if ( cluster.isMaster ) {
 			console.log( `Starting twitter stream, using backup options: ${usingTwitterBackup}` );
 			twitterClient = new twitter( options );
 			twitterClient.on( 'tweet', function ( tweet ) {
+				console.log( "Tweet recieved: " + tweet.id );
 				if ( IsValidTweet( tweet ) ) {
 					let raidInfo = {
 						id: GetRaidID( tweet ),
@@ -151,7 +153,8 @@ if ( cluster.isMaster ) {
 						raidInfo.language = GetTweetLanguage( tweet );
 					}
 					lastTweet = new Date().getTime();
-					SendToWorkers( { type: 'tweet', data: raidInfo } );
+					//SendToWorkers( { type: 'tweet', data: raidInfo } );
+					io.to( raidInfo.room ).emit( 'tweet', raidInfo );
 				}
 			} );
 			twitterClient.on( 'error', function ( error ) {
@@ -191,10 +194,47 @@ if ( cluster.isMaster ) {
 			}
 		}
 	}, 60000 );
+	try {
+		console.log( "Setting up websocket server..." );
+		const port = process.env.PORT2 || 8080;
+		let server = require( 'http' ).createServer();
+		server.listen( port );
+		if ( process.env.sslEnabled === "true" ) {
+			const options = {
+				cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
+				key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
+			};
+			let sslServer = https.createServer( options );
+			sslServer.listen( 443 );
+			io = require( 'socket.io' ).listen( sslServer );
+		} else {
+			io = require( 'socket.io' ).listen( server );
+		}
+		io.sockets.on( 'connection', function ( socket ) {
+			socket.on( 'subscribe',
+				function ( data ) {
+					socket.join( data.room );
+				} );
+			socket.on( 'raid-over',
+				function ( data ) {
+					io.to( data.room ).emit( 'raid-over', data );
+				} );
+			socket.on( 'raid-health-submit',
+				function ( data ) {
+					io.to( data.room ).emit( 'raid-health', data );
+				} );
+			socket.on( 'unsubscribe',
+				function ( data ) {
+					socket.leave( data.room );
+				} );
+		} );
+	} catch ( error ) {
+		console.log( "Error setting up websockets: ", error );
+	}
 	StartTwitterStream( twitterOptions );
 } else {
 	const port = process.env.PORT || 80;
-	let io = null;
+	//	let io = null;
 	let app = express();
 	let server = require( 'http' ).createServer( app );
 	server.listen( port );
@@ -205,20 +245,20 @@ if ( cluster.isMaster ) {
 		};
 		let sslServer = https.createServer( options, app );
 		sslServer.listen( 443 );
-		io = require( 'socket.io' ).listen( sslServer );
+		//		io = require( 'socket.io' ).listen( sslServer );
 	} else {
-		io = require( 'socket.io' ).listen( server );
+		//		io = require( 'socket.io' ).listen( server );
 	}
-	process.on( 'message', ( msg ) => {
-		//console.log( `Worker ${cluster.worker.id} recieved a ${msg.type} message from master...` );
-		if ( msg.type === 'tweet' ) {
-			io.to( msg.data.room ).emit( 'tweet', msg.data );
-		} else if ( msg.type === 'warning' ) {
-			if ( msg.data === 'twitter' ) {
-				io.emit( 'warning', { type: "twitter" } );
-			}
-		}
-	} );
+	// process.on( 'message', ( msg ) => {
+	// 	//console.log( `Worker ${cluster.worker.id} recieved a ${msg.type} message from master...` );
+	// 	if ( msg.type === 'tweet' ) {
+	// 		io.to( msg.data.room ).emit( 'tweet', msg.data );
+	// 	} else if ( msg.type === 'warning' ) {
+	// 		if ( msg.data === 'twitter' ) {
+	// 			io.emit( 'warning', { type: "twitter" } );
+	// 		}
+	// 	}
+	// } );
 	app.set( 'json spaces', 0 );
 	app.use( helmet() );
 	//app.use( morgan( 'combined' ) );
@@ -255,18 +295,4 @@ if ( cluster.isMaster ) {
 		},
 		passthrough: true
 	} ) );
-	io.sockets.on( 'connection', function ( socket ) {
-		socket.on( 'subscribe',
-			function ( data ) {
-				socket.join( data.room );
-			} );
-		socket.on( 'raid-over',
-			function ( data ) {
-				io.to( data.room ).emit( 'raid-over', data );
-			} );
-		socket.on( 'unsubscribe',
-			function ( data ) {
-				socket.leave( data.room );
-			} );
-	} );
 }

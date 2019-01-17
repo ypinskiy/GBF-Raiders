@@ -103,6 +103,10 @@ function CreateHorizontalNormalRaidRow( data ) {
 	idTD.id = data.id + '-label';
 	idTD.classList.add( "center", "aligned" );
 	idTD.innerHTML = data.id;
+	var healthTD = document.createElement( "td" );
+	healthTD.id = data.id + '-health';
+	healthTD.classList.add( "center", "aligned" );
+	healthTD.innerHTML = "Unknown";
 	var timeTD = document.createElement( "td" );
 	timeTD.id = data.id + '-time';
 	timeTD.classList.add( "center", "aligned" );
@@ -125,6 +129,7 @@ function CreateHorizontalNormalRaidRow( data ) {
 		joinTD.appendChild( joinButton );
 		newLine.appendChild( imageTD );
 		newLine.appendChild( idTD );
+		newLine.appendChild( healthTD );
 		newLine.appendChild( timeTD );
 		newLine.appendChild( joinTD );
 		joinButton.addEventListener( "click", function ( event ) {
@@ -387,7 +392,7 @@ function UpdateRaidRow( data ) {
 		}
 		raids.splice( raids.indexOf( data ), 1 );
 	} else {
-		if (settings.layout.infoLevel !== "compact") {
+		if ( settings.layout.infoLevel !== "compact" ) {
 			document.getElementById( data.id + '-time' ).textContent = data.timer + ' secs ago';
 		}
 	}
@@ -449,7 +454,7 @@ function CreateHorizontalNormalRaidTable() {
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
-	raidTable.innerHTML = '<thead><tr><th class="center aligned eight wide">Raid Name</th><th class="center aligned single line two wide">Raid ID</th><th class="center aligned single line three wide">Time Tweeted</th><th class="center aligned single line three wide">Join Raid</th></tr></thead>';
+	raidTable.innerHTML = '<thead><tr><th class="center aligned six wide">Name</th><th class="center aligned single line two wide">ID</th><th class="center aligned single line two wide">Health</th><th class="center aligned single line three wide">Time Tweeted</th><th class="center aligned single line three wide">Join Raid</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
 	try {
@@ -864,6 +869,10 @@ function AddSelectedVerticalFullRaid( raid ) {
 	} catch ( error ) {
 		console.log( "Error adding Vertical Full raid: " + error );
 	}
+}
+
+function UpdateRaidHealth( data ) {
+	document.getElementById( data.id + '-health' ).textContent = data.percent + ' %';
 }
 
 function CalculatePoints( room, isFull ) {

@@ -47,57 +47,57 @@
 			<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>
 			<span id="desktop-notif-size-control" class="input-control-disabled">
 				<span class="input-title">Desktop Notification Size</span>
-			<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
-				<input id="desktop-notif-size-input" type="hidden" name="formatting" value="large">
-				<i class="dropdown icon"></i>
-				<div class="default text">Notif Size</div>
-				<div class="menu">
-					<div class="item" data-value="small">Small</div>
-					<div class="item" data-value="large">Large</div>
+				<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
+					<input id="desktop-notif-size-input" type="hidden" name="formatting" value="large">
+					<i class="dropdown icon"></i>
+					<div class="default text">Notif Size</div>
+					<div class="menu">
+						<div class="item" data-value="small">Small</div>
+						<div class="item" data-value="large">Large</div>
+					</div>
 				</div>
-			</div>
 			</span>
 			<button id="enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
 			<span id="sound-choice-control" class="input-control-disabled">
 				<span class="input-title">Sound Notification Choice</span>
-			<div id="sound-choice-dropdown" class="ui compact selection disabled dropdown">
-				<input id="sound-choice-input" type="hidden" name="formatting" value="beeps">
-				<i class="dropdown icon"></i>
-				<div class="default text">Sound Choice</div>
-				<div class="menu">
-					<div class="item" data-value="beeps">Beeps Appear</div>
-					<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>
-					<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
-					<div class="item" data-value="funf-dancho">GBF - Funf - DANCHO</div>
-					<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
-					<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>
-					<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>
-					<div class="item" data-value="alarm-submarine">Alarm - Submarine</div>
-					<div class="item" data-value="scifi-sweep">Sci Fi Sweep</div>
-					<div class="item" data-value="female-gogogo">Female - "Go Go Go!"</div>
-					<div class="item" data-value="male-gogogo">Male - "Go Go Go!"</div>
-					<div class="item" data-value="female-hurryup">Female - "Hurry Up!"</div>
-					<div class="item" data-value="male-hurryup">Male - "Hurry Up!"</div>
-					<div class="item" data-value="jingle-nes">Jingle - NES</div>
-					<div class="item" data-value="jingle-sax">Jingle - Sax</div>
-					<div class="item" data-value="jingle-steel">Jingle - Steel Drum</div>
-					<div class="item" data-value="jingle-steel2">Jingle - Steel Drum 2</div>
-					<div class="item" data-value="zap-3tone">Zap - Three Tone</div>
-					<div class="item" data-value="zap-2tone">Jingle - Two Tone</div>
-					<div class="item" data-value="magic-spell">Magic Spell</div>
-					<div class="item" data-value="custom">Custom</div>
+				<div id="sound-choice-dropdown" class="ui compact selection disabled dropdown">
+					<input id="sound-choice-input" type="hidden" name="formatting" value="beeps">
+					<i class="dropdown icon"></i>
+					<div class="default text">Sound Choice</div>
+					<div class="menu">
+						<div class="item" data-value="beeps">Beeps Appear</div>
+						<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>
+						<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
+						<div class="item" data-value="funf-dancho">GBF - Funf - DANCHO</div>
+						<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
+						<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>
+						<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>
+						<div class="item" data-value="alarm-submarine">Alarm - Submarine</div>
+						<div class="item" data-value="scifi-sweep">Sci Fi Sweep</div>
+						<div class="item" data-value="female-gogogo">Female - "Go Go Go!"</div>
+						<div class="item" data-value="male-gogogo">Male - "Go Go Go!"</div>
+						<div class="item" data-value="female-hurryup">Female - "Hurry Up!"</div>
+						<div class="item" data-value="male-hurryup">Male - "Hurry Up!"</div>
+						<div class="item" data-value="jingle-nes">Jingle - NES</div>
+						<div class="item" data-value="jingle-sax">Jingle - Sax</div>
+						<div class="item" data-value="jingle-steel">Jingle - Steel Drum</div>
+						<div class="item" data-value="jingle-steel2">Jingle - Steel Drum 2</div>
+						<div class="item" data-value="zap-3tone">Zap - Three Tone</div>
+						<div class="item" data-value="zap-2tone">Jingle - Two Tone</div>
+						<div class="item" data-value="magic-spell">Magic Spell</div>
+						<div class="item" data-value="custom">Custom</div>
+					</div>
 				</div>
-			</div>
 			</span>
 			<span id="sound-input-control" class="input-control-disabled">
 				<span class="input-title">Choose Local Audio File</span>
-			<div class="ui input">
-				<input id="local-file-input" type="file" accept="audio/*">
-			</div>
+				<div class="ui input">
+					<input id="local-file-input" type="file" accept="audio/*">
+				</div>
 			</span>
 			<span id="sound-volume-control" class="slider-control-disabled">
 				<span class="slider-title">Sound Notification Volume</span>
-			<input id="sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled>
+				<input id="sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled>
 			</span>
 		</div>
 		<div class="ui bottom attached tab segment" data-tab="layout-settings-tab">
@@ -108,44 +108,44 @@
 			</div>
 			<span id="vertical-stacking-control" class="input-control-disabled">
 				<span class="input-title">Vertical Layout</span>
-			<div id="vertical-stacking-dropdown" class="ui disabled compact selection dropdown">
-				<input id="vertical-stacking-input" type="hidden" name="formatting" value="row">
-				<i class="dropdown icon"></i>
-				<div class="default text">Vertical Layout</div>
-				<div class="menu">
-					<div class="item" data-value="stacking">Stacking</div>
-					<div class="item" data-value="row">Single Row</div>
+				<div id="vertical-stacking-dropdown" class="ui disabled compact selection dropdown">
+					<input id="vertical-stacking-input" type="hidden" name="formatting" value="row">
+					<i class="dropdown icon"></i>
+					<div class="default text">Vertical Layout</div>
+					<div class="menu">
+						<div class="item" data-value="stacking">Stacking</div>
+						<div class="item" data-value="row">Single Row</div>
+					</div>
 				</div>
-			</div>
 			</span>
 			<span class="input-control">
-					<span class="input-title">Info Level</span>
-			<div id="info-level" class="ui compact selection dropdown">
-				<input id="info-level-input" type="hidden" name="formatting" value="normal">
-				<i class="dropdown icon"></i>
-				<div class="default text">Info Level</div>
-				<div class="menu">
-					<div class="item" data-value="compact">Compact</div>
-					<div class="item" data-value="normal">Normal</div>
-					<div class="item" data-value="full">Full</div>
+				<span class="input-title">Info Level</span>
+				<div id="info-level" class="ui compact selection dropdown">
+					<input id="info-level-input" type="hidden" name="formatting" value="normal">
+					<i class="dropdown icon"></i>
+					<div class="default text">Info Level</div>
+					<div class="menu">
+						<div class="item" data-value="compact">Compact</div>
+						<div class="item" data-value="normal">Normal</div>
+						<div class="item" data-value="full">Full</div>
+					</div>
 				</div>
-			</div>
 			</span>
 		</div>
 		<div class="ui bottom attached tab segment" data-tab="misc-settings-tab">
 			<span class="input-control">
 				<span class="input-title">Remove raids after</span>
-			<div class="ui input input-text">
-				<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
-			</div>
-			<span class="input-footer">seconds</span>
+				<div class="ui input input-text">
+					<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
+				</div>
+				<span class="input-footer">seconds</span>
 			</span>
 			<span class="input-control">
-					<span class="input-title">Start removing raids after</span>
-			<div class="ui input input-text">
-				<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
-			</div>
-			<span class="input-footer">results</span>
+				<span class="input-title">Start removing raids after</span>
+				<div class="ui input input-text">
+					<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
+				</div>
+				<span class="input-footer">results</span>
 			</span>
 			<span class="input-control">
 				<div id="toolbar-shrinker" class="ui checkbox">
@@ -165,20 +165,20 @@
 			<span class="input-control">
 				<div id="join-disable" class="ui checkbox">
 					<label>Disable Already Joined Raids</label>
-					<input id="join-disable-input" type="checkbox"  tabindex="0" class="hidden">
+					<input id="join-disable-input" type="checkbox" tabindex="0" class="hidden">
 				</div>
 			</span>
 			<span class="input-control">
 				<div id="popup-disable" class="ui checkbox">
 					<label>Disable Status Popups</label>
-					<input id="popup-disable-input" type="checkbox"  tabindex="0" class="hidden">
+					<input id="popup-disable-input" type="checkbox" tabindex="0" class="hidden">
 				</div>
 			</span>
 			<span class="input-control">
 				<span class="input-title">Set Strike Time</span>
-			<div class="ui input">
-				<input type="time" step="60" id="time-picker">
-			</div>
+				<div class="ui input">
+					<input type="time" step="60" id="time-picker">
+				</div>
 			</span>
 		</div>
 	</div>
@@ -198,6 +198,7 @@
 						<li>If you want to browse the code of this site or are looking to host your own copy, head on over to <a href="https://github.com/ypinskiy/GBF-Raiders">the GitHub page</a> for the site.</li>
 						<li>If you have any questions about the site, are experiencing issues, or want to suggest new features, <a href="https://www.reddit.com/user/galaxymover/">send me a PM on Reddit.</a></li>
 						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
+						<li>Before sending a support message, try resetting the site! <button class="small red ui button reset" onclick="ResetSite()">Reset Site</button></li>
 					</ul>
 				</div>
 				<table id="connection-status" class="ui definition unstackable compact green table">
@@ -246,21 +247,37 @@
 		<div id="news-message" class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 12/23/2018
+				News - 1/16/2019 - RAID HEALTH BETA!
 			</div>
-			<p>Added Akasha and Tiamat Malice raids.</p>
+			<p>Thanks to the wonderful work done by <a href="https://www.reddit.com/user/kaelan_">u/kaelan_</a>, the creator of Viramate, the site now has the ability to get current health for some raids. I will start out with a beta to test how much this
+				will tax the site servers but here is the rundown:</p>
+			<ul>
+				<li>The raid health will only be shown in the Horizontal layout and the Normal info level for now</li>
+				<li>The server only gets the info if you have the game and my site open at the same time, no extension support yet</li>
+				<li>The server only gets the info when you start a turn in the raid. Sitting idle at the skill select or whatever doesn't update it</li>
+				<li>The server only gets the info if you are subbed to that raid in the raidfinder</li>
+				<li>The server only gets the info if you tweeted the raid and it has shown up in the raidfinder</li>
+			</ul>
+			<p>Obviously this is more accurate the more people use it and it will be more helpful in raids that aren't posted a lot so that the ones with info aren't pushed to the bottom by fresh raids.
+
+				Also, I added a button in the help popup to reset the site which should be the first thing you do now if there is an issue with the site, hopefully it will solve most peoples' problems caused by weird browser cache situations.</p>
 		</div>
 		<div id="welcome">
 			<h1>Welcome to GBFRaiders, a raid-finding website for Granblue Fantasy.</h1>
-			<p>Search for a raid in the text field above and watch them appear in real-time below. Click on the raid's row to copy the raid ID to the clipboard and paste it into the raid ID field in GBF. If you have the Chrome extension Viramate, you can enable the Web API in it's settings which will let you click the Join button by each raid to jump directly to the raid!</p>
+			<p>Search for a raid in the text field above and watch them appear in real-time below. Click on the raid's row to copy the raid ID to the clipboard and paste it into the raid ID field in GBF. If you have the Chrome extension Viramate, you can
+				enable the Web API in it's settings which will let you click the Join button by each raid to jump directly to the raid!</p>
 			<h2>Never Miss A Thing</h2>
-			<p>Setup desktop and audio notifications to be sure not to miss a single raid even while working on something else! Clicking on a desktop notification will copy a raid ID or directly join a raid just like when using the site. You can set custom audio notifications for even more uniqueness.</p>
+			<p>Setup desktop and audio notifications to be sure not to miss a single raid even while working on something else! Clicking on a desktop notification will copy a raid ID or directly join a raid just like when using the site. You can set custom
+				audio notifications for even more uniqueness.</p>
 			<h2>See Things The Way You Want</h2>
-			<p>Switch the layout mode to Vertical to have a separate column for each raid type with separate notification settings for each. Set the Info Level to control how much information about the raid is visible, either to save space or to see Twitter messages.</p>
+			<p>Switch the layout mode to Vertical to have a separate column for each raid type with separate notification settings for each. Set the Info Level to control how much information about the raid is visible, either to save space or to see Twitter
+				messages.</p>
 			<h2>Open Source</h2>
-			<p>The source code of this site can be found on <a href="https://github.com/ypinskiy/GBF-Raiders">GitHub</a>. Review it all you want, to see how things tick or to make sure your data is safe. Fork your own copy to run a custom version for yourself or your clan.</p>
+			<p>The source code of this site can be found on <a href="https://github.com/ypinskiy/GBF-Raiders">GitHub</a>. Review it all you want, to see how things tick or to make sure your data is safe. Fork your own copy to run a custom version for
+				yourself or your clan.</p>
 			<h2>Extensible</h2>
-			<p>GBFRaiders has a companion Chrome extension: <a href="https://chrome.google.com/webstore/detail/gbf-raiders-2-the-chrome/jhdcbkpphfaclidacgbnnaphoilhgipm">GBFRaiders 2</a>. Think of a simplified version of the site that works even when you don't have my main site open.</p>
+			<p>GBFRaiders has a companion Chrome extension: <a href="https://chrome.google.com/webstore/detail/gbf-raiders-2-the-chrome/jhdcbkpphfaclidacgbnnaphoilhgipm">GBFRaiders 2</a>. Think of a simplified version of the site that works even when you
+				don't have my main site open.</p>
 		</div>
 	</div>
 	<script src="utils/browsedetect.js"></script>
