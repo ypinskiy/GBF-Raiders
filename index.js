@@ -198,7 +198,7 @@ if ( cluster.isMaster ) {
 				console.log( "Twitter Client Restart Error", error );
 			}
 		}
-		for ( let i = storedRaidHealths.length; i >= 0; i-- ) {
+		for ( let i = storedRaidHealths.length - 1; i >= 0; i-- ) {
 			if ( new Date().getTime() - 600000 > storedRaidHealths[ i ].time ) {
 				storedRaidHealths.splice( i, 1 );
 			}
