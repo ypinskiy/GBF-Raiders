@@ -45,7 +45,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "4.6",
+	version: "4.7",
 	newsSeen: false,
 	cardSlots: 8,
 	disablePopups: false,
@@ -164,6 +164,12 @@ function ChangeButtonStatus( event, id ) {
 		document.getElementById( id + '-btn' ).innerHTML = 'Full Raid<i class="right users icon"></i>';
 		document.getElementById( id + '-btn' ).disabled = true;
 		FindRaid( id ).status = "error";
+	} else if ( event === "popup: You can only provide backup in up to three raid battles at once." ) {
+		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
+		document.getElementById( id + '-btn' ).classList.add( "yellow", "blocked" );
+		document.getElementById( id + '-btn' ).innerHTML = 'Pending Battles<i class="right help icon"></i>';
+		document.getElementById( id + '-btn' ).disabled = false;
+		FindRaid( id ).status = "error";
 	} else if ( event === "popup: The number that you entered doesn't match any battle." ) {
 		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
 		document.getElementById( id + '-btn' ).classList.remove( "negative" );
@@ -194,7 +200,6 @@ function ChangeButtonStatus( event, id ) {
 		document.getElementById( id + '-btn' ).classList.remove( "negative" );
 		document.getElementById( id + '-btn' ).classList.add( "yellow" );
 		document.getElementById( id + '-btn' ).innerHTML = 'Pending Battles<i class="right help icon"></i>';
-		document.getElementById( id + '-btn' ).disabled = true;
 		FindRaid( id ).status = "error";
 	} else if ( event === "already in this raid" ) {
 		document.getElementById( id + '-btn' ).classList.remove( "secondary" );
@@ -219,21 +224,37 @@ function ChangeButtonStatus( event, id ) {
 	}
 }
 
+function CompareRaidEnemyHealths( a, b ) {
+	return b.hpMax - a.hpMax;
+}
+
 function onMessage( evt ) {
+	if ( evt.data === null ) {
+		return;
+	}
 	console.log( "Viramate message recieved." );
 	if ( evt.data.type === "apiEvent:actionResult" ) {
-		if ( FindRaid( evt.data.combatState.raidCode ) ) {
-			console.log( "Raid exists on page, parsing and sending raid health..." );
-			let mainEnemies = evt.data.combatState.enemies.filter( e => e.hasModeGauge == 1 );
-			socket.emit( 'raid-health-submit', {
-				room: FindRaid( evt.data.combatState.raidCode ).room,
-				id: evt.data.combatState.raidCode,
-				currentHP: mainEnemies[ 0 ].hp,
-				maxHP: mainEnemies[ 0 ].hpMax,
-				percent: ( ( mainEnemies[ 0 ].hp / mainEnemies[ 0 ].hpMax ) * 100 ).toFixed( 2 )
-			} );
-		} else {
-			console.log( "Raid does not exists on page, not sending raid health." );
+		if ( evt.data.combatState.raidCode ) {
+			if ( FindRaid( evt.data.combatState.raidCode ) ) {
+				console.log( "Raid exists on page, parsing and sending raid health..." );
+				let mainEnemies = evt.data.combatState.enemies.filter( e => e.hasModeGauge == 1 ).sort( CompareRaidEnemyHealths );
+				socket.emit( 'raid-health-submit', {
+					room: FindRaid( evt.data.combatState.raidCode ).room,
+					id: evt.data.combatState.raidCode,
+					currentHP: mainEnemies[ 0 ].hp,
+					maxHP: mainEnemies[ 0 ].hpMax,
+					percent: ( ( mainEnemies[ 0 ].hp / mainEnemies[ 0 ].hpMax ) * 100 ).toFixed( 2 )
+				} );
+			} else {
+				console.log( "Raid doesn't exists on page, parsing and sending raid health to store..." );
+				let mainEnemies = evt.data.combatState.enemies.filter( e => e.hasModeGauge == 1 ).sort( CompareRaidEnemyHealths );
+				socket.emit( 'raid-health-store', {
+					id: evt.data.combatState.raidCode,
+					currentHP: mainEnemies[ 0 ].hp,
+					maxHP: mainEnemies[ 0 ].hpMax,
+					percent: ( ( mainEnemies[ 0 ].hp / mainEnemies[ 0 ].hpMax ) * 100 ).toFixed( 2 )
+				} );
+			}
 		}
 	} else if ( evt.data.type !== "result" ) {
 		console.log( "Viramate message not a result." );
@@ -258,6 +279,8 @@ function onMessage( evt ) {
 				id: evt.data.id,
 				event: evt.data.result
 			} );
+			data.percent = 0;
+			UpdateRaidHealth( data );
 			if ( !settings.disablePopups ) {
 				swal( {
 					title: "Raid has ended!",
@@ -326,6 +349,16 @@ function onMessage( evt ) {
 					title: "Sorry!",
 					text: "Your rank is too low! You need to be at least rank 101.",
 					icon: "/assets/stickers/totallycrushed-sticker.png",
+					imageSize: '150x150',
+					timer: 2000
+				} );
+			}
+		} else if ( evt.data.result === "popup: You can only provide backup in up to three raid battles at once." ) {
+			if ( !settings.disablePopups ) {
+				swal( {
+					title: "Check your raid battles!",
+					text: "You can only provide backup in up to three raid battles at once.",
+					icon: "assets/stickers/whoops-sticker.png",
 					imageSize: '150x150',
 					timer: 2000
 				} );
@@ -425,7 +458,7 @@ window.addEventListener( 'load', function () {
 			console.log( `Error setting up controls: ${err.message}`, err );
 		}
 
-		socket = io.connect( ':8080/' );
+		socket = io.connect( ':80/' );
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
@@ -458,6 +491,8 @@ window.addEventListener( 'load', function () {
 		socket.on( 'raid-over', function ( data ) {
 			console.log( "Raid Over recieved: " + data.room, data );
 			ChangeButtonStatus( data.event, data.id );
+			data.percent = 0;
+			UpdateRaidHealth( data );
 		} );
 		CheckConnectionStatus();
 		LoadSavedRaids();

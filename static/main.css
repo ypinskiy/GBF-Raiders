@@ -35,11 +35,11 @@
 	line-height: 34px;
 }
 
-#welcome > p {
+#welcome>p {
 	text-indent: 15px;
 }
 
-#welcome > h2 {
+#welcome>h2 {
 	text-decoration: underline;
 }
 
@@ -228,11 +228,11 @@
 	margin: 0px 5px 0px 1px !important;
 }
 
-.rowed>.card:not(.ultra) {
+#raid-container.rowed>div.ui.card:not(.ultra) {
 	width: 300px !important;
 }
 
-.rowed>.card.ultra) {
+#raid-container.rowed>div.ui.ultra.card) {
 	width: 450px !important;
 }
 
@@ -297,7 +297,7 @@
 }
 
 .time-filler {
-	padding: 25px;
+	padding: 18px;
 }
 
 .tip-title {
@@ -397,12 +397,15 @@ td.larger>img {
 	#connection-status {
 		margin-top: 10px;
 	}
+
 	#raid-table .item>.content {
 		text-align: center !important;
 	}
+
 	.selected-raids-label {
 		font-size: .85em !important;
 	}
+
 	body>.ui.container.segment.fluid {
 		margin-left: 0 !important;
 		margin-right: 0 !important;

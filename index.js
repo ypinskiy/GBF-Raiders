@@ -153,8 +153,13 @@ if ( cluster.isMaster ) {
 						raidInfo.language = GetTweetLanguage( tweet );
 					}
 					lastTweet = new Date().getTime();
-					//SendToWorkers( { type: 'tweet', data: raidInfo } );
+					let raidHealthIndex = FindStoredRaidHealth( raidInfo );
 					io.to( raidInfo.room ).emit( 'tweet', raidInfo );
+					if ( raidHealthIndex >= 0 ) {
+						console.log( "Found pre-stored raid health data for raid id: '" + raidInfo.id + "', sending to client..." );
+						io.to( raidInfo.room ).emit( 'raid-health', storedRaidHealths[ raidHealthIndex ] );
+						storedRaidHealths.splice( raidHealthIndex, 1 );
+					}
 				}
 			} );
 			twitterClient.on( 'error', function ( error ) {
@@ -193,21 +198,30 @@ if ( cluster.isMaster ) {
 				console.log( "Twitter Client Restart Error", error );
 			}
 		}
+		for ( let i = storedRaidHealths.length; i >= 0; i-- ) {
+			if ( new Date().getTime() - 600000 > storedRaidHealths[ i ].time ) {
+				storedRaidHealths.splice( i, 1 );
+			}
+		}
 	}, 60000 );
+	let storedRaidHealths = [];
+
+	function FindStoredRaidHealth( data ) {
+		return storedRaidHealths.findIndex( raid => raid.id === data.id );
+	}
 	try {
 		console.log( "Setting up websocket server..." );
-		const port = process.env.PORT2 || 8080;
 		if ( process.env.sslEnabled === "true" ) {
 			const options = {
 				cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
 				key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
 			};
 			let sslServer = https.createServer( options );
-			sslServer.listen( port );
+			sslServer.listen( 80 );
 			io = require( 'socket.io' ).listen( sslServer );
 		} else {
 			let server = require( 'http' ).createServer();
-			server.listen( port );
+			server.listen( 80 );
 			io = require( 'socket.io' ).listen( server );
 		}
 		io.sockets.on( 'connection', function ( socket ) {
@@ -223,6 +237,16 @@ if ( cluster.isMaster ) {
 				function ( data ) {
 					io.to( data.room ).emit( 'raid-health', data );
 				} );
+			socket.on( 'raid-health-store',
+				function ( data ) {
+					data.time = new Date().getTime();
+					let raidHealthIndex = FindStoredRaidHealth( data );
+					if ( raidHealthIndex >= 0 ) {
+						storedRaidHealths[ raidHealthIndex ] = data;
+					} else {
+						storedRaidHealths.push( data );
+					}
+				} );
 			socket.on( 'unsubscribe',
 				function ( data ) {
 					socket.leave( data.room );
@@ -233,11 +257,7 @@ if ( cluster.isMaster ) {
 	}
 	StartTwitterStream( twitterOptions );
 } else {
-	const port = process.env.PORT || 80;
-	//	let io = null;
 	let app = express();
-	let server = require( 'http' ).createServer( app );
-	server.listen( port );
 	if ( process.env.sslEnabled === "true" ) {
 		const options = {
 			cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
@@ -245,20 +265,10 @@ if ( cluster.isMaster ) {
 		};
 		let sslServer = https.createServer( options, app );
 		sslServer.listen( 443 );
-		//		io = require( 'socket.io' ).listen( sslServer );
 	} else {
-		//		io = require( 'socket.io' ).listen( server );
+		let server = require( 'http' ).createServer( app );
+		server.listen( 8080 );
 	}
-	// process.on( 'message', ( msg ) => {
-	// 	//console.log( `Worker ${cluster.worker.id} recieved a ${msg.type} message from master...` );
-	// 	if ( msg.type === 'tweet' ) {
-	// 		io.to( msg.data.room ).emit( 'tweet', msg.data );
-	// 	} else if ( msg.type === 'warning' ) {
-	// 		if ( msg.data === 'twitter' ) {
-	// 			io.emit( 'warning', { type: "twitter" } );
-	// 		}
-	// 	}
-	// } );
 	app.set( 'json spaces', 0 );
 	app.use( helmet() );
 	//app.use( morgan( 'combined' ) );
