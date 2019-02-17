@@ -45,7 +45,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "4.7",
+	version: "4.8",
 	newsSeen: false,
 	cardSlots: 8,
 	disablePopups: false,

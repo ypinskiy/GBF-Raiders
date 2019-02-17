@@ -1406,4 +1406,28 @@
 	"image": "/assets/raids/BattleRaid_Bizarre_Beast_ExtremePlus.png",
 	"category": "Unite and Fight",
 	"element": "Light"
+},
+{
+	"english": "Lvl 90 Tsukuyomi",
+	"japanese": "Lv90 ツクヨミ",
+	"room": "lvl90tsukuyomi",
+	"image": "/assets/raids/BattleRaid_Tsukuyomi_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 95 Tsukuyomi",
+	"japanese": "Lv95 ツクヨミ",
+	"room": "lvl95tsukuyomi",
+	"image": "/assets/raids/BattleRaid_Tsukuyomi_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
+},
+{
+	"english": "Lvl 100 Tsukuyomi",
+	"japanese": "Lv100 ツクヨミ",
+	"room": "lvl100tsukuyomi",
+	"image": "/assets/raids/BattleRaid_Tsukuyomi_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Dark"
 }]
