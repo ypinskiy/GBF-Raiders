@@ -458,7 +458,7 @@ window.addEventListener( 'load', function () {
 			console.log( `Error setting up controls: ${err.message}`, err );
 		}
 
-		socket = io.connect( ':80/' );
+		socket = io.connect( ':8080/' );
 		document.getElementById( "connection-status" ).classList.remove( "red" );
 		document.getElementById( "connection-status" ).classList.add( "green" );
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
