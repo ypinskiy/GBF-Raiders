@@ -142,7 +142,6 @@ if ( cluster.isMaster ) {
 						room: searchTextForRaids( tweet.text ),
 						message: "No Twitter Message.",
 						language: "JP",
-						status: "unclicked",
 						timer: 0
 					};
 					if ( DoesTweetContainMessage( tweet ) ) {
@@ -153,13 +152,7 @@ if ( cluster.isMaster ) {
 						raidInfo.language = GetTweetLanguage( tweet );
 					}
 					lastTweet = new Date().getTime();
-					let raidHealthIndex = FindStoredRaidHealth( raidInfo );
 					io.to( raidInfo.room ).emit( 'tweet', raidInfo );
-					if ( raidHealthIndex >= 0 ) {
-						console.log( "Found pre-stored raid health data for raid id: '" + raidInfo.id + "', sending to client..." );
-						io.to( raidInfo.room ).emit( 'raid-health', storedRaidHealths[ raidHealthIndex ] );
-						storedRaidHealths.splice( raidHealthIndex, 1 );
-					}
 				}
 			} );
 			twitterClient.on( 'error', function ( error ) {
@@ -198,17 +191,7 @@ if ( cluster.isMaster ) {
 				console.log( "Twitter Client Restart Error", error );
 			}
 		}
-		for ( let i = storedRaidHealths.length - 1; i >= 0; i-- ) {
-			if ( new Date().getTime() - 600000 > storedRaidHealths[ i ].time ) {
-				storedRaidHealths.splice( i, 1 );
-			}
-		}
 	}, 60000 );
-	let storedRaidHealths = [];
-
-	function FindStoredRaidHealth( data ) {
-		return storedRaidHealths.findIndex( raid => raid.id === data.id );
-	}
 	try {
 		console.log( "Setting up websocket server..." );
 		if ( process.env.sslEnabled === "true" ) {
@@ -228,24 +211,6 @@ if ( cluster.isMaster ) {
 			socket.on( 'subscribe',
 				function ( data ) {
 					socket.join( data.room );
-				} );
-			socket.on( 'raid-over',
-				function ( data ) {
-					io.to( data.room ).emit( 'raid-over', data );
-				} );
-			socket.on( 'raid-health-submit',
-				function ( data ) {
-					io.to( data.room ).emit( 'raid-health', data );
-				} );
-			socket.on( 'raid-health-store',
-				function ( data ) {
-					data.time = new Date().getTime();
-					let raidHealthIndex = FindStoredRaidHealth( data );
-					if ( raidHealthIndex >= 0 ) {
-						storedRaidHealths[ raidHealthIndex ] = data;
-					} else {
-						storedRaidHealths.push( data );
-					}
 				} );
 			socket.on( 'unsubscribe',
 				function ( data ) {

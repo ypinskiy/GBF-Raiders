@@ -7,6 +7,18 @@
 	flex-direction: column;
 }
 
+#table-body>tr, .ui.blue.unstackable.celled.table>tbody>tr {
+	transition: background-color 0.25s;
+}
+
+#table-body>tr:not(.clicked-row):hover, .ui.blue.unstackable.celled.table>tbody>tr:not(.clicked-row):hover {
+	background-color: darkgrey;
+}
+
+.clicked-row {
+	background-color: honeydew;
+}
+
 .donate>a {
 	color: #FFF !important;
 }
@@ -68,6 +80,14 @@
 
 #header.header-shrink~:not(#raid-container) {
 	margin-top: -220px;
+}
+
+.rowed>.ui.card {
+	width: 300px !important;
+}
+
+.rowed>.ui.ultra.card {
+	width: 350px !important;
 }
 
 #raid-table {
@@ -298,6 +318,7 @@
 
 .time-filler {
 	padding: 18px;
+	text-align: center;
 }
 
 .tip-title {

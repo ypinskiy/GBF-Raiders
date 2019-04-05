@@ -135,9 +135,6 @@ function LoadSavedSettings() {
 			try {
 				Object.assign( settings.notification, tempSettings.notification );
 				Object.assign( settings.layout, tempSettings.layout );
-				settings.viramateID = tempSettings.viramateID;
-				settings.disableJoined = tempSettings.disableJoined;
-				settings.disablePopups = tempSettings.disablePopups;
 				settings.strikeTime = tempSettings.strikeTime;
 				console.log( "Assigned saved settings to current settings." );
 			} catch ( error ) {
@@ -147,18 +144,8 @@ function LoadSavedSettings() {
 			console.log( "Error parsing settings from localstorage: " + error );
 		}
 
-		document.getElementById( "viramate-id-input" ).value = settings.viramateID;
-		if ( document.getElementById( "viramate-api" ) !== null ) {
-			document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
-		}
 		document.getElementById( "time-picker" ).value = settings.strikeTime;
 		SetTime();
-		if ( settings.disableJoined ) {
-			document.getElementById( "join-disable-input" ).checked = true;
-		}
-		if ( settings.disablePopups ) {
-			document.getElementById( "popup-disable-input" ).checked = true;
-		}
 		if ( settings.newsSeen ) {
 			document.getElementById( "news-message" ).classList.add( "hidden" );
 		}
@@ -205,7 +192,6 @@ function LoadSavedSettings() {
 			document.getElementById( "enable-night" ).classList.add( "negative" );
 			document.getElementById( "enable-night" ).innerHTML = 'Disable Night Mode<i class="right sun icon"></i>';
 		}
-		document.getElementById( "viramate-id-input" ).value = settings.viramateID;
 		if ( localStorage.getItem( "individualSettings" ) ) {
 			try {
 				var tempIndivSettings = JSON.parse( localStorage.getItem( "individualSettings" ) );
@@ -228,7 +214,7 @@ function SetupControls() {
 		var clipboard = new Clipboard( '.copy-div', {
 			text: function ( trigger ) {
 				console.log( "Copying to clipboard: " + trigger.dataset.clipboard );
-				toastr["success"]("Raid ID copied to clipboard.");
+				toastr[ "success" ]( "Raid ID copied to clipboard." );
 				return trigger.dataset.clipboard;
 			}
 		} );
@@ -257,24 +243,6 @@ function SetupControls() {
 			}
 		} );
 
-		document.getElementById( "join-disable-input" ).addEventListener( 'change', function ( evt ) {
-			if ( document.getElementById( "join-disable-input" ).checked ) {
-				settings.disableJoined = true;
-			} else {
-				settings.disableJoined = false;
-			}
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-		} );
-
-		document.getElementById( "popup-disable-input" ).addEventListener( 'change', function ( evt ) {
-			if ( document.getElementById( "popup-disable-input" ).checked ) {
-				settings.disablePopups = true;
-			} else {
-				settings.disablePopups = false;
-			}
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-		} );
-
 		document.getElementById( "time-picker" ).addEventListener( 'input', function ( evt ) {
 			settings.strikeTime = evt.target.value;
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
@@ -284,45 +252,6 @@ function SetupControls() {
 		setInterval( function () {
 			SetTime();
 		}, 10000 );
-
-		document.getElementById( "view-statistics" ).addEventListener( 'click', function () {
-			var statsTable = document.createElement( "table" );
-			var statsTableBody = document.createElement( "tbody" );
-			if ( statistics.succeded.total == 0 && statistics.failed.total == 0 ) {
-				var statsTableBodyRow = document.createElement( "tr" );
-				var statsTableBodyRowTD = document.createElement( "td" );
-				statsTableBodyRowTD.innerHTML = "No statistics so far!";
-				statsTableBodyRow.appendChild( statsTableBodyRowTD );
-				statsTableBody.appendChild( statsTableBodyRow );
-			} else {
-				statistics.succeded.individual.forEach( function ( statItem ) {
-					var statsTableBodyRow = document.createElement( "tr" );
-					var statsTableBodyRowRoomTD = document.createElement( "td" );
-					statsTableBodyRowRoomTD.innerHTML = statItem.room + " joined:";
-					var statsTableBodyRowCountTD = document.createElement( "td" );
-					statsTableBodyRowCountTD.innerHTML = statItem.count + " time(s)";
-					statsTableBodyRow.appendChild( statsTableBodyRowRoomTD );
-					statsTableBodyRow.appendChild( statsTableBodyRowCountTD );
-					statsTableBody.appendChild( statsTableBodyRow );
-				} );
-				statistics.failed.individual.forEach( function ( statItem ) {
-					var statsTableBodyRow = document.createElement( "tr" );
-					var statsTableBodyRowRoomTD = document.createElement( "td" );
-					statsTableBodyRowRoomTD.innerHTML = statItem.room + " failed:";
-					var statsTableBodyRowCountTD = document.createElement( "td" );
-					statsTableBodyRowCountTD.innerHTML = statItem.count + " time(s)";
-					statsTableBodyRow.appendChild( statsTableBodyRowRoomTD );
-					statsTableBodyRow.appendChild( statsTableBodyRowCountTD );
-					statsTableBody.appendChild( statsTableBodyRow );
-				} );
-			}
-			statsTable.appendChild( statsTableBody );
-
-			swal( {
-				title: "Current Statistics",
-				content: statsTable
-			} );
-		} );
 
 		document.getElementById( "enable-sound" ).addEventListener( "click", function ( event ) {
 			console.dir( event );
@@ -337,15 +266,6 @@ function SetupControls() {
 			}
 		} );
 
-		document.getElementById( "viramate-id-input" ).addEventListener( 'input', function ( event ) {
-			console.log( "Changing Viramate id to " + event.target.value );
-			settings.viramateID = event.target.value;
-			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
-			if ( document.getElementById( "viramate-api" ) !== null ) {
-				document.getElementById( "viramate-api" ).src = "chrome-extension://" + settings.viramateID + "/content/api.html";
-				document.getElementById( "viramate-api" ).contentWindow.console.log = function () {};
-			}
-		} );
 		document.getElementById( "sound-volume-slider" ).addEventListener( "input", function ( event ) {
 			settings.notification.soundNotifVolume = event.target.value;
 			if ( settings.layout.orientation === "vertical" ) {
@@ -478,6 +398,22 @@ function SetupControls() {
 				$( '.ui.sidebar' ).sidebar( 'toggle' );
 			} catch ( error ) {
 				console.log( "Error opening settings bar: " + error );
+			}
+		} );
+
+		document.getElementById( "pause-list" ).addEventListener( "click", function ( event ) {
+			if ( settings.paused ) {
+				console.log( "Unpausing list..." );
+				document.getElementById( "pause-list" ).classList.remove( "green" );
+				document.getElementById( "pause-list" ).classList.add( "yellow" );
+				document.getElementById( "pause-list" ).innerHTML = 'Pause List<i class="right pause icon"></i>';
+				settings.paused = false;
+			} else {
+				console.log( "Pausing list..." );
+				document.getElementById( "pause-list" ).classList.add( "green" );
+				document.getElementById( "pause-list" ).classList.remove( "yellow" );
+				document.getElementById( "pause-list" ).innerHTML = 'Unpause List<i class="right play icon"></i>';
+				settings.paused = true;
 			}
 		} );
 

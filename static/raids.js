@@ -58,32 +58,13 @@ function CreateHorizontalCompactRaidRow( data ) {
 	idTD.id = data.id + '-label';
 	idTD.classList.add( "center", "aligned" );
 	idTD.innerHTML = data.id;
-	var joinTD = document.createElement( "td" );
-	joinTD.classList.add( "center", "aligned" );
-	var joinButton = document.createElement( "button" );
-	if ( data.status === "unclicked" ) {
-		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "error" ) {
-		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "clicked" ) {
-		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "success" ) {
-		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	}
-	joinButton.id = data.id + '-btn';
-	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
 	try {
-		joinTD.appendChild( joinButton );
 		newLine.appendChild( imageTD );
 		newLine.appendChild( idTD );
-		newLine.appendChild( joinTD );
-		joinButton.addEventListener( "click", function ( event ) {
-			SendJoinCommand( event.target.id.substr( 0, 8 ) );
-			joinButton.classList.remove( "primary" );
-			joinButton.classList.add( "secondary" );
-			data.status = "clicked";
-		} );
 		document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+		newLine.addEventListener( 'click', function ( event ) {
+			newLine.classList.add( "clicked-row" );
+		} );
 	} catch ( error ) {
 		console.log( "Error appending Horizontal Compact Raid Row: " + error );
 	}
@@ -103,42 +84,18 @@ function CreateHorizontalNormalRaidRow( data ) {
 	idTD.id = data.id + '-label';
 	idTD.classList.add( "center", "aligned" );
 	idTD.innerHTML = data.id;
-	var healthTD = document.createElement( "td" );
-	healthTD.id = data.id + '-health';
-	healthTD.classList.add( "center", "aligned" );
-	healthTD.innerHTML = "Unknown";
 	var timeTD = document.createElement( "td" );
 	timeTD.id = data.id + '-time';
 	timeTD.classList.add( "center", "aligned" );
 	timeTD.innerHTML = "0 secs ago";
-	var joinTD = document.createElement( "td" );
-	joinTD.classList.add( "center", "aligned" );
-	var joinButton = document.createElement( "button" );
-	if ( data.status === "unclicked" ) {
-		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "error" ) {
-		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "clicked" ) {
-		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "success" ) {
-		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	}
-	joinButton.id = data.id + '-btn';
-	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
 	try {
-		joinTD.appendChild( joinButton );
 		newLine.appendChild( imageTD );
 		newLine.appendChild( idTD );
-		newLine.appendChild( healthTD );
 		newLine.appendChild( timeTD );
-		newLine.appendChild( joinTD );
-		joinButton.addEventListener( "click", function ( event ) {
-			SendJoinCommand( event.target.id.substr( 0, 8 ) );
-			joinButton.classList.remove( "primary" );
-			joinButton.classList.add( "secondary" );
-			data.status = "clicked";
-		} );
 		document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+		newLine.addEventListener( 'click', function ( event ) {
+			newLine.classList.add( "clicked-row" );
+		} );
 	} catch ( error ) {
 		console.log( "Error appending Horizontal Normal Raid Row: " + error );
 	}
@@ -167,51 +124,27 @@ function CreateHorizontalFullRaidRow( data ) {
 	nameDiv.appendChild( idSpan );
 	contentTD.appendChild( nameDiv );
 	var bottomDiv = document.createElement( "div" );
-	bottomDiv.classList.add( "ui", "two", "column", "divided", "grid" );
+	bottomDiv.classList.add( "ui" );
 	var messageDiv = document.createElement( "div" );
 	messageDiv.innerHTML = data.message;
 	messageDiv.classList.add( "column", "item" );
-	var healthDiv = document.createElement( "div" );
-	healthDiv.innerHTML = data.message;
-	healthDiv.classList.add( "column", "item" );
-	healthDiv.id = data.id + '-health';
-	healthDiv.innerHTML = "Unknown";
 	bottomDiv.appendChild( messageDiv );
-	bottomDiv.appendChild( healthDiv );
 	contentTD.innerHTML += '<div class="ui divider"></div>';
 	contentTD.appendChild( bottomDiv );
-	var joinTD = document.createElement( "td" );
-	joinTD.classList.add( "center", "aligned" );
+	var timeTD = document.createElement( "td" );
 	var timediv = document.createElement( "div" );
 	timediv.id = data.id + '-time';
 	timediv.classList.add( "time-filler" );
 	timediv.innerHTML = "0 secs ago";
-	joinTD.appendChild( timediv );
-	joinTD.innerHTML += '<div class="ui divider"></div>';
-	var joinButton = document.createElement( "button" );
-	if ( data.status === "unclicked" ) {
-		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "error" ) {
-		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "clicked" ) {
-		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "success" ) {
-		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	}
-	joinButton.id = data.id + '-btn';
-	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
+	timeTD.appendChild( timediv );
 	try {
-		joinTD.appendChild( joinButton );
 		newLine.appendChild( imageTD );
 		newLine.appendChild( contentTD );
-		newLine.appendChild( joinTD );
-		joinButton.addEventListener( "click", function ( event ) {
-			SendJoinCommand( event.target.id.substr( 0, 8 ) );
-			joinButton.classList.remove( "primary" );
-			joinButton.classList.add( "secondary" );
-			data.status = "clicked";
-		} );
+		newLine.appendChild( timeTD );
 		document.getElementById( "table-body" ).insertBefore( newLine, document.getElementById( "table-body" ).firstChild );
+		newLine.addEventListener( 'click', function ( event ) {
+			newLine.classList.add( "clicked-row" );
+		} );
 	} catch ( error ) {
 		console.log( "Error appending Horizontal Full Raid Row: " + error );
 	}
@@ -229,31 +162,12 @@ function CreateVerticalCompactRaidRow( data ) {
 	idTD.id = data.id + '-label';
 	idTD.classList.add( "center", "aligned" );
 	idTD.innerHTML = data.id;
-	var joinTD = document.createElement( "td" );
-	joinTD.classList.add( "center", "aligned" );
-	var joinButton = document.createElement( "button" );
-	if ( data.status === "unclicked" ) {
-		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "error" ) {
-		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "clicked" ) {
-		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "success" ) {
-		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	}
-	joinButton.id = data.id + '-btn';
-	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
 	try {
-		joinTD.appendChild( joinButton );
 		newLine.appendChild( idTD );
-		newLine.appendChild( joinTD );
-		joinButton.addEventListener( "click", function ( event ) {
-			SendJoinCommand( event.target.id.substr( 0, 8 ) );
-			joinButton.classList.remove( "primary" );
-			joinButton.classList.add( "secondary" );
-			data.status = "clicked";
-		} );
 		document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+		newLine.addEventListener( 'click', function ( event ) {
+			newLine.classList.add( "clicked-row" );
+		} );
 	} catch ( error ) {
 		console.log( "Error appending Vertical Compact Raid Row: " + error );
 	}
@@ -275,32 +189,13 @@ function CreateVerticalNormalRaidRow( data ) {
 	timeTD.id = data.id + '-time';
 	timeTD.classList.add( "center", "aligned" );
 	timeTD.innerHTML = "0 secs ago";
-	var joinTD = document.createElement( "td" );
-	joinTD.classList.add( "center", "aligned" );
-	var joinButton = document.createElement( "button" );
-	if ( data.status === "unclicked" ) {
-		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "error" ) {
-		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "clicked" ) {
-		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "success" ) {
-		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	}
-	joinButton.id = data.id + '-btn';
-	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
 	try {
-		joinTD.appendChild( joinButton );
 		newLine.appendChild( idTD );
 		newLine.appendChild( timeTD );
-		newLine.appendChild( joinTD );
-		joinButton.addEventListener( "click", function ( event ) {
-			SendJoinCommand( event.target.id.substr( 0, 8 ) );
-			joinButton.classList.remove( "primary" );
-			joinButton.classList.add( "secondary" );
-			data.status = "clicked";
-		} );
 		document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+		newLine.addEventListener( 'click', function ( event ) {
+			newLine.classList.add( "clicked-row" );
+		} );
 	} catch ( error ) {
 		console.log( "Error appending Vertical Normal Raid Row: " + error );
 	}
@@ -325,33 +220,14 @@ function CreateVerticalFullRaidRow( data ) {
 	timeTD.id = data.id + '-time';
 	timeTD.classList.add( "center", "aligned" );
 	timeTD.innerHTML = "0 secs ago";
-	var joinTD = document.createElement( "td" );
-	joinTD.classList.add( "center", "aligned" );
-	var joinButton = document.createElement( "button" );
-	if ( data.status === "unclicked" ) {
-		joinButton.classList.add( "ui", "primary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "error" ) {
-		joinButton.classList.add( "ui", "negative", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "clicked" ) {
-		joinButton.classList.add( "ui", "secondary", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	} else if ( data.status === "success" ) {
-		joinButton.classList.add( "ui", "positive", "button", "right", "labeled", "icon", "toggle", "join-raid-btn" );
-	}
-	joinButton.id = data.id + '-btn';
-	joinButton.innerHTML = 'Join Raid<i class="right sign in icon"></i>';
 	try {
-		joinTD.appendChild( joinButton );
 		newLine.appendChild( idTD );
 		newLine.appendChild( messageTD );
 		newLine.appendChild( timeTD );
-		newLine.appendChild( joinTD );
-		joinButton.addEventListener( "click", function ( event ) {
-			SendJoinCommand( event.target.id.substr( 0, 8 ) );
-			joinButton.classList.remove( "primary" );
-			joinButton.classList.add( "secondary" );
-			data.status = "clicked";
-		} );
 		document.getElementById( data.room + "-table-body" ).insertBefore( newLine, document.getElementById( data.room + "-table-body" ).firstChild );
+		newLine.addEventListener( 'click', function ( event ) {
+			newLine.classList.add( "clicked-row" );
+		} );
 	} catch ( error ) {
 		console.log( "Error appending Vertical Full Raid Row: " + error );
 	}
@@ -441,7 +317,7 @@ function CreateHorizontalCompactRaidTable() {
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
-	raidTable.innerHTML = '<thead><tr><th class="center aligned nine wide">Raid Name</th><th class="center aligned single line three wide">Raid ID</th><th class="center aligned single line four wide">Join Raid</th></tr></thead>';
+	raidTable.innerHTML = '<thead><tr><th class="center aligned nine wide">Raid Name</th><th class="center aligned single line three wide">Raid ID</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
 	try {
@@ -464,7 +340,7 @@ function CreateHorizontalNormalRaidTable() {
 		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
-	raidTable.innerHTML = '<thead><tr><th class="center aligned six wide">Name</th><th class="center aligned single line two wide">ID</th><th class="center aligned single line two wide">Health</th><th class="center aligned single line three wide">Time Tweeted</th><th class="center aligned single line three wide">Join Raid</th></tr></thead>';
+	raidTable.innerHTML = '<thead><tr><th class="center aligned six wide">Name</th><th class="center aligned single line two wide">ID</th><th class="center aligned single line three wide">Time Tweeted</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = "table-body";
 	try {
@@ -713,7 +589,7 @@ function AddSelectedVerticalCompactRaid( raid ) {
 	var raidTable = document.createElement( "table" );
 	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
-	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Join Raid</th></tr></thead>';
+	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = raid.room + "-table-body";
 	try {
@@ -782,7 +658,7 @@ function AddSelectedVerticalNormalRaid( raid ) {
 	var raidTable = document.createElement( "table" );
 	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
-	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
+	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">Raid ID</th><th class="center aligned single line">Time Tweeted</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = raid.room + "-table-body";
 	try {
@@ -851,7 +727,7 @@ function AddSelectedVerticalFullRaid( raid ) {
 	var raidTable = document.createElement( "table" );
 	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "table", "compact", "smaller" );
 	raidTable.id = raid.room + "-table";
-	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th><th class="center aligned single line">Join Raid</th></tr></thead>';
+	raidTable.innerHTML = '<thead><tr><th class="center aligned single line">ID</th><th class="center aligned">Message</th><th class="center aligned single line">Time Tweeted</th></tr></thead>';
 	var raidTableBody = document.createElement( "tbody" );
 	raidTableBody.id = raid.room + "-table-body";
 	try {
@@ -879,10 +755,6 @@ function AddSelectedVerticalFullRaid( raid ) {
 	} catch ( error ) {
 		console.log( "Error adding Vertical Full raid: " + error );
 	}
-}
-
-function UpdateRaidHealth( data ) {
-	document.getElementById( data.id + '-health' ).textContent = data.percent + ' %';
 }
 
 function CalculatePoints( room, isFull ) {

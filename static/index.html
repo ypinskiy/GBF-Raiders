@@ -10,7 +10,7 @@
 	<link rel="manifest" href="/manifest.json">
 	<meta name="theme-color" content="#2185d0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="Description" content="A Granblue Fantasy Raid Finder With New And Innovative Features, Including Jumping Straight To The Raid With Viramate Integration">
+	<meta name="Description" content="A Granblue Fantasy Raid Finder With New And Innovative Features">
 	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-48921108-3"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
@@ -153,27 +153,8 @@
 					<input id="toolbar-shrinker-input" type="checkbox" name="shrinker" tabindex="0" class="hidden">
 				</div>
 			</span>
-			<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
-			<div id="viramate-id" class="ui large labeled input">
-				<div class="ui label">
-					Viramate ID:
-				</div>
-				<input id="viramate-id-input" type="text" value="fgpokpknehglcioijejfeebigdnbnokj">
-			</div>
-			<button id="view-statistics" class="ui bigger button right labeled icon">View Current Stats<i class="question circle icon"></i></button>
+			<button id="enable-night" disabled class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
 			<button id="full-screen" class="ui bigger button right labeled icon">Full Screen<i class="right expand icon"></i></button>
-			<span class="input-control">
-				<div id="join-disable" class="ui checkbox">
-					<label>Disable Already Joined Raids</label>
-					<input id="join-disable-input" type="checkbox" tabindex="0" class="hidden">
-				</div>
-			</span>
-			<span class="input-control">
-				<div id="popup-disable" class="ui checkbox">
-					<label>Disable Status Popups</label>
-					<input id="popup-disable-input" type="checkbox" tabindex="0" class="hidden">
-				</div>
-			</span>
 			<span class="input-control">
 				<span class="input-title">Set Strike Time</span>
 				<div class="ui input">
@@ -185,7 +166,6 @@
 	<div id="container" role="main" class="ui pusher container segment fluid">
 		<div id="header" class="header" role="banner">
 			<div id="dashboard" class="ui segment dashboard">
-				<button id="donate-btn" class="donate ui primary right labeled icon button"><a href="https://donorbox.org/keep-gbfraiders-running">Paypal</a><i class="right dollar icon"></i></button>
 				<button id="patreon-btn" class="donate ui primary right labeled icon button"><a href="https://www.patreon.com/gbfraiders">Patreon</a><i class="right patreon icon"></i></button>
 				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
 				<div class="ui special wide popup">
@@ -208,6 +188,7 @@
 					</tbody>
 				</table>
 				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
+				<button id="pause-list" class="yellow ui button right labeled icon">Pause List<i class="right pause icon"></i></button>
 				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
 				<div id="searcher">
 					<div id="filter-dropdown" class="ui compact selection dropdown">
@@ -247,14 +228,13 @@
 		<div id="news-message" class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 2/17/2019
+				News - 4/05/2019
 			</div>
-			<p>Added Tsukuyomi raids from latest GW</p>
+			<p>Due to Viramate officially being discontinued, I have removed all Viramate features including raid health, raid join statuses like low AP, raid over notifications, and so forth.</p>
 		</div>
 		<div id="welcome">
 			<h1>Welcome to GBFRaiders, a raid-finding website for Granblue Fantasy.</h1>
-			<p>Search for a raid in the text field above and watch them appear in real-time below. Click on the raid's row to copy the raid ID to the clipboard and paste it into the raid ID field in GBF. If you have the Chrome extension Viramate, you can
-				enable the Web API in it's settings which will let you click the Join button by each raid to jump directly to the raid!</p>
+			<p>Search for a raid in the text field above and watch them appear in real-time below. Click on the raid's row to copy the raid ID to the clipboard and paste it into the raid ID field in GBF.</p>
 			<h2>Never Miss A Thing</h2>
 			<p>Setup desktop and audio notifications to be sure not to miss a single raid even while working on something else! Clicking on a desktop notification will copy a raid ID or directly join a raid just like when using the site. You can set custom
 				audio notifications for even more uniqueness.</p>
@@ -269,13 +249,11 @@
 				don't have my main site open.</p>
 		</div>
 	</div>
-	<script src="utils/browsedetect.js"></script>
 	<script src="utils/jquery-3.2.1.min.js"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
 	<script src="utils/socket.io.slim.js"></script>
 	<script src="utils/moment.min.js"></script>
 	<script src="utils/clipboard.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 	<script src="draggable/CSSPlugin.min.js"></script>
 	<script src="draggable/Draggable.min.js"></script>
