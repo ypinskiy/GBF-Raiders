@@ -70,6 +70,17 @@ toastr.options = {
 	"hideMethod": "fadeOut"
 }
 
+if ( !window.chrome ) {
+	console.log( "Detected browser is not Chrome. Changing to preloading css..." );
+	const preloadedLinks = [ "https://fonts.googleapis.com/css?family=Open+Sans", "semantic/dist/semantic.min.css", "darken.css", "sliders.css", "main.css" ];
+	for ( let i = 0; i < preloadedLinks.length; i++ ) {
+		let preloadLink = document.createElement( "link" );
+		preloadLink.href = preloadedLinks[ i ];
+		preloadLink.rel = "stylesheet";
+		document.head.appendChild( preloadLink );
+	}
+}
+
 function ResetSite() {
 	localStorage.clear();
 	window.history.pushState( {}, document.title, "/" );
@@ -126,16 +137,16 @@ window.addEventListener( 'load', function () {
 			document.getElementById( "connection-status-value" ).innerHTML = "UP";
 			noTwitter = false;
 			if ( document.getElementById( data.id ) === null ) {
-				if (!settings.paused) {
+				if ( !settings.paused ) {
 					raids.push( data );
 					CreateRaidRow( data );
 					PlaySoundNotif( data );
 					SendDesktopNotif( data );
 				} else {
-					console.log("Raid updates are paused.");
+					console.log( "Raid updates are paused." );
 				}
 			} else {
-				console.log("Raid already exists on page.");
+				console.log( "Raid already exists on page." );
 			}
 		} );
 		socket.on( 'warning', function ( data ) {

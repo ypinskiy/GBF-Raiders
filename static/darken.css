@@ -1,4 +1,8 @@
-.darken #header>div.ui.secondary.inverted.blue.segment, .darken .rowed tbody tr:hover {
+.darken {
+	filter: invert(100%);
+}
+
+/* .darken #header>div.ui.secondary.inverted.blue.segment, .darken .rowed tbody tr:hover {
 	background-color: #316d92 !important;
 }
 
@@ -10,6 +14,10 @@
 .darken #raid-table th, .darken #raid-table td, .darken #raid-container table th {
 	background-color: #2a465c !important;
 	border: 1px solid #000;
+	color: #FFF !important;
+}
+
+.darken .name-meta {
 	color: #FFF !important;
 }
 
@@ -64,4 +72,4 @@
 
 .darken>div:not(.sweet-overlay), .darken .input-control, .darken .slider-control {
 	background-color: #031019 !important;
-}
+} */
