@@ -2,6 +2,16 @@
 	filter: invert(100%);
 }
 
+img {
+	filter: invert(100%);
+	opacity: 0.5;
+}
+
+button {
+	filter: invert(100%);
+	opacity: 0.8;
+}
+
 /* .darken #header>div.ui.secondary.inverted.blue.segment, .darken .rowed tbody tr:hover {
 	background-color: #316d92 !important;
 }
