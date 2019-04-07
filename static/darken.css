@@ -2,12 +2,12 @@
 	filter: invert(100%);
 }
 
-img {
+.darken img {
 	filter: invert(100%);
 	opacity: 0.5;
 }
 
-button {
+.darken button {
 	filter: invert(100%);
 	opacity: 0.8;
 }
