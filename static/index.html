@@ -11,23 +11,21 @@
 	<meta name="theme-color" content="#2185d0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="Description" content="A Granblue Fantasy Raid Finder With New And Innovative Features">
-	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-48921108-3"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
+	<script type="text/javascript">
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/serviceWorker.js')
+				.then(function(registration) {
+					console.log("ServiceWorker registration complete.");
+					registration.addEventListener('updatefound', function() {
+						let installingWorker = registration.installing;
+						console.log("Update found. A new service worker is being installed.", installingWorker);
+					});
+				})
+				.catch(function(err) {
+					console.log(`Error installing ServiceWorker: ${err.message}`, err);
+				});
 		}
-		gtag('js', new Date());
-		gtag('config', 'UA-48921108-3');
 	</script>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-		(adsbygoogle = window.adsbygoogle || []).push({
-			google_ad_client: "ca-pub-7567727058457609",
-			enable_page_level_ads: true
-		});
-	</script> -->
 	<link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans" as="style" onload="console.log('Open Sans Font loaded.');this.onload=null;this.rel='stylesheet'">
 	<link rel="preload" href="semantic/dist/semantic.min.css" as="style" onload="console.log('SemanticUI CSS loaded.');this.onload=null;this.rel='stylesheet'">
 	<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" as="style" onload="console.log('Toastr CSS loaded.');this.onload=null;this.rel='stylesheet'">
@@ -228,9 +226,9 @@
 		<div id="news-message" class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 4/05/2019
+				News - 4/09/2019
 			</div>
-			<p>Due to Viramate officially being discontinued, I have removed all Viramate features including raid health, raid join statuses like low AP, raid over notifications, and so forth.</p>
+			<p>I changed the dark mode closer to the way it was before the last update.</p>
 		</div>
 		<div id="welcome">
 			<h1>Welcome to GBFRaiders, a raid-finding website for Granblue Fantasy.</h1>
@@ -255,10 +253,10 @@
 	<script src="utils/moment.min.js"></script>
 	<script src="utils/clipboard.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-	<script src="draggable/CSSPlugin.min.js"></script>
+	<!-- <script src="draggable/CSSPlugin.min.js"></script>
 	<script src="draggable/Draggable.min.js"></script>
 	<script src="draggable/EasePack.min.js"></script>
-	<script src="draggable/TweenLite.min.js"></script>
+	<script src="draggable/TweenLite.min.js"></script> -->
 	<script src="raids.js"></script>
 	<script src="settings.js"></script>
 	<script src="main.js"></script>

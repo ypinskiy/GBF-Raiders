@@ -1,4 +1,4 @@
-const version = '0.0.16';
+const version = '0.0.21';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -21,7 +21,6 @@ let precachedResourcesWithoutDependency = [
 	'draggable/Draggable.min.js',
 	'draggable/EasePack.min.js',
 	'draggable/TweenLite.min.js',
-	'assets/stickers/nope-sticker.png',
 	'sliders.css'
 ];
 
@@ -52,8 +51,6 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( '/' )
 		);
-	} else if ( requestURL.protocol == "chrome-extension:" ) {
-		return;
 	} else {
 		event.respondWith(
 			CacheFallingBackToNetwork( request )
@@ -62,7 +59,7 @@ self.addEventListener( 'fetch', function ( event ) {
 } );
 
 function CacheOnly( request ) {
-	console.log( `${request.href}: Checking only cache for response`, request );
+	console.log( `${request.url}: Checking only cache for response`, request );
 	return caches.match( request )
 		.then( function ( cacheResponse ) {
 			console.log( `Found response in cache`, cacheResponse );
@@ -71,12 +68,12 @@ function CacheOnly( request ) {
 }
 
 function NetworkOnly( request ) {
-	console.log( `${request.href}: Getting response straight from network`, request );
+	console.log( `${request.url}: Getting response straight from network`, request );
 	return fetch( request, { cache: 'no-store' } );
 }
 
 function NetworkFallingBackToCache( request ) {
-	console.log( `${request.href}: Getting reponse from network with cache fallback`, request );
+	console.log( `${request.url}: Getting reponse from network with cache fallback`, request );
 	return fetch( request, { cache: 'no-store' } )
 		.catch( function ( error ) {
 			console.error( `Failed to get response from network, checking cache for fallback`, error );
@@ -85,7 +82,7 @@ function NetworkFallingBackToCache( request ) {
 }
 
 function CacheFallingBackToNetwork( request ) {
-	console.log( `${request.href}: Getting reponse from cache with network fallback`, request );
+	console.log( `${request.url}: Getting reponse from cache with network fallback`, request );
 	return caches.match( request )
 		.then( function ( cacheResponse ) {
 			return cacheResponse || fetch( request, { cache: 'no-store' } )

@@ -310,11 +310,11 @@ function CreateHorizontalCompactRaidTable() {
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "celled", "unstackable", "table", "compact" );
-	if ( document.getElementById( "selected-raids-label" ) === null ) {
+	if ( document.getElementById( "selected-raids-container-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
 		selectedRaidsDiv.id = "selected-raids-container";
-		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
+		selectedRaidsDiv.innerHTML = '<div id="selected-raids-container-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
 	raidTable.innerHTML = '<thead><tr><th class="center aligned nine wide">Raid Name</th><th class="center aligned single line three wide">Raid ID</th></tr></thead>';
@@ -333,11 +333,11 @@ function CreateHorizontalNormalRaidTable() {
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "compact", "table" );
-	if ( document.getElementById( "selected-raids-label" ) === null ) {
+	if ( document.getElementById( "selected-raids-container-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
 		selectedRaidsDiv.id = "selected-raids-container";
-		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
+		selectedRaidsDiv.innerHTML = '<div id="selected-raids-container-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
 	raidTable.innerHTML = '<thead><tr><th class="center aligned six wide">Name</th><th class="center aligned single line two wide">ID</th><th class="center aligned single line three wide">Time Tweeted</th></tr></thead>';
@@ -356,11 +356,11 @@ function CreateHorizontalFullRaidTable() {
 	var raidTable = document.createElement( "table" );
 	raidTable.id = "raid-table";
 	raidTable.classList.add( "ui", "blue", "unstackable", "celled", "compact", "table" );
-	if ( document.getElementById( "selected-raids-label" ) === null ) {
+	if ( document.getElementById( "selected-raids-container-label" ) === null ) {
 		var selectedRaidsDiv = document.createElement( "div" );
 		selectedRaidsDiv.classList.add( "ui", "secondary", "inverted", "blue", "segment" );
 		selectedRaidsDiv.id = "selected-raids-container";
-		selectedRaidsDiv.innerHTML = '<div id="selected-raids-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
+		selectedRaidsDiv.innerHTML = '<div id="selected-raids-container-label">Selected Raids:</div><div id="selected-raids" class="ui segment">No raids selected. Please search for a raid in the search bar above.</div>';
 		document.getElementById( "header" ).appendChild( selectedRaidsDiv );
 	}
 	raidTable.innerHTML = '<thead><tr><th class="center aligned four wide">Raid Image</th><th class="center aligned nine wide">Raid Content</th><th class="center aligned single line four wide">Join Info</th></tr></thead>';
@@ -376,8 +376,8 @@ function CreateHorizontalFullRaidTable() {
 
 function CreateVerticalRaidContainer() {
 	console.log( "Creating Vertical raid container..." );
-	if ( document.getElementById( "selected-raids-label" ) !== null ) {
-		document.getElementById( "selected-raids-label" ).parentElement.remove();
+	if ( document.getElementById( "selected-raids-container-label" ) !== null ) {
+		document.getElementById( "selected-raids-container-label" ).parentElement.remove();
 	}
 	var raidContainer = document.createElement( "div" );
 	raidContainer.id = "raid-container";
@@ -603,17 +603,17 @@ function AddSelectedVerticalCompactRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		if ( settings.layout.verticalStacking === "row" ) {
-			Draggable.create( document.getElementById( raid.room + "-card" ), {
-				type: "x",
-				autoScroll: 1,
-				liveSnap: true,
-				snap: {
-					points: CalculatePoints( raid.room, false ),
-					radius: 165
-				}
-			} );
-		}
+		// if ( settings.layout.verticalStacking === "row" ) {
+		// 	Draggable.create( document.getElementById( raid.room + "-card" ), {
+		// 		type: "x",
+		// 		autoScroll: 1,
+		// 		liveSnap: true,
+		// 		snap: {
+		// 			points: CalculatePoints( raid.room, false ),
+		// 			radius: 165
+		// 		}
+		// 	} );
+		// }
 	} catch ( error ) {
 		console.log( "Error adding Vertical Compact raid: " + error );
 	}
@@ -672,17 +672,17 @@ function AddSelectedVerticalNormalRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		if ( settings.layout.verticalStacking === "row" ) {
-			Draggable.create( document.getElementById( raid.room + "-card" ), {
-				type: "x",
-				autoScroll: 1,
-				liveSnap: true,
-				snap: {
-					points: CalculatePoints( raid.room, false ),
-					radius: 165
-				}
-			} );
-		}
+		// if ( settings.layout.verticalStacking === "row" ) {
+		// 	Draggable.create( document.getElementById( raid.room + "-card" ), {
+		// 		type: "x",
+		// 		autoScroll: 1,
+		// 		liveSnap: true,
+		// 		snap: {
+		// 			points: CalculatePoints( raid.room, false ),
+		// 			radius: 165
+		// 		}
+		// 	} );
+		// }
 	} catch ( error ) {
 		console.log( "Error adding Vertical Normal raid: " + error );
 	}
@@ -741,53 +741,53 @@ function AddSelectedVerticalFullRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		if ( settings.layout.verticalStacking === "row" ) {
-			Draggable.create( document.getElementById( raid.room + "-card" ), {
-				type: "x",
-				autoScroll: 1,
-				liveSnap: true,
-				snap: {
-					points: CalculatePoints( raid.room, true ),
-					radius: 215
-				}
-			} );
-		}
+		// if ( settings.layout.verticalStacking === "row" ) {
+		// 	Draggable.create( document.getElementById( raid.room + "-card" ), {
+		// 		type: "x",
+		// 		autoScroll: 1,
+		// 		liveSnap: true,
+		// 		snap: {
+		// 			points: CalculatePoints( raid.room, true ),
+		// 			radius: 215
+		// 		}
+		// 	} );
+		// }
 	} catch ( error ) {
 		console.log( "Error adding Vertical Full raid: " + error );
 	}
 }
 
-function CalculatePoints( room, isFull ) {
-	var result = [];
-	var raidIndex = selectedRaidsArray.indexOf( room );
-	for ( var i = 0; i < ( settings.cardSlots - raidIndex ); i++ ) {
-		if ( isFull ) {
-			result.push( {
-				x: i * 415,
-				y: 0
-			} );
-		} else {
-			result.push( {
-				x: i * 315,
-				y: 0
-			} );
-		}
-	}
-	for ( var i = 0; i < raidIndex; i++ ) {
-		if ( isFull ) {
-			result.push( {
-				x: ( i + 1 ) * -415,
-				y: 0
-			} );
-		} else {
-			result.push( {
-				x: ( i + 1 ) * -315,
-				y: 0
-			} );
-		}
-	}
-	return result;
-}
+// function CalculatePoints( room, isFull ) {
+// 	var result = [];
+// 	var raidIndex = selectedRaidsArray.indexOf( room );
+// 	for ( var i = 0; i < ( settings.cardSlots - raidIndex ); i++ ) {
+// 		if ( isFull ) {
+// 			result.push( {
+// 				x: i * 415,
+// 				y: 0
+// 			} );
+// 		} else {
+// 			result.push( {
+// 				x: i * 315,
+// 				y: 0
+// 			} );
+// 		}
+// 	}
+// 	for ( var i = 0; i < raidIndex; i++ ) {
+// 		if ( isFull ) {
+// 			result.push( {
+// 				x: ( i + 1 ) * -415,
+// 				y: 0
+// 			} );
+// 		} else {
+// 			result.push( {
+// 				x: ( i + 1 ) * -315,
+// 				y: 0
+// 			} );
+// 		}
+// 	}
+// 	return result;
+// }
 
 function RemoveSelectedRaid( room ) {
 	console.log( "Removing selected raid: " + room );
