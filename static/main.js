@@ -45,7 +45,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "5.1",
+	version: "5.2",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",

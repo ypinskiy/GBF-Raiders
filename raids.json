@@ -1430,4 +1430,12 @@
 	"image": "/assets/raids/BattleRaid_Tsukuyomi_Nightmare100.png",
 	"category": "Unite and Fight",
 	"element": "Dark"
+},
+{
+	"english": "Lvl 150 Lucilius",
+	"japanese": "Lv150 ルシファー",
+	"room": "lvl150lucilius",
+	"image": "/assets/raids/BattleRaid_Lucilius_Impossible.png",
+	"category": "Impossible Nightmare",
+	"element": "Dark"
 }]

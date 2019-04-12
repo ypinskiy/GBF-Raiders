@@ -358,6 +358,7 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
+	font-display: auto;
 }
 
 body:-webkit-full-screen {

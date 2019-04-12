@@ -1,4 +1,4 @@
-const version = '0.0.21';
+const version = '0.0.22';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -17,10 +17,6 @@ let precachedResourcesAsDependency = [
 let precachedResourcesWithoutDependency = [
 	'utils/moment.min.js',
 	'utils/clipboard.min.js',
-	'draggable/CSSPlugin.min.js',
-	'draggable/Draggable.min.js',
-	'draggable/EasePack.min.js',
-	'draggable/TweenLite.min.js',
 	'sliders.css'
 ];
 
