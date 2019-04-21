@@ -47,7 +47,7 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( '/' )
 		);
-	} else if ( requestURL.host === "fonts.googleapis.com" || request.host === "fonts.gstatic.com" || requestURL.patthname.indexOf( "/assets/fonts/" ) > 0 ) {
+	} else if ( requestURL.host === "fonts.googleapis.com" || request.host === "fonts.gstatic.com" || requestURL.pathname.indexOf( "/assets/fonts/" ) > 0 ) {
 		event.respondWith(
 			PatchFonts( request )
 		);
