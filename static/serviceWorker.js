@@ -47,12 +47,34 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( '/' )
 		);
+	} else if ( requestURL.host === "fonts.googleapis.com" || request.host === "fonts.gstatic.com" || requestURL.patthname.indexOf( "/assets/fonts/" ) > 0 ) {
+		event.respondWith(
+			PatchFonts( request )
+		);
 	} else {
 		event.respondWith(
 			CacheFallingBackToNetwork( request )
 		);
 	}
 } );
+
+async function PatchFonts( request ) {
+	console.log( `${request.url}: Patching fonts...`, request );
+	const cacheResponse = await caches.match( request );
+	if ( cacheResponse ) {
+		return cacheResponse;
+	} else {
+		const response = await fetch( request );
+		const css = await response.text();
+		const patched = css.replace( /}/g, "font-display: swap; }" );
+		const newResponse = new Response( patched, { headers: response.headers } );
+		caches.open( dynamicname )
+			.then( function ( cache ) {
+				cache.put( request, newResponse.clone() );
+			} );
+		return newResponse;
+	}
+}
 
 function CacheOnly( request ) {
 	console.log( `${request.url}: Checking only cache for response`, request );
