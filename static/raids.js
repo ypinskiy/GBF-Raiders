@@ -2,8 +2,7 @@ function FindRaidConfig( room ) {
 	console.log( "Trying to find raid config for room: " + room );
 	var result = raidConfigs.filter( ( raid ) => { return raid.room == room; } );
 	if ( result.length > 0 ) {
-		console.log( "Found raid config:" );
-		console.dir( result[ 0 ] );
+		console.log( "Found raid config:", result[ 0 ] );
 	} else {
 		console.log( "Error finding raid config." );
 	}
@@ -603,17 +602,6 @@ function AddSelectedVerticalCompactRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		// if ( settings.layout.verticalStacking === "row" ) {
-		// 	Draggable.create( document.getElementById( raid.room + "-card" ), {
-		// 		type: "x",
-		// 		autoScroll: 1,
-		// 		liveSnap: true,
-		// 		snap: {
-		// 			points: CalculatePoints( raid.room, false ),
-		// 			radius: 165
-		// 		}
-		// 	} );
-		// }
 	} catch ( error ) {
 		console.log( "Error adding Vertical Compact raid: " + error );
 	}
@@ -672,17 +660,6 @@ function AddSelectedVerticalNormalRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		// if ( settings.layout.verticalStacking === "row" ) {
-		// 	Draggable.create( document.getElementById( raid.room + "-card" ), {
-		// 		type: "x",
-		// 		autoScroll: 1,
-		// 		liveSnap: true,
-		// 		snap: {
-		// 			points: CalculatePoints( raid.room, false ),
-		// 			radius: 165
-		// 		}
-		// 	} );
-		// }
 	} catch ( error ) {
 		console.log( "Error adding Vertical Normal raid: " + error );
 	}
@@ -741,53 +718,10 @@ function AddSelectedVerticalFullRaid( raid ) {
 		document.getElementById( raid.room + '-settings' ).addEventListener( "click", function ( event ) {
 			SetupSettingsModal( raid );
 		}, false );
-		// if ( settings.layout.verticalStacking === "row" ) {
-		// 	Draggable.create( document.getElementById( raid.room + "-card" ), {
-		// 		type: "x",
-		// 		autoScroll: 1,
-		// 		liveSnap: true,
-		// 		snap: {
-		// 			points: CalculatePoints( raid.room, true ),
-		// 			radius: 215
-		// 		}
-		// 	} );
-		// }
 	} catch ( error ) {
 		console.log( "Error adding Vertical Full raid: " + error );
 	}
 }
-
-// function CalculatePoints( room, isFull ) {
-// 	var result = [];
-// 	var raidIndex = selectedRaidsArray.indexOf( room );
-// 	for ( var i = 0; i < ( settings.cardSlots - raidIndex ); i++ ) {
-// 		if ( isFull ) {
-// 			result.push( {
-// 				x: i * 415,
-// 				y: 0
-// 			} );
-// 		} else {
-// 			result.push( {
-// 				x: i * 315,
-// 				y: 0
-// 			} );
-// 		}
-// 	}
-// 	for ( var i = 0; i < raidIndex; i++ ) {
-// 		if ( isFull ) {
-// 			result.push( {
-// 				x: ( i + 1 ) * -415,
-// 				y: 0
-// 			} );
-// 		} else {
-// 			result.push( {
-// 				x: ( i + 1 ) * -315,
-// 				y: 0
-// 			} );
-// 		}
-// 	}
-// 	return result;
-// }
 
 function RemoveSelectedRaid( room ) {
 	console.log( "Removing selected raid: " + room );

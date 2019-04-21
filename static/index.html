@@ -12,11 +12,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="Description" content="A Granblue Fantasy Raid Finder With New And Innovative Features">
 	<script type="text/javascript">
+		let currentRegistration = null;
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('/serviceWorker.js')
 				.then(function(registration) {
 					console.log("ServiceWorker registration complete.");
-					registration.addEventListener('updatefound', function() {
+					currentRegistration = registration;
+					currentRegistration.addEventListener('updatefound', function() {
 						let installingWorker = registration.installing;
 						console.log("Update found. A new service worker is being installed.", installingWorker);
 					});
@@ -25,13 +27,6 @@
 					console.log(`Error installing ServiceWorker: ${err.message}`, err);
 				});
 		}
-	</script>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-		(adsbygoogle = window.adsbygoogle || []).push({
-			google_ad_client: "ca-pub-7567727058457609",
-			enable_page_level_ads: true
-		});
 	</script>
 	<link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans" as="style" onload="console.log('Open Sans Font loaded.');this.onload=null;this.rel='stylesheet'">
 	<link rel="preload" href="semantic/dist/semantic.min.css" as="style" onload="console.log('SemanticUI CSS loaded.');this.onload=null;this.rel='stylesheet'">
@@ -260,10 +255,6 @@
 	<script src="utils/moment.min.js"></script>
 	<script src="utils/clipboard.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-	<!-- <script src="draggable/CSSPlugin.min.js"></script>
-	<script src="draggable/Draggable.min.js"></script>
-	<script src="draggable/EasePack.min.js"></script>
-	<script src="draggable/TweenLite.min.js"></script> -->
 	<script src="raids.js"></script>
 	<script src="settings.js"></script>
 	<script src="main.js"></script>

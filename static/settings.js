@@ -260,8 +260,8 @@ function SetupControls() {
 
 		document.getElementById( "local-file-input" ).addEventListener( "change", function () {
 			console.log( "Changing custom sound notif..." );
-			customSoundNotif.src = URL.createObjectURL( this.files[ 0 ] );
-			customSoundNotif.onend = function ( e ) {
+			selectedSoundNotif.src = URL.createObjectURL( this.files[ 0 ] );
+			selectedSoundNotif.onend = function ( e ) {
 				URL.revokeObjectURL( this.src );
 			}
 		} );

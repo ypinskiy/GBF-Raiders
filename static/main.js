@@ -1,34 +1,37 @@
-var socket = null;
-var raids = [];
-var raidConfigs = [];
-var selectedRaidsArray = [];
-var individualSettings = [];
-var wasDown = false;
-var noTwitter = false;
+let socket = null;
+let raids = [];
+let raidConfigs = [];
+let selectedRaidsArray = [];
+let individualSettings = [];
+let wasDown = false;
+let noTwitter = false;
 
-var funfNotif = new Audio( '/assets/sounds/funf.mp3' );
-var beepsSoundNotif = new Audio( '/assets/sounds/Beeps_Appear.wav' );
-var lilyRingRingSoundNotif = new Audio( '/assets/sounds/Lily_Event_RingRing.mp3' );
-var andiraOniichanSoundNotif = new Audio( '/assets/sounds/Andira_Oniichan.mp3' );
-var titanfallDroppingNowSoundNotif = new Audio( '/assets/sounds/Titanfall_DroppingNow.mp3' );
-var hoeeeeeSoundNotif = new Audio( '/assets/sounds/HOEEEEE.mp3' );
-var alarmFoghornSoundNotif = new Audio( '/assets/sounds/ALARM_Foghorn_full_stereo.wav' );
-var alarmSubmarineSoundNotif = new Audio( '/assets/sounds/ALARM_Submarine_Slow_loop_stereo.wav' );
-var chargeSciFiSweepSoundNotif = new Audio( '/assets/sounds/CHARGE_Sci-Fi_Sweep.wav' );
-var femaleGoGoGoSoundNotif = new Audio( '/assets/sounds/female_go_go_go.ogg' );
-var maleGoGoGoSoundNotif = new Audio( '/assets/sounds/male_go_go_go.ogg' );
-var femaleHurryUpSoundNotif = new Audio( '/assets/sounds/female_hurry_up.ogg' );
-var maleHurryUpSoundNotif = new Audio( '/assets/sounds/male_hurry_up.ogg' );
-var jingleNESSoundNotif = new Audio( '/assets/sounds/jingles_NES16.ogg' );
-var jingleSaxSoundNotif = new Audio( '/assets/sounds/jingles_SAX00.ogg' );
-var jingleSteel0SoundNotif = new Audio( '/assets/sounds/jingles_STEEL00.ogg' );
-var jingleSteel16SoundNotif = new Audio( '/assets/sounds/jingles_STEEL16.ogg' );
-var magicSpellSoundNotif = new Audio( '/assets/sounds/MAGIC_SPELL_Attacking.wav' );
-var zapThreeToneSoundNotif = new Audio( '/assets/sounds/zapThreeToneUp.mp3' );
-var zapTwoToneSoundNotif = new Audio( '/assets/sounds/zapTwoTone2.mp3' );
-var customSoundNotif = new Audio();
+let soundNotifs = {
+	"funf-dancho": '/assets/sounds/funf.mp3',
+	"beeps": '/assets/sounds/Beeps_Appear.wav',
+	"lily-event-ringring": '/assets/sounds/Lily_Event_RingRing.mp3',
+	"andira-oniichan": '/assets/sounds/Andira_Oniichan.mp3',
+	"titanfall-droppingnow": '/assets/sounds/Titanfall_DroppingNow.mp3',
+	"sakura-hoeeeee": '/assets/sounds/HOEEEEE.mp3',
+	"alarm-foghorn": '/assets/sounds/ALARM_Foghorn_full_stereo.wav',
+	"alarm-submarine": '/assets/sounds/ALARM_Submarine_Slow_loop_stereo.wav',
+	"scifi-sweep": '/assets/sounds/CHARGE_Sci-Fi_Sweep.wav',
+	"female-gogogo": '/assets/sounds/female_go_go_go.ogg',
+	"male-gogogo": '/assets/sounds/male_go_go_go.ogg',
+	"female-hurryup": '/assets/sounds/female_hurry_up.ogg',
+	"male-hurryup": '/assets/sounds/male_hurry_up.ogg',
+	"jingle-nes": '/assets/sounds/jingles_NES16.ogg',
+	"jingle-sax": '/assets/sounds/jingles_SAX00.ogg',
+	"jingle-steel": '/assets/sounds/jingles_STEEL00.ogg',
+	"jingle-steel2": '/assets/sounds/jingles_STEEL16.ogg',
+	"zap-3tone": '/assets/sounds/zapThreeToneUp.mp3',
+	"zap-2tone": '/assets/sounds/zapTwoTone2.mp3',
+	"magic-spell": '/assets/sounds/MAGIC_SPELL_Attacking.wav'
+};
 
-var settings = {
+let selectedSoundNotif = new Audio();
+
+let settings = {
 	notification: {
 		soundNotifOn: false,
 		soundNotifVolume: 100,
@@ -45,7 +48,7 @@ var settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "5.2",
+	version: "5.3",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
@@ -81,9 +84,14 @@ if ( !window.chrome ) {
 	}
 }
 
-function ResetSite() {
+async function ResetSite() {
 	localStorage.clear();
 	window.history.pushState( {}, document.title, "/" );
+	if ( currentRegistration != null ) {
+		const allCaches = await caches.keys();
+		const cacheDeletionPromises = allCaches.map( cache => caches.delete( cache ) );
+		await Promise.all( [ currentRegistration.unregister(), ...cacheDeletionPromises ] );
+	}
 	location.reload( true );
 }
 
@@ -94,8 +102,8 @@ function CheckConnectionStatus() {
 		document.getElementById( "connection-status-value" ).innerHTML = "UP";
 		console.log( "Recovering from connection down..." );
 		if ( localStorage.getItem( "selectedRaids" ) ) {
-			var tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
-			for ( var i = 0; i < tempSelectedRaids.length; i++ ) {
+			let tempSelectedRaids = JSON.parse( localStorage.getItem( "selectedRaids" ) );
+			for ( let i = 0; i < tempSelectedRaids.length; i++ ) {
 				socket.emit( 'subscribe', {
 					room: tempSelectedRaids[ i ]
 				} );
@@ -170,7 +178,7 @@ window.addEventListener( 'load', function () {
 			setInterval( function () {
 				if ( raids.length > 0 ) {
 					TrimExtraRaids();
-					for ( var i = raids.length - 1; i >= 0; i-- ) {
+					for ( let i = raids.length - 1; i >= 0; i-- ) {
 						UpdateRaidRow( raids[ i ] );
 					}
 				}
@@ -195,191 +203,25 @@ window.addEventListener( 'load', function () {
 	} );
 } );
 
-function PlaySoundNotif( data ) {
+function PlaySoundNotif( data = {room: "sound-test"} ) {
 	console.log( `Playing sound notif for: ${data.room}`, settings.notification );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		try {
-			switch ( settings.notification.soundNotifChoice ) {
-				case "alarm-foghorn":
-					alarmFoghornSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					alarmFoghornSoundNotif.play();
-					break;
-				case "alarm-submarine":
-					alarmSubmarineSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					alarmSubmarineSoundNotif.play();
-					break;
-				case "scifi-sweep":
-					chargeSciFiSweepSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					chargeSciFiSweepSoundNotif.play();
-					break;
-				case "female-gogogo":
-					femaleGoGoGoSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					femaleGoGoGoSoundNotif.play();
-					break;
-				case "male-gogogo":
-					maleGoGoGoSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					maleGoGoGoSoundNotif.play();
-					break;
-				case "female-hurryup":
-					femaleHurryUpSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					femaleHurryUpSoundNotif.play();
-					break;
-				case "male-hurryup":
-					maleHurryUpSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					maleHurryUpSoundNotif.play();
-					break;
-				case "jingle-nes":
-					jingleNESSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					jingleNESSoundNotif.play();
-					break;
-				case "jingle-sax":
-					jingleSaxSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					jingleSaxSoundNotif.play();
-					break;
-				case "jingle-steel":
-					jingleSteel0SoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					jingleSteel0SoundNotif.play();
-					break;
-				case "jingle-steel2":
-					jingleSteel16SoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					jingleSteel16SoundNotif.play();
-					break;
-				case "zap-3tone":
-					zapThreeToneSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					zapThreeToneSoundNotif.play();
-					break;
-				case "zap-2tone":
-					zapTwoToneSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					zapTwoToneSoundNotif.play();
-					break;
-				case "magic-spell":
-					magicSpellSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					magicSpellSoundNotif.play();
-					break;
-				case "custom":
-					customSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					customSoundNotif.play();
-					break;
-				case "beeps":
-					beepsSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					beepsSoundNotif.play();
-					break;
-				case "lily-event-ringring":
-					lilyRingRingSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					lilyRingRingSoundNotif.play();
-					break;
-				case "andira-oniichan":
-					andiraOniichanSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					andiraOniichanSoundNotif.play();
-					break;
-				case "titanfall-droppingnow":
-					titanfallDroppingNowSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					titanfallDroppingNowSoundNotif.play();
-					break;
-				case "sakura-hoeeeee":
-					hoeeeeeSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					hoeeeeeSoundNotif.play();
-					break;
-				case "funf-dancho":
-					funfNotif.volume = ( settings.notification.soundNotifVolume / 100 );
-					funfNotif.play();
-					break;
-			}
+			selectedSoundNotif.src = soundNotifs[ settings.notification.soundNotifChoice ];
+			selectedSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
+			selectedSoundNotif.play();
 			console.log( `Played sound notif for: ${data.room}`, settings.notification );
 		} catch ( error ) {
 			console.log( `Error playing sound notif for: ${data.room}`, error, settings.notification );
 		}
 	} else if ( settings.layout.orientation === "vertical" ) {
-		for ( var i = 0; i < individualSettings.length; i++ ) {
+		for ( let i = 0; i < individualSettings.length; i++ ) {
 			if ( data.room === individualSettings[ i ].room ) {
 				if ( individualSettings[ i ].settings.soundNotifOn ) {
 					try {
-						switch ( individualSettings[ i ].settings.soundNotifChoice ) {
-							case "alarm-foghorn":
-								alarmFoghornSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								alarmFoghornSoundNotif.play();
-								break;
-							case "alarm-submarine":
-								alarmSubmarineSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								alarmSubmarineSoundNotif.play();
-								break;
-							case "scifi-sweep":
-								chargeSciFiSweepSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								chargeSciFiSweepSoundNotif.play();
-								break;
-							case "female-gogogo":
-								femaleGoGoGoSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								femaleGoGoGoSoundNotif.play();
-								break;
-							case "male-gogogo":
-								maleGoGoGoSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								maleGoGoGoSoundNotif.play();
-								break;
-							case "female-hurryup":
-								femaleHurryUpSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								femaleHurryUpSoundNotif.play();
-								break;
-							case "male-hurryup":
-								maleHurryUpSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								maleHurryUpSoundNotif.play();
-								break;
-							case "jingle-nes":
-								jingleNESSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								jingleNESSoundNotif.play();
-								break;
-							case "jingle-sax":
-								jingleSaxSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								jingleSaxSoundNotif.play();
-								break;
-							case "jingle-steel":
-								jingleSteel0SoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								jingleSteel0SoundNotif.play();
-								break;
-							case "jingle-steel2":
-								jingleSteel16SoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								jingleSteel16SoundNotif.play();
-								break;
-							case "zap-3tone":
-								zapThreeToneSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								zapThreeToneSoundNotif.play();
-								break;
-							case "zap-2tone":
-								zapTwoToneSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								zapTwoToneSoundNotif.play();
-								break;
-							case "magic-spell":
-								magicSpellSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								magicSpellSoundNotif.play();
-								break;
-							case "custom":
-								customSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								customSoundNotif.play();
-								break;
-							case "beeps":
-								beepsSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								beepsSoundNotif.play();
-								break;
-							case "lily-event-ringring":
-								lilyRingRingSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								lilyRingRingSoundNotif.play();
-								break;
-							case "andira-oniichan":
-								andiraOniichanSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								andiraOniichanSoundNotif.play();
-								break;
-							case "titanfall-droppingnow":
-								titanfallDroppingNowSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								titanfallDroppingNowSoundNotif.play();
-								break;
-							case "sakura-hoeeeee":
-								hoeeeeeSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								hoeeeeeSoundNotif.play();
-								break;
-							case "funf-dancho":
-								funfNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
-								funfNotif.play();
-								break;
-						}
+						selectedSoundNotif.src = soundNotifs[ individualSettings[ i ].settings.soundNotifChoice ];
+						selectedSoundNotif.volume = ( individualSettings[ i ].settings.soundNotifVolume / 100 );
+						selectedSoundNotif.play();
 						console.log( `Played sound notif for: ${data.room}`, settings.notification );
 					} catch ( error ) {
 						console.log( `Error playing sound notif for: ${data.room}`, error, settings.notification );
@@ -395,9 +237,9 @@ function SendDesktopNotif( data ) {
 	if ( settings.layout.orientation === "horizontal" && settings.notification.desktopNotifOn ) {
 		if ( Notification.permission === "granted" ) {
 			try {
-				var raidConfig = FindRaidConfig( data.room );
-				var notification = null;
-				var title = "";
+				let raidConfig = FindRaidConfig( data.room );
+				let notification = null;
+				let title = "";
 				if ( data.language === "EN" ) {
 					title = raidConfig.english;
 				} else {
@@ -419,12 +261,12 @@ function SendDesktopNotif( data ) {
 				}, 5000 );
 				notification.onclick = function ( event ) {
 					event.preventDefault();
-					var raidLabel = document.getElementById( data.id + '-label' );
+					let raidLabel = document.getElementById( data.id + '-label' );
 					if ( raidLabel !== null ) {
 						if ( window.getSelection ) {
 							raidLabel.focus();
-							var selection = window.getSelection();
-							var range = document.createRange();
+							let selection = window.getSelection();
+							let range = document.createRange();
 							range.selectNodeContents( raidLabel );
 							selection.removeAllRanges();
 							selection.addRange( range );
@@ -439,15 +281,15 @@ function SendDesktopNotif( data ) {
 			}
 		}
 	} else if ( settings.layout.orientation === "vertical" ) {
-		for ( var i = 0; i < individualSettings.length; i++ ) {
+		for ( let i = 0; i < individualSettings.length; i++ ) {
 			if ( data.room === individualSettings[ i ].room ) {
 				if ( individualSettings[ i ].settings.desktopNotifOn ) {
-					var raidConfig = FindRaidConfig( data.room );
+					let raidConfig = FindRaidConfig( data.room );
 					if ( Notification.permission === "granted" ) {
 						try {
-							var raidConfig = FindRaidConfig( data.room );
-							var notification = null;
-							var title = "";
+							let raidConfig = FindRaidConfig( data.room );
+							let notification = null;
+							let title = "";
 							if ( data.language === "EN" ) {
 								title = raidConfig.english;
 							} else {
@@ -469,12 +311,12 @@ function SendDesktopNotif( data ) {
 							}, 4000 );
 							notification.onclick = function ( event ) {
 								event.preventDefault();
-								var raidLabel = document.getElementById( data.id + '-label' );
+								let raidLabel = document.getElementById( data.id + '-label' );
 								if ( raidLabel !== null ) {
 									if ( window.getSelection ) {
 										raidLabel.focus();
-										var selection = window.getSelection();
-										var range = document.createRange();
+										let selection = window.getSelection();
+										let range = document.createRange();
 										range.selectNodeContents( raidLabel );
 										selection.removeAllRanges();
 										selection.addRange( range );
