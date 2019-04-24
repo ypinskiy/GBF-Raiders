@@ -1336,9 +1336,9 @@
 	"element": "Wind"
 },
 {
-	"english": "Lvl 120 Huanglong",
-	"japanese": "Lv120 黄龍･黒麒麟HL",
-	"room": "lvl120huanglong",
+	"english": "Huanglong & Qilin (Impossible)",
+	"japanese": "黄龍・黒麒麟HL",
+	"room": "huanglongqilin",
 	"image": "/assets/raids/BattleRaid_Huanglong_and_Qilin_Impossible.png",
 	"category": "Rise of the Beasts",
 	"element": "Light"
