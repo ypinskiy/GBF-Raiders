@@ -349,6 +349,8 @@ function SetupControls() {
 					for ( var i = 0; i < individualSettings.length; i++ ) {
 						individualSettings[ i ].settings.soundNotifChoice = value;
 					}
+				} else {
+					selectedSoundNotif.src = soundNotifs[ settings.notification.soundNotifChoice ];
 				}
 				localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 				PlaySoundNotif();

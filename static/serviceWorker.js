@@ -1,4 +1,4 @@
-const version = '0.0.25';
+const version = '0.0.26';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -47,9 +47,13 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( '/' )
 		);
-	} else if ( requestURL.host === "fonts.googleapis.com" || request.host === "fonts.gstatic.com" || requestURL.pathname.indexOf( "/assets/fonts/" ) > 0 ) {
+	} else if ( requestURL.host === "fonts.googleapis.com" || request.host === "fonts.gstatic.com" ) {
 		event.respondWith(
 			PatchFonts( request )
+		);
+	} else if (requestURL.pathname === "/stats") {
+		event.respondWith(
+			NetworkOnly( request )
 		);
 	} else {
 		event.respondWith(

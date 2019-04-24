@@ -10,9 +10,35 @@ const cluster = require( 'cluster' );
 const OS = require( 'os' );
 const raidConfigs = require( './raids.json' );
 
+function SortRoomsDesc( a, b ) {
+	if ( a.subbed < b.subbed ) {
+		return 1;
+	}
+	if ( a.subbed > b.subbed ) {
+		return -1;
+	}
+	return 0
+}
+
+function ParseRooms( rooms ) {
+	let raids = [];
+	raidConfigs.forEach( function ( raid ) {
+		if ( rooms[ raid.room ] ) {
+			raids.push( { "room": raid.room, "subbed": rooms[ raid.room ].length } );
+		}
+	} );
+	raids.sort( SortRoomsDesc );
+	return raids;
+}
+
 if ( cluster.isMaster ) {
 	console.log( "Starting cluster master..." );
 	let io = null;
+	let stats = {
+		cpus: 0,
+		connected: 0,
+		tweets: 0
+	};
 
 	function SendToWorkers( message ) {
 		for ( const id in cluster.workers ) {
@@ -20,6 +46,7 @@ if ( cluster.isMaster ) {
 		}
 	}
 	const numCPUs = OS.cpus().length;
+	stats.cpus = numCPUs;
 	while ( Object.keys( cluster.workers ).length < numCPUs ) {
 		console.log( `Creating fork # ${Object.keys(cluster.workers).length}` );
 		cluster.fork();
@@ -47,7 +74,7 @@ if ( cluster.isMaster ) {
 		}
 	}
 
-	function searchTextForRaids( text ) {
+	function SearchTextForRaids( text ) {
 		let result = null;
 		for ( let i = 0; i < raidConfigs.length; i++ ) {
 			if ( text.indexOf( raidConfigs[ i ].english ) != -1 || text.indexOf( raidConfigs[ i ].japanese ) != -1 ) {
@@ -107,16 +134,16 @@ if ( cluster.isMaster ) {
 	function IsValidTweet( data ) {
 		let result = false;
 		if ( data.source !== '<a href="http://granbluefantasy.jp/" rel="nofollow">グランブルー ファンタジー</a>' ) {
-			//console.log( "Invalid Tweet Source", data.source );
+			console.log( "Invalid Tweet Source", data.source );
 		} else {
-			if ( searchTextForRaids( data.text ) === null ) {
-				//console.log( "No Raid Name", data.text );
+			if ( SearchTextForRaids( data.text ) === null ) {
+				console.log( "No Raid Name", data.text );
 			} else {
-				if ( DoesTweetContainMessage( data ) && searchTextForRaids( GetTweetMessage( data ).message ) !== null ) {
-					//console.log( "Message Contains Name", data.text );
+				if ( DoesTweetContainMessage( data ) && SearchTextForRaids( GetTweetMessage( data ).message ) !== null ) {
+					console.log( "Message Contains Name", data.text );
 				} else {
 					if ( GetRaidID( data ) === null ) {
-						//console.log( "No Raid ID", data.text );
+						console.log( "No Raid ID", data.text );
 					} else {
 						result = true;
 					}
@@ -131,13 +158,13 @@ if ( cluster.isMaster ) {
 			console.log( `Starting twitter stream, using backup options: ${usingTwitterBackup}` );
 			twitterClient = new twitter( options );
 			twitterClient.on( 'tweet', function ( tweet ) {
-				console.log( "Tweet recieved: " + tweet.id );
+				//console.log( "Tweet recieved: " + tweet.id );
 				if ( IsValidTweet( tweet ) ) {
 					let raidInfo = {
 						id: GetRaidID( tweet ),
 						user: "@" + tweet.user.screen_name,
 						time: tweet.created_at,
-						room: searchTextForRaids( tweet.text ),
+						room: SearchTextForRaids( tweet.text ),
 						message: "No Twitter Message.",
 						language: "JP",
 						timer: 0
@@ -151,6 +178,7 @@ if ( cluster.isMaster ) {
 					}
 					lastTweet = new Date().getTime();
 					io.to( raidInfo.room ).emit( 'tweet', raidInfo );
+					stats.tweets++;
 				}
 			} );
 			twitterClient.on( 'error', function ( error ) {
@@ -168,9 +196,20 @@ if ( cluster.isMaster ) {
 		}
 	}
 	setInterval( function () {
+		console.log( "Sending stats to workers..." );
+		stats.osuptime = OS.uptime();
+		stats.processuptime = process.uptime();
+		stats.memusage = ((1 - (OS.freemem() / OS.totalmem())) * 100).toFixed(2);
+		stats.servertime = Date.now();
+		stats.tweets = stats.tweets / 10;
+		stats.mostsubbed = ParseRooms( io.sockets.adapter.rooms )[ 0 ];
+		SendToWorkers( stats );
+		console.log( stats );
+		stats.tweets = 0;
+	}, 600000 );
+	setInterval( function () {
 		if ( new Date().getTime() - 600000 > lastTweet ) {
 			console.log( "No tweets in 10 mins..." );
-			SendToWorkers( { type: 'warning', data: 'twitter' } );
 			try {
 				lastTweet = new Date().getTime();
 				setTimeout( function () {
@@ -206,6 +245,7 @@ if ( cluster.isMaster ) {
 			io = require( 'socket.io' ).listen( server );
 		}
 		io.sockets.on( 'connection', function ( socket ) {
+			stats.connected++;
 			socket.on( 'subscribe',
 				function ( data ) {
 					socket.join( data.room );
@@ -214,12 +254,17 @@ if ( cluster.isMaster ) {
 				function ( data ) {
 					socket.leave( data.room );
 				} );
+			socket.on( 'disconnect',
+				function () {
+					stats.connected--;
+				} );
 		} );
 	} catch ( error ) {
 		console.log( "Error setting up websockets: ", error );
 	}
 	StartTwitterStream( twitterOptions );
 } else {
+	let localStats = {};
 	let app = express();
 	if ( process.env.sslEnabled === "true" ) {
 		const options = {
@@ -229,11 +274,13 @@ if ( cluster.isMaster ) {
 		let sslServer = https.createServer( options, app );
 		sslServer.listen( 443 );
 	}
+	process.on( 'message', function ( msg ) {
+		localStats = msg;
+	} );
 	let server = require( 'http' ).createServer( app );
 	server.listen( 80 );
 	app.set( 'json spaces', 0 );
 	app.use( helmet() );
-	//app.use( morgan( 'combined' ) );
 	app.use( compression() );
 	app.use( bodyParser.json() );
 	app.use( bodyParser.urlencoded( {
@@ -251,6 +298,13 @@ if ( cluster.isMaster ) {
 	} );
 	app.get( '/', function ( req, res ) {
 		res.sendFile( __dirname + '/static/index.html' );
+	} );
+	app.get( '/stats', function ( req, res ) {
+		res.header( 'Access-Control-Allow-Origin', '*' );
+		res.header( 'Cache-Control', 'private, no-cache, no-store, must-revalidate' );
+		res.header( 'Expires', '-1' );
+		res.header( 'Pragma', 'no-cache' );
+		res.json( localStats );
 	} );
 	app.use( st( {
 		path: __dirname + '/static',

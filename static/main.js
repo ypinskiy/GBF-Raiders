@@ -207,7 +207,6 @@ function PlaySoundNotif( data = {room: "sound-test"} ) {
 	console.log( `Playing sound notif for: ${data.room}`, settings.notification );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		try {
-			selectedSoundNotif.src = soundNotifs[ settings.notification.soundNotifChoice ];
 			selectedSoundNotif.volume = ( settings.notification.soundNotifVolume / 100 );
 			selectedSoundNotif.play();
 			console.log( `Played sound notif for: ${data.room}`, settings.notification );
