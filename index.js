@@ -9,6 +9,35 @@ const fs = require( 'fs' );
 const cluster = require( 'cluster' );
 const OS = require( 'os' );
 const raidConfigs = require( './raids.json' );
+const raidRooms = raidConfigs.map( raid => raid.room );
+
+let raidsCounter = {};
+
+function objectFlip( obj ) {
+	const ret = {};
+	Object.keys( obj ).forEach( ( key ) => {
+		ret[ obj[ key ] ] = key;
+	} );
+	return ret;
+}
+
+function ResetRaidsCounter() {
+	raidsCounter = Object.assign( {}, raidRooms );
+	raidsCounter = objectFlip( raidsCounter );
+	raidRooms.forEach( function ( room ) {
+		raidsCounter[ room ] = 0;
+	} );
+}
+
+function SortCountersDesc( a, b ) {
+	if ( a.tweeted < b.tweeted ) {
+		return 1;
+	}
+	if ( a.tweeted > b.tweeted ) {
+		return -1;
+	}
+	return 0
+}
 
 function SortRoomsDesc( a, b ) {
 	if ( a.subbed < b.subbed ) {
@@ -18,6 +47,15 @@ function SortRoomsDesc( a, b ) {
 		return -1;
 	}
 	return 0
+}
+
+function ParseCounters() {
+	let rooms = [];
+	rooms = raidRooms.map( room => {
+		return { "room": room, "tweeted": raidsCounter[ room ] };
+	} );
+	rooms.sort( SortCountersDesc );
+	return rooms;
 }
 
 function ParseRooms( rooms ) {
@@ -35,10 +73,10 @@ if ( cluster.isMaster ) {
 	console.log( "Starting cluster master..." );
 	let io = null;
 	let stats = {
-		cpus: 0,
 		connected: 0,
 		tweets: 0
 	};
+	ResetRaidsCounter();
 
 	function SendToWorkers( message ) {
 		for ( const id in cluster.workers ) {
@@ -46,7 +84,6 @@ if ( cluster.isMaster ) {
 		}
 	}
 	const numCPUs = OS.cpus().length;
-	stats.cpus = numCPUs;
 	while ( Object.keys( cluster.workers ).length < numCPUs ) {
 		console.log( `Creating fork # ${Object.keys(cluster.workers).length}` );
 		cluster.fork();
@@ -179,6 +216,7 @@ if ( cluster.isMaster ) {
 					lastTweet = new Date().getTime();
 					io.to( raidInfo.room ).emit( 'tweet', raidInfo );
 					stats.tweets++;
+					raidsCounter[ raidInfo.room ]++;
 				}
 			} );
 			twitterClient.on( 'error', function ( error ) {
@@ -198,15 +236,17 @@ if ( cluster.isMaster ) {
 	setInterval( function () {
 		console.log( "Sending stats to workers..." );
 		stats.osuptime = OS.uptime();
-		stats.processuptime = process.uptime();
-		stats.memusage = ((1 - (OS.freemem() / OS.totalmem())) * 100).toFixed(2);
-		stats.servertime = Date.now();
-		stats.tweets = stats.tweets / 10;
-		stats.mostsubbed = ParseRooms( io.sockets.adapter.rooms )[ 0 ];
+		stats.processuptime = process.uptime().toFixed( 0 );
+		stats.memusage = ( ( 1 - ( OS.freemem() / OS.totalmem() ) ) * 100 ).toFixed( 0 );
+		stats.servertime = new Date().toString();
+		stats.tweets = stats.tweets;
+		stats.mostsubbed = ParseRooms( io.sockets.adapter.rooms ).slice( 0, 3 );
+		stats.mosttweeted = ParseCounters().slice( 0, 3 );
 		SendToWorkers( stats );
 		console.log( stats );
 		stats.tweets = 0;
-	}, 600000 );
+		ResetRaidsCounter();
+	}, 60000 );
 	setInterval( function () {
 		if ( new Date().getTime() - 600000 > lastTweet ) {
 			console.log( "No tweets in 10 mins..." );
