@@ -267,10 +267,16 @@
 .selected-raids-label {
 	cursor: pointer;
 	margin: 0px !important;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .selected-raids-label>.delete.icon {
-	float: right;
+	right: 5px;
+	top: calc(50% - 0.5em);
+	position: absolute;
+	margin: 0 !important;
 }
 
 .smaller>td>.ui.items>.item {
