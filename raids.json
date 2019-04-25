@@ -1341,7 +1341,7 @@
 	"room": "huanglongqilin",
 	"image": "/assets/raids/BattleRaid_Huanglong_and_Qilin_Impossible.png",
 	"category": "Rise of the Beasts",
-	"element": "Light"
+	"element": "None"
 },
 {
 	"english": "Lvl 150 Tiamat Malice",
@@ -1438,4 +1438,12 @@
 	"image": "/assets/raids/BattleRaid_Lucilius_Impossible.png",
 	"category": "Impossible Nightmare",
 	"element": "Dark"
+},
+{
+	"english": "The Four Primarchs",
+	"japanese": "四大天司ＨＬ",
+	"room": "thefourprimarchs",
+	"image": "/assets/raids/BattleRaid_Four_PrimarchsHL.jfif",
+	"category": "Impossible Nightmare",
+	"element": "None"
 }]
