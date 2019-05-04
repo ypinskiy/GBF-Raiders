@@ -235,9 +235,7 @@ if ( cluster.isMaster ) {
 	}
 	setInterval( function () {
 		console.log( "Sending stats to workers..." );
-		stats.osuptime = OS.uptime();
 		stats.processuptime = process.uptime().toFixed( 0 );
-		stats.memusage = ( ( 1 - ( OS.freemem() / OS.totalmem() ) ) * 100 ).toFixed( 0 );
 		stats.servertime = new Date().toString();
 		stats.tweets = stats.tweets;
 		stats.mostsubbed = ParseRooms( io.sockets.adapter.rooms ).slice( 0, 3 );
@@ -304,7 +302,7 @@ if ( cluster.isMaster ) {
 	}
 	StartTwitterStream( twitterOptions );
 } else {
-	let localStats = {};
+	let localStats = [];
 	let app = express();
 	if ( process.env.sslEnabled === "true" ) {
 		const options = {
@@ -315,7 +313,10 @@ if ( cluster.isMaster ) {
 		sslServer.listen( 443 );
 	}
 	process.on( 'message', function ( msg ) {
-		localStats = msg;
+		localStats.push( msg );
+		if ( localStats.length > 180 ) {
+			localStats.shift();
+		}
 	} );
 	let server = require( 'http' ).createServer( app );
 	server.listen( 80 );

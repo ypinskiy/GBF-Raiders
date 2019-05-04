@@ -352,7 +352,6 @@
 .ui.tiny.image>img {
 	height: 40px !important;
 	object-fit: cover !important;
-	object-position: 0 0 !important;
 	width: 100% !important;
 }
 
@@ -383,10 +382,9 @@ body:-webkit-full-screen {
 td.larger>img {
 	height: 80%;
 	object-fit: cover;
-	object-position: 0 20%;
 	width: 100%;
 	max-width: 300px;
-	max-height: 200px;
+	max-height: 150px;
 }
 
 @media max-width 1101px and min-width 1092px {
