@@ -1,4 +1,4 @@
-const version = '0.0.28';
+const version = '0.0.29';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -51,7 +51,7 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			PatchFonts( request )
 		);
-	} else if (requestURL.pathname === "/stats") {
+	} else if (requestURL.pathname === "/stats" || requestURL.pathname === "/stats.json") {
 		event.respondWith(
 			NetworkOnly( request )
 		);

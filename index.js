@@ -341,6 +341,9 @@ if ( cluster.isMaster ) {
 		res.sendFile( __dirname + '/static/index.html' );
 	} );
 	app.get( '/stats', function ( req, res ) {
+		res.sendFile( __dirname + '/static/stats.html' );
+	} );
+	app.get( '/stats.json', function ( req, res ) {
 		res.header( 'Access-Control-Allow-Origin', '*' );
 		res.header( 'Cache-Control', 'private, no-cache, no-store, must-revalidate' );
 		res.header( 'Expires', '-1' );

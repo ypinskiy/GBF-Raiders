@@ -1,0 +1,317 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>GBF Raiders Stats</title>
+	<link id="favicon" rel="shortcut icon" type="image/png" href="/assets/misc/GBFRaidersIconv2.png" />
+	<meta name="theme-color" content="#2185d0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="GBFRaiders User Stats">
+	<style type="text/css">
+		svg {
+			border: 1px solid black;
+		}
+
+		table {
+			border: 1px solid black;
+			padding: 5px;
+			table-layout: fixed;
+			display: inline-table;
+			margin-top: 15px;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 5px;
+			text-align: center;
+		}
+
+		caption {
+			font-weight: bold;
+		}
+
+		text {
+			font-size: larger;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="tweets"></div>
+
+	<div id="connected"></div>
+
+	<table id="most-subbed">
+		<caption>Most Subscribed Raids (Last 60 Seconds)</caption>
+		<thead>
+			<tr>
+				<th>Room</th>
+				<th>Subbed</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="most-subbed-0-room"></td>
+				<td id="most-subbed-0-count"></td>
+			</tr>
+			<tr>
+				<td id="most-subbed-1-room"></td>
+				<td id="most-subbed-1-count"></td>
+			</tr>
+			<tr>
+				<td id="most-subbed-2-room"></td>
+				<td id="most-subbed-2-count"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table id="most-tweeted">
+		<caption>Most Tweeted Raids (Last 60 Seconds)</caption>
+		<thead>
+			<tr>
+				<th>Room</th>
+				<th>Tweeted</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="most-tweeted-0-room"></td>
+				<td id="most-tweeted-0-count"></td>
+			</tr>
+			<tr>
+				<td id="most-tweeted-1-room"></td>
+				<td id="most-tweeted-1-count"></td>
+			</tr>
+			<tr>
+				<td id="most-tweeted-2-room"></td>
+				<td id="most-tweeted-2-count"></td>
+			</tr>
+		</tbody>
+	</table>
+	<script src="utils/moment.min.js"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script type="text/javascript">
+		class LineGraph {
+			constructor(
+				elementid,
+				height = 500,
+				width = 1000,
+				margin,
+				dataPoints = [],
+				xvar,
+				yvar,
+				ytext
+			) {
+				this.dataPoints = dataPoints;
+				this.svg = d3
+					.select(elementid)
+					.append("svg")
+					.attr("width", width)
+					.attr("height", height);
+				this.yvar = yvar;
+				this.xvar = xvar;
+				this.margin = margin;
+				this.height = height - this.margin.top - this.margin.bottom;
+				this.width = width - this.margin.left - this.margin.right;
+				this.g = this.svg
+					.append("g")
+					.attr(
+						"transform",
+						"translate(" + this.margin.left + "," + this.margin.top + ")"
+					);
+				this.x = d3
+					.scaleTime()
+					.range([0, this.width])
+					.nice(d3.timeMinute, 1);
+				this.y = d3
+					.scaleLinear()
+					.range([this.height, 0])
+					.nice();
+				this.AdjustDomains(0, 0.25);
+				this.xAxis = this.g
+					.append("g")
+					.attr("class", "axis axis-x")
+					.attr("transform", "translate(0," + this.height + ")")
+					.call(d3.axisBottom(this.x));
+				this.yAxis = this.g
+					.append("g")
+					.attr("class", "axis axis-y")
+					.call(d3.axisLeft(this.y));
+				this.yTextBox = this.yAxis
+					.append("text")
+					.attr("transform", "rotate(-90)")
+					.attr("y", 6)
+					.attr("dy", "0.75em")
+					.attr("fill", "black")
+					.attr("font-weight", "bold")
+					.text(ytext);
+				this.grid = this.svg
+					.append("g")
+					.attr("class", "grid")
+					.attr(
+						"transform",
+						"translate(" + this.margin.left + "," + this.margin.top + ")"
+					)
+					.attr("opacity", "0.2")
+					.call(
+						d3
+						.axisLeft(this.y)
+						.tickSize(-this.width)
+						.tickFormat("")
+					);
+				this.path = this.g
+					.attr("clip-path", "url(#clip)")
+					.append("path")
+					.datum(dataPoints)
+					.attr("fill", "none")
+					.attr("stroke", "red")
+					.attr("stroke-linejoin", "round")
+					.attr("stroke-linecap", "round")
+					.attr("stroke-width", 1.5)
+					.attr("class", "line");
+				this.points = this.g.append("g").attr("class", "points");
+			}
+
+			AdjustDomains(xadjustment, yadjustment) {
+				this.xExtent = d3.extent(this.dataPoints, d => moment(d[this.xvar]));
+				this.xRange = this.xExtent[1] - this.xExtent[0];
+				this.yExtent = d3.extent(this.dataPoints, d => d[this.yvar]);
+				this.yRange = this.yExtent[1] - this.yExtent[0];
+
+				if (xadjustment == 0) {
+					this.x.domain(this.xExtent).nice(d3.timeMinute, 1);
+				} else {
+					this.x
+						.domain([
+							this.xExtent[0] - this.xRange * xadjustment,
+							this.xExtent[1] + this.xRange * xadjustment
+						])
+						.nice(d3.timeMinute, 1);
+				}
+
+				this.y
+					.domain([
+						this.yExtent[0] - this.yRange * yadjustment,
+						this.yExtent[1] + this.yRange * yadjustment
+					])
+					.nice();
+			}
+
+			DrawPoints() {
+				for (let i = 0; i < this.dataPoints.length; i++) {
+					this.points
+						.append("circle")
+						.attr("cx", this.x(moment(this.dataPoints[i][this.xvar])))
+						.attr("cy", this.y(this.dataPoints[i][this.yvar]))
+						.attr("r", 2.5)
+						.attr("stroke", "red")
+						.attr("class", "point")
+						.style("fill", "red");
+				}
+			}
+
+			UpdateData(newData) {
+				this.dataPoints = newData;
+				this.AdjustDomains(0, 0.25);
+				this.grid.call(
+					d3
+					.axisLeft(this.y)
+					.tickSize(-this.width)
+					.tickFormat("")
+				);
+				this.yAxis.call(d3.axisLeft(this.y));
+				this.xAxis.call(d3.axisBottom(this.x).tickFormat(d3.timeFormat("%I:%M")));
+				this.line = d3
+					.line()
+					.curve(d3.curveBasis)
+					.x(d => this.x(moment(d[this.xvar])))
+					.y(d => this.y(d[this.yvar]));
+				this.path.datum(this.dataPoints);
+				this.path.attr("d", this.line);
+				this.points.selectAll(".point").remove();
+				this.DrawPoints();
+			}
+		}
+
+		let dataPoints = [];
+
+		function GetData() {
+			fetch("/stats.json")
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(json) {
+					if (json[0].tweets) {
+						dataPoints = json;
+						tweetGraph.UpdateData(dataPoints);
+						connectedGraph.UpdateData(dataPoints);
+						let lastStats = json[json.length - 1];
+						document.getElementById("most-subbed-0-room").textContent =
+							lastStats.mostsubbed[0].room;
+						document.getElementById("most-subbed-0-count").textContent =
+							lastStats.mostsubbed[0].subbed;
+						document.getElementById("most-subbed-1-room").textContent =
+							lastStats.mostsubbed[1].room;
+						document.getElementById("most-subbed-1-count").textContent =
+							lastStats.mostsubbed[1].subbed;
+						document.getElementById("most-subbed-2-room").textContent =
+							lastStats.mostsubbed[2].room;
+						document.getElementById("most-subbed-2-count").textContent =
+							lastStats.mostsubbed[2].subbed;
+
+						document.getElementById("most-tweeted-0-room").textContent =
+							lastStats.mosttweeted[0].room;
+						document.getElementById("most-tweeted-0-count").textContent =
+							lastStats.mosttweeted[0].tweeted;
+						document.getElementById("most-tweeted-1-room").textContent =
+							lastStats.mosttweeted[1].room;
+						document.getElementById("most-tweeted-1-count").textContent =
+							lastStats.mosttweeted[1].tweeted;
+						document.getElementById("most-tweeted-2-room").textContent =
+							lastStats.mosttweeted[2].room;
+						document.getElementById("most-tweeted-2-count").textContent =
+							lastStats.mosttweeted[2].tweeted;
+					}
+				});
+		}
+
+		let tweetGraph = new LineGraph(
+			"#tweets",
+			500,
+			1000, {
+				top: 10,
+				right: 15,
+				bottom: 20,
+				left: 40
+			},
+			[],
+			"servertime",
+			"tweets",
+			"# of Processed Tweets"
+		);
+
+		let connectedGraph = new LineGraph(
+			"#connected",
+			500,
+			1000, {
+				top: 10,
+				right: 15,
+				bottom: 20,
+				left: 40
+			},
+			[],
+			"servertime",
+			"connected",
+			"# of Connected Users"
+		);
+
+		setInterval(function() {
+			GetData();
+		}, 60000);
+
+		GetData();
+	</script>
+</body>
+
+</html>
