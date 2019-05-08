@@ -247,10 +247,10 @@
 				})
 				.then(function(json) {
 					if (json[0].tweets) {
-						dataPoints = json;
+						dataPoints = json.filter(stat => stat.tweets > 10);
 						tweetGraph.UpdateData(dataPoints);
 						connectedGraph.UpdateData(dataPoints);
-						let lastStats = json[json.length - 1];
+						let lastStats = dataPoints[dataPoints.length - 1];
 						document.getElementById("most-subbed-0-room").textContent =
 							lastStats.mostsubbed[0].room;
 						document.getElementById("most-subbed-0-count").textContent =
