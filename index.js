@@ -1,6 +1,7 @@
 const express = require( 'express' );
 const twitter = require( 'node-tweet-stream' );
 const https = require( 'https' );
+const fetch = require( 'node-fetch' );
 const st = require( 'st' );
 const helmet = require( 'helmet' );
 const bodyParser = require( 'body-parser' );
@@ -12,6 +13,7 @@ const raidConfigs = require( './raids.json' );
 const raidRooms = raidConfigs.map( raid => raid.room );
 
 let raidsCounter = {};
+let isMaintinence = false;
 
 function objectFlip( obj ) {
 	const ret = {};
@@ -246,10 +248,11 @@ if ( cluster.isMaster ) {
 		ResetRaidsCounter();
 	}, 60000 );
 	setInterval( function () {
-		if ( new Date().getTime() - 600000 > lastTweet ) {
+		if ( new Date().getTime() - 600000 > lastTweet && !isMaintinence ) {
 			console.log( "No tweets in 10 mins..." );
 			try {
 				lastTweet = new Date().getTime();
+				io.sockets.emit( 'warning', { type: "twitter", message: "No tweets in 10 mins" } );
 				setTimeout( function () {
 					console.log( "Restarting Twitter Client..." );
 					twitterClient.abort();
@@ -266,6 +269,22 @@ if ( cluster.isMaster ) {
 				console.log( "Twitter Client Restart Error", error );
 			}
 		}
+	}, 60000 );
+	setInterval( function () {
+		console.log( "Checking for maintinence..." );
+		fetch( 'http://game.granbluefantasy.jp' )
+			.then( function ( response ) {
+				if ( response.status == "200" && response.redirected && response.url.includes( "maintenance" ) ) {
+					console.log( "Game is in maintenance." );
+					isMaintinence = true;
+				} else {
+					isMaintinence = false;
+				}
+				io.sockets.emit( 'maint', isMaintinence );
+			} )
+			.catch( function ( error ) {
+				console.log( "Error checking for maintinence:", error );
+			} );
 	}, 60000 );
 	try {
 		console.log( "Setting up websocket server..." );
@@ -284,6 +303,7 @@ if ( cluster.isMaster ) {
 		}
 		io.sockets.on( 'connection', function ( socket ) {
 			stats.connected++;
+			socket.emit( 'maint', isMaintinence );
 			socket.on( 'subscribe',
 				function ( data ) {
 					socket.join( data.room );

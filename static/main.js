@@ -48,7 +48,7 @@ let settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "5.5",
+	version: "5.6",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
@@ -158,12 +158,20 @@ window.addEventListener( 'load', function () {
 			}
 		} );
 		socket.on( 'warning', function ( data ) {
-			console.log( "Warning recieved: " + data.room, data );
+			console.log( "Warning recieved:", data );
 			if ( data.type == "twitter" ) {
 				document.getElementById( "connection-status" ).classList.remove( "green" );
 				document.getElementById( "connection-status" ).classList.add( "red" );
 				document.getElementById( "connection-status-value" ).innerHTML = "DOWN";
 				noTwitter = true;
+			}
+		} );
+		socket.on( 'maint', function ( isMaint ) {
+			console.log(`Maintinence message recieved: isMaint is ${isMaint}`);
+			if ( isMaint ) {
+				document.getElementById( "maint-message" ).classList.remove( "hidden" );
+			} else {
+				document.getElementById( "maint-message" ).classList.add( "hidden" );
 			}
 		} );
 		CheckConnectionStatus();
@@ -203,7 +211,7 @@ window.addEventListener( 'load', function () {
 	} );
 } );
 
-function PlaySoundNotif( data = {room: "sound-test"} ) {
+function PlaySoundNotif( data = { room: "sound-test" } ) {
 	console.log( `Playing sound notif for: ${data.room}`, settings.notification );
 	if ( settings.layout.orientation === "horizontal" && settings.notification.soundNotifOn ) {
 		try {

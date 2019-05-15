@@ -55,6 +55,15 @@
 	text-decoration: underline;
 }
 
+#maint-message {
+	text-align: center;
+	font-weight: bold;
+}
+
+.hidden {
+	display: none;
+}
+
 #header.header-shrink {
 	position: relative;
 	transform: translateY(-100%);
