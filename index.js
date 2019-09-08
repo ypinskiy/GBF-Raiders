@@ -76,7 +76,9 @@ if ( cluster.isMaster ) {
 	let io = null;
 	let stats = {
 		connected: 0,
-		tweets: 0
+		tweets: 0,
+		maxConnected: 0,
+		maxTweets: 0
 	};
 	ResetRaidsCounter();
 
@@ -240,6 +242,12 @@ if ( cluster.isMaster ) {
 		stats.processuptime = process.uptime().toFixed( 0 );
 		stats.servertime = new Date().toString();
 		stats.tweets = stats.tweets;
+		if (stats.tweets > stats.maxTweets) {
+			stats.maxTweets = stats.tweets;
+		}
+		if (stats.connected > stats.maxConnected) {
+			stats.maxConnected = stats.connected;
+		}
 		stats.mostsubbed = ParseRooms( io.sockets.adapter.rooms ).slice( 0, 3 );
 		stats.mosttweeted = ParseCounters().slice( 0, 3 );
 		SendToWorkers( stats );

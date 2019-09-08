@@ -93,6 +93,22 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<table id="max-stats">
+		<caption>Max Stats Since Uptime (0 mins)</caption>
+		<thead>
+			<tr>
+				<th>Max Processed Tweets</th>
+				<th>Max Connected</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="max-processed"></td>
+				<td id="max-connected"></td>
+			</tr>
+		</tbody>
+	</table>
 	<script src="utils/moment.min.js"></script>
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script type="text/javascript">
@@ -246,7 +262,7 @@
 					return response.json();
 				})
 				.then(function(json) {
-					if (json[0].tweets) {
+					if (json.length > 0) {
 						dataPoints = json.filter(stat => stat.tweets > 10);
 						tweetGraph.UpdateData(dataPoints);
 						connectedGraph.UpdateData(dataPoints);
@@ -277,6 +293,9 @@
 						document.getElementById("most-tweeted-2-count").textContent =
 							lastStats.mosttweeted[2].tweeted;
 					}
+						document.getElementById("max-stats").caption.textContent = `Max Stats Since Uptime (${(lastStats.processuptime / 60).toFixed(0)} mins)`;
+						document.getElementById("max-processed").textContent = lastStats.maxTweets;
+						document.getElementById("max-connected").textContent = lastStats.maxConnected;
 				});
 		}
 

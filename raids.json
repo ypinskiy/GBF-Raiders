@@ -1446,4 +1446,28 @@
 	"image": "/assets/raids/BattleRaid_The_Four_Primarchs_Impossible.png",
 	"category": "Impossible Nightmare",
 	"element": "None"
+},
+{
+	"english": "Lvl 90 Varuna",
+	"japanese": "Lv90 ツクヨミ",
+	"room": "lvl90varuna",
+	"image": "/assets/raids/BattleRaid_Varuna_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Water"
+},
+{
+	"english": "Lvl 95 Varuna",
+	"japanese": "Lv95 ツクヨミ",
+	"room": "lvl95varuna",
+	"image": "/assets/raids/BattleRaid_Varuna_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Water"
+},
+{
+	"english": "Lvl 100 Varuna",
+	"japanese": "Lv100 ツクヨミ",
+	"room": "lvl100varuna",
+	"image": "/assets/raids/BattleRaid_Varuna_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Water"
 }]
