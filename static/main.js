@@ -48,7 +48,7 @@ let settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "5.6",
+	version: "5.7",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",

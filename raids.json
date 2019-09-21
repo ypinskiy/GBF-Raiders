@@ -1470,4 +1470,28 @@
 	"image": "/assets/raids/BattleRaid_Varuna_Nightmare100.png",
 	"category": "Unite and Fight",
 	"element": "Water"
+},
+{
+	"english": "Lvl 90 Garula, Shining Hawk",
+	"japanese": "Lv90 シャインホーク・ガルラ",
+	"room": "lvl90garula",
+	"image": "/assets/raids/BattleRaid_Garula_Nightmare90.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 95 Garula, Shining Hawk",
+	"japanese": "Lv95 シャインホーク・ガルラ",
+	"room": "lvl95garula",
+	"image": "/assets/raids/BattleRaid_Garula_Nightmare95.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
+},
+{
+	"english": "Lvl 100 Garula, Shining Hawk",
+	"japanese": "Lv100 シャインホーク・ガルラ",
+	"room": "lvl100garula",
+	"image": "/assets/raids/BattleRaid_Garula_Nightmare100.png",
+	"category": "Unite and Fight",
+	"element": "Wind"
 }]
