@@ -1,4 +1,4 @@
-const version = '0.0.32';
+const version = '0.0.33';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -6,6 +6,7 @@ let precachedResourcesAsDependency = [
 	'raids.js',
 	'settings.js',
 	'utils/jquery-3.2.1.min.js',
+	'utils/jquery-patch.js',
 	'utils/socket.io.slim.js',
 	'semantic/dist/semantic.min.js',
 	'main.css',
@@ -47,10 +48,6 @@ self.addEventListener( 'fetch', function ( event ) {
 		event.respondWith(
 			NetworkFallingBackToCache( '/' )
 		);
-	} else if ( requestURL.host === "fonts.googleapis.com" || request.host === "fonts.gstatic.com" ) {
-		event.respondWith(
-			PatchFonts( request )
-		);
 	} else if (requestURL.pathname === "/stats" || requestURL.pathname === "/stats.json") {
 		event.respondWith(
 			NetworkOnly( request )
@@ -61,24 +58,6 @@ self.addEventListener( 'fetch', function ( event ) {
 		);
 	}
 } );
-
-async function PatchFonts( request ) {
-	console.log( `${request.url}: Patching fonts...`, request );
-	const cacheResponse = await caches.match( request );
-	if ( cacheResponse ) {
-		return cacheResponse;
-	} else {
-		const response = await fetch( request );
-		const css = await response.text();
-		const patched = css.replace( /}/g, "font-display: swap; }" );
-		const newResponse = new Response( patched, { headers: response.headers } );
-		caches.open( dynamicname )
-			.then( function ( cache ) {
-				cache.put( request, newResponse.clone() );
-			} );
-		return newResponse;
-	}
-}
 
 function CacheOnly( request ) {
 	console.log( `${request.url}: Checking only cache for response`, request );

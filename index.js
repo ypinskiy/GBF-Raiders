@@ -196,7 +196,7 @@ if ( cluster.isMaster ) {
 
 	function StartTwitterStream( options ) {
 		try {
-			console.log( `Starting twitter stream, using backup options: ${usingTwitterBackup}` );
+			console.log( `Starting twitter stream, using options: ${JSON.stringify(options)}` );
 			twitterClient = new twitter( options );
 			twitterClient.on( 'tweet', function ( tweet ) {
 				//console.log( "Tweet recieved: " + tweet.id );
@@ -234,7 +234,9 @@ if ( cluster.isMaster ) {
 			twitterClient.track( keywords );
 		} catch ( error ) {
 			console.log( "Twitter Client Error", JSON.stringify( error ) );
-			twitterClient.abort();
+			if (twitterClient) {
+				twitterClient.abort();
+			}
 		}
 	}
 	setInterval( function () {

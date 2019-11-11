@@ -48,11 +48,12 @@ let settings = {
 		nightMode: false,
 		toolbarShrink: false
 	},
-	version: "5.7",
+	version: "5.8",
 	newsSeen: false,
 	cardSlots: 8,
 	strikeTime: "",
-	paused: false
+	paused: false,
+	autoCopy: false
 };
 
 toastr.options = {
@@ -150,6 +151,32 @@ window.addEventListener( 'load', function () {
 					CreateRaidRow( data );
 					PlaySoundNotif( data );
 					SendDesktopNotif( data );
+					if ( settings.autoCopy ) {
+						console.log( "Autocopying raid id: " + data.id );
+						let raidLabel = document.getElementById( data.id + '-label' );
+						if ( raidLabel !== null ) {
+							if ( window.getSelection ) {
+								raidLabel.focus();
+								let selection = window.getSelection();
+								let range = document.createRange();
+								range.selectNodeContents( raidLabel );
+								selection.removeAllRanges();
+								selection.addRange( range );
+								document.execCommand( "copy" );
+								if ( window.getSelection ) {
+									if ( window.getSelection().empty ) { // Chrome
+										window.getSelection().empty();
+									} else if ( window.getSelection().removeAllRanges ) { // Firefox
+										window.getSelection().removeAllRanges();
+									}
+								} else if ( document.selection ) { // IE?
+									document.selection.empty();
+								}
+							}
+						}
+					} else {
+						console.log( "Autocopy set to off." );
+					}
 				} else {
 					console.log( "Raid updates are paused." );
 				}
@@ -167,7 +194,7 @@ window.addEventListener( 'load', function () {
 			}
 		} );
 		socket.on( 'maint', function ( isMaint ) {
-			console.log(`Maintinence message recieved: isMaint is ${isMaint}`);
+			console.log( `Maintinence message recieved: isMaint is ${isMaint}` );
 			if ( isMaint ) {
 				document.getElementById( "maint-message" ).classList.remove( "hidden" );
 			} else {
@@ -330,7 +357,6 @@ function SendDesktopNotif( data ) {
 										document.execCommand( "copy" );
 									}
 								}
-								SendJoinCommand( data.id )
 								document.getElementById( data.id + '-btn' ).classList.remove( "primary" );
 								document.getElementById( data.id + '-btn' ).classList.add( "secondary" );
 								notification.close();

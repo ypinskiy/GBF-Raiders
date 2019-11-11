@@ -473,7 +473,7 @@ function SetupControls() {
 			localStorage.setItem( "savedSettings", JSON.stringify( settings ) );
 		} );
 
-		$( '.ui.checkbox' ).checkbox().first().checkbox( {
+		$( '#toolbar-shrinker.ui.checkbox' ).checkbox().checkbox( {
 			onChecked: function () {
 				settings.layout.toolbarShrink = true;
 				document.getElementById( "header" ).classList.add( "header-shrink" );
@@ -481,6 +481,17 @@ function SetupControls() {
 			onUnchecked: function () {
 				settings.layout.toolbarShrink = false;
 				document.getElementById( "header" ).classList.remove( "header-shrink" );
+			}
+		} );
+
+		$( '#autocopy.ui.checkbox' ).checkbox().checkbox( {
+			onChecked: function () {
+				console.log( "Setting autocopy to true..." );
+				settings.autoCopy = true;
+			},
+			onUnchecked: function () {
+				console.log( "Setting autocopy to false..." );
+				settings.autoCopy = false;
 			}
 		} );
 

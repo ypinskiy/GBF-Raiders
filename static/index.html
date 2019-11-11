@@ -161,6 +161,12 @@
 					<input type="time" step="60" id="time-picker">
 				</div>
 			</span>
+			<span class="input-control">
+				<div id="autocopy" class="ui checkbox">
+					<label>Auto copy ID to clipboard</label>
+					<input id="autocopy-input" type="checkbox" name="copier" tabindex="0" class="hidden">
+				</div>
+			</span>
 		</div>
 	</div>
 	<div id="container" role="main" class="ui pusher container segment fluid">
@@ -231,9 +237,9 @@
 		<div id="news-message" class="ui message">
 			<i class="close icon"></i>
 			<div class="header">
-				News - 9/21/2019
+				News - 11/11/2019
 			</div>
-			<p>Added Garula raids</p>
+			<p>Added a whole bunch of experimental features. Behind the scenes, changed some stuff to make the site run faster/with less lag. I added a new feature in Misc Settings for users to automatically have the latest raid code copied to the clipboard. Since this is experimental, the default is off and it resets back to off whenever you leave the site. I believe that it only will work if the site is open and in focus so it won't work if you are doing something else. Please let me know if you have any issues with it.</p>
 		</div>
 		<div id="welcome">
 			<h1>Welcome to GBFRaiders, a raid-finding website for Granblue Fantasy.</h1>
@@ -253,6 +259,7 @@
 		</div>
 	</div>
 	<script src="utils/jquery-3.4.0.min.js"></script>
+	<script src="utils/jquery-patch.js"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
 	<script src="utils/socket.io.slim.js"></script>
 	<script src="utils/moment.min.js"></script>
