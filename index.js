@@ -1,6 +1,7 @@
 const express = require( 'express' );
 const twitter = require( 'node-tweet-stream' );
 const https = require( 'https' );
+const spdy = require( 'spdy' );
 const fetch = require( 'node-fetch' );
 const st = require( 'st' );
 const helmet = require( 'helmet' );
@@ -334,22 +335,6 @@ if ( cluster.isMaster ) {
 } else {
 	let localStats = [];
 	let app = express();
-	if ( process.env.sslEnabled === "true" ) {
-		const options = {
-			cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
-			key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
-		};
-		let sslServer = https.createServer( options, app );
-		sslServer.listen( 443 );
-	}
-	process.on( 'message', function ( msg ) {
-		localStats.push( msg );
-		if ( localStats.length > 180 ) {
-			localStats.shift();
-		}
-	} );
-	let server = require( 'http' ).createServer( app );
-	server.listen( 80 );
 	app.set( 'json spaces', 0 );
 	app.use( helmet() );
 	app.use( compression() );
@@ -395,4 +380,18 @@ if ( cluster.isMaster ) {
 		},
 		passthrough: true
 	} ) );
+	if ( process.env.sslEnabled === "true" ) {
+		const options = {
+			cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
+			key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
+		};
+		spdy.createServer( options, app ).listen( 443 );
+	}
+	process.on( 'message', function ( msg ) {
+		localStats.push( msg );
+		if ( localStats.length > 180 ) {
+			localStats.shift();
+		}
+	} );
+	require( 'http' ).createServer( app ).listen( 80 );
 }

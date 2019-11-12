@@ -43,6 +43,7 @@
 		"gulp-uglify": "^3.0.2",
 		"gulp-util": "^3.0.8",
 		"gulp-watch": "^5.0.1",
+		"handle-thing": "github:ypinskiy/handle-thing",
 		"helmet": "^3.21.2",
 		"https": "^1.0.0",
 		"less": "^2.7.3",
@@ -53,6 +54,7 @@
 		"require-dot-file": "^0.4.0",
 		"run-sequence": "^2.2.1",
 		"socket.io": "^2.3.0",
+		"spdy": "^4.0.1",
 		"st": "^1.2.2",
 		"twitter": "^1.7.0",
 		"yamljs": "^0.3.0"
