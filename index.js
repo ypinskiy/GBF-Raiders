@@ -235,7 +235,7 @@ if ( cluster.isMaster ) {
 			twitterClient.track( keywords );
 		} catch ( error ) {
 			console.log( "Twitter Client Error", JSON.stringify( error ) );
-			if (twitterClient) {
+			if ( twitterClient ) {
 				twitterClient.abort();
 			}
 		}
@@ -245,10 +245,10 @@ if ( cluster.isMaster ) {
 		stats.processuptime = process.uptime().toFixed( 0 );
 		stats.servertime = new Date().toString();
 		stats.tweets = stats.tweets;
-		if (stats.tweets > stats.maxTweets) {
+		if ( stats.tweets > stats.maxTweets ) {
 			stats.maxTweets = stats.tweets;
 		}
-		if (stats.connected > stats.maxConnected) {
+		if ( stats.connected > stats.maxConnected ) {
 			stats.maxConnected = stats.connected;
 		}
 		stats.mostsubbed = ParseRooms( io.sockets.adapter.rooms ).slice( 0, 3 );
@@ -342,6 +342,11 @@ if ( cluster.isMaster ) {
 	app.use( bodyParser.urlencoded( {
 		extended: true
 	} ) );
+	app.use( function ( error, req, res, next ) {
+		if ( error ) {
+			console.log( "EXPRESS Error: " + JSON.stringify( error ) );
+		}
+	} )
 	app.get( '/health-check', ( req, res ) => res.sendStatus( 200 ) );
 	app.get( '/getraids', function ( req, res ) {
 		res.header( 'Cache-Control', 'public, max-age=432000000' );
@@ -385,7 +390,11 @@ if ( cluster.isMaster ) {
 			cert: fs.readFileSync( __dirname + '/sslcert/fullchain.pem' ),
 			key: fs.readFileSync( __dirname + '/sslcert/privkey.pem' )
 		};
-		spdy.createServer( options, app ).listen( 443 );
+		spdy.createServer( options, app ).listen( 443, ( error ) => {
+			if ( error ) {
+				console.log( "SPDY Error: " + JSON.stringify( error ) );
+			}
+		} );
 	}
 	process.on( 'message', function ( msg ) {
 		localStats.push( msg );
