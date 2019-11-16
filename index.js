@@ -93,6 +93,20 @@ if ( cluster.isMaster ) {
 		console.log( `Creating fork # ${Object.keys(cluster.workers).length}` );
 		cluster.fork();
 	}
+
+	cluster.on( 'exit', function ( deadWorker, code, signal ) {
+		// Restart the worker
+		let worker = cluster.fork();
+
+		// Note the process IDs
+		let newPID = worker.process.pid;
+		let oldPID = deadWorker.process.pid;
+
+		// Log the event
+		console.log( 'Worker ' + oldPID + ' died.' );
+		console.log( 'Worker ' + newPID + ' born.' );
+	} );
+
 	let lastTweet = new Date().getTime();
 	let twitterOptions = {
 		consumer_key: process.env.consumer_key,
