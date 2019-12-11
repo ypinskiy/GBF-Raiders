@@ -87,11 +87,13 @@ if ( !window.chrome ) {
 
 async function ResetSite() {
 	localStorage.clear();
+	sessionStorage.clear();
 	window.history.pushState( {}, document.title, "/" );
 	if ( currentRegistration != null ) {
 		const allCaches = await caches.keys();
 		const cacheDeletionPromises = allCaches.map( cache => caches.delete( cache ) );
 		await Promise.all( [ currentRegistration.unregister(), ...cacheDeletionPromises ] );
+		currentRegistration.update();
 	}
 	location.reload( true );
 }

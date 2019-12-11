@@ -1,4 +1,4 @@
-const version = '0.0.33';
+const version = '0.0.35';
 let precachename = 'gbfraiders-precache-' + version;
 let dynamicname = 'gbfraiders-dynamic-' + version;
 let precachedResourcesAsDependency = [
@@ -74,7 +74,7 @@ function NetworkOnly( request ) {
 }
 
 function NetworkFallingBackToCache( request ) {
-	console.log( `${request.url}: Getting reponse from network with cache fallback`, request );
+	console.log( `${request.url}: Getting response from network with cache fallback`, request );
 	return fetch( request, { cache: 'no-store' } )
 		.catch( function ( error ) {
 			console.error( `Failed to get response from network, checking cache for fallback`, error );
@@ -83,7 +83,7 @@ function NetworkFallingBackToCache( request ) {
 }
 
 function CacheFallingBackToNetwork( request ) {
-	console.log( `${request.url}: Getting reponse from cache with network fallback`, request );
+	console.log( `${request.url}: Getting response from cache with network fallback`, request );
 	return caches.match( request )
 		.then( function ( cacheResponse ) {
 			return cacheResponse || fetch( request, { cache: 'no-store' } )
