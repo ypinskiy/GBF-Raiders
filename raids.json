@@ -1440,6 +1440,14 @@
 	"element": "Dark"
 },
 {
+	"english": "Lvl 250 Lucilius",
+	"japanese": "Lv250 ルシファー",
+	"room": "lvl250lucilius",
+	"image": "/assets/raids/BattleRaid_Lucilius_ImpossibleHard.png",
+	"category": "Rapture",
+	"element": "Dark"
+},
+{
 	"english": "The Four Primarchs",
 	"japanese": "四大天司ＨＬ",
 	"room": "thefourprimarchs",
