@@ -1502,4 +1502,12 @@
 	"image": "/assets/raids/BattleRaid_Garula_Nightmare100.png",
 	"category": "Unite and Fight",
 	"element": "Wind"
+},
+{
+	"english": "Lvl 200 Grand Order",
+	"japanese": "Lv200 ジ・オーダー・グランデ",
+	"room": "lvl200grandorder",
+	"image": "/assets/raids/BattleRaid_The_Peacemaker's_Wings_Impossible.jpg",
+	"category": "Impossible",
+	"element": "Light"
 }]
