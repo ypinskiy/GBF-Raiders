@@ -95,6 +95,9 @@ $.fn.form = function(parameters) {
             module.verbose('Initializing form validation', $module, settings);
             module.bindEvents();
             module.set.defaults();
+            if (settings.autoCheckRequired) {
+              module.set.autoCheck();
+            }
             module.instantiate();
           }
         },
@@ -168,7 +171,7 @@ $.fn.form = function(parameters) {
           }
 
           $field.on('change click keyup keydown blur', function(e) {
-            $(this).trigger(e.type + ".dirty");
+            $(this).triggerHandler(e.type + ".dirty");
           });
 
           $field.on('change.dirty click.dirty keyup.dirty keydown.dirty blur.dirty', module.determine.isDirty);
@@ -203,7 +206,7 @@ $.fn.form = function(parameters) {
             }
             if(isDropdown) {
               module.verbose('Resetting dropdown value', $element, defaultValue);
-              $element.dropdown('clear');
+              $element.dropdown('clear', true);
             }
             else if(isCheckbox) {
               $field.prop('checked', false);
@@ -242,7 +245,7 @@ $.fn.form = function(parameters) {
             }
             if(isDropdown) {
               module.verbose('Resetting dropdown value', $element, defaultValue);
-              $element.dropdown('restore defaults');
+              $element.dropdown('restore defaults', true);
             }
             else if(isCheckbox) {
               module.verbose('Resetting checkbox value', $element, defaultValue);
@@ -542,7 +545,7 @@ $.fn.form = function(parameters) {
               name
             ;
             if(requiresValue) {
-              prompt = prompt.replace('{value}', $field.val());
+              prompt = prompt.replace(/\{value\}/g, $field.val());
             }
             if(requiresName) {
               $label = $field.closest(selector.group).find('label').eq(0);
@@ -550,10 +553,10 @@ $.fn.form = function(parameters) {
                 ? $label.text()
                 : $field.prop('placeholder') || settings.text.unspecifiedField
               ;
-              prompt = prompt.replace('{name}', name);
+              prompt = prompt.replace(/\{name\}/g, name);
             }
-            prompt = prompt.replace('{identifier}', field.identifier);
-            prompt = prompt.replace('{ruleValue}', ancillary);
+            prompt = prompt.replace(/\{identifier\}/g, field.identifier);
+            prompt = prompt.replace(/\{ruleValue\}/g, ancillary);
             if(!rule.prompt) {
               module.verbose('Using default validation prompt for type', prompt, ruleName);
             }
@@ -703,7 +706,7 @@ $.fn.form = function(parameters) {
                 }
                 else {
                   if(isRadio) {
-                    if(values[name] === undefined || values[name] == false) {
+                    if(values[name] === undefined || values[name] === false) {
                       values[name] = (isChecked)
                         ? value || true
                         : false
@@ -818,26 +821,36 @@ $.fn.form = function(parameters) {
             module.add.field(name, rules);
           },
           field: function(name, rules) {
+            // Validation should have at least a standard format
+            if(validation[name] === undefined || validation[name].rules === undefined) {
+              validation[name] = {
+                rules: []
+              };
+            }
             var
-              newValidation = {}
+              newValidation = {
+                rules: []
+              }
             ;
             if(module.is.shorthandRules(rules)) {
               rules = Array.isArray(rules)
                 ? rules
                 : [rules]
               ;
-              newValidation[name] = {
-                rules: []
-              };
-              $.each(rules, function(index, rule) {
-                newValidation[name].rules.push({ type: rule });
+              $.each(rules, function(_index, rule) {
+                newValidation.rules.push({ type: rule });
               });
             }
             else {
-              newValidation[name] = rules;
+              newValidation.rules = rules.rules;
             }
-            validation = $.extend({}, validation, newValidation);
-            module.debug('Adding rules', newValidation, validation);
+            // For each new rule, check if there's not already one with the same type
+            $.each(newValidation.rules, function (_index, rule) {
+              if ($.grep(validation[name].rules, function(item){ return item.type == rule.type; }).length == 0) {
+                validation[name].rules.push(rule);
+              }
+            });
+            module.debug('Adding rules', newValidation.rules, validation);
           },
           fields: function(fields) {
             var
@@ -991,12 +1004,17 @@ $.fn.form = function(parameters) {
                 $parent    = $el.parent(),
                 isCheckbox = ($el.filter(selector.checkbox).length > 0),
                 isDropdown = $parent.is(selector.uiDropdown) && module.can.useElement('dropdown'),
+                $calendar   = $el.closest(selector.uiCalendar),
+                isCalendar  = ($calendar.length > 0  && module.can.useElement('calendar')),
                 value      = (isCheckbox)
                   ? $el.is(':checked')
                   : $el.val()
               ;
               if (isDropdown) {
                 $parent.dropdown('save defaults');
+              }
+              else if (isCalendar) {
+                $calendar.calendar('refresh');
               }
               $el.data(metadata.defaultValue, value);
               $el.data(metadata.isDirty, false);
@@ -1053,7 +1071,7 @@ $.fn.form = function(parameters) {
                 }
                 else if(isCheckbox) {
                   module.verbose('Setting checkbox value', value, $element);
-                  if(value === true) {
+                  if(value === true || value === 1) {
                     $element.checkbox('check');
                   }
                   else {
@@ -1101,6 +1119,32 @@ $.fn.form = function(parameters) {
           asDirty: function() {
             module.set.defaults();
             module.set.dirty();
+          },
+          autoCheck: function() {
+            module.debug('Enabling auto check on required fields');
+            $field.each(function (_index, el) {
+              var
+                $el        = $(el),
+                $elGroup   = $(el).closest($group),
+                isCheckbox = ($el.filter(selector.checkbox).length > 0),
+                isRequired = $el.prop('required') || $elGroup.hasClass(className.required) || $elGroup.parent().hasClass(className.required),
+                isDisabled = $el.prop('disabled') || $elGroup.hasClass(className.disabled) || $elGroup.parent().hasClass(className.disabled),
+                validation = module.get.validation($el),
+                hasEmptyRule = validation
+                  ? $.grep(validation.rules, function(rule) { return rule.type == "empty" }) !== 0
+                  : false,
+                identifier = validation.identifier || $el.attr('id') || $el.attr('name') || $el.data(metadata.validate)
+              ;
+              if (isRequired && !isDisabled && !hasEmptyRule && identifier !== undefined) {
+                if (isCheckbox) {
+                  module.verbose("Adding 'checked' rule on field", identifier);
+                  module.add.rule(identifier, "checked");
+                } else {
+                  module.verbose("Adding 'empty' rule on field", identifier);
+                  module.add.rule(identifier, "empty");
+                }
+              }
+            });
           }
         },
 
@@ -1440,6 +1484,7 @@ $.fn.form.settings = {
   transition        : 'scale',
   duration          : 200,
 
+  autoCheckRequired : false,
   preventLeaving    : false,
   dateHandling      : 'date', // 'date', 'input', 'formatter'
 
@@ -1520,10 +1565,12 @@ $.fn.form.settings = {
   },
 
   className : {
-    error   : 'error',
-    label   : 'ui basic red pointing prompt label',
-    pressed : 'down',
-    success : 'success'
+    error    : 'error',
+    label    : 'ui basic red pointing prompt label',
+    pressed  : 'down',
+    success  : 'success',
+    required : 'required',
+    disabled : 'disabled'
   },
 
   error: {

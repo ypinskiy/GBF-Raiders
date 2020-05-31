@@ -1,6 +1,6 @@
 /*!
- * # Semantic UI 2.3.3 - Dimmer
- * http://github.com/semantic-org/semantic-ui/
+ * # Fomantic-UI - Dimmer
+ * http://github.com/fomantic/Fomantic-UI/
  *
  *
  * Released under the MIT license
@@ -19,8 +19,8 @@
 .ui.dimmer {
   display: none;
   position: absolute;
-  top: 0em !important;
-  left: 0em !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -63,8 +63,8 @@
 }
 
 /* Loose Coupling */
-.ui.segment > .ui.dimmer {
-  border-radius: inherit !important;
+.ui.segment > .ui.dimmer:not(.page) {
+  border-radius: inherit;
 }
 
 /* Scrollbars */
@@ -116,8 +116,20 @@
 
 
 /*--------------
-    Alignment
----------------*/
+      Legacy
+  ---------------*/
+
+
+/* Animating / Active / Visible */
+.dimmed.dimmable > .ui.animating.legacy.dimmer,
+.dimmed.dimmable > .ui.visible.legacy.dimmer,
+.ui.active.legacy.dimmer {
+  display: block;
+}
+
+/*--------------
+      Alignment
+  ---------------*/
 
 .ui[class*="top aligned"].dimmer {
   -webkit-box-pack: start;
@@ -131,8 +143,8 @@
 }
 
 /*--------------
-      Page
----------------*/
+        Page
+  ---------------*/
 
 .ui.page.dimmer {
   position: fixed;
@@ -152,18 +164,18 @@ body.dimmable > .dimmer {
 }
 
 /*--------------
-    Blurring
----------------*/
+      Blurring
+  ---------------*/
 
 .blurring.dimmable > :not(.dimmer) {
-  -webkit-filter: blur(0px) grayscale(0);
-          filter: blur(0px) grayscale(0);
+  -webkit-filter: initial;
+          filter: initial;
   -webkit-transition: 800ms -webkit-filter ease;
   transition: 800ms -webkit-filter ease;
   transition: 800ms filter ease;
   transition: 800ms filter ease, 800ms -webkit-filter ease;
 }
-.blurring.dimmed.dimmable > :not(.dimmer) {
+.blurring.dimmed.dimmable > :not(.dimmer):not(.popup) {
   -webkit-filter: blur(5px) grayscale(0.7);
           filter: blur(5px) grayscale(0.7);
 }
@@ -177,8 +189,8 @@ body.dimmable > .dimmer {
 }
 
 /*--------------
-    Aligned
----------------*/
+      Aligned
+  ---------------*/
 
 .ui.dimmer > .top.aligned.content > * {
   vertical-align: top;
@@ -188,28 +200,57 @@ body.dimmable > .dimmer {
 }
 
 /*--------------
-    Inverted
----------------*/
+      Shades
+  ---------------*/
+
+.medium.medium.medium.medium.medium.dimmer {
+  background-color: rgba(0, 0, 0, 0.65);
+}
+.light.light.light.light.light.dimmer {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+.very.light.light.light.light.dimmer {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+/*--------------
+      Inverted
+  ---------------*/
 
 .ui.inverted.dimmer {
   background-color: rgba(255, 255, 255, 0.85);
 }
+.ui.inverted.dimmer > .content,
 .ui.inverted.dimmer > .content > * {
-  color: #FFFFFF;
+  color: #000000;
 }
 
 /*--------------
-     Simple
----------------*/
+     Inverted Shades
+    ---------------*/
+
+.medium.medium.medium.medium.medium.inverted.dimmer {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.light.light.light.light.light.inverted.dimmer {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+.very.light.light.light.light.inverted.dimmer {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/*--------------
+       Simple
+  ---------------*/
 
 
 /* Displays without javascript */
 .ui.simple.dimmer {
   display: block;
   overflow: hidden;
-  opacity: 1;
-  width: 0%;
-  height: 0%;
+  opacity: 0;
+  width: 0;
+  height: 0;
   z-index: -100;
   background-color: rgba(0, 0, 0, 0);
 }
@@ -226,6 +267,188 @@ body.dimmable > .dimmer {
 }
 .dimmed.dimmable > .ui.simple.inverted.dimmer {
   background-color: rgba(255, 255, 255, 0.85);
+}
+
+/*--------------
+       Partially
+  ----------------*/
+
+.ui[class*="top dimmer"],
+.ui[class*="center dimmer"],
+.ui[class*="bottom dimmer"] {
+  height: auto;
+}
+.ui[class*="bottom dimmer"] {
+  top: auto !important;
+  bottom: 0;
+}
+.ui[class*="center dimmer"] {
+  top: 50% !important;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(calc(-50% - 0.5px));
+}
+.ui.segment > .ui.ui[class*="top dimmer"] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ui.segment > .ui.ui[class*="center dimmer"] {
+  border-radius: 0;
+}
+.ui.segment > .ui.ui[class*="bottom dimmer"] {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.ui[class*="center dimmer"].transition[class*="fade up"].in {
+  -webkit-animation-name: fadeInUpCenter;
+          animation-name: fadeInUpCenter;
+}
+.ui[class*="center dimmer"].transition[class*="fade down"].in {
+  -webkit-animation-name: fadeInDownCenter;
+          animation-name: fadeInDownCenter;
+}
+.ui[class*="center dimmer"].transition[class*="fade up"].out {
+  -webkit-animation-name: fadeOutUpCenter;
+          animation-name: fadeOutUpCenter;
+}
+.ui[class*="center dimmer"].transition[class*="fade down"].out {
+  -webkit-animation-name: fadeOutDownCenter;
+          animation-name: fadeOutDownCenter;
+}
+.ui[class*="center dimmer"].bounce.transition {
+  -webkit-animation-name: bounceCenter;
+          animation-name: bounceCenter;
+}
+@-webkit-keyframes fadeInUpCenter {
+  0% {
+    opacity: 0;
+    transform: translateY(-40%);
+    -webkit-transform: translateY(calc(-40% - 0.5px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+}
+@keyframes fadeInUpCenter {
+  0% {
+    opacity: 0;
+    transform: translateY(-40%);
+    -webkit-transform: translateY(calc(-40% - 0.5px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+}
+@-webkit-keyframes fadeInDownCenter {
+  0% {
+    opacity: 0;
+    transform: translateY(-60%);
+    -webkit-transform: translateY(calc(-60% - 0.5px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+}
+@keyframes fadeInDownCenter {
+  0% {
+    opacity: 0;
+    transform: translateY(-60%);
+    -webkit-transform: translateY(calc(-60% - 0.5px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+}
+@-webkit-keyframes fadeOutUpCenter {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-45%);
+    -webkit-transform: translateY(calc(-45% - 0.5px));
+  }
+}
+@keyframes fadeOutUpCenter {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-45%);
+    -webkit-transform: translateY(calc(-45% - 0.5px));
+  }
+}
+@-webkit-keyframes fadeOutDownCenter {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-55%);
+    -webkit-transform: translateY(calc(-55% - 0.5px));
+  }
+}
+@keyframes fadeOutDownCenter {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-55%);
+    -webkit-transform: translateY(calc(-55% - 0.5px));
+  }
+}
+@-webkit-keyframes bounceCenter {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+  40% {
+    -webkit-transform: translateY(calc(-50% - 30px));
+            transform: translateY(calc(-50% - 30px));
+  }
+  60% {
+    -webkit-transform: translateY(calc(-50% - 15px));
+            transform: translateY(calc(-50% - 15px));
+  }
+}
+@keyframes bounceCenter {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(-50%);
+    -webkit-transform: translateY(calc(-50% - 0.5px));
+  }
+  40% {
+    -webkit-transform: translateY(calc(-50% - 30px));
+            transform: translateY(calc(-50% - 30px));
+  }
+  60% {
+    -webkit-transform: translateY(calc(-50% - 15px));
+            transform: translateY(calc(-50% - 15px));
+  }
 }
 
 

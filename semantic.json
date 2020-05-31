@@ -19,5 +19,5 @@
 	"autoInstall": true,
 	"rtl": false,
 	"components": ["reset", "site", "button", "container", "divider", "header", "icon", "image", "input", "label", "segment", "form", "grid", "menu", "message", "table", "card", "item", "checkbox", "dropdown", "modal", "popup", "search", "sidebar", "tab", "transition", "api", "dimmer"],
-	"version": "2.7.8"
+	"version": "2.8.4"
 }
