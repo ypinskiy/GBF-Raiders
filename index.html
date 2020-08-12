@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>GBF Raiders</title>
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
+	<link id="favicon" rel="shortcut icon" type="image/png" href="/assets/misc/GBFRaidersIconv2.png" />
+	<link rel="manifest" href="/manifest.json">
+	<meta name="theme-color" content="#2185d0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="A Granblue Fantasy Raid Finder With New And Innovative Features">
+	<script type="text/javascript">
+		let currentRegistration = null;
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/serviceWorker.js')
+				.then(function(registration) {
+					console.log("ServiceWorker registration complete.");
+					currentRegistration = registration;
+					currentRegistration.addEventListener('updatefound', function() {
+						let installingWorker = registration.installing;
+						console.log("Update found. A new service worker is being installed.", installingWorker);
+					});
+				})
+				.catch(function(err) {
+					console.log(`Error installing ServiceWorker: ${err.message}`, err);
+				});
+		}
+	</script>
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" as="style" onload="console.log('Open Sans Font loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="semantic/dist/semantic.min.css" as="style" onload="console.log('SemanticUI CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" as="style" onload="console.log('Toastr CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="darken.css" as="style" onload="console.log('Darken CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="sliders.css" as="style" onload="console.log('Sliders CSS loaded.');this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="main.css" as="style" onload="console.log('Main CSS loaded.');this.onload=null;this.rel='stylesheet'">
+</head>
+
+<body>
+	<div class="ui top sidebar">
+		<div id="settings-menu" class="ui top attached tabular menu">
+			<div class="active item" data-tab="notif-settings-tab">Notification Settings</div>
+			<div class="item" data-tab="layout-settings-tab">Layout Settings</div>
+			<div class="item" data-tab="misc-settings-tab">Misc Settings</div>
+		</div>
+		<div class="ui bottom attached active tab segment" data-tab="notif-settings-tab">
+			<button id="enable-notif" class="ui bigger button right labeled icon">Enable Desktop Notifications<i class="right check circle icon"></i></button>
+			<span id="desktop-notif-size-control" class="input-control-disabled">
+				<span class="input-title">Desktop Notification Size</span>
+				<div id="desktop-notif-size-dropdown" class="ui disabled compact selection dropdown">
+					<input id="desktop-notif-size-input" type="hidden" name="formatting" value="large">
+					<i class="dropdown icon"></i>
+					<div class="default text">Notif Size</div>
+					<div class="menu">
+						<div class="item" data-value="small">Small</div>
+						<div class="item" data-value="large">Large</div>
+					</div>
+				</div>
+			</span>
+			<button id="enable-sound" class="ui bigger button right labeled icon">Enable Sound Notifications<i class="right alarm outline icon"></i></button>
+			<span id="sound-choice-control" class="input-control-disabled">
+				<span class="input-title">Sound Notification Choice</span>
+				<div id="sound-choice-dropdown" class="ui compact selection disabled dropdown">
+					<input id="sound-choice-input" type="hidden" name="formatting" value="beeps">
+					<i class="dropdown icon"></i>
+					<div class="default text">Sound Choice</div>
+					<div class="menu">
+						<div class="item" data-value="beeps">Beeps Appear</div>
+						<div class="item" data-value="lily-event-ringring">GBF - Lily (Event) - Ring Ring</div>
+						<div class="item" data-value="andira-oniichan">GBF - Andira - Onii-chan</div>
+						<div class="item" data-value="funf-dancho">GBF - Funf - DANCHO</div>
+						<div class="item" data-value="titanfall-droppingnow">Titanfall - Dropping Now</div>
+						<div class="item" data-value="sakura-hoeeeee">GBF - Sakura (Event) - HOEEEEE</div>
+						<div class="item" data-value="alarm-foghorn">Alarm - Foghorn</div>
+						<div class="item" data-value="alarm-submarine">Alarm - Submarine</div>
+						<div class="item" data-value="scifi-sweep">Sci Fi Sweep</div>
+						<div class="item" data-value="female-gogogo">Female - "Go Go Go!"</div>
+						<div class="item" data-value="male-gogogo">Male - "Go Go Go!"</div>
+						<div class="item" data-value="female-hurryup">Female - "Hurry Up!"</div>
+						<div class="item" data-value="male-hurryup">Male - "Hurry Up!"</div>
+						<div class="item" data-value="jingle-nes">Jingle - NES</div>
+						<div class="item" data-value="jingle-sax">Jingle - Sax</div>
+						<div class="item" data-value="jingle-steel">Jingle - Steel Drum</div>
+						<div class="item" data-value="jingle-steel2">Jingle - Steel Drum 2</div>
+						<div class="item" data-value="zap-3tone">Zap - Three Tone</div>
+						<div class="item" data-value="zap-2tone">Jingle - Two Tone</div>
+						<div class="item" data-value="magic-spell">Magic Spell</div>
+						<div class="item" data-value="custom">Custom</div>
+					</div>
+				</div>
+			</span>
+			<span id="sound-input-control" class="input-control-disabled">
+				<span class="input-title">Choose Local Audio File</span>
+				<div class="ui input">
+					<input id="local-file-input" type="file" accept="audio/*">
+				</div>
+			</span>
+			<span id="sound-volume-control" class="slider-control-disabled">
+				<span class="slider-title">Sound Notification Volume</span>
+				<input id="sound-volume-slider" class="slider-range slider" type="range" min="0" max="100" value="100" disabled>
+			</span>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="layout-settings-tab">
+			<div class="ui buttons layout-switcher">
+				<button id="horiz-layout-btn" class="ui bigger primary button">Horizontal</button>
+				<div class="or"></div>
+				<button id="vertical-layout-btn" class="ui bigger button">Vertical</button>
+			</div>
+			<span id="vertical-stacking-control" class="input-control-disabled">
+				<span class="input-title">Vertical Layout</span>
+				<div id="vertical-stacking-dropdown" class="ui disabled compact selection dropdown">
+					<input id="vertical-stacking-input" type="hidden" name="formatting" value="row">
+					<i class="dropdown icon"></i>
+					<div class="default text">Vertical Layout</div>
+					<div class="menu">
+						<div class="item" data-value="stacking">Stacking</div>
+						<div class="item" data-value="row">Single Row</div>
+					</div>
+				</div>
+			</span>
+			<span class="input-control">
+				<span class="input-title">Info Level</span>
+				<div id="info-level" class="ui compact selection dropdown">
+					<input id="info-level-input" type="hidden" name="formatting" value="normal">
+					<i class="dropdown icon"></i>
+					<div class="default text">Info Level</div>
+					<div class="menu">
+						<div class="item" data-value="compact">Compact</div>
+						<div class="item" data-value="normal">Normal</div>
+						<div class="item" data-value="full">Full</div>
+					</div>
+				</div>
+			</span>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="misc-settings-tab">
+			<span class="input-control">
+				<span class="input-title">Remove raids after</span>
+				<div class="ui input input-text">
+					<input id="raid-timeout" type="text" placeholder="# of secs" maxlength="3" value="120">
+				</div>
+				<span class="input-footer">seconds</span>
+			</span>
+			<span class="input-control">
+				<span class="input-title">Start removing raids after</span>
+				<div class="ui input input-text">
+					<input id="raid-max-results" type="text" placeholder="# of raids" maxlength="3" value="30">
+				</div>
+				<span class="input-footer">results</span>
+			</span>
+			<span class="input-control">
+				<div id="toolbar-shrinker" class="ui checkbox">
+					<label>Shrink unused toolbar</label>
+					<input id="toolbar-shrinker-input" type="checkbox" name="shrinker" tabindex="0" class="hidden">
+				</div>
+			</span>
+			<button id="enable-night" class="ui bigger button right labeled icon">Enable Night Mode<i class="right moon icon"></i></button>
+			<button id="full-screen" class="ui bigger button right labeled icon">Full Screen<i class="right expand icon"></i></button>
+			<span class="input-control">
+				<span class="input-title">Set Strike Time</span>
+				<div class="ui input">
+					<input type="time" step="60" id="time-picker">
+				</div>
+			</span>
+			<span class="input-control">
+				<div id="autocopy" class="ui checkbox">
+					<label>Auto copy ID to clipboard</label>
+					<input id="autocopy-input" type="checkbox" name="copier" tabindex="0" class="hidden">
+				</div>
+			</span>
+		</div>
+	</div>
+	<div id="container" role="main" class="ui pusher container segment fluid">
+		<div id="header" class="header" role="banner">
+			<div id="dashboard" class="ui segment dashboard">
+				<button id="patreon-btn" class="donate ui primary right labeled icon button"><a href="https://www.patreon.com/gbfraiders">Patreon</a><i class="right patreon icon"></i></button>
+				<button id="help-btn" class="help primary ui button right labeled icon">Help<i class="right help circle outline icon"></i></button>
+				<div class="ui special wide popup">
+					<div class="header">Support</div>
+					<ul>
+						<li>
+							If you want the Chrome extension version of the site, go to <a href="https://chrome.google.com/webstore/detail/gbf-raiders-2-the-chrome/jhdcbkpphfaclidacgbnnaphoilhgipm">the Chrome webstore</a>. Want to see how it works? Check out the code on
+							<a href="https://github.com/ypinskiy/GBF-Raiders-Extension">my GitHub</a>.
+						</li>
+						<li>If you want to browse the code of this site or are looking to host your own copy, head on over to <a href="https://github.com/ypinskiy/GBF-Raiders">the GitHub page</a> for the site.</li>
+						<li>If you have any questions about the site, are experiencing issues, or want to suggest new features, <a href="https://www.reddit.com/user/galaxymover/">send me a PM on Reddit.</a></li>
+						<li>If you don't want to use Reddit, send me an email at <a href="mailto:support@gbfraiders.com">support@gbfraiders.com</a></li>
+						<li>Before sending a support message, try resetting the site! <button class="compact negative ui button reset" onclick="ResetSite()">Reset Site</button></li>
+					</ul>
+				</div>
+				<table id="connection-status" class="ui definition unstackable compact green table">
+					<tbody>
+						<td class="collapsing">Connection:</td>
+						<td id="connection-status-value" class="collapsing">UP</td>
+					</tbody>
+				</table>
+				<button id="open-settings" class="primary ui button right labeled icon">Settings<i class="right settings icon"></i></button>
+				<button id="pause-list" class="yellow ui button right labeled icon">Pause List<i class="right pause icon"></i></button>
+				<button id="clear-list" class="negative ui button right labeled icon">Clear List<i class="right hide icon"></i></button>
+				<div id="searcher">
+					<div id="filter-dropdown" class="ui compact selection dropdown">
+						<label for="formatting">Filter:</label>
+						<input id="filter-input" type="hidden" name="formatting" value="none">
+						<i class="dropdown icon"></i>
+						<div class="default text"></div>
+						<div class="menu">
+							<div class="item" data-value="none">None</div>
+							<div class="item" data-value="current">Current Event</div>
+							<div class="item" data-value="unf">Unite and Fight</div>
+							<div class="item" data-value="rotb">Rise of the Beasts</div>
+							<div class="item" data-value="events">Other Events</div>
+							<div class="item" data-value="low">Low Level</div>
+							<div class="item" data-value="omega">Tier 1 to Omega</div>
+							<div class="item" data-value="primarch">Primarch</div>
+							<div class="item" data-value="nightmare">Nightmare</div>
+							<div class="item" data-value="impossible">Impossible</div>
+							<div class="item" data-value="fire">Fire</div>
+							<div class="item" data-value="water">Water</div>
+							<div class="item" data-value="earth">Earth</div>
+							<div class="item" data-value="wind">Wind</div>
+							<div class="item" data-value="light">Light</div>
+							<div class="item" data-value="dark">Dark</div>
+						</div>
+					</div>
+					<span class="ui search">
+						<div class="ui icon input">
+							<input id="search-input" role="search" aria-label="Search" class="prompt" type="text" placeholder="Search for raids...">
+							<i class="search icon"></i>
+						</div>
+						<div class="results"></div>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div id="maint-message" class="ui hidden error message">
+			GBF IS CURRENTLY UNDERGOING MAINTINENCE. PLEASE WAIT FOR THE GAME TO WORK AGAIN BEFORE USING THE SITE.
+		</div>
+		<div id="news-message" class="ui message">
+			<i class="close icon"></i>
+			<div class="header">
+				News - 1/2/2020
+			</div>
+			<p>Added new Luci and GO raids.</p>
+		</div>
+		<div id="welcome">
+			<h1>Welcome to GBFRaiders, a raid-finding website for Granblue Fantasy.</h1>
+			<p>Search for a raid in the text field above and watch them appear in real-time below. Click on the raid's row to copy the raid ID to the clipboard and paste it into the raid ID field in GBF.</p>
+			<h2>Never Miss A Thing</h2>
+			<p>Setup desktop and audio notifications to be sure not to miss a single raid even while working on something else! Clicking on a desktop notification will copy a raid ID or directly join a raid just like when using the site. You can set custom
+				audio notifications for even more uniqueness.</p>
+			<h2>See Things The Way You Want</h2>
+			<p>Switch the layout mode to Vertical to have a separate column for each raid type with separate notification settings for each. Set the Info Level to control how much information about the raid is visible, either to save space or to see Twitter
+				messages.</p>
+			<h2>Open Source</h2>
+			<p>The source code of this site can be found on <a href="https://github.com/ypinskiy/GBF-Raiders">GitHub</a>. Review it all you want, to see how things tick or to make sure your data is safe. Fork your own copy to run a custom version for
+				yourself or your clan.</p>
+			<h2>Extensible</h2>
+			<p>GBFRaiders has a companion Chrome extension: <a href="https://chrome.google.com/webstore/detail/gbf-raiders-2-the-chrome/jhdcbkpphfaclidacgbnnaphoilhgipm">GBFRaiders 2</a>. Think of a simplified version of the site that works even when you
+				don't have my main site open.</p>
+		</div>
+	</div>
+	<script src="utils/jquery-3.4.0.min.js"></script>
+	<script src="utils/jquery-patch.js"></script>
+	<script src="semantic/dist/semantic.min.js"></script>
+	<script src="utils/socket.io.slim.js"></script>
+	<script src="utils/moment.min.js"></script>
+	<script src="utils/clipboard.min.js"></script>
+	<script src="raids.js"></script>
+	<script src="settings.js"></script>
+	<script src="main.js"></script>
+</body>
+
+</html>
